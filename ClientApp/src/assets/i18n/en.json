@@ -21,6 +21,41 @@
         "JOB": "Job"
       }
     },
+    "USERMANAGEMENT":{
+      "TEXT": "Users Management",
+      "LIST": {
+        "PATIENT": "Patients",
+        "DOCTOR": "Doctors",
+        "ADMIN": "Admins"
+      }
+    },
+    "SCHEDULES": {
+      "TEXT": "Schedules Management",
+      "LIST": {
+        "DOCTOR": "Doctors Schedule",
+        "APPOINTMENT": "Appointment"
+      }
+    },
+
+    "MANAGEMENTAPPOINTMENT": {
+      "TEXT": "Appointment Management",
+      "LIST": {
+        "ALL": "All",
+        "CANCEL": "Cancelled",
+        "COMPLETE": "Completed",
+        "WAITING": "Waiting",
+        "OUTOFDATE": "Out of date"
+      }
+    },
+    "SCHEDULEONSITE": {
+      "TEXT": "Schedule on-site"
+    },
+    "ABOUTUS": {
+      "TEXT": "About Us"
+    },
+    "MEDICALPROCESS": {
+      "TEXT": "Medical Process"
+    },
     "APPS": {
       "TEXT": "Apps",
       "LIST": {
@@ -58,7 +93,7 @@
         "DEALS": "Deals",
         "LEADS": "Leads",
         "CRYPTO": "Crypto",
-        "TRANSACTIONS": "Transactions",
+        "TRANSACTIONS": "Transactions", 
         "BUY&SELL": "Buy & Sell",
         "MYWALLET": "My Wallet",
         "ICOLIST": "ICO List",

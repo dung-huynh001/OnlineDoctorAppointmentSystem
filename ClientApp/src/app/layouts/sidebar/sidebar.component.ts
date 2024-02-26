@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MenuItem } from './menu.model';
-import { MENU } from './menu';
+import { MENU, MENU_ADMIN, MENU_DOCTOR } from './menu';
 import { TranslateService } from '@ngx-translate/core';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -23,7 +23,7 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     // Menu Items
-    this.menuItems = MENU;
+    this.menuItems = MENU_DOCTOR;
     this.router.events.subscribe((event) => {
       if (document.documentElement.getAttribute('data-layout') != "twocolumn") {
         if (event instanceof NavigationEnd) {

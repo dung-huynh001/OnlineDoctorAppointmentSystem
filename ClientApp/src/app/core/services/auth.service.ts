@@ -16,10 +16,12 @@ const httpOptions = {
 })
 export class AuthService {
   user!: User;
+  user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   currentUserValue: any;
   private currentUserSubject: BehaviorSubject<User>;
 
   constructor(private http: HttpClient) { 
+    this.user$.subscribe(value => console.log(value));
       this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')!));
   }
 

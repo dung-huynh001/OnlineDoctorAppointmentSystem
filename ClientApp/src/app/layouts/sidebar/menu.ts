@@ -1,5 +1,148 @@
 import { MenuItem } from './menu.model';
 
+export const MENU_PATIENT: MenuItem[] = [
+
+];
+
+export const MENU_ADMIN: MenuItem[] = [
+  {
+    id: 1,
+    label: 'MENUITEMS.MENU.TEXT',
+    isTitle: true
+  },
+  {
+    id: 2,
+    label: 'MENUITEMS.DASHBOARD.TEXT',
+    icon: 'las la-tachometer-alt',
+  },
+  {
+    id: 3,
+    label: 'MENUITEMS.USERMANAGEMENT.TEXT',
+    icon: 'las la-users',
+    subItems: [
+      {
+        id: 4,
+        label: 'MENUITEMS.USERMANAGEMENT.LIST.PATIENT',
+        link: '',
+        parentId: 3
+      },
+      {
+        id: 5,
+        label: 'MENUITEMS.USERMANAGEMENT.LIST.DOCTOR',
+        link: '',
+        parentId: 3
+      },
+      {
+        id: 6,
+        label: 'MENUITEMS.USERMANAGEMENT.LIST.ADMIN',
+        link: '',
+        parentId: 3
+      },
+    ]
+  },
+  {
+    id: 7,
+    label: 'MENUITEMS.SCHEDULES.TEXT',
+    icon: 'las la-calendar',
+    subItems: [
+      {
+        id: 8,
+        label: 'MENUITEMS.SCHEDULES.LIST.DOCTOR',
+        link: '',
+        parentId: 7
+      },
+      {
+        id: 9,
+        label: 'MENUITEMS.SCHEDULES.LIST.APPOINTMENT',
+        link: '',
+        parentId: 7
+      },
+      
+    ]
+  },
+  {
+    id: 10,
+    label: 'MENUITEMS.MEDICALPROCESS.TEXT',
+    icon: 'las la-procedures',
+    link: ''
+  },
+  {
+    id: 11,
+    label: 'MENUITEMS.ABOUTUS.TEXT',
+    icon: 'las la-user-friends',
+    link: ''
+  }
+
+];
+
+export const MENU_DOCTOR: MenuItem[] = [
+  {
+    id: 1,
+    label: 'MENUITEMS.MENU.TEXT',
+    isTitle: true
+  },
+  {
+    id: 2,
+    label: 'MENUITEMS.DASHBOARD.TEXT',
+    icon: 'las la-tachometer-alt',
+  },
+  {
+    id: 3,
+    label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.TEXT',
+    icon: 'las la-calendar',
+    subItems: [
+      {
+        id: 4,
+        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.ALL',
+        link: '',
+        parentId: 3
+      },
+      {
+        id: 5,
+        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.WAITING',
+        link: '',
+        parentId: 3
+      },
+      {
+        id: 6,
+        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.COMPLETE',
+        link: '',
+        parentId: 3
+      },
+      {
+        id: 7,
+        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.OUTOFDATE',
+        link: '',
+        parentId: 3
+      },
+      {
+        id: 8,
+        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.CANCEL',
+        link: '',
+        parentId: 3
+      },
+    ]
+  },
+  {
+    id: 9,
+    label: 'MENUITEMS.SCHEDULEONSITE.TEXT',
+    icon: 'las la-calendar-plus',
+  },
+  {
+    id: 10,
+    label: 'MENUITEMS.MEDICALPROCESS.TEXT',
+    icon: 'las la-procedures',
+    link: ''
+  },
+  {
+    id: 11,
+    label: 'MENUITEMS.ABOUTUS.TEXT',
+    icon: 'las la-user-friends',
+    link: ''
+  }
+];
+
+
 export const MENU: MenuItem[] = [
   {
     id: 1,
