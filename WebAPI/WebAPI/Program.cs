@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WebAPI;
 using WebAPI.Domain.Entities;
 using WebAPI.Infrastructure.Context;
 
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
 
 // Add services to the container.
+builder.Services.AddDependencyInjection();
 
 //Config for connect to database
 builder.Services.AddAuthentication(options =>

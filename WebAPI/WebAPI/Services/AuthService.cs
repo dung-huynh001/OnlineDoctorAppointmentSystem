@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -85,10 +86,44 @@ namespace WebAPI.Services
             var userExists = await _userManager.FindByNameAsync(request.Username);
             if (userExists != null)
             {
-                throw new Exception("Username");
+                throw new Exception("Username already exist!");
             }
 
+            var user = new AppUser
+            {
+                UserName = request.Username,
+                Email = request.Email,
+                UserType = request.UserType == null ? "patient" : request.UserType.ToLower()
+            };
 
+            var result = await _userManager.CreateAsync(user, request.Password);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Cannot create new user!");
+            }
+
+            string role = request.UserType!.ToString();
+
+            if (!await _roleManager.RoleExistsAsync(role))
+            {
+                await _roleManager.CreateAsync(new AppRole(role));
+            }
+
+            if (await _roleManager.RoleExistsAsync(role))
+            {
+                await _userManager.AddToRoleAsync(user, role);
+            }
+
+            return new RegisterResponse
+            {
+                UserId = user.Id
+            };
+        }
+
+        public async Task Logout()
+        {
+            await _signInManager.SignOutAsync();
         }
 
     }

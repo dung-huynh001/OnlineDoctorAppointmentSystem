@@ -10,5 +10,6 @@ namespace WebAPI.Models
         public string Password { get; set; }
         [Required]
         public string Email { get; set; }
+        public string? UserType { get; set; }
     }
 }
