@@ -1,0 +1,232 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\responses\\registerresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\responses\\registerresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\models\\registermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\models\\registermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\responses\\authresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\responses\\authresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\responses\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\responses\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\models\\loginmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\models\\loginmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\infrastructure\\context\\doctorappointmentsystemcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\infrastructure\\context\\doctorappointmentsystemcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\implementations\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\implementations\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\interfaces\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\interfaces\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\implementations\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\implementations\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\refactor project\\onlinedoctorappointmentsystem\\webapi\\webapi\\interfaces\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\interfaces\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RegisterModel.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Models\\RegisterModel.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Models\\RegisterModel.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Models\\RegisterModel.cs",
+              "RelativeToolTip": "WebAPI\\Models\\RegisterModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T09:54:01.351Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RegisterResponse.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Responses\\RegisterResponse.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Responses\\RegisterResponse.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Responses\\RegisterResponse.cs",
+              "RelativeToolTip": "WebAPI\\Responses\\RegisterResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T09:12:30.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthResponse.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Responses\\AuthResponse.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Responses\\AuthResponse.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Responses\\AuthResponse.cs",
+              "RelativeToolTip": "WebAPI\\Responses\\AuthResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T08:29:43.767Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Services\\AuthService.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\AuthService.cs",
+              "RelativeToolTip": "WebAPI\\Services\\AuthService.cs",
+              "ViewState": "AQIAAE8AAAAAAAAAAAAAwFwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T07:29:02.451Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "WebAPI\\Controllers\\AuthController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T07:26:12.907Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ApiResponse.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Responses\\ApiResponse.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Responses\\ApiResponse.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Responses\\ApiResponse.cs",
+              "RelativeToolTip": "WebAPI\\Responses\\ApiResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T07:03:16.818Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DoctorAppointmentSystemContext.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Infrastructure\\Context\\DoctorAppointmentSystemContext.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Infrastructure\\Context\\DoctorAppointmentSystemContext.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Infrastructure\\Context\\DoctorAppointmentSystemContext.cs",
+              "RelativeToolTip": "WebAPI\\Infrastructure\\Context\\DoctorAppointmentSystemContext.cs",
+              "ViewState": "AQIAAEcCAAAAAAAAAAAUwAYCAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T04:54:09.482Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Program.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Program.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Program.cs",
+              "RelativeToolTip": "WebAPI\\Program.cs",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAAAE8AAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T04:53:20.561Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LoginModel.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Models\\LoginModel.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Models\\LoginModel.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Models\\LoginModel.cs",
+              "RelativeToolTip": "WebAPI\\Models\\LoginModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T07:01:07.907Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Interfaces\\IUnitOfWork.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IUnitOfWork.cs",
+              "RelativeToolTip": "WebAPI\\Interfaces\\IUnitOfWork.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAABBAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T04:52:44.389Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Implementations\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Implementations\\UnitOfWork.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Implementations\\UnitOfWork.cs",
+              "RelativeToolTip": "WebAPI\\Implementations\\UnitOfWork.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T04:52:15.498Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "IGenericRepository.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IGenericRepository.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Interfaces\\IGenericRepository.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IGenericRepository.cs",
+              "RelativeToolTip": "WebAPI\\Interfaces\\IGenericRepository.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAsAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T04:39:22.89Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Implementations\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Implementations\\GenericRepository.cs",
+              "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Implementations\\GenericRepository.cs",
+              "RelativeToolTip": "WebAPI\\Implementations\\GenericRepository.cs",
+              "ViewState": "AQIAACwAAAAAAAAAAAAmwDoAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-27T04:39:18.225Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
