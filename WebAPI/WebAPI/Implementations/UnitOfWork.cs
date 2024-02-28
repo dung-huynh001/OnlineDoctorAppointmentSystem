@@ -9,12 +9,14 @@ namespace WebAPI.Implementations
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DoctorAppointmentSystemContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private Hashtable _repository;
         private IDbContextTransaction _transaction;
 
-        public UnitOfWork(DoctorAppointmentSystemContext context)
+        public UnitOfWork(DoctorAppointmentSystemContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public IGenericRepository<T> Repository<T>() where T : BaseEntity
@@ -43,11 +45,11 @@ namespace WebAPI.Implementations
             _transaction = _context.Database.BeginTransaction();
         }
 
-        public void Commit()
+        public async void Commit()
         {
             try
             {
-                _context.SaveChangesAsync().GetAwaiter().GetResult();
+                await _context.SaveChangesAsync();
                 _transaction.Commit();
             }
             catch
@@ -63,17 +65,19 @@ namespace WebAPI.Implementations
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _context.Dispose();
         }
 
         public void Rollback()
         {
-            throw new NotImplementedException();
+            _transaction.Rollback();
+            _transaction.Dispose();
         }
 
-        public Task<int> SaveAsync(CancellationToken cancellationToken)
+        public async void Save()
         {
-            throw new NotImplementedException();
+            var editor = _httpContextAccessor.HttpContext!.User.FindFirst("uid")?.Value;
+            await _context.SaveChangesAsync(editor!);
         }
     }
 }

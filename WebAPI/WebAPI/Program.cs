@@ -2,13 +2,21 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 using System.Text;
 using WebAPI;
 using WebAPI.Domain.Entities;
 using WebAPI.Infrastructure.Context;
+using WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
+
+//Add Automapper
+/*builder.Services.AddAutoMapper(typeof(Program));*/
+
+
+builder.Services.AddLogging();
 
 // Add services to the container.
 builder.Services.AddDependencyInjection();
@@ -69,6 +77,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins()
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
+
 var app = builder.Build();
 
 
@@ -79,7 +98,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseRouting();
+
+app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
 app.UseHttpsRedirection();
 
@@ -93,5 +119,7 @@ app.UseEndpoints(endpoints =>
 });
 
 app.MapControllers();
+
+
 
 app.Run();

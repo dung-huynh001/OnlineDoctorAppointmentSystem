@@ -14,7 +14,8 @@ export const environment = {
     messagingSenderId: '',
     appId: '',
     measurementId: ''
-  }
+  },
+  server_url: 'https://api-node.themesbrand.website'
 };
 
 /*

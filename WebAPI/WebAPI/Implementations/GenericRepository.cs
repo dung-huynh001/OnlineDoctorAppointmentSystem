@@ -23,7 +23,13 @@ namespace WebAPI.Implementations
 
         public Task<TEntity> DeleteAsync(TEntity entity)
         {
-            _context.Set<TEntity>().Remove(entity);
+            /*_context.Set<TEntity>().Remove(entity);*/
+            var exist =  _context.Set<TEntity>().Find(entity.Id);
+            if (exist != null)
+            {
+                exist.IsDeleted = true;
+            }
+
             return Task.FromResult(entity);
         }
 
@@ -32,7 +38,8 @@ namespace WebAPI.Implementations
             TEntity? exist = await _context.FindAsync<TEntity>(id);
             if(exist != null)
             {
-                _context.Remove(exist);
+                /*_context.Remove(exist);*/
+                exist.IsDeleted = true;
                 return exist.Id;
             }
             return 0;

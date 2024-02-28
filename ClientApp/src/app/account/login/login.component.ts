@@ -28,15 +28,15 @@ export class LoginComponent {
     public toastservice: ToastService
   ) {
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
+    if (this.authenticationService.user$.value) {
       this.router.navigate(['/']);
     }
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('currentUser')) {
-      this.router.navigate(['/']);
-    }
+    // if (localStorage.getItem('currentUser')) {
+    //   this.router.navigate(['/']);
+    // }
     /**
      * Form Validatyion
      */
@@ -62,40 +62,34 @@ export class LoginComponent {
     // Login Api
     this.authenticationService
       .login(this.f['email'].value, this.f['password'].value)
-      .subscribe((data: any) => {
+      // .subscribe((data: any) => {
+      //   if (data.token != null) {
+      //     localStorage.setItem('toast', 'true');
+      //     localStorage.setItem('currentUser', JSON.stringify(data.data));
+      //     localStorage.setItem('token', data.token);
+      //     this.router.navigate(['/']);
+      //   } else {
+      //     this.toastservice.show(data.data, {
+      //       classname: 'bg-danger text-white',
+      //       delay: 15000,
+      //     });
+      //   }
+      // });
+      .subscribe((data) => {
         if (data.status == 'success') {
-          localStorage.setItem('toast', 'true');
-          localStorage.setItem('currentUser', JSON.stringify(data.data));
-          localStorage.setItem('token', data.token);
+          // localStorage.setItem('toast', 'true');
+          // localStorage.setItem('currentUser', JSON.stringify(data.data));
+          // localStorage.setItem('token', data.token);
+          this.authenticationService.setLogin(data.data, data.token);
+          
           this.router.navigate(['/']);
         } else {
-          this.toastservice.show(data.data, {
+          this.toastservice.show("Login failed!", {
             classname: 'bg-danger text-white',
             delay: 15000,
           });
         }
       });
-
-    // stop here if form is invalid
-    // if (this.loginForm.invalid) {
-    //   return;
-    // } else {
-    //   if (environment.defaultauth === 'firebase') {
-    //     this.authenticationService.login(this.f['email'].value, this.f['password'].value).then((res: any) => {
-    //       this.router.navigate(['/']);
-    //     })
-    //       .catch(error => {
-    //         this.error = error ? error : '';
-    //       });
-    //   } else {
-    //     this.authFackservice.login(this.f['email'].value, this.f['password'].value).pipe(first()).subscribe(data => {
-    //           this.router.navigate(['/']);
-    //         },
-    //         error => {
-    //           this.error = error ? error : '';
-    //         });
-    //   }
-    // }
   }
 
   /**

@@ -10,6 +10,9 @@ namespace WebAPI
         {
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
                 .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
+
+            services.AddScoped<AuthService, AuthService>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
         }
     }
 }

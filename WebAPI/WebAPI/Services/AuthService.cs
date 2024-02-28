@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WebAPI.Domain.Entities;
+using WebAPI.Exceptions;
 using WebAPI.Interfaces;
 using WebAPI.Models;
 using WebAPI.Responses;
@@ -39,7 +40,7 @@ namespace WebAPI.Services
             var result = await _signInManager.PasswordSignInAsync(request.Username, request.Password, false, false);
             if (!result.Succeeded)
             {
-                throw new Exception("Username or password is incorrect!");
+                throw new BadRequestException("Username or password is incorrect!");
             }
 
             var user = await _userManager.FindByNameAsync(request.Username);
@@ -61,10 +62,10 @@ namespace WebAPI.Services
                 authClaims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
+            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
             var token = new JwtSecurityToken(
-                issuer: _configuration["JwtSettings:ValidIssuer"],
-                audience: _configuration["JwtSettings:ValidAudience"],
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
                 expires: DateTime.UtcNow.AddHours(2),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authKey,
@@ -76,7 +77,7 @@ namespace WebAPI.Services
             {
                 Id = user.Id,
                 UserName = user.UserName,
-                UserType = user.UserType,
+                UserType = userType,
                 Token = new JwtSecurityTokenHandler().WriteToken(token)
             };
         }

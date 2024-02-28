@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MenuItem } from './menu.model';
-import { MENU, MENU_ADMIN, MENU_DOCTOR } from './menu';
+import { MENU_ADMIN, MENU_DOCTOR } from './menu';
 import { TranslateService } from '@ngx-translate/core';
 import { NavigationEnd, Router } from '@angular/router';
 

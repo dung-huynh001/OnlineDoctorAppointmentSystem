@@ -31,16 +31,7 @@ namespace WebAPI.Infrastructure.Context
         public virtual DbSet<SystemPara> SystemParas { get; set; } = null!;
         public virtual DbSet<AppUser> Users { get; set; } = null!;
 
-        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            *//*if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-EUQ5VD5\\SQLSERVER; Database=DoctorAppointment_Refactory; User Id=sa; Password=1234; TrustServerCertificate=True;");
-            }*//*
-        }*/
-
+      
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -593,29 +584,38 @@ namespace WebAPI.Infrastructure.Context
             OnModelCreatingPartial(modelBuilder);
         }
 
-        public virtual async Task<int> SaveChangesAsync()
+        public virtual async Task<int> SaveChangesAsync(string editor = "admin")
         {
             foreach (var entity in base.ChangeTracker.Entries<BaseEntity>()
                 .Where(q => q.State == EntityState.Added || q.State == EntityState.Modified))
             {
                 entity.Entity.UpdatedDate = DateTime.Now;
+                entity.Entity.UpdatedBy = editor;
 
                 if (entity.State == EntityState.Added)
+                {
                     entity.Entity.CreatedDate = DateTime.Now;
+                    entity.Entity.UpdatedBy = editor;
+                }
+
             }
 
             return await base.SaveChangesAsync();
         }
 
-        public virtual async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        public virtual async Task<int> SaveChangesAsync(CancellationToken cancellationToken, string editor)
         {
             foreach (var entity in base.ChangeTracker.Entries<BaseEntity>()
                 .Where(q => q.State == EntityState.Added || q.State == EntityState.Modified))
             {
                 entity.Entity.UpdatedDate = DateTime.Now;
+                entity.Entity.UpdatedBy = editor;
 
                 if (entity.State == EntityState.Added)
+                {
                     entity.Entity.CreatedDate = DateTime.Now;
+                    entity.Entity.UpdatedBy = editor;
+                }
             }
 
             return await base.SaveChangesAsync(cancellationToken);
