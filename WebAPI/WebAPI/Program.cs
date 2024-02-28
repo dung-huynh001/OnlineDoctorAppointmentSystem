@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
 
 //Add Automapper
-/*builder.Services.AddAutoMapper(typeof(Program));*/
+builder.Services.AddAutoMapper(typeof(Program));
 
 
 builder.Services.AddLogging();

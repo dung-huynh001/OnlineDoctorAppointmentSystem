@@ -22,7 +22,6 @@ D:\Courses\ASP.NET With Angular\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\
 D:\Courses\ASP.NET With Angular\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.Design.dll
 D:\Courses\ASP.NET With Angular\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
 D:\Courses\ASP.NET With Angular\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
-D:\Courses\ASP.NET With Angular\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 D:\Courses\ASP.NET With Angular\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
 D:\Courses\ASP.NET With Angular\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
 D:\Courses\ASP.NET With Angular\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.Identity.Client.dll
@@ -86,3 +85,4 @@ D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\obj\Debug\ne
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\obj\Debug\net6.0\WebAPI.MvcApplicationPartsAssemblyInfo.cs
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\obj\Debug\net6.0\WebAPI.MvcApplicationPartsAssemblyInfo.cache
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\obj\Debug\net6.0\WebAPI.sourcelink.json
+D:\Courses\ASP.NET With Angular\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\FluentValidation.dll
