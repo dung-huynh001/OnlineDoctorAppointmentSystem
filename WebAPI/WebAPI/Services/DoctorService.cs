@@ -2,10 +2,11 @@
 using WebAPI.Domain.Entities;
 using WebAPI.DTOs;
 using WebAPI.Interfaces;
+using WebAPI.Interfaces.IService;
 
 namespace WebAPI.Services
 {
-    public class DoctorService
+    public class DoctorService : IDoctorService
     {
         private readonly IUnitOfWork _unitOfWork;
 

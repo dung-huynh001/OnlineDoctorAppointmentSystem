@@ -5,6 +5,7 @@ using WebAPI.Responses;
 using WebAPI.Services;
 using WebAPI.Validators;
 using WebAPI.Exceptions;
+using WebAPI.Interfaces.IService;
 
 namespace WebAPI.Controllers
 {
@@ -12,10 +13,10 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
         private readonly ILogger<AuthController> _logger;
 
-        public AuthController(AuthService authService, ILogger<AuthController> logger)
+        public AuthController(IAuthService authService, ILogger<AuthController> logger)
         {
             _authService = authService;
             _logger = logger;

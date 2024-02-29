@@ -6,9 +6,9 @@ namespace WebAPI.Domain.Entities
 {
     public partial class SystemPara : BaseEntity
     {
-        public string Paraid { get; set; } = null!;
-        public string Groupid { get; set; } = null!;
-        public string Paraval { get; set; } = null!;
+        public string Paraid { get; set; } 
+        public string Groupid { get; set; } 
+        public string Paraval { get; set; } 
         public string? Note { get; set; }
     }
 }

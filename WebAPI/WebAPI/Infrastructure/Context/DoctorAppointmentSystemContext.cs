@@ -26,10 +26,10 @@ namespace WebAPI.Infrastructure.Context
         public virtual DbSet<Log> Logs { get; set; } = null!;
         public virtual DbSet<Patient> Patients { get; set; } = null!;
         public virtual DbSet<Prescription> Prescriptions { get; set; } = null!;
-        public virtual DbSet<AppRole> Roles { get; set; } = null!;
+        public virtual DbSet<AppRole> AppRoles { get; set; } = null!;
         public virtual DbSet<Schedule> Schedules { get; set; } = null!;
         public virtual DbSet<SystemPara> SystemParas { get; set; } = null!;
-        public virtual DbSet<AppUser> Users { get; set; } = null!;
+        public virtual DbSet<AppUser> AppUsers { get; set; } = null!;
 
       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -340,7 +340,7 @@ namespace WebAPI.Infrastructure.Context
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Patients)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Prescription>(entity =>

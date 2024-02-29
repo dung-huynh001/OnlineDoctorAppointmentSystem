@@ -11,7 +11,7 @@ namespace WebAPI.Domain.Entities
             Doctors = new HashSet<Doctor>();
         }
 
-        public string DepartmentName { get; set; } = null!;
+        public string? DepartmentName { get; set; }
         public virtual ICollection<Doctor> Doctors { get; set; }
     }
 }

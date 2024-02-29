@@ -8,6 +8,5 @@ namespace WebAPI.Interfaces
         void BeginTransaction();
         void Commit();
         void Rollback();
-        void Save();
     }
 }

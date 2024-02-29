@@ -434,7 +434,6 @@ namespace WebAPI.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("DepartmentName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -602,7 +601,6 @@ namespace WebAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -617,7 +615,6 @@ namespace WebAPI.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -628,14 +625,12 @@ namespace WebAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("NationalId")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .IsUnicode(false)
                         .HasColumnType("char(20)")
                         .IsFixedLength();
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .IsUnicode(false)
                         .HasColumnType("char(10)")
@@ -659,7 +654,8 @@ namespace WebAPI.Migrations
                     b.HasIndex(new[] { "UserId" }, "RELATIONSHIP_19_FK");
 
                     b.HasIndex(new[] { "NationalId" }, "UQ__PATIENT__D90C4BCF974EE727")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[NationalId] IS NOT NULL");
 
                     b.ToTable("Patients");
                 });
@@ -680,7 +676,6 @@ namespace WebAPI.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("Drug")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -691,7 +686,6 @@ namespace WebAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("MedicationDays")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -705,7 +699,6 @@ namespace WebAPI.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Quantity")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -933,6 +926,7 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Domain.Entities.AppUser", "User")
                         .WithMany("Patients")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");

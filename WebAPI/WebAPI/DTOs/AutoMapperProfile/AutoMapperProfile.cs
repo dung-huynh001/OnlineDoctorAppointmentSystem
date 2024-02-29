@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WebAPI.Domain.Entities;
 using WebAPI.Models;
 
 namespace WebAPI.DTOs.AutoMapperProfile
@@ -8,6 +9,7 @@ namespace WebAPI.DTOs.AutoMapperProfile
         public AutoMapperProfile()
         {
             CreateMap<DoctorOnDutyDto, DoctorModel>().ReverseMap();
+            CreateMap<CreateDepartmentDto, Department>().ReverseMap();
         }
     }
 }

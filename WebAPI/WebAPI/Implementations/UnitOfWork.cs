@@ -45,11 +45,12 @@ namespace WebAPI.Implementations
             _transaction = _context.Database.BeginTransaction();
         }
 
-        public async void Commit()
+        public void Commit()
         {
             try
             {
-                await _context.SaveChangesAsync();
+                var editor = _httpContextAccessor.HttpContext!.User.FindFirst("uid")?.Value;
+                _context.SaveChangesAsync(editor ?? "admin").GetAwaiter().GetResult();
                 _transaction.Commit();
             }
             catch
@@ -72,12 +73,6 @@ namespace WebAPI.Implementations
         {
             _transaction.Rollback();
             _transaction.Dispose();
-        }
-
-        public async void Save()
-        {
-            var editor = _httpContextAccessor.HttpContext!.User.FindFirst("uid")?.Value;
-            await _context.SaveChangesAsync(editor!);
         }
     }
 }

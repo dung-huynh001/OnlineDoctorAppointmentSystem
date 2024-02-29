@@ -5,33 +5,35 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WebAPI.Domain.Entities;
+using WebAPI.DTOs;
 using WebAPI.Exceptions;
 using WebAPI.Interfaces;
+using WebAPI.Interfaces.IService;
 using WebAPI.Models;
 using WebAPI.Responses;
 
 namespace WebAPI.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _configuration;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IPatientService _patientService;
 
         public AuthService(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
             IConfiguration configuration,
-            IUnitOfWork unitOfWork)
+            IPatientService patientService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _configuration = configuration;
-            _unitOfWork = unitOfWork;
+            _patientService = patientService;
         }
 
         public async Task<AuthResponse> LoginAsync(LoginModel request)
@@ -94,7 +96,7 @@ namespace WebAPI.Services
             {
                 UserName = request.Username,
                 Email = request.Email,
-                UserType = request.UserType == null ? "patient" : request.UserType.ToLower()
+                UserType = request.UserType.IsNullOrEmpty() ? "patient" : request.UserType!.Trim().ToLower()
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -114,6 +116,23 @@ namespace WebAPI.Services
             if (await _roleManager.RoleExistsAsync(role))
             {
                 await _userManager.AddToRoleAsync(user, role);
+            }
+            // Create a new patient corresponding to the newly created user
+            switch (user.UserType.Trim().ToLower())
+            {
+                case "patient":
+                    if(!await _patientService.Create(new CreatePatientDto { FullName = user.UserName, UserId = user.Id }))
+                    {
+                        var userCreated = await _userManager.FindByIdAsync(user.Id);
+                        if (userCreated == null)
+                            throw new NotFoundException(user.UserName, user.Id);
+                        await _userManager.DeleteAsync(userCreated);
+
+                        throw new Exception("Patient account registration failed");
+                    }
+                    break;
+                default:
+                    throw new Exception("Users can only sign up for a patient account");
             }
 
             return new RegisterResponse

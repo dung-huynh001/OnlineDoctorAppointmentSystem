@@ -11,11 +11,11 @@ namespace WebAPI.Domain.Entities
             AppointmentPrescriptions = new HashSet<AppointmentPrescription>();
         }
 
-        public string Drug { get; set; } = null!;
+        public string? Drug { get; set; } 
         public string? Note { get; set; }
-        public string PatientName { get; set; } = null!;
-        public string MedicationDays { get; set; } = null!;
-        public string Quantity { get; set; } = null!;
+        public string PatientName { get; set; } 
+        public string? MedicationDays { get; set; } 
+        public string? Quantity { get; set; } 
         public int Frequency { get; set; }
         public int? Unit { get; set; }
 
