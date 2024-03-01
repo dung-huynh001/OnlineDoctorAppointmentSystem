@@ -18,7 +18,7 @@ import { TokenStorageService } from '../../core/services/token-storage.service';
   styleUrl: './topbar.component.scss'
 })
 export class TopbarComponent {
-  authSuccess: boolean = false;
+  // authSuccess: boolean = false;
   messages: any
   element: any;
   mode: string | undefined;
