@@ -595,7 +595,7 @@ namespace WebAPI.Infrastructure.Context
                 if (entity.State == EntityState.Added)
                 {
                     entity.Entity.CreatedDate = DateTime.Now;
-                    entity.Entity.UpdatedBy = editor;
+                    entity.Entity.CreatedBy = editor;
                 }
 
             }
@@ -614,7 +614,7 @@ namespace WebAPI.Infrastructure.Context
                 if (entity.State == EntityState.Added)
                 {
                     entity.Entity.CreatedDate = DateTime.Now;
-                    entity.Entity.UpdatedBy = editor;
+                    entity.Entity.CreatedBy = editor;
                 }
             }
 

@@ -10,6 +10,16 @@ namespace WebAPI.DTOs.AutoMapperProfile
         {
             CreateMap<DoctorOnDutyDto, DoctorModel>().ReverseMap();
             CreateMap<CreateDepartmentDto, Department>().ReverseMap();
+            CreateMap<CreateDoctorDto, Doctor>().ReverseMap();
+            CreateMap<AddScheduleDto, Schedule>().ReverseMap();
+            CreateMap<UpdateScheduleDto, Schedule>().ReverseMap();
+            CreateMap<GetAppointmentDto, Appointment>().ReverseMap();
+            CreateMap<GetAppointmentDto, Patient>().ReverseMap();
+            CreateMap<GetAppointmentDto, Doctor>().ReverseMap();
+            CreateMap<SchedulesOfDoctor, Schedule>().ReverseMap();
+            CreateMap<GetSchedulesByDoctorIdDto, Doctor>()
+                .ReverseMap()
+                .ForMember(des => des.DoctorId, opt => opt.MapFrom(src => src.Id));
         }
     }
 }

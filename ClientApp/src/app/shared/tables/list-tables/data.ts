@@ -105,37 +105,37 @@ const paginationlist = [
   {
     id: '1',
     name: 'Jonny Stromberg',
-    type: 'Front end Developer',
+    type: 'Orthopedic',
     img:'assets/images/users/avatar-1.jpg'
   },
   {
     id: '2',
     name: 'Jonas Arnklint',
-    type: 'Backend Developer',
+    type: 'Dentomaxillofacial',
     img:'assets/images/users/avatar-2.jpg'
   },
   {
     id: '3',
     name: 'Martina Elm',
-    type: 'UI/UX Designer',
+    type: 'Neurology',
     img:'assets/images/users/avatar-3.jpg'
   },
   {
     id: '4',
     name: 'Gustaf Lindqvist',
-    type: 'Full Stack Developer',
+    type: 'Emergency',
     img:'assets/images/users/avatar-4.jpg'
   },
   {
     id: '5',
     name: 'Jonny Stack',
-    type: 'Front end Developer',
+    type: 'Emergency',
     img:'assets/images/users/avatar-1.jpg'
   },
   {
     id: '6',
     name: 'Anna Maria',
-    type: 'Backend Developer',
+    type: 'Traditional medicine',
     img:'assets/images/users/avatar-2.jpg'
   },
 ]

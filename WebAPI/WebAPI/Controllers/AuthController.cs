@@ -6,6 +6,7 @@ using WebAPI.Services;
 using WebAPI.Validators;
 using WebAPI.Exceptions;
 using WebAPI.Interfaces.IService;
+using WebAPI.DTOs;
 
 namespace WebAPI.Controllers
 {
@@ -46,6 +47,28 @@ namespace WebAPI.Controllers
                 throw new ValidationException(validatorResult);
             }
             return Ok(await _authService.RegisterAsync(model));
+        }
+
+        [HttpPost("create-doctor-account")]
+        public async Task<ActionResult<RegisterResponse>> CreateDoctorAccount(CreateDoctorAccount request)
+        {
+            var validatorUser = new RegisterModelValidator();
+            var validatorUserResult = await validatorUser.ValidateAsync(request.Account);
+
+            var validatorDoctor = new CreateDoctorValidator();
+            var validatorDoctorResult = await validatorDoctor.ValidateAsync(request.DoctorInfo);
+
+            if(!validatorUserResult.IsValid)
+            {
+                throw new ValidationException(validatorUserResult);
+            }
+
+            if (!validatorDoctorResult.IsValid)
+            {
+                throw new ValidationException(validatorDoctorResult);
+            }
+
+            return Ok(await _authService.CreateDoctorAccount(request.Account, request.DoctorInfo));
         }
     }
 }

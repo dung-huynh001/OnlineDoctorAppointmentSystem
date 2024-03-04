@@ -21,19 +21,22 @@ namespace WebAPI.Services
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly IPatientService _patientService;
+        private readonly IDoctorService _doctorService;
 
         public AuthService(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
             IConfiguration configuration,
-            IPatientService patientService)
+            IPatientService patientService,
+            IDoctorService doctorService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _patientService = patientService;
+            this._doctorService = doctorService;
         }
 
         public async Task<AuthResponse> LoginAsync(LoginModel request)
@@ -96,7 +99,7 @@ namespace WebAPI.Services
             {
                 UserName = request.Username,
                 Email = request.Email,
-                UserType = request.UserType.IsNullOrEmpty() ? "patient" : request.UserType!.Trim().ToLower()
+                UserType = request.UserType!.Trim().ToLower()
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -118,21 +121,19 @@ namespace WebAPI.Services
                 await _userManager.AddToRoleAsync(user, role);
             }
             // Create a new patient corresponding to the newly created user
-            switch (user.UserType.Trim().ToLower())
+            switch (user.UserType)
             {
                 case "patient":
                     if(!await _patientService.Create(new CreatePatientDto { FullName = user.UserName, UserId = user.Id }))
                     {
-                        var userCreated = await _userManager.FindByIdAsync(user.Id);
-                        if (userCreated == null)
-                            throw new NotFoundException(user.UserName, user.Id);
-                        await _userManager.DeleteAsync(userCreated);
-
+                        await DeleteUser(user.Id);
                         throw new Exception("Patient account registration failed");
                     }
                     break;
+                case "doctor":
+                    break;
                 default:
-                    throw new Exception("Users can only sign up for a patient account");
+                    throw new Exception("Can only sign up for a patient or doctor account");
             }
 
             return new RegisterResponse
@@ -141,10 +142,34 @@ namespace WebAPI.Services
             };
         }
 
+
+        public async Task<RegisterResponse> CreateDoctorAccount(RegisterModel model, CreateDoctorDto doctor)
+        {
+            var res = await RegisterAsync(model);
+            doctor.UserId = res.UserId;
+            if(! await _doctorService.Create(doctor))
+            {
+                await DeleteUser(res.UserId);
+                throw new Exception("An error occurred during the doctor account provisioning process");
+            }
+            return res;
+        }
+
+        public async Task<bool> DeleteUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if(user == null)
+            {
+                throw new NotFoundException("user", id);
+            }
+
+            await _userManager.DeleteAsync(user);
+            return true;
+        }
+
         public async Task Logout()
         {
             await _signInManager.SignOutAsync();
         }
-
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.DTOs;
 using WebAPI.Exceptions;
+using WebAPI.Interfaces.IService;
 using WebAPI.Services;
 
 namespace WebAPI.Controllers
@@ -10,9 +11,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class DoctorController : ControllerBase
     {
-        private readonly DoctorService _doctorService;
+        private readonly IDoctorService _doctorService;
 
-        public DoctorController(DoctorService doctorService)
+        public DoctorController(IDoctorService doctorService)
         {
             this._doctorService = doctorService;
         }
