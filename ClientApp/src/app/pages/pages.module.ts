@@ -9,6 +9,10 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { CustomerCareComponent } from './customer-care/customer-care.component';
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
+import { SitemapComponent } from './sitemap/sitemap.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,17 @@ import { ComponentsModule } from '../components/components.module';
     MedicalProcessComponent,
     AboutUsComponent,
     CustomerCareComponent,
+    SitemapComponent,
   ],
-  imports: [CommonModule, PagesRoutingModule, SharedModule, ComponentsModule],
+  imports: [
+    CommonModule, 
+    PagesRoutingModule, 
+    SharedModule, 
+    ComponentsModule, 
+    SlickCarouselModule,
+    NgbPaginationModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
 })
-export class PagesModule {}
+export class PagesModule { }

@@ -10,7 +10,7 @@ export const MENU_PATIENT: MenuItem[] = [
     id: 2,
     label: 'MENUITEMS.DASHBOARD.TEXT',
     icon: 'las la-tachometer-alt',
-    link: '/dashboard'
+    link: '/'
   },
   {
     id: 3,

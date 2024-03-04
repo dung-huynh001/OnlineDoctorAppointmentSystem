@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
@@ -9,7 +10,8 @@ import { AppointmentFormComponent } from './appointment-form/appointment-form.co
     AppointmentFormComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SharedModule
   ],
   exports: [AppointmentFormComponent]
 })
