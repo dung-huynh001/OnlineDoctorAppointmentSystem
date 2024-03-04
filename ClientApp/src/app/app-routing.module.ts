@@ -7,9 +7,8 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutsComponent,
-    loadChildren: () =>
-      import('./pages/pages.module').then((m) => m.PagesModule),
-    // canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'auth',
@@ -22,7 +21,7 @@ const routes: Routes = [
       import('./extra-pages/extra-pages.module').then(
         (m) => m.ExtraPagesModule
       ),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   // { path: 'landing', loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule) },
 ];
@@ -31,4 +30,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

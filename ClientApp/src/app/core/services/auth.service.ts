@@ -44,10 +44,7 @@ export class AuthService {
    * @param email email of user
    * @param password password of user
    */
-  login(
-    email: string,
-    password: string
-  ): Observable<{
+  login( email: string, password: string): Observable<{
     data: User;
     token: string;
     status: string;
@@ -78,24 +75,26 @@ export class AuthService {
   setLogin(user: User, token: string) {
     this.user$.next(user);
     this.token$.next(token);
+
   }
 
   /**
    * Returns the current user
    */
+  // public currentUser(): any {
+  //   return getFirebaseBackend()!.getAuthenticatedUser();
+  // }
+
   public currentUser(): any {
-    return getFirebaseBackend()!.getAuthenticatedUser();
+    return localStorage.getItem('currentUser');
   }
 
   /**
    * Logout the user
    */
   logout() {
-    // logout the user
-    // return getFirebaseBackend()!.logout();
-    // localStorage.removeItem('currentUser');
-    // localStorage.removeItem('token');
-    // this.currentUserSubject.next(null!);
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
     this.user$.next(null);
   }
 

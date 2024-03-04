@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
-import { AuthfakeService } from '../../core/services/authfake.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from './toast-service';
 
@@ -21,14 +20,13 @@ export class LoginComponent {
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private authenticationService: AuthService,
+    private authService: AuthService,
     private router: Router,
-    private authFackservice: AuthfakeService,
     private route: ActivatedRoute,
     public toastservice: ToastService
   ) {
     // redirect to home if already logged in
-    if (this.authenticationService.user$.value) {
+    if (this.authService.user$.value) {
       this.router.navigate(['/']);
     }
   }
@@ -60,7 +58,7 @@ export class LoginComponent {
     this.submitted = true;
 
     // Login Api
-    this.authenticationService
+    this.authService
       .login(this.f['email'].value, this.f['password'].value)
       // .subscribe((data: any) => {
       //   if (data.token != null) {
@@ -80,7 +78,7 @@ export class LoginComponent {
           // localStorage.setItem('toast', 'true');
           // localStorage.setItem('currentUser', JSON.stringify(data.data));
           // localStorage.setItem('token', data.token);
-          this.authenticationService.setLogin(data.data, data.token);
+          this.authService.setLogin(data.data, data.token);
           
           this.router.navigate(['/']);
         } else {
