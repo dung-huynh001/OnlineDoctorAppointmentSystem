@@ -1,6 +1,6 @@
 ﻿namespace WebAPI.DTOs
 {
-    public class GetAppointmentDto
+    public class GetAppointmentDetailDto
     {
 
         // Patient Information

@@ -29,7 +29,7 @@ namespace WebAPI.Services
 
                 return true;
             }
-            catch(Exception ex)
+            catch
             {
                 _unitOfWork.Rollback();
                 return false;

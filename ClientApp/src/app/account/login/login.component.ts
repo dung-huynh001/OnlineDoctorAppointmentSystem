@@ -32,9 +32,6 @@ export class LoginComponent {
   }
 
   ngOnInit(): void {
-    // if (localStorage.getItem('currentUser')) {
-    //   this.router.navigate(['/']);
-    // }
     /**
      * Form Validatyion
      */
@@ -60,19 +57,6 @@ export class LoginComponent {
     // Login Api
     this.authService
       .login(this.f['email'].value, this.f['password'].value)
-      // .subscribe((data: any) => {
-      //   if (data.token != null) {
-      //     localStorage.setItem('toast', 'true');
-      //     localStorage.setItem('currentUser', JSON.stringify(data.data));
-      //     localStorage.setItem('token', data.token);
-      //     this.router.navigate(['/']);
-      //   } else {
-      //     this.toastservice.show(data.data, {
-      //       classname: 'bg-danger text-white',
-      //       delay: 15000,
-      //     });
-      //   }
-      // });
       .subscribe((data) => {
         if (data.status == 'success') {
           localStorage.setItem('toast', 'true');

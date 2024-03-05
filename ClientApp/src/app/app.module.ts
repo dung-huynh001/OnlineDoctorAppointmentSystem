@@ -17,7 +17,6 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { AccountRoutingModule } from './account/account-routing.module';
 
-
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }

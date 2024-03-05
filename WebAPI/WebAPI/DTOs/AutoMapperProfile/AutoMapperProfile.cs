@@ -13,13 +13,15 @@ namespace WebAPI.DTOs.AutoMapperProfile
             CreateMap<CreateDoctorDto, Doctor>().ReverseMap();
             CreateMap<AddScheduleDto, Schedule>().ReverseMap();
             CreateMap<UpdateScheduleDto, Schedule>().ReverseMap();
-            CreateMap<GetAppointmentDto, Appointment>().ReverseMap();
-            CreateMap<GetAppointmentDto, Patient>().ReverseMap();
-            CreateMap<GetAppointmentDto, Doctor>().ReverseMap();
+            CreateMap<GetAppointmentDetailDto, Appointment>().ReverseMap();
+            CreateMap<GetAppointmentDetailDto, Patient>().ReverseMap();
+            CreateMap<GetAppointmentDetailDto, Doctor>().ReverseMap();
             CreateMap<SchedulesOfDoctor, Schedule>().ReverseMap();
             CreateMap<GetSchedulesByDoctorIdDto, Doctor>()
                 .ReverseMap()
                 .ForMember(des => des.DoctorId, opt => opt.MapFrom(src => src.Id));
+            CreateMap<GetAppointmentDetailDto, Appointment>().ReverseMap();
+
         }
     }
 }

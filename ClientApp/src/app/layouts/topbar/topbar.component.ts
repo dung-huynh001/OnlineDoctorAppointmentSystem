@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { CartModel } from './topbar.model';
 import { DOCUMENT } from '@angular/common';
 import { EventService } from '../../core/services/event.service';
@@ -17,7 +17,7 @@ import { TokenStorageService } from '../../core/services/token-storage.service';
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss'
 })
-export class TopbarComponent {
+export class TopbarComponent implements OnInit {
   // authSuccess: boolean = false;
   messages: any
   element: any;
@@ -176,10 +176,10 @@ export class TopbarComponent {
 
   windowScroll() {
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-      (document.getElementById("back-to-top") as HTMLElement).style.display = "block";
+      // (document.getElementById("back-to-top") as HTMLElement).style.display = "block";
       document.getElementById('page-topbar')?.classList.add('topbar-shadow');
     } else {
-      (document.getElementById("back-to-top") as HTMLElement).style.display = "none";
+      // (document.getElementById("back-to-top") as HTMLElement).style.display = "none";
       document.getElementById('page-topbar')?.classList.remove('topbar-shadow');
     }
   }

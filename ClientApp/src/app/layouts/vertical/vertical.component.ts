@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DATA_PRELOADER, LAYOUT, LAYOUT_MODE, LAYOUT_POSITION, LAYOUT_WIDTH, SIDEBAR_COLOR, SIDEBAR_IMAGE, SIDEBAR_SIZE, SIDEBAR_VIEW, SIDEBAR_VISIBILITY, TOPBAR } from '../layouts.model';
 import { EventService } from '../../core/services/event.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
   templateUrl: './vertical.component.html',
   styleUrl: './vertical.component.scss'
 })
-export class VerticalComponent {
+export class VerticalComponent implements OnInit {
   isCondensed = false;
 
   constructor(private eventService: EventService, private router: Router, private activatedRoute: ActivatedRoute) { }
@@ -50,7 +50,7 @@ export class VerticalComponent {
       }
     });
 
-    this.handlePreloader(this.activatedRoute.snapshot.routeConfig?.path);
+    // this.handlePreloader(this.activatedRoute.snapshot.routeConfig?.path);
     if (document.documentElement.getAttribute('data-sidebar-size') == 'lg') {
       window.addEventListener('resize', function () {
         if (document.documentElement.clientWidth <= 767) {
@@ -130,3 +130,5 @@ export class VerticalComponent {
 
   }
 }
+
+
