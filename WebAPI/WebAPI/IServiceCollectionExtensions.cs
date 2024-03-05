@@ -19,6 +19,10 @@ namespace WebAPI
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IUserService, UserService>();
 
         }
     }

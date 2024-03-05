@@ -5,6 +5,8 @@
         public string Id { get; set; }
         public string UserName { get; set; }
         public string UserType { get; set; }
+        public string FullName { get; set; }
+        public string? AvartarUrl { get; set; }
         public string Token { get; set; }
     }
 }

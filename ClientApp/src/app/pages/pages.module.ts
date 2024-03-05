@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import lottie  from 'lottie-web';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MakeAppointmentComponent } from './make-appointment/make-appointment.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -11,8 +12,13 @@ import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
 import { SitemapComponent } from './sitemap/sitemap.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbPaginationModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { defineElement } from 'lord-icon-element';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { SimplebarAngularModule } from 'simplebar-angular';
+import { CountUpModule } from 'ngx-countup';
+import { NgbdListSortableHeader } from './schedule-of-doctors/list-sortable.directive';
 
 @NgModule({
   declarations: [
@@ -23,16 +29,32 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AboutUsComponent,
     CustomerCareComponent,
     SitemapComponent,
+    NgbdListSortableHeader,
   ],
   imports: [
-    CommonModule, 
-    PagesRoutingModule, 
-    SharedModule, 
-    ComponentsModule, 
+    CommonModule,
+    PagesRoutingModule,
+    SharedModule,
+    ComponentsModule,
     SlickCarouselModule,
     NgbPaginationModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbTypeaheadModule,
+    NgbDropdownModule,
+    NgbTooltipModule,
+    CountUpModule,
+    FlatpickrModule,
+    SimplebarAngularModule, 
   ],
+  providers: [
+    DecimalPipe,
+    DatePipe
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class PagesModule { }
+export class PagesModule {
+  constructor() {
+    defineElement(lottie.loadAnimation);
+  }
+}

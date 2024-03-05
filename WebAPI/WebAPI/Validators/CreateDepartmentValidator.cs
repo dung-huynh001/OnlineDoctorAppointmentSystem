@@ -10,7 +10,7 @@ namespace WebAPI.Validators
         {
             RuleFor(p => p.DepartmentName)
                 .NotEmpty()
-                .WithMessage("");
+                .WithMessage("Department name is require.");
         }
     }
 }

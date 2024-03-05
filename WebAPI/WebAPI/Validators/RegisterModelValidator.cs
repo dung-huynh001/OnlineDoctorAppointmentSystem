@@ -17,6 +17,11 @@ namespace WebAPI.Validators
                 .WithMessage("Password must be 8-50 characters")
                 .MaximumLength(50)
                 .WithMessage("Password must be 8-50 characters");
+            RuleFor(m => m.Email)
+                .NotEmpty()
+                .EmailAddress();
+            RuleFor(m => m.UserType)
+                .NotEmpty();
         }
     }
 }

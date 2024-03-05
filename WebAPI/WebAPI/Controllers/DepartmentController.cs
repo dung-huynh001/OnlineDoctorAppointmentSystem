@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebAPI.DTOs;
-using WebAPI.Models;
+using WebAPI.Exceptions;
+using WebAPI.Interfaces.IService;
+using WebAPI.Validators;
 
 namespace WebAPI.Controllers
 {
@@ -9,17 +10,23 @@ namespace WebAPI.Controllers
     [ApiController]
     public class DepartmentController : ControllerBase
     {
-        public DepartmentController()
+        private readonly IDepartmentService _departmentService;
+
+        public DepartmentController(IDepartmentService departmentService)
         {
-            
+            this._departmentService = departmentService;
         }
 
-        [HttpPost("department")]
+        [HttpPost("department/create")]
         public async Task<ActionResult> Create(CreateDepartmentDto model)
         {
-
-
-            return Ok();
+            var validator = new CreateDepartmentValidator();
+            var validatorResult = await validator.ValidateAsync(model);
+            if(!validatorResult.IsValid)
+            {
+                throw new ValidationException(validatorResult);
+            }
+            return Ok(await _departmentService.Create(model));
         }
     }
 }

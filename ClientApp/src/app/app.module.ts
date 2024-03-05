@@ -13,12 +13,17 @@ import { FakeBackendInterceptor } from './core/helpers/fake-backend';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { initFirebaseBackend } from './authUtils';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
+import { JwtModule } from '@auth0/angular-jwt';
 import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { AccountRoutingModule } from './account/account-routing.module';
 
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
+
+export function tokenGetter() {
+  return localStorage.getItem('token');
 }
 
 if (environment.defaultauth === 'firebase') {
@@ -47,7 +52,14 @@ if (environment.defaultauth === 'firebase') {
     AppRoutingModule,
     LayoutsModule,
     PagesModule,
-    AccountRoutingModule
+    AccountRoutingModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['*'],
+        disallowedRoutes: []
+      }
+    }),
   ],
   providers: [
     provideClientHydration(),

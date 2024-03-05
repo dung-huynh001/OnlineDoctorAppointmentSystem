@@ -1,6 +1,32 @@
 [
   {
     "ContainingType": "WebAPI.Controllers.AuthController",
+    "Method": "CreateDoctorAccount",
+    "RelativePath": "api/Auth/create-doctor-account",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "WebAPI.Models.CreateDoctorAccount",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "WebAPI.Responses.RegisterResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -63,7 +89,7 @@
   {
     "ContainingType": "WebAPI.Controllers.DepartmentController",
     "Method": "Create",
-    "RelativePath": "api/Department/department",
+    "RelativePath": "api/Department/department/create",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -98,6 +124,58 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.List\u00601[[WebAPI.DTOs.DoctorOnDutyDto, WebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "AddSchedule",
+    "RelativePath": "api/Schedule/add-schedule",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "WebAPI.DTOs.AddScheduleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "WebAPI.Responses.ApiResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetSchedulesByDoctorId",
+    "RelativePath": "api/Schedule/get-schedules-of-doctor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "doctorId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "WebAPI.DTOs.GetSchedulesByDoctorIdDto",
         "MediaTypes": [
           "text/plain",
           "application/json",

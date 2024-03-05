@@ -75,9 +75,9 @@ export class LoginComponent {
       // });
       .subscribe((data) => {
         if (data.status == 'success') {
-          // localStorage.setItem('toast', 'true');
-          // localStorage.setItem('currentUser', JSON.stringify(data.data));
-          // localStorage.setItem('token', data.token);
+          localStorage.setItem('toast', 'true');
+          localStorage.setItem('currentUser', JSON.stringify(data.data));
+          localStorage.setItem('token', data.token);
           this.authService.setLogin(data.data, data.token);
           
           this.router.navigate(['/']);

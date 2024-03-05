@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using WebAPI.DTOs;
+using WebAPI.Exceptions;
+using WebAPI.Interfaces.IService;
+using WebAPI.Responses;
+using WebAPI.Validators;
 
 namespace WebAPI.Controllers
 {
@@ -7,5 +12,30 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ScheduleController : ControllerBase
     {
+        private readonly IScheduleService _scheduleService;
+
+        public ScheduleController(IScheduleService scheduleService)
+        {
+            this._scheduleService = scheduleService;
+        }
+
+        [HttpPost("add-schedule")]
+        public async Task<ActionResult<ApiResponse>> AddSchedule(AddScheduleDto model)
+        {
+            var validator = new AddScheduleValidator();
+            var validatorResult = validator.Validate(model);
+            if (!validatorResult.IsValid)
+            {
+                throw new ValidationException(validatorResult);
+            }
+
+            return Ok(await _scheduleService.AddSchedule(model));
+        }
+
+        [HttpGet("get-schedules-of-doctor")]
+        public async Task<ActionResult<GetSchedulesByDoctorIdDto>> GetSchedulesByDoctorId(int doctorId)
+        {
+            return Ok(await _scheduleService.GetSchedulesByDoctorId(doctorId));
+        }
     }
 }

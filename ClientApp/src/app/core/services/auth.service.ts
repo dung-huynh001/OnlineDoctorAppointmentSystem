@@ -75,16 +75,11 @@ export class AuthService {
   setLogin(user: User, token: string) {
     this.user$.next(user);
     this.token$.next(token);
-
   }
 
   /**
    * Returns the current user
    */
-  // public currentUser(): any {
-  //   return getFirebaseBackend()!.getAuthenticatedUser();
-  // }
-
   public currentUser(): any {
     return localStorage.getItem('currentUser');
   }

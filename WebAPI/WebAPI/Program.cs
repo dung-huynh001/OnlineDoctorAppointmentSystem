@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.IdentityModel.Tokens;
-using System.Reflection;
 using System.Text;
 using WebAPI;
 using WebAPI.Domain.Entities;
@@ -73,6 +73,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

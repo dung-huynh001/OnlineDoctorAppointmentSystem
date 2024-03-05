@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebAPI.Domain.Common;
+using WebAPI.Exceptions;
 using WebAPI.Infrastructure.Context;
 using WebAPI.Interfaces;
 
@@ -23,7 +24,6 @@ namespace WebAPI.Implementations
 
         public Task<TEntity> DeleteAsync(TEntity entity)
         {
-            /*_context.Set<TEntity>().Remove(entity);*/
             var exist =  _context.Set<TEntity>().Find(entity.Id);
             if (exist != null)
             {
@@ -38,7 +38,6 @@ namespace WebAPI.Implementations
             TEntity? exist = await _context.FindAsync<TEntity>(id);
             if(exist != null)
             {
-                /*_context.Remove(exist);*/
                 exist.IsDeleted = true;
                 return exist.Id;
             }
@@ -52,16 +51,22 @@ namespace WebAPI.Implementations
 
         public async Task<TEntity> GetByIdAsync(int id)
         {
-            return await _context.Set<TEntity>().FindAsync(id);
+            var entity = await _context.Set<TEntity>().FindAsync(id);
+            if(entity == null || entity.IsDeleted)
+            {
+                throw new NotFoundException(typeof(TEntity).ToString(), id);
+            }
+            return entity;
         }
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            TEntity exist = await _context.Set<TEntity>().FindAsync(entity.Id);
-            if(exist != null)
+            TEntity? exist = await _context.Set<TEntity>().FindAsync(entity.Id);
+            if (exist == null || exist.IsDeleted)
             {
-                _context.Entry(exist).CurrentValues.SetValues(entity);
+                throw new NotFoundException(typeof(TEntity).ToString(), entity.Id);
             }
+            _context.Entry(exist).CurrentValues.SetValues(entity);
 
             return entity;
         }
