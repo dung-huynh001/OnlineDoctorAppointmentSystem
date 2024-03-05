@@ -16,6 +16,7 @@ import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { AccountRoutingModule } from './account/account-routing.module';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -65,6 +66,7 @@ if (environment.defaultauth === 'firebase') {
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
+    provideCharts(withDefaultRegisterables())
   ],
   bootstrap: [AppComponent]
 })

@@ -45,7 +45,8 @@ import { NgbdListSortableHeader } from './schedule-of-doctors/list-sortable.dire
     NgbTooltipModule,
     CountUpModule,
     FlatpickrModule,
-    SimplebarAngularModule, 
+    SimplebarAngularModule,
+    ComponentsModule,
   ],
   providers: [
     DecimalPipe,

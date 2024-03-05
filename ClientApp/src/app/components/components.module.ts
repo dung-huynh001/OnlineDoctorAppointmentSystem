@@ -4,10 +4,8 @@ import { CommonModule } from '@angular/common';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
 import { AreaChartsComponent } from './area-charts/area-charts.component';
 import { DonutChartsComponent } from './donut-charts/donut-charts.component';
-import { BaseChartDirective  } from 'ng2-charts';
-
-
-
+import { BaseChartDirective } from 'ng2-charts';
+import { NgApexchartsModule} from 'ng-apexcharts'
 
 
 @NgModule({
@@ -19,8 +17,9 @@ import { BaseChartDirective  } from 'ng2-charts';
   imports: [
     CommonModule,
     SharedModule,
-    BaseChartDirective
+    BaseChartDirective,
+    NgApexchartsModule,
   ],
-  exports: [AppointmentFormComponent]
+  exports: [AppointmentFormComponent, DonutChartsComponent, AreaChartsComponent]
 })
 export class ComponentsModule { }

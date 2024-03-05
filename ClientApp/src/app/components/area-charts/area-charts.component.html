@@ -1,38 +1,14 @@
-<div class="row">
-    <div class="col-xl-6">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title mb-0">Irregular Timeseries Chart</h4>
-            </div><!-- end card header -->
-  
-            <div class="card-body">
-              <!-- <apx-chart [series]="irregularTimeseriesChart.series" [chart]="irregularTimeseriesChart.chart"
-              [dataLabels]="irregularTimeseriesChart.dataLabels" [markers]="irregularTimeseriesChart.markers"
-              [fill]="irregularTimeseriesChart.fill" [yaxis]="irregularTimeseriesChart.yaxis"
-              [xaxis]="irregularTimeseriesChart.xaxis" [title]="irregularTimeseriesChart.title"
-              [tooltip]="irregularTimeseriesChart.tooltip" [legend]="irregularTimeseriesChart.legend"
-              [colors]="irregularTimeseriesChart.colors" dir="ltr"></apx-chart> -->
-            </div><!-- end card-body -->
-        </div><!-- end card -->
-    </div>
-    <!-- end col -->
-  
-    <div class="col-xl-6">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title mb-0">Area Chart With Null Values Chart</h4>
-            </div><!-- end card header -->
-  
-            <div class="card-body">
-              <!-- <apx-chart [series]="nullValuesAreaChart.series" [chart]="nullValuesAreaChart.chart"
-              [xaxis]="nullValuesAreaChart.xaxis" [stroke]="nullValuesAreaChart.stroke"
-              [tooltip]="nullValuesAreaChart.tooltip" [dataLabels]="nullValuesAreaChart.dataLabels"
-              [fill]="nullValuesAreaChart.fill" [markers]="nullValuesAreaChart.markers"
-              [theme]="nullValuesAreaChart.theme" [yaxis]="nullValuesAreaChart.yaxis"
-              [title]="nullValuesAreaChart.title" [colors]="nullValuesAreaChart.colors" dir="ltr"></apx-chart> -->
-            </div><!-- end card-body -->
-        </div><!-- end card -->
-    </div>
-    <!-- end col -->
-  </div>
-  <!-- end row -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{chartTitle}}</h4>
+    </div><!-- end card header -->
+
+    <div class="card-body">
+      <apx-chart [series]="irregularTimeseriesChart.series" [chart]="irregularTimeseriesChart.chart"
+      [dataLabels]="irregularTimeseriesChart.dataLabels" [markers]="irregularTimeseriesChart.markers"
+      [fill]="irregularTimeseriesChart.fill" [yaxis]="irregularTimeseriesChart.yaxis"
+      [xaxis]="irregularTimeseriesChart.xaxis" [title]="irregularTimeseriesChart.title"
+      [tooltip]="irregularTimeseriesChart.tooltip" [legend]="irregularTimeseriesChart.legend"
+      [colors]="irregularTimeseriesChart.colors" dir="ltr"></apx-chart>
+    </div><!-- end card-body -->
+</div><!-- end card -->

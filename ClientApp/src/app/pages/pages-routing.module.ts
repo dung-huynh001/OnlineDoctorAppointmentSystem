@@ -20,7 +20,7 @@ const routes: Routes = [
     loadChildren: () => import('./appointment-management/appointment-management.module').then(m => m.AppointmentManagementModule)
   },
   {
-    path: 'help', component: CustomerCareComponent
+    path: 'help', redirectTo: 'pages/coming-soon'
   },
   {
     path: 'medical-process', component: MedicalProcessComponent

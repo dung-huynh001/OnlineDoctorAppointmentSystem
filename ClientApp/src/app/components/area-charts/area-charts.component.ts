@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 export const dataSeries = [
   [
@@ -1455,16 +1455,8 @@ export const dataSeries = [
   styleUrl: './area-charts.component.scss',
 })
 export class AreaChartsComponent implements OnInit {
-  basicAreaChart: any;
-  splineAreaChart: any;
-  datetimeXaxisChart: any;
-  nagativeValueChart: any;
-  githubmMonthAreaChart: any;
-  githubmYearAreaChart: any;
-  activeOptionButton = 'all';
-  stackedAreaChart: any;
+  @Input() chartTitle!: string;
   irregularTimeseriesChart: any;
-  nullValuesAreaChart: any;
 
   ngOnInit(): void {
     this._irregularTimeseriesChart(
