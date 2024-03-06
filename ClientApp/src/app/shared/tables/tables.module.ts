@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DatatablesComponent } from './datatables/datatables.component';
 import { ListTablesComponent } from './list-tables/list-tables.component';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { NgPipesModule } from 'ngx-pipes';
 
@@ -18,6 +18,8 @@ import { NgPipesModule } from 'ngx-pipes';
     NgbPaginationModule,
     FormsModule,
     NgPipesModule,
+    NgbDropdownModule,
+    NgbTooltipModule,
   ],
   exports: [ListTablesComponent, DatatablesComponent]
 })

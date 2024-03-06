@@ -1,15 +1,21 @@
-import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { HttpResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from './toast-service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm!: UntypedFormGroup;
   submitted = false;
   fieldTextType!: boolean;
@@ -23,7 +29,7 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    public toastservice: ToastService
+    public toastService: ToastService
   ) {
     // redirect to home if already logged in
     if (this.authService.user$.value) {
@@ -36,8 +42,8 @@ export class LoginComponent {
      * Form Validatyion
      */
     this.loginForm = this.formBuilder.group({
-      email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
+      username: ['d1', [Validators.required]],
+      password: ['abcd1234', [Validators.required]],
     });
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -56,22 +62,28 @@ export class LoginComponent {
 
     // Login Api
     this.authService
-      .login(this.f['email'].value, this.f['password'].value)
-      .subscribe((data) => {
-        if (data.status == 'success') {
-          localStorage.setItem('toast', 'true');
-          localStorage.setItem('currentUser', JSON.stringify(data.data));
-          localStorage.setItem('token', data.token);
-          this.authService.setLogin(data.data, data.token);
-          
-          this.router.navigate(['/']);
-        } else {
-          this.toastservice.show("Login failed!", {
-            classname: 'bg-danger text-white',
-            delay: 15000,
-          });
+      .login(this.f['username'].value, this.f['password'].value)
+      // .pipe(
+      //   catchError(err => {
+      //     this.toastService.show(err?.Message, {
+      //       classname: 'bg-danger text-white',
+      //       delay: 3000,
+      //     });
+      //     return throwError(() => err);
+      //   })
+      // )
+      .subscribe(
+        (res) => {
+          if (res.data.token) {
+            localStorage.setItem('toast', 'true');
+            localStorage.setItem('currentUser', JSON.stringify(res.data));
+            localStorage.setItem('token', res.data.token);
+            this.authService.setLogin(res.data, res.data.token);
+
+            this.router.navigate(['/']);
+          }
         }
-      });
+      );
   }
 
   /**

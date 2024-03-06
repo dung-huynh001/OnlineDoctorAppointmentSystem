@@ -6,6 +6,9 @@ import { CompletedComponent } from './completed/completed.component';
 import { OutOfDateComponent } from './out-of-date/out-of-date.component';
 import { CancelledComponent } from './cancelled/cancelled.component';
 import { AppointmentManagementRoutingModule } from './appointment-management-routing.module';
+import { SharedModule } from '../../shared/shared.module';
+import { ComponentsModule } from '../../components/components.module';
+import { NgbDropdownModule, NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -19,7 +22,13 @@ import { AppointmentManagementRoutingModule } from './appointment-management-rou
   ],
   imports: [
     CommonModule,
-    AppointmentManagementRoutingModule
+    AppointmentManagementRoutingModule,
+    SharedModule,
+    ComponentsModule,
+    NgbDropdownModule,
+    NgbTooltipModule,
+    NgbPaginationModule,
+
   ]
 })
 export class AppointmentManagementModule { }

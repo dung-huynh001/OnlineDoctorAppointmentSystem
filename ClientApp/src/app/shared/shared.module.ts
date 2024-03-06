@@ -28,7 +28,8 @@ import { TablesModule } from './tables/tables.module';
     EditorComponent,
     DatepickerComponent,
     TimepickerComponent,
-    TablesModule
+    TablesModule,
+    
   ],
   providers:[
     provideNgxMask(),

@@ -15,7 +15,8 @@ export const environment = {
     appId: '',
     measurementId: ''
   },
-  server_url: 'https://api-node.themesbrand.website'
+  server_url: 'https://api-node.themesbrand.website',
+  serverApi: 'https://localhost:7139'
 };
 
 /*

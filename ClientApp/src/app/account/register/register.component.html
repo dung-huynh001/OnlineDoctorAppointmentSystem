@@ -38,27 +38,40 @@
                             </div>
                             <div class="p-2 mt-4">
                                 <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-  
+                                    <input type="text" id="userType" formControlName="userType" value="patient" hidden>
                                     <div class="mb-3">
                                         <label for="useremail" class="form-label">Email <span class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" id="useremail" placeholder="Enter email address" required formControlName="email" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+                                        <input type="email" class="form-control" id="email" placeholder="Enter email address" required autocomplete="off" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
                                         <div class="invalid-feedback">
                                             Please enter email
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter the correct email format
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="username" placeholder="Enter username" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+                                        <input type="text" class="form-control" id="username" placeholder="Enter username" required autocomplete="off" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f['username'].errors }">
                                         <div class="invalid-feedback">
                                             Please enter username
                                         </div>
                                     </div>
   
-                                    <div class="mb-2">
+                                    <div class="mb-3">
                                         <label for="userpassword" class="form-label">Password <span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" id="userpassword" placeholder="Enter password" required formControlName="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
+                                        <input type="password" class="form-control" id="password" placeholder="Enter password" required autocomplete="off" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
                                         <div class="invalid-feedback">
                                             Please enter password
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="userpassword" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Enter confirm password" required autocomplete="off" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors}">
+                                        <div class="invalid-feedback">
+                                            Please enter password again
+                                        </div>
+                                        <div class="invalid-feedback" *ngIf="!isMatches">
+                                            Confirm password must be match the password
                                         </div>
                                     </div>
   

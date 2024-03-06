@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { allNotification, cartData, messages } from './data';
 import { TokenStorageService } from '../../core/services/token-storage.service';
+import { User } from '../../core/models/auth.models';
 
 @Component({
   selector: 'app-topbar',
@@ -28,7 +29,7 @@ export class TopbarComponent implements OnInit {
   valueset: any;
   countryName: any;
   cookieValue: any;
-  userData: any;
+  userData?: User;
   cartData!: CartModel[];
   total = 0;
   cart_length: any = 0;

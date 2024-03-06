@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastService } from '../../account/login/toast-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +10,7 @@ export class DashboardComponent implements OnInit {
   breadCrumbItems!: Array<{}>
   today = new Date().toDateString();
 
-  constructor() {
+  constructor(public toastService: ToastService) {
 
   }
 
@@ -17,6 +18,11 @@ export class DashboardComponent implements OnInit {
     this.breadCrumbItems = [
       { label: 'Menu'},
       { label: 'Dashboard', Active: true}
-    ]
+    ];
+
+    if (localStorage.getItem('toast')) {
+      this.toastService.show('Logged in Successfully.', { classname: 'bg-success text-center text-white', delay: 5000 });
+      localStorage.removeItem('toast');
+    }
   }
 }

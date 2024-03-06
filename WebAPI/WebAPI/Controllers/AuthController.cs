@@ -34,7 +34,9 @@ namespace WebAPI.Controllers
             {
                 throw new ValidationException(validatorResult);
             }
-            return Ok(await _authService.LoginAsync(model));
+            var res = await _authService.LoginAsync(model);
+
+            return Ok(res);
         }
 
         [HttpPost("register")]

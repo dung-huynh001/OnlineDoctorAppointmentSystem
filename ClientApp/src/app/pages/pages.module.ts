@@ -3,7 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MakeAppointmentComponent } from './make-appointment/make-appointment.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { ScheduleOfDoctorsComponent } from './schedule-of-doctors/schedule-of-doctors.component';
 import { MedicalProcessComponent } from './medical-process/medical-process.component';
 import { AboutUsComponent } from './about-us/about-us.component';
@@ -19,11 +18,11 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { CountUpModule } from 'ngx-countup';
 import { NgbdListSortableHeader } from './schedule-of-doctors/list-sortable.directive';
+import { AccountModule } from '../account/account.module';
 
 @NgModule({
   declarations: [
     MakeAppointmentComponent,
-    DashboardComponent,
     ScheduleOfDoctorsComponent,
     MedicalProcessComponent,
     AboutUsComponent,
@@ -35,7 +34,6 @@ import { NgbdListSortableHeader } from './schedule-of-doctors/list-sortable.dire
     CommonModule,
     PagesRoutingModule,
     SharedModule,
-    ComponentsModule,
     SlickCarouselModule,
     NgbPaginationModule,
     FormsModule,
@@ -47,6 +45,7 @@ import { NgbdListSortableHeader } from './schedule-of-doctors/list-sortable.dire
     FlatpickrModule,
     SimplebarAngularModule,
     ComponentsModule,
+    AccountModule
   ],
   providers: [
     DecimalPipe,

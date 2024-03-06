@@ -2,7 +2,6 @@ import { ScheduleOfDoctorsComponent } from './schedule-of-doctors/schedule-of-do
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../core/guards/auth.guard';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { MakeAppointmentComponent } from './make-appointment/make-appointment.component';
 import { CustomerCareComponent } from './customer-care/customer-care.component';
 import { MedicalProcessComponent } from './medical-process/medical-process.component';
@@ -10,7 +9,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 
 const routes: Routes = [
   {
-    path: '', component: DashboardComponent
+    path: '', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
     path: 'make-appointment', component: MakeAppointmentComponent

@@ -8,6 +8,31 @@ export class ToastService {
     this.toasts.push({ textOrTpl, ...options });
   }
 
+  error(textOrTpl: string | TemplateRef<any>) {
+    this.toasts.push({ 
+      textOrTpl,
+      classname: 'bg-danger text-white',
+      delay: 3000,
+    });
+  }
+
+  success(textOrTpl: string | TemplateRef<any>) {
+    this.toasts.push({ 
+      textOrTpl,
+      classname: 'bg-success text-white',
+      delay: 3000,
+    });
+  }
+
+  warning(textOrTpl: string | TemplateRef<any>) {
+    this.toasts.push({ 
+      textOrTpl,
+      classname: 'bg-warning text-white',
+      delay: 3000,
+    });
+  }
+
+
   remove(toast: any) {
     this.toasts = this.toasts.filter(t => t !== toast);
   }

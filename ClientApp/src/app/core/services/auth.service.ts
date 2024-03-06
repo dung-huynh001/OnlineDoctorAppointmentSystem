@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { getFirebaseBackend } from '../../authUtils';
-import { IUser, User } from '../models/auth.models';
+import { IUser, User, Unauthorize } from '../models/auth.models';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -22,51 +21,30 @@ export class AuthService {
     this.user$.subscribe((value) => console.log(value));
   }
 
-  /**
-   * Performs the register
-   * @param email email
-   * @param password password
-   */
-  register(email: string, first_name: string, password: string) {
+  register(email: string, username: string, password: string, userType: string) {
     return this.http.post(
-      `${environment.server_url}/auth/register`,
+      `${environment.serverApi}/api/Auth/register`,
       {
+        userType,
         email,
-        first_name,
+        username,
         password,
       },
       httpOptions
     );
   }
 
-  /**
-   * Performs the auth
-   * @param email email of user
-   * @param password password of user
-   */
-  login( email: string, password: string): Observable<{
-    data: User;
-    token: string;
-    status: string;
-  }> {
-    return this.http
-      .post<{
-        data: IUser;
-        token: string;
-        status: string;
-      }>(
-        `${environment.server_url}/auth/signin`,
+  login( username: string, password: string): Observable<{ data: IUser }> {
+    return this.http.post( `${environment.serverApi}/api/Auth/login`,
         {
-          email,
+          username,
           password,
         },
-        httpOptions
-      )
+        httpOptions)
       .pipe(
         map((res) => {
           return {
-            ...res,
-            data: User.createFromData(res.data),
+            data: User.createFromData(res),
           };
         })
       );
@@ -91,18 +69,6 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
     this.user$.next(null);
-  }
-
-  /**
-   * Reset password
-   * @param email email
-   */
-  resetPassword(email: string) {
-    return getFirebaseBackend()!
-      .forgetPassword(email)
-      .then((response: any) => {
-        const message = response.data;
-        return message;
-      });
+    this.token$.next(null);
   }
 }
