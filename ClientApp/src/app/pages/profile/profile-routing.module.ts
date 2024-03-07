@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from 'express';
 
 
 
 @NgModule({
-  declarations: [],
   imports: [
-    CommonModule
   ]
 })
-export class DashboardRoutingModule { }
+export class ProfileRoutingModule { }

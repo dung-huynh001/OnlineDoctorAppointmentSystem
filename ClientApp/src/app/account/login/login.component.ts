@@ -38,6 +38,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(localStorage.getItem('toast')) {
+      this.toastService.success('Account registration successful! Please log in to continue');
+      localStorage.removeItem('toast');
+    }
+
     /**
      * Form Validatyion
      */
@@ -59,21 +64,24 @@ export class LoginComponent implements OnInit {
    */
   onSubmit() {
     this.submitted = true;
-
-    // Login Api
-    this.authService
-      .login(this.f['username'].value, this.f['password'].value)
-      // .pipe(
-      //   catchError(err => {
-      //     this.toastService.show(err?.Message, {
-      //       classname: 'bg-danger text-white',
-      //       delay: 3000,
-      //     });
-      //     return throwError(() => err);
-      //   })
-      // )
-      .subscribe(
-        (res) => {
+    
+    if (this.loginForm.valid) {
+      // Login Api
+      this.authService
+        .login(this.f['username'].value, this.f['password'].value)
+        .pipe(
+          catchError((err) => {
+            this.toastService.show(
+              err?.Message ? err?.Message : 'Cannot connect to server',
+              {
+                classname: 'bg-danger text-white',
+                delay: 3000,
+              }
+            );
+            return throwError(() => err);
+          })
+        )
+        .subscribe((res) => {
           if (res.data.token) {
             localStorage.setItem('toast', 'true');
             localStorage.setItem('currentUser', JSON.stringify(res.data));
@@ -82,8 +90,8 @@ export class LoginComponent implements OnInit {
 
             this.router.navigate(['/']);
           }
-        }
-      );
+        });
+    }
   }
 
   /**

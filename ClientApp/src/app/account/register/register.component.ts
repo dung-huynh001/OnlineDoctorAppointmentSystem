@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -6,35 +6,35 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { UserService } from '../../core/services/user.service';
-import { catchError, first } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
+import { ToastService } from '../login/toast-service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnChanges {
   signupForm!: UntypedFormGroup;
   submitted = false;
-  successmsg = false;
-  error = '';
-  isMatches = false;
+  // compareToValidator: compareTo
   // set the current year
   year: number = new Date().getFullYear();
 
   constructor(
     private formBuilder: UntypedFormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private _toastService: ToastService
   ) {}
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit(): void {
     /**
      * Form Validatyion
      */
     this.signupForm = this.formBuilder.group({
-      userType: ['patient'],  
+      userType: ['patient'],
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required]],
       password: ['', Validators.required],
@@ -53,27 +53,38 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    //Register Api
     if (
-      this.f['userType'].valid &&
-      this.f['email'].valid &&
-      this.f['username'].valid &&
-      this.f['password'].valid &&
-      this.f['confirmPassword'].valid
+      this.f['confirmPassword'].value &&
+      this.f['confirmPassword'].value !== this.f['password'].value
     ) {
+      this.f['confirmPassword'].setErrors({ compare: true });
+      this.f['password'].setErrors({ compare: true });
+      return;
+    }
+
+    //Register Api
+    if (this.signupForm.valid) {
       this.authService
         .register(
-          this.f['userType'].value,
           this.f['email'].value,
           this.f['username'].value,
-          this.f['password'].value
+          this.f['password'].value,
+          this.f['userType'].value
         )
-        .pipe(catchError((err) => (this.error = err ? err : '')))
+        .pipe(
+          catchError((err) => {
+            const erorrDetail: {
+              Message: string;
+              Status: number;
+            } = err;
+            this._toastService.error(erorrDetail.Message);
+            console.log(erorrDetail);
+            return throwError(() => err);
+          })
+        )
         .subscribe((data: any) => {
-          this.successmsg = true;
-          if (this.successmsg) {
-            this.router.navigate(['/auth/login']);
-          }
+          localStorage.setItem('toast', 'true');
+          this.router.navigate(['/auth/login']);
         });
     }
   }
