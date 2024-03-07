@@ -36,7 +36,7 @@
               "RelativeDocumentMoniker": "WebAPI\\Domain\\Entities\\Patient.cs",
               "ToolTip": "D:\\src\\Refactor Project\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Domain\\Entities\\Patient.cs",
               "RelativeToolTip": "WebAPI\\Domain\\Entities\\Patient.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAA0AAAAzAAAA",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAQwBAAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-07T07:46:23.843Z",
               "EditorCaption": ""
@@ -51,8 +51,7 @@
               "RelativeToolTip": "WebAPI\\Middleware\\ExceptionMiddleware.cs",
               "ViewState": "AQIAADwAAAAAAAAAAAASwEkAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-06T06:41:03.824Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-06T06:41:03.824Z"
             },
             {
               "$type": "Document",
@@ -64,8 +63,7 @@
               "RelativeToolTip": "WebAPI\\Controllers\\AuthController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAC4AAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-06T06:40:33.712Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-06T06:40:33.712Z"
             },
             {
               "$type": "Document",

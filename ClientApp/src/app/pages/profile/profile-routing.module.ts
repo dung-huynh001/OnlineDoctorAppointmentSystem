@@ -1,11 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from 'express';
+import { Router, RouterModule, Routes } from '@angular/router';
+import { PatientComponent } from './patient/patient.component';
+import { DoctorComponent } from './doctor/doctor.component';
+import { AdminComponent } from './admin/admin.component';
 
-
+const routes: Routes = [
+  { path: 'patient', component: PatientComponent },
+  { path: 'doctor', component: DoctorComponent },
+  { path: 'admin', component: AdminComponent },
+];
 
 @NgModule({
-  imports: [
-  ]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class ProfileRoutingModule { }
+export class ProfileRoutingModule {}

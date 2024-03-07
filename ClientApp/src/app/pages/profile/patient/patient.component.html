@@ -1,1 +1,245 @@
-<p>patient works!</p>
+<app-breadcrumbs title="Profile" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<div class="row">
+    <div class="col-12 col-lg-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex gap-4 align-items-center mb-3">
+                            <img src="assets/images/users/avatar-1.jpg" alt=""
+                                class="avatar-xl rounded-circle img-thumbnail">
+                            <p class="fs-3 fw-bolder">Mr. Robinson</p>
+                        </div>
+                        <div class="d-flex flex-column gap-3">
+                            <h5>Contact details:</h5>
+                            <div class="d-flex gap-3 align-items-center">
+                                <i class="fs-4 text-primary ri-smartphone-line"></i>
+                                <span class="fs-5 text-muted">
+                                    0768 xxx xxx
+                                </span>
+                            </div>
+                            <div class="d-flex gap-3 align-items-center">
+                                <i class="fs-4 text-primary ri-mail-line"></i>
+                                <span class="fs-5 text-muted">
+                                    example&#64;gmail.com
+                                </span>
+                            </div>
+                            <div class="d-flex gap-3 align-items-center">
+                                <i class="fs-4 text-primary ri-home-4-line"></i>
+                                <span class="fs-5 text-muted text-wrap">
+                                    Ninh Kieu District, Can Tho City
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Allergies</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="d-flex flex-column gap-3">
+                            <p class="d-flex gap-3 fs-5 text-muted">
+                                <i class="text-danger ri-radio-button-fill"></i><span>Fish</span>
+                            </p>
+                            <p class="d-flex gap-3 fs-5 text-muted">
+                                <i class="text-danger ri-radio-button-fill"></i><span>Meat</span>
+                            </p>
+                            <p class="d-flex gap-3 fs-5 text-muted">
+                                <i class="text-danger ri-radio-button-fill"></i><span>Paracetamon</span>
+                            </p>
+                            <p class="d-flex gap-3 fs-5 text-muted">
+                                <i class="text-danger ri-radio-button-fill"></i><span>Vitamin C</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-8">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>About</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            As of my last update in January 2022, Angular 17 had not been released. Angular 12 was the
+                            latest stable version available at that time. However, I can provide information about the
+                            "compare" validator in Angular and how it's typically used.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Overview</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 col-lg-4 mb-3">
+                                <div class="d-flex flex-column gap-2">
+                                    <span class="text-muted">Date of birth</span>
+                                    <span class="fs-5">06/12/2001</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-4 mb-3">
+                                <div class="d-flex flex-column gap-2">
+                                    <span class="text-muted">Gender</span>
+                                    <span class="fs-5">Male</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-4 mb-3">
+                                <div class="d-flex flex-column gap-2">
+                                    <span class="text-muted">National ID</span>
+                                    <span class="fs-5">3857 854 4949</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-4 mb-3">
+                                <div class="d-flex flex-column gap-2">
+                                    <span class="text-muted">Join time</span>
+                                    <span class="fs-5">10:30 AM 05/12/2023</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-4 mb-3">
+                                <div class="d-flex flex-column gap-2">
+                                    <span class="text-muted">Last active</span>
+                                    <span class="fs-5">10:30 AM 05/12/2023</span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-4 mb-3">
+                                <div class="d-flex flex-column gap-2">
+                                    <span class="text-muted">Nearest appointment</span>
+                                    <span class="fs-5">10:30 AM 05/12/2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Recently diagnosis</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Bordered Tables -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Assignee</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Implement new UX</td>
+                                        <td><span class="badge bg-primary-subtle text-primary">Backlog</span></td>
+                                        <td>Lanora Sandoval</td>
+                                        <td>$4,521</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="#" role="button" id="dropdownMenuLink"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </a>
+
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <li><a class="dropdown-item" href="#">View</a></li>
+                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
+                                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Design syntax</td>
+                                        <td><span class="badge bg-secondary-subtle text-secondary">In Progress</span>
+                                        </td>
+                                        <td>Calvin Garrett</td>
+                                        <td>$7,546</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="#" role="button" id="dropdownMenuLink"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </a>
+
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <li><a class="dropdown-item" href="#">View</a></li>
+                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
+                                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Configurable resources</td>
+                                        <td><span class="badge bg-success-subtle text-success">Done</span></td>
+                                        <td>Florence Guzman</td>
+                                        <td>$1,350</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="#" role="button" id="dropdownMenuLink"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </a>
+
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <li><a class="dropdown-item" href="#">View</a></li>
+                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
+                                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>Implement extensions</td>
+                                        <td><span class="badge bg-secondary-subtle text-secondary">In Progress</span>
+                                        </td>
+                                        <td>Maritza Blanda</td>
+                                        <td>$4,521</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="#" role="button" id="dropdownMenuLink"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </a>
+
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <li><a class="dropdown-item" href="#">View</a></li>
+                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
+                                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

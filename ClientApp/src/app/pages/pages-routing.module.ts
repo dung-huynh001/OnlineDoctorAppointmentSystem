@@ -9,34 +9,46 @@ import { AboutUsComponent } from './about-us/about-us.component';
 
 const routes: Routes = [
   {
-    path: '', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+    path: '',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path: 'make-appointment', component: MakeAppointmentComponent
+    path: 'make-appointment',
+    component: MakeAppointmentComponent,
   },
   {
-    path: 'appointment-management', 
-    loadChildren: () => import('./appointment-management/appointment-management.module').then(m => m.AppointmentManagementModule)
+    path: 'appointment-management',
+    loadChildren: () =>
+      import('./appointment-management/appointment-management.module').then(
+        (m) => m.AppointmentManagementModule
+      ),
   },
   {
-    path: 'help', redirectTo: 'pages/coming-soon'
+    path: 'help',
+    redirectTo: 'pages/coming-soon',
   },
   {
-    path: 'medical-process', component: MedicalProcessComponent
+    path: 'medical-process',
+    component: MedicalProcessComponent,
   },
   {
-    path: 'about', component: AboutUsComponent
+    path: 'about',
+    component: AboutUsComponent,
   },
   {
-    path: 'schedule-of-doctors', component: ScheduleOfDoctorsComponent
+    path: 'schedule-of-doctors',
+    component: ScheduleOfDoctorsComponent,
+  },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('./profile/profile.module').then((m) => m.ProfileModule),
   },
 ];
 
-
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}
