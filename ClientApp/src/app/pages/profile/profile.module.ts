@@ -5,6 +5,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { DoctorComponent } from './doctor/doctor.component';
 import { AdminComponent } from './admin/admin.component';
 import { SharedModule } from '../../shared/shared.module';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -17,6 +18,7 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     CommonModule,
     ProfileRoutingModule,
+    NgbTooltipModule,
     SharedModule
   ]
 })

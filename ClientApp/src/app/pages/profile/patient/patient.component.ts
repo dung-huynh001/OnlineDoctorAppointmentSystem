@@ -7,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PatientComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
-
-  constructor() {}
+  userType = localStorage.getItem('userType');
+  completionLevel!: number;
+  constructor() {
+    this.completionLevel = 30;
+  }
 
   ngOnInit(): void {
     this.breadCrumbItems = [

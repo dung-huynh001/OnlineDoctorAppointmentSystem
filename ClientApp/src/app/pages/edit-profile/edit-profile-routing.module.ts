@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { DoctorComponent } from './doctor/doctor.component';
-import { PatientComponent } from '../profile/patient/patient.component';
+import { PatientComponent } from './patient/patient.component';
 
 const routes: Routes = [
   {

@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: LayoutsComponent,
     loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule),
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'auth',
