@@ -3,10 +3,12 @@
   class="form-control flatpickr-input"
   type="text"
   mwlFlatpickr
+  [defaultValue]="'07:00'"
   [noCalendar]="true"
   [enableTime]="true"
   [dateFormat]="'H:i'"
   placeholder="hh:mm"
   id="cleave-time"
   mask="00:00"
+  (change)="onTimeChange($event)"
 />

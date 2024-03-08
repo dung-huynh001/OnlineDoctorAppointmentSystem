@@ -91,7 +91,8 @@
                                             *ngIf="this.f['confirmPassword'].errors?.['required']">
                                             Please enter password again
                                         </div>
-                                        <div class="invalid-feedback" *ngIf="this.f['confirmPassword'].errors?.['compare']">
+                                        <div class="invalid-feedback"
+                                            *ngIf="this.f['confirmPassword'].errors?.['compare']">
                                             Confirm password must be match the password
                                         </div>
                                     </div>

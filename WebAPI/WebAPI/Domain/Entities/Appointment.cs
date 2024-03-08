@@ -18,12 +18,12 @@ namespace WebAPI.Domain.Entities
         public int ModeOfConsultant { get; set; }
         public DateTime DateOfConsultation { get; set; }
         public DateTime? AppointmentDate { get; set; }
-        public string AppoimentStatus { get; set; } = null!;
+        public string AppointmentStatus { get; set; } = null!;
         public DateTime? ClosedDate { get; set; }
         public string? ClosedBy { get; set; }
         public string? Symtoms { get; set; }
-        public string? Existingillness { get; set; }
-        public string? Drugallergies { get; set; }
+        public string? ExistingIllness { get; set; }
+        public string? DrugAllergies { get; set; }
         public string? Note { get; set; }
         public string? CaseNote { get; set; }
         public string? Diagnosis { get; set; }

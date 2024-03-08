@@ -8,6 +8,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { NgApexchartsModule} from 'ng-apexcharts';
 import { AppointmentStatisticComponent } from './appointment-statistic/appointment-statistic.component'
 import { CountUpModule } from 'ngx-countup';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,6 +24,8 @@ import { CountUpModule } from 'ngx-countup';
     BaseChartDirective,
     NgApexchartsModule,
     CountUpModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     AppointmentFormComponent, 

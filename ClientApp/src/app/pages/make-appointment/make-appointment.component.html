@@ -14,10 +14,13 @@
       <div class="card-body">
         <div class="row gap-3">
           <div class="col-12">
-            <app-datepicker title="Date"></app-datepicker>
+            <app-datepicker title="Date" (dateChange)="onDateChange($event)"></app-datepicker>
           </div>
           <div class="col-12">
-            <app-timepicker title="Time"></app-timepicker>
+            <app-timepicker title="Time" (timeChange)="onTimeChange($event)"></app-timepicker>
+          </div>
+          <div class="col">
+            <button class="btn btn-soft-primary float-end" (click)="getDoctorOnDutyList()">Find Doctor</button>
           </div>
         </div>
       </div>
@@ -36,7 +39,7 @@
         </h6>
       </div>
       <div class="card-body">
-        <app-appointment-form></app-appointment-form>
+        <app-appointment-form [defaultData]="defaultData"></app-appointment-form>
       </div>
     </div>
     <!-- end col -->

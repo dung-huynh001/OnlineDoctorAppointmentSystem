@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GlobalComponent } from '../../global-component';
+import { environment } from '../../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` })
@@ -12,6 +13,27 @@ const httpOptions = {
 })
 export class RestApiService {
   constructor(private http: HttpClient) { }
+
+  get(url:string, query: string): Observable<any> {
+    var headerToken = { 'Authorization': `Bearer ` + localStorage.getItem('token') };
+    return this.http.get(environment.serverApi + `/api` + url + query, { headers: headerToken, responseType: 'json' });
+  }
+
+  put(url: string, data: any): Observable<any> {
+    return this.http.put(environment.serverApi + `/api` + url + `/${data.id}`, data, httpOptions)
+  }
+
+  post(url: string, data: any): Observable<any> {
+    return this.http.post(environment.serverApi + `/api` + url, data, httpOptions)
+  }
+
+  patch(url: string, data: any): Observable<any> {
+    return this.http.patch(environment.serverApi + `/api` + url + `/${data.id}`, data, httpOptions)
+  }
+
+  delete(url: string): Observable<any> {
+    return this.http.delete(environment.serverApi + `/api` + url, httpOptions)
+  }
 
   /**
   * Product Rest Api

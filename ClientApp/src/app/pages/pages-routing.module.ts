@@ -6,6 +6,8 @@ import { MakeAppointmentComponent } from './make-appointment/make-appointment.co
 import { CustomerCareComponent } from './customer-care/customer-care.component';
 import { MedicalProcessComponent } from './medical-process/medical-process.component';
 import { AboutUsComponent } from './about-us/about-us.component';
+import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
+import { DepartmentManagementComponent } from './department-management/department-management.component';
 
 const routes: Routes = [
   {
@@ -39,6 +41,14 @@ const routes: Routes = [
   {
     path: 'schedule-of-doctors',
     component: ScheduleOfDoctorsComponent,
+  },
+  {
+    path: 'assign-schedule',
+    component: AssignScheduleComponent,
+  },
+  {
+    path: 'department',
+    component: DepartmentManagementComponent,
   },
   {
     path: 'profile',

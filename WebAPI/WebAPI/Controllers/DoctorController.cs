@@ -19,11 +19,10 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("get-doctor-on-duty")]
-        public async Task<ActionResult<List<DoctorOnDutyDto>>> GetDoctorListOnDuty(DateTime date, TimeSpan time)
+        public async Task<ActionResult<List<DoctorOnDutyDto>>> GetDoctorListOnDuty(DateTime date)
         {
-            var dateTime = date.Add(time);
 
-            return Ok(await _doctorService.GetDoctorListOnDuty(dateTime));
+            return Ok(await _doctorService.GetDoctorListOnDuty(date));
         }
     }
 }

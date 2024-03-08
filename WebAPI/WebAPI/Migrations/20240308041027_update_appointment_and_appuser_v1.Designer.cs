@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Infrastructure.Context;
 
@@ -11,9 +12,10 @@ using WebAPI.Infrastructure.Context;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DoctorAppointmentSystemContext))]
-    partial class DoctorAppointmentSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20240308041027_update_appointment_and_appuser_v1")]
+    partial class update_appointment_and_appuser_v1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,7 +268,7 @@ namespace WebAPI.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("DeletedFlag")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
