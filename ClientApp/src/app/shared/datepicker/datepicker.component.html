@@ -4,7 +4,8 @@
   type="text"
   mwlFlatpickr
   [altInput]="true"
-  [defaultValue]="'25-01-2023'"
-  altFormat="d M, Y"
+  [defaultValue]="'today'"
+  altFormat="d/m/Y"
   dateFormat="d M, Y"
+  (change)="onDateChange($event)"
 />

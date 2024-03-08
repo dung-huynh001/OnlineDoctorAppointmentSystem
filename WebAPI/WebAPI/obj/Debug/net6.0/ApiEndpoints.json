@@ -154,6 +154,32 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "MakeAppointment",
+    "RelativePath": "api/Appointment/make-appointment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "WebAPI.DTOs.MakeAppointmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "WebAPI.Responses.ApiResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "GetOutOfDate",
     "RelativePath": "api/Appointment/out-of-date",
     "HttpMethod": "GET",
@@ -368,11 +394,6 @@
       {
         "Name": "date",
         "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "time",
-        "Type": "System.TimeSpan",
         "IsRequired": false
       }
     ],

@@ -19,6 +19,12 @@ import { SimplebarAngularModule } from 'simplebar-angular';
 import { CountUpModule } from 'ngx-countup';
 import { NgbdListSortableHeader } from './schedule-of-doctors/list-sortable.directive';
 import { AccountModule } from '../account/account.module';
+import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
+import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { DepartmentManagementComponent } from './department-management/department-management.component';
+
 
 @NgModule({
   declarations: [
@@ -29,6 +35,8 @@ import { AccountModule } from '../account/account.module';
     CustomerCareComponent,
     SitemapComponent,
     NgbdListSortableHeader,
+    AssignScheduleComponent,
+    DepartmentManagementComponent,
   ],
   imports: [
     CommonModule,
@@ -45,11 +53,15 @@ import { AccountModule } from '../account/account.module';
     FlatpickrModule,
     SimplebarAngularModule,
     ComponentsModule,
-    AccountModule
+    AccountModule,
+    NgxMaskPipe,
+    PickerModule,
+    FullCalendarModule,
   ],
   providers: [
     DecimalPipe,
-    DatePipe
+    DatePipe,
+    provideNgxMask(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

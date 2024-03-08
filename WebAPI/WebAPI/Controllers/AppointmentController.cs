@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.DTOs;
 using WebAPI.Interfaces.IService;
+using WebAPI.Responses;
 
 namespace WebAPI.Controllers
 {
@@ -127,6 +128,12 @@ namespace WebAPI.Controllers
                 default:
                     throw new Exception("UserType is invalid");
             }
+        }
+
+        [HttpPost("make-appointment")]
+        public async Task<ActionResult<ApiResponse>> MakeAppointment(MakeAppointmentDto model)
+        {
+            return Ok();
         }
     }
 }

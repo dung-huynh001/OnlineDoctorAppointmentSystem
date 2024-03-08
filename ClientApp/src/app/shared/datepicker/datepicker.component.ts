@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-datepicker',
@@ -8,11 +8,16 @@ import { Component, Input, OnInit } from '@angular/core';
 
 export class DatepickerComponent implements OnInit{
   @Input() title?: string;
-  
+  @Output() dateChange = new EventEmitter();
+  today: string = new Date().toLocaleDateString();;
   constructor() {}
 
   ngOnInit() {
-
+    console.log(this.today)
   }
-
+  onDateChange(event: any){
+    const selectedDate = new Date((event.target as HTMLInputElement).value).toLocaleDateString('en-ZA');
+    console.log('from child: ' + selectedDate);
+    this.dateChange.emit(selectedDate);
+  }
 }

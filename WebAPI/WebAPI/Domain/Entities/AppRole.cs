@@ -15,7 +15,7 @@ namespace WebAPI.Domain.Entities
         public DateTime? CreatedDate { get; set; }
         public string? UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
-        public bool DeletedFlag { get; set; }
+        public bool IsDeleted { get; set; }
 
     }
 }

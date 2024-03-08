@@ -50,7 +50,7 @@ namespace WebAPI.Infrastructure.Context
                 entity.Property(e => e.AdviceToPatient)
                     .HasMaxLength(256);
 
-                entity.Property(e => e.AppoimentStatus)
+                entity.Property(e => e.AppointmentStatus)
                     .HasMaxLength(256);
 
                 entity.Property(e => e.AppointmentDate)
@@ -83,10 +83,10 @@ namespace WebAPI.Infrastructure.Context
 
                 entity.Property(e => e.DoctorId);
 
-                entity.Property(e => e.Drugallergies)
+                entity.Property(e => e.DrugAllergies)
                     .HasMaxLength(256);
 
-                entity.Property(e => e.Existingillness)
+                entity.Property(e => e.ExistingIllness)
                     .HasMaxLength(256);
 
                 entity.Property(e => e.LabTests)
@@ -404,7 +404,7 @@ namespace WebAPI.Infrastructure.Context
                     .HasColumnType("datetime");
 
 
-                entity.Property(e => e.DeletedFlag);
+                entity.Property(e => e.IsDeleted);
 
 
                 entity.Property(e => e.UpdatedBy)
@@ -524,7 +524,7 @@ namespace WebAPI.Infrastructure.Context
                     .HasColumnType("datetime");
 
 
-                entity.Property(e => e.DeletedFlag);
+                entity.Property(e => e.IsDeleted);
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
@@ -532,23 +532,23 @@ namespace WebAPI.Infrastructure.Context
                     .HasColumnName("EMAIL")
                     .IsFixedLength();
 
-                entity.Property(e => e.Passwordrecoveryans1)
+                entity.Property(e => e.PasswordRecoveryAns1)
                     .HasMaxLength(256);
 
 
-                entity.Property(e => e.Passwordrecoveryans2)
+                entity.Property(e => e.PasswordRecoveryAns2)
                     .HasMaxLength(256);
 
 
-                entity.Property(e => e.Passwordrecoveryans3)
+                entity.Property(e => e.PasswordRecoveryAns3)
                     .HasMaxLength(256);
 
 
-                entity.Property(e => e.Passwordrecoveryque1);
+                entity.Property(e => e.PasswordRecoveryQue1);
 
-                entity.Property(e => e.Passwordrecoveryque2);
+                entity.Property(e => e.PasswordRecoveryQue2);
 
-                entity.Property(e => e.Passwordrecoveryque3);
+                entity.Property(e => e.PasswordRecoveryQue3);
 
 
                 entity.Property(e => e.Status);

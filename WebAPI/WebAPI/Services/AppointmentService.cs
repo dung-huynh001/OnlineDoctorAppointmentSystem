@@ -30,7 +30,7 @@ namespace WebAPI.Services
                     PatientName = a.Patient.FullName,
                     AppointmentDate = a.AppointmentDate.Value,
                     DateOfConsultation = a.DateOfConsultation,
-                    Status = a.AppoimentStatus,
+                    Status = a.AppointmentStatus,
                     ClosedBy = a.ClosedBy,
                     ClosedDate = a.ClosedDate.Value,
                     CreatedBy = a.CreatedBy,
@@ -70,7 +70,7 @@ namespace WebAPI.Services
                 PatientName = a.Patient.FullName,
                 AppointmentDate = a.AppointmentDate.Value,
                 DateOfConsultation = a.DateOfConsultation,
-                Status = a.AppoimentStatus,
+                Status = a.AppointmentStatus,
                 ClosedBy = a.ClosedBy,
                 ClosedDate = a.ClosedDate.Value,
                 CreatedBy = a.CreatedBy,
@@ -83,7 +83,7 @@ namespace WebAPI.Services
         public async Task<List<GetAppointmentToDrawTableDto>> GetCancelled()
         {
             var result = await _unitOfWork.Repository<Appointment>().GetAll
-                .Where(a => a.IsDeleted != true && a.AppoimentStatus.ToLower().Trim() == "cancel")
+                .Where(a => a.IsDeleted != true && a.AppointmentStatus.ToLower().Trim() == "cancel")
                 .Include(a => a.Patient)
                 .Include(a => a.Schedule.Doctor)
                 .Select(a => new GetAppointmentToDrawTableDto
@@ -93,7 +93,7 @@ namespace WebAPI.Services
                     PatientName = a.Patient.FullName,
                     AppointmentDate = a.AppointmentDate.Value,
                     DateOfConsultation = a.DateOfConsultation,
-                    Status = a.AppoimentStatus,
+                    Status = a.AppointmentStatus,
                     ClosedBy = a.ClosedBy,
                     ClosedDate = a.ClosedDate.Value,
                     CreatedBy = a.CreatedBy,
@@ -110,13 +110,13 @@ namespace WebAPI.Services
             {
                 case "patient":
                     data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppoimentStatus.Trim().ToLower() == "cancel" && a.PatientId == id)
+                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "cancel" && a.PatientId == id)
                                 .Include(a => a.Patient)
                                 .Include(a => a.Schedule.Doctor);
                     break;
                 case "doctor":
                     data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppoimentStatus.Trim().ToLower() == "cancel" && a.DoctorId == id)
+                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "cancel" && a.DoctorId == id)
                                 .Include(a => a.Patient)
                                 .Include(a => a.Schedule.Doctor);
                     break;
@@ -133,7 +133,7 @@ namespace WebAPI.Services
                 PatientName = a.Patient.FullName,
                 AppointmentDate = a.AppointmentDate.Value,
                 DateOfConsultation = a.DateOfConsultation,
-                Status = a.AppoimentStatus,
+                Status = a.AppointmentStatus,
                 ClosedBy = a.ClosedBy,
                 ClosedDate = a.ClosedDate.Value,
                 CreatedBy = a.CreatedBy,
@@ -146,7 +146,7 @@ namespace WebAPI.Services
         public async Task<List<GetAppointmentToDrawTableDto>> GetCompleted()
         {
             var result = await _unitOfWork.Repository<Appointment>().GetAll
-                .Where(a => a.IsDeleted != true && a.AppoimentStatus.ToLower().Trim() == "completed")
+                .Where(a => a.IsDeleted != true && a.AppointmentStatus.ToLower().Trim() == "completed")
                 .Include(a => a.Patient)
                 .Include(a => a.Schedule.Doctor)
                 .Select(a => new GetAppointmentToDrawTableDto
@@ -156,7 +156,7 @@ namespace WebAPI.Services
                     PatientName = a.Patient.FullName,
                     AppointmentDate = a.AppointmentDate.Value,
                     DateOfConsultation = a.DateOfConsultation,
-                    Status = a.AppoimentStatus,
+                    Status = a.AppointmentStatus,
                     ClosedBy = a.ClosedBy,
                     ClosedDate = a.ClosedDate.Value,
                     CreatedBy = a.CreatedBy,
@@ -173,13 +173,13 @@ namespace WebAPI.Services
             {
                 case "patient":
                     data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppoimentStatus.Trim().ToLower() == "completed" && a.PatientId == id)
+                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "completed" && a.PatientId == id)
                                 .Include(a => a.Patient)
                                 .Include(a => a.Schedule.Doctor);
                     break;
                 case "doctor":
                     data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppoimentStatus.Trim().ToLower() == "completed" && a.DoctorId == id)
+                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "completed" && a.DoctorId == id)
                                 .Include(a => a.Patient)
                                 .Include(a => a.Schedule.Doctor);
                     break;
@@ -196,7 +196,7 @@ namespace WebAPI.Services
                 PatientName = a.Patient.FullName,
                 AppointmentDate = a.AppointmentDate.Value,
                 DateOfConsultation = a.DateOfConsultation,
-                Status = a.AppoimentStatus,
+                Status = a.AppointmentStatus,
                 ClosedBy = a.ClosedBy,
                 ClosedDate = a.ClosedDate.Value,
                 CreatedBy = a.CreatedBy,
@@ -209,7 +209,7 @@ namespace WebAPI.Services
         public async Task<List<GetAppointmentToDrawTableDto>> GetOutOfDate()
         {
             var result = await _unitOfWork.Repository<Appointment>().GetAll
-                .Where(a => a.IsDeleted != true && a.AppoimentStatus.ToLower().Trim() == "confirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) <= 0)
+                .Where(a => a.IsDeleted != true && a.AppointmentStatus.ToLower().Trim() == "confirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) <= 0)
                 .Include(a => a.Patient)
                 .Include(a => a.Schedule.Doctor)
                 .Select(a => new GetAppointmentToDrawTableDto
@@ -219,7 +219,7 @@ namespace WebAPI.Services
                     PatientName = a.Patient.FullName,
                     AppointmentDate = a.AppointmentDate.Value,
                     DateOfConsultation = a.DateOfConsultation,
-                    Status = a.AppoimentStatus,
+                    Status = a.AppointmentStatus,
                     ClosedBy = a.ClosedBy,
                     ClosedDate = a.ClosedDate.Value,
                     CreatedBy = a.CreatedBy,
@@ -236,13 +236,13 @@ namespace WebAPI.Services
             {
                 case "patient":
                     data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppoimentStatus.Trim().ToLower() == "confirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) <= 0 && a.PatientId == id)
+                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "confirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) <= 0 && a.PatientId == id)
                                 .Include(a => a.Patient)
                                 .Include(a => a.Schedule.Doctor);
                     break;
                 case "doctor":
                     data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppoimentStatus.Trim().ToLower() == "comfirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) <= 0 && a.DoctorId == id)
+                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "comfirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) <= 0 && a.DoctorId == id)
                                 .Include(a => a.Patient)
                                 .Include(a => a.Schedule.Doctor);
                     break;
@@ -259,7 +259,7 @@ namespace WebAPI.Services
                 PatientName = a.Patient.FullName,
                 AppointmentDate = a.AppointmentDate.Value,
                 DateOfConsultation = a.DateOfConsultation,
-                Status = a.AppoimentStatus,
+                Status = a.AppointmentStatus,
                 ClosedBy = a.ClosedBy,
                 ClosedDate = a.ClosedDate.Value,
                 CreatedBy = a.CreatedBy,
@@ -272,7 +272,7 @@ namespace WebAPI.Services
         public async Task<List<GetAppointmentToDrawTableDto>> GetWaiting()
         {
             var result = await _unitOfWork.Repository<Appointment>().GetAll
-                .Where(a => a.IsDeleted != true && a.AppoimentStatus.ToLower().Trim() == "confirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) > 0)
+                .Where(a => a.IsDeleted != true && a.AppointmentStatus.ToLower().Trim() == "confirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) > 0)
                 .Include(a => a.Patient)
                 .Include(a => a.Schedule.Doctor)
                 .Select(a => new GetAppointmentToDrawTableDto
@@ -282,7 +282,7 @@ namespace WebAPI.Services
                     PatientName = a.Patient.FullName,
                     AppointmentDate = a.AppointmentDate.Value,
                     DateOfConsultation = a.DateOfConsultation,
-                    Status = a.AppoimentStatus,
+                    Status = a.AppointmentStatus,
                     ClosedBy = a.ClosedBy,
                     ClosedDate = a.ClosedDate.Value,
                     CreatedBy = a.CreatedBy,
@@ -299,13 +299,13 @@ namespace WebAPI.Services
             {
                 case "patient":
                     data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppoimentStatus.Trim().ToLower() == "confirm" && a.PatientId == id)
+                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "confirm" && a.PatientId == id)
                                 .Include(a => a.Patient)
                                 .Include(a => a.Schedule.Doctor);
                     break;
                 case "doctor":
                     data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppoimentStatus.Trim().ToLower() == "confirm" && a.DoctorId == id)
+                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "confirm" && a.DoctorId == id)
                                 .Include(a => a.Patient)
                                 .Include(a => a.Schedule.Doctor);
                     break;
@@ -322,7 +322,7 @@ namespace WebAPI.Services
                 PatientName = a.Patient.FullName,
                 AppointmentDate = a.AppointmentDate.Value,
                 DateOfConsultation = a.DateOfConsultation,
-                Status = a.AppoimentStatus,
+                Status = a.AppointmentStatus,
                 ClosedBy = a.ClosedBy,
                 ClosedDate = a.ClosedDate.Value,
                 CreatedBy = a.CreatedBy,
