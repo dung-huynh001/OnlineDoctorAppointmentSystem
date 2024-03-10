@@ -24,7 +24,16 @@ import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { DepartmentManagementComponent } from './department-management/department-management.component';
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 
+
+const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
+  url: 'https://httpbin.org/post',
+  maxFilesize: 50,
+  acceptedFiles: 'image/*'
+};
 
 @NgModule({
   declarations: [
@@ -57,11 +66,16 @@ import { DepartmentManagementComponent } from './department-management/departmen
     NgxMaskPipe,
     PickerModule,
     FullCalendarModule,
+    DropzoneModule,
   ],
   providers: [
     DecimalPipe,
     DatePipe,
     provideNgxMask(),
+    {
+      provide: DROPZONE_CONFIG,
+      useValue: DEFAULT_DROPZONE_CONFIG
+    }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
