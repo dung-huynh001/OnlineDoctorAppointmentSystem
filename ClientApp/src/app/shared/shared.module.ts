@@ -9,6 +9,7 @@ import { TimepickerComponent } from './timepicker/timepicker.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask, IConfig } from 'ngx-mask';
 import { TablesModule } from './tables/tables.module';
 
+
 @NgModule({
   declarations: [
     BreadcrumbsComponent,
@@ -29,7 +30,6 @@ import { TablesModule } from './tables/tables.module';
     DatepickerComponent,
     TimepickerComponent,
     TablesModule,
-    
   ],
   providers:[
     provideNgxMask(),

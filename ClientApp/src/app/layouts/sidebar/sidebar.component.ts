@@ -1,15 +1,16 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MenuItem } from './menu.model';
 import { MENU_ADMIN, MENU_DOCTOR, MENU_PATIENT } from './menu';
 import { TranslateService } from '@ngx-translate/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit, AfterViewInit {
 
   menu: any;
   toggle: any = true;
@@ -17,7 +18,7 @@ export class SidebarComponent {
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   @Output() mobileMenuButtonClicked = new EventEmitter();
 
-  constructor(private router: Router, public translate: TranslateService) {
+  constructor(private router: Router, public translate: TranslateService, private _authService: AuthService) {
     translate.setDefaultLang('en');
   }
 
@@ -40,6 +41,13 @@ export class SidebarComponent {
     setTimeout(() => {
       this.initActiveMenu();
     }, 0);
+
+    const sideNavElement = document.getElementsByClassName('side-nav-link-ref nav-link menu-link');
+    const btnLogOff = sideNavElement[sideNavElement.length - 1];
+    btnLogOff.setAttribute('id', 'btn-logout');
+    btnLogOff.addEventListener('click', () => {
+      this.logOut()
+    });
   }
 
 
@@ -235,5 +243,12 @@ export class SidebarComponent {
   SidebarHide() {
     document.body.classList.remove('vertical-sidebar-enable');
   }
+
+
+  logOut() {
+    this._authService.logout();
+    this.router.navigate(['/auth/login']);
+  }
+
 
 }

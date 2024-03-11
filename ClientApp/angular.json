@@ -47,11 +47,16 @@
               "src/assets/scss/config/modern/bootstrap.scss",
               "src/assets/scss/config/modern/app.scss",
               "src/assets/scss/icons.scss",
-              "node_modules/@ng-select/ng-select/themes/default.theme.css"
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
+              "node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css",
+              "node_modules/datatables.net-responsive-dt/css/responsive.dataTables.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/slick-carousel/slick/slick.min.js"
+              "node_modules/slick-carousel/slick/slick.min.js",
+              "node_modules/datatables.net/js/dataTables.min.js",
+              "node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js"
             ],
             "allowedCommonJsDependencies": [
               "ev-emitter/ev-emitter",
@@ -97,7 +102,7 @@
               "core-js/modules/es.string.replace.js",
               "core-js/modules/es.weak-map.js",
               "core-js/modules/web.dom-collections.iterator.js"
-           ]
+            ]
           },
           "configurations": {
             "production": {

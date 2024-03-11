@@ -943,14 +943,14 @@ File: Custom Css File
           .paginate_button {
               padding: $pagination-padding-y $pagination-padding-x;
               border-radius: $pagination-border-radius-sm;
-              border: $pagination-border-width solid $pagination-border-color;
+              // border: $pagination-border-width solid $pagination-border-color;
 
               &.disabled,
               &.disabled:hover,
               &.disabled:active {
                   cursor: default;
                   color: #666;
-                  border: $pagination-border-width solid $pagination-border-color;
+                  // border: $pagination-border-width solid $pagination-border-color;
                   background: transparent;
                   box-shadow: none;
               }
