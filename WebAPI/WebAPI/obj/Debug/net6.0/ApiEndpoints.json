@@ -370,7 +370,7 @@
   {
     "ContainingType": "WebAPI.Controllers.DepartmentController",
     "Method": "Create",
-    "RelativePath": "api/Department/department/create",
+    "RelativePath": "api/Department/create",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -381,6 +381,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DepartmentController",
+    "Method": "GetAll",
+    "RelativePath": "api/Department/get-all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

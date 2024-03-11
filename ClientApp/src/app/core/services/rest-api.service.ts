@@ -14,9 +14,9 @@ const httpOptions = {
 export class RestApiService {
   constructor(private http: HttpClient) { }
 
-  get(url:string, query: string): Observable<any> {
+  get(url:string, query: any): Observable<any> {
     var headerToken = { 'Authorization': `Bearer ` + localStorage.getItem('token') };
-    return this.http.get(environment.serverApi + `/api` + url + query, { headers: headerToken, responseType: 'json' });
+    return this.http.get<Observable<any>>(environment.serverApi + `/api` + url + query, { headers: headerToken, responseType: 'json' });
   }
 
   put(url: string, data: any): Observable<any> {

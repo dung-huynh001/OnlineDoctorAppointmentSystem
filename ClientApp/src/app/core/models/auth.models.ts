@@ -25,8 +25,3 @@ export class User {
     return user;
   }
 }
-
-export class Unauthorize{
-  message?: string;
-  statusCode?: string;
-}

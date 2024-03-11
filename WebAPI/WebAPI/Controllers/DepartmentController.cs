@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
             this._departmentService = departmentService;
         }
 
-        [HttpPost("department/create")]
+        [HttpPost("create")]
         public async Task<ActionResult> Create(CreateDepartmentDto model)
         {
             var validator = new CreateDepartmentValidator();
@@ -28,5 +28,11 @@ namespace WebAPI.Controllers
             }
             return Ok(await _departmentService.Create(model));
         }
+
+        [HttpGet("get-all")]
+        public async Task<ActionResult> GetAll()
+        {
+            return Ok(await _departmentService.GetAll());
+        } 
     }
 }

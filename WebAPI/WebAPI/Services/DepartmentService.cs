@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using WebAPI.Domain.Entities;
 using WebAPI.DTOs;
 using WebAPI.Interfaces;
@@ -43,6 +44,12 @@ namespace WebAPI.Services
                     Message = "Create new department failed!"
                 };
             }
+        }
+
+        public async Task<List<Department>> GetAll()
+        {
+            var result = await _unitOfWork.Repository<Department>().GetAll.ToListAsync();
+            return result;
         }
     }
 }
