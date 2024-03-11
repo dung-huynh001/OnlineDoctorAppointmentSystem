@@ -8,5 +8,6 @@ namespace WebAPI.Interfaces.IService
     {
         Task<ApiResponse> Create(CreateDepartmentDto model);
         Task<List<Department>> GetAll();
+        Task<ApiResponse> Delete(int id);
     }
 }

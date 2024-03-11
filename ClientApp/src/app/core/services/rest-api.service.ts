@@ -31,8 +31,8 @@ export class RestApiService {
     return this.http.patch(environment.serverApi + `/api` + url + `/${data.id}`, data, httpOptions)
   }
 
-  delete(url: string): Observable<any> {
-    return this.http.delete(environment.serverApi + `/api` + url, httpOptions)
+  delete(url: string, query: any): Observable<any> {
+    return this.http.delete(environment.serverApi + `/api` + url + query, httpOptions)
   }
 
   /**

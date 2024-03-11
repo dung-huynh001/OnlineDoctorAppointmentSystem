@@ -51,5 +51,17 @@ namespace WebAPI.Services
             var result = await _unitOfWork.Repository<Department>().GetAll.ToListAsync();
             return result;
         }
+
+        public async Task<ApiResponse> Delete(int id)
+        {
+            var department = await _unitOfWork.Repository<Department>().GetByIdAsync(id);
+            if(department.Doctors.Count != 0)
+            {
+                throw new Exception("You cannot delete a department that already has a doctor attached to it");
+            }
+            int deletedId = await _unitOfWork.Repository<Department>().DeleteByIdAsync(id);
+
+            return new ApiResponse();
+        }
     }
 }

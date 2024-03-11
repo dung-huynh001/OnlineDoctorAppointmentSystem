@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
 
         [HttpPost("create")]
         public async Task<ActionResult> Create(CreateDepartmentDto model)
-        {
+         {
             var validator = new CreateDepartmentValidator();
             var validatorResult = await validator.ValidateAsync(model);
             if(!validatorResult.IsValid)
