@@ -16,41 +16,41 @@ export const MENU_PATIENT: MenuItem[] = [
     id: 3,
     label: 'MENUITEMS.MAKEAPPOINTMENT.TEXT',
     icon: 'las la-calendar-plus',
-    link: 'make-appointment'
+    link: '/patient/make-appointment'
   },
   {
     id: 4,
-    label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.TEXT',
+    label: 'MENUITEMS.MANAGEAPPOINTMENT.TEXT',
     icon: 'las la-calendar',
     subItems: [
       {
         id: 5,
-        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.ALL',
-        link: '/appointment-management',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.ALL',
+        link: '/patient/appointment/all',
         parentId: 4
       },
       {
         id: 6,
-        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.WAITING',
-        link: '/appointment-management/waiting',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.WAITING',
+        link: '/patient/appointment/waiting',
         parentId: 4
       },
       {
         id: 7,
-        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.COMPLETE',
-        link: '/appointment-management/completed',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.COMPLETE',
+        link: '/patient/appointment/completed',
         parentId: 4
       },
       {
         id: 8,
-        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.OUTOFDATE',
-        link: '/appointment-management/out-of-date',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.OUTOFDATE',
+        link: '/patient/appointment/out-of-date',
         parentId: 4
       },
       {
         id: 9,
-        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.CANCEL',
-        link: '/appointment-management/cancelled',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.CANCEL',
+        link: '/patient/appointment/cancelled',
         parentId: 4
       },
     ]
@@ -178,36 +178,36 @@ export const MENU_DOCTOR: MenuItem[] = [
   },
   {
     id: 3,
-    label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.TEXT',
+    label: 'MENUITEMS.MANAGEAPPOINTMENT.TEXT',
     icon: 'las la-calendar',
     subItems: [
       {
         id: 4,
-        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.ALL',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.ALL',
         link: '',
         parentId: 3
       },
       {
         id: 5,
-        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.WAITING',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.WAITING',
         link: '',
         parentId: 3
       },
       {
         id: 6,
-        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.COMPLETE',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.COMPLETE',
         link: '',
         parentId: 3
       },
       {
         id: 7,
-        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.OUTOFDATE',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.OUTOFDATE',
         link: '',
         parentId: 3
       },
       {
         id: 8,
-        label: 'MENUITEMS.MANAGEMENTAPPOINTMENT.LIST.CANCEL',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.CANCEL',
         link: '',
         parentId: 3
       },

@@ -1,12 +1,22 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+import { MakeAppointmentComponent } from './make-appointment/make-appointment.component';
 
-
+const routes: Routes = [
+  {
+    path: 'appointment',
+    loadChildren: () => import('./appointment/appointment.module').then((m) => m.AppointmentModule)
+  },
+  {
+    path: 'make-appointment',
+    component: MakeAppointmentComponent
+  }
+]
 
 @NgModule({
-  declarations: [],
   imports: [
-    CommonModule
-  ]
+    RouterModule.forChild(routes)
+  ],
+  exports: [RouterModule]
 })
 export class PatientRoutingModule { }

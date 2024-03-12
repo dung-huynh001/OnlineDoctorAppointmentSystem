@@ -14,7 +14,6 @@ import { DataTableDirective } from 'angular-datatables';
 })
 export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
   breadCrumbItems!: Array<{}>;
-  // maxFileSize: number = 2097152;
   formAddDepartment!: FormGroup;
   submitted: boolean = false;
   @ViewChild(DataTableDirective, { static: false })

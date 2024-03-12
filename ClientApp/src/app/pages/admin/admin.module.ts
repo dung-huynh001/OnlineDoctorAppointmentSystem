@@ -6,19 +6,29 @@ import { DepartmentComponent } from './department/department.component';
 import { defineElement } from 'lord-icon-element';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
+import { ManageScheduleComponent } from './manage-schedule/manage-schedule.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { CountUpModule } from 'ngx-countup';
+import { ManageDoctorComponent } from './manage-doctor/manage-doctor.component';
+import { SharedModule } from '../../shared/shared.module';
 
 
 
 @NgModule({
   declarations: [
-    DepartmentComponent
+    DepartmentComponent,
+    ManageScheduleComponent,
+    ManageDoctorComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    DataTablesModule
+    DataTablesModule,
+    NgbNavModule,
+    CountUpModule,
+    SharedModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -37,8 +37,8 @@
       }
     },
 
-    "MANAGEMENTAPPOINTMENT": {
-      "TEXT": "Appointment Management",
+    "MANAGEAPPOINTMENT": {
+      "TEXT": "Manage Appointments",
       "LIST": {
         "ALL": "All",
         "CANCEL": "Cancelled",

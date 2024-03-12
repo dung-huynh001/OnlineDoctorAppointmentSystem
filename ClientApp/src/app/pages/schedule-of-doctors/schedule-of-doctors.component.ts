@@ -43,7 +43,7 @@ export class ScheduleOfDoctorsComponent implements OnInit {
     * BreadCrumb
     */
     this.breadCrumbItems = [
-      { label: 'Menu' },
+      { label: 'Home' },
       { label: 'Schedule of doctors', active: true }
     ];
 

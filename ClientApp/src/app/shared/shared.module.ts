@@ -7,6 +7,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { TimepickerComponent } from './timepicker/timepicker.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask, IConfig } from 'ngx-mask';
+import { ToastContainerComponent } from './toast-container/toast-container.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask, IConfig } from 'ngx-mask
     EditorComponent,
     DatepickerComponent,
     TimepickerComponent,
+    ToastContainerComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask, IConfig } from 'ngx-mask
     EditorComponent,
     DatepickerComponent,
     TimepickerComponent,
+    ToastContainerComponent,
   ],
   providers:[
     provideNgxMask(),

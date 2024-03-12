@@ -51,20 +51,33 @@
         </div>
     </div>
 </div>
-<!--end row-->
 
 <div class="row">
     <div class="col-lg-12">
         <div class="card" id="ticketsList">
             <div class="card-header border-0">
                 <div class="d-flex align-items-center">
-                    <h5 class="card-title mb-0 flex-grow-1">Schedules</h5>
+                    <h5 class="card-title mb-0 flex-grow-1">Doctor List</h5>
                     <div class="flex-shrink-0 d-flex gap-1">
-                        <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#showModal"
-                            (click)="openModal(content)"><i class="ri-add-line align-bottom me-1"></i>
-                            Create Tickets</button>
-                        <button class="btn btn-secondary" id="remove-actions" style="display: none"
-                            (click)="deleteMultiple(deleteModel)"><i class="ri-delete-bin-2-line"></i></button>
+                        <div class="list-grid-nav hstack gap-1">
+                            <ul ngbNav #Border="ngbNav" [activeId]="1" class="d-flex gap-1">
+                                <li [ngbNavItem]="1">
+                                    <a ngbNavLink id="list-view-button" ngbTooltip="List View"
+                                        class="btn btn-soft-info nav-link  btn-icon fs-14 filter-button">
+                                        <i class="ri-list-unordered"></i>
+                                    </a>
+                                </li>
+                                <li [ngbNavItem]="2">
+                                    <a ngbNavLink class="btn btn-soft-info nav-link btn-icon fs-14 filter-button" ngbTooltip="Grid View"
+                                        id="grid-view-button">
+                                        <i class="ri-grid-fill"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#showModal"
+                                (click)="openModal(content)"><i class="ri-add-line align-bottom me-1"></i>
+                                Add Schedule</button> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -109,6 +122,7 @@
                 </div>
                 <!--end row-->
             </div>
+
             <!--end card-body-->
             <div class="card-body">
                 <div class="table-responsive table-card mb-3">
@@ -181,8 +195,7 @@
                                                         class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                     Edit</a></li>
                                             <li>
-                                                <a class="dropdown-item remove-item-btn" data-bs-toggle="modal"
-                                                    (click)="confirm(deleteModel,data._id)">
+                                                <a class="dropdown-item remove-item-btn" data-bs-toggle="modal">
                                                     <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
                                                     Delete
                                                 </a>
@@ -227,7 +240,7 @@
 </div>
 <!--end row-->
 
-<ng-template #content role="document" let-modal>
+<!-- <ng-template #content role="document" let-modal>
     <div class="modal-header p-3 bg-info-subtle">
         <h5 class="modal-title" id="exampleModalLabel">Add Ticket</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"
@@ -331,10 +344,10 @@
             </div>
         </div>
     </form>
-</ng-template>
+</ng-template> -->
 
 <!-- removeItemModal -->
-<ng-template #deleteModel let-modal>
+<!-- <ng-template #deleteModel let-modal>
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
@@ -358,5 +371,5 @@
                     (click)="modal.close('Close click')">Yes, Delete It!</button>
             </div>
         </div>
-    </div><!-- /.modal-content -->
-</ng-template>
+    </div>
+</ng-template> -->
