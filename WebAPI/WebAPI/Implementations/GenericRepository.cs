@@ -52,9 +52,10 @@ namespace WebAPI.Implementations
         public async Task<TEntity> GetByIdAsync(int id)
         {
             var entity = await _context.Set<TEntity>().FindAsync(id);
-            if(entity == null || entity.IsDeleted)
+            if(entity == null)
             {
-                throw new NotFoundException(typeof(TEntity).ToString(), id);
+                var typeOfEntity = typeof(TEntity).ToString();
+                throw new NotFoundException(typeOfEntity.Substring(typeOfEntity.LastIndexOf(".") + 1) + " with ID =", id);
             }
             return entity;
         }

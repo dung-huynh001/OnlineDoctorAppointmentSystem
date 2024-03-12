@@ -1,30 +1,20 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  Renderer2,
-  TemplateRef,
-} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RestApiService } from '../../core/services/rest-api.service';
 import { Subject, catchError, throwError } from 'rxjs';
+import { ToastService } from '../../../account/login/toast-service';
 import { DatePipe } from '@angular/common';
+import { RestApiService } from '../../../core/services/rest-api.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataTableDirective } from 'angular-datatables';
-import { ToastService } from '../../account/login/toast-service';
 
 @Component({
-  selector: 'app-department-management',
-  templateUrl: './department-management.component.html',
-  styleUrl: './department-management.component.scss',
+  selector: 'app-department',
+  templateUrl: './department.component.html',
+  styleUrl: './department.component.scss',
 })
-export class DepartmentManagementComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
   breadCrumbItems!: Array<{}>;
-  maxFileSize: number = 2097152;
+  // maxFileSize: number = 2097152;
   formAddDepartment!: FormGroup;
   submitted: boolean = false;
   @ViewChild(DataTableDirective, { static: false })
@@ -216,21 +206,21 @@ export class DepartmentManagementComponent
       if (this.editMode) {
         const data = {
           id: this.editId,
-          departmentName: formData.departmentName
-        }
+          departmentName: formData.departmentName,
+        };
         this._restApiService
-        .patch('/Department/update', data.id, data)
-        .pipe(
-          catchError((err) => {
-            return throwError(() => err);
-          })
-        )
-        .subscribe((res) => {
-          if (res.isSuccess) {
-            this._toastService.success(res.message);
-            this.rerender();
-          }
-        });
+          .patch('/Department/update', data.id, data)
+          .pipe(
+            catchError((err) => {
+              return throwError(() => err);
+            })
+          )
+          .subscribe((res) => {
+            if (res.isSuccess) {
+              this._toastService.success(res.message);
+              this.rerender();
+            }
+          });
       } else {
         this._restApiService
           .post('/Department/create', formData)

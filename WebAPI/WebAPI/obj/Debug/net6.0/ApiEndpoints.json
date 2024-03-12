@@ -385,12 +385,81 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.DepartmentController",
+    "Method": "Delete",
+    "RelativePath": "api/Department/delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DepartmentController",
     "Method": "GetAll",
     "RelativePath": "api/Department/get-all",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DepartmentController",
+    "Method": "Get",
+    "RelativePath": "api/Department/get-department",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "parameters",
+        "Type": "WebAPI.Models.DataTablesParameters",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DepartmentController",
+    "Method": "Restore",
+    "RelativePath": "api/Department/restore",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DepartmentController",
+    "Method": "Update",
+    "RelativePath": "api/Department/update/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "model",
+        "Type": "WebAPI.DTOs.UpdateDepartmentDto",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

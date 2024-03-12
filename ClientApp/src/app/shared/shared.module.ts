@@ -7,7 +7,6 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { TimepickerComponent } from './timepicker/timepicker.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask, IConfig } from 'ngx-mask';
-import { TablesModule } from './tables/tables.module';
 
 
 @NgModule({
@@ -29,7 +28,6 @@ import { TablesModule } from './tables/tables.module';
     EditorComponent,
     DatepickerComponent,
     TimepickerComponent,
-    TablesModule,
   ],
   providers:[
     provideNgxMask(),

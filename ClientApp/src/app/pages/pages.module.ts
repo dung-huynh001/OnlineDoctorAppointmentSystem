@@ -20,21 +20,12 @@ import { CountUpModule } from 'ngx-countup';
 import { NgbdListSortableHeader } from './schedule-of-doctors/list-sortable.directive';
 import { AccountModule } from '../account/account.module';
 import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
-import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { NgxMaskPipe } from 'ngx-mask';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { DepartmentManagementComponent } from './department-management/department-management.component';
 import { DataTablesModule } from 'angular-datatables';
-// import { DropzoneModule } from 'ngx-dropzone-wrapper';
-// import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
-// import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 
-
-// const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
-//   url: 'https://httpbin.org/post',
-//   maxFilesize: 50,
-//   acceptedFiles: 'image/*'
-// };
 
 @NgModule({
   declarations: [
@@ -72,11 +63,6 @@ import { DataTablesModule } from 'angular-datatables';
   providers: [
     DecimalPipe,
     DatePipe,
-    // provideNgxMask(),
-    // {
-    //   provide: DROPZONE_CONFIG,
-    //   useValue: DEFAULT_DROPZONE_CONFIG
-    // }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
