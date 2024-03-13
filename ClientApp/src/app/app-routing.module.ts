@@ -21,7 +21,7 @@ const routes: Routes = [
       import('./extra-pages/extra-pages.module').then(
         (m) => m.ExtraPagesModule
       ),
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   // { path: 'landing', loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule) },
 ];

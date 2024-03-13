@@ -4,6 +4,7 @@ import { ExtraPagesRoutingModule } from './extra-pages-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ComingSoonComponent } from './coming-soon/coming-soon.component';
 import { MaintenanceComponent } from './maintenance/maintenance.component';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 
 
 
@@ -11,7 +12,8 @@ import { MaintenanceComponent } from './maintenance/maintenance.component';
   declarations: [
     PageNotFoundComponent,
     ComingSoonComponent,
-    MaintenanceComponent
+    MaintenanceComponent,
+    AccessDeniedComponent
   ],
   imports: [
     CommonModule,

@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'medical-process',
-    component: MedicalProcessComponent,
+    component: MedicalProcessComponent, canActivate: [AuthGuard],
   },
   {
     path: 'about',

@@ -191,7 +191,6 @@ export class AssignScheduleComponent {
    * Event click modal show
    */
   handleEventClick(clickInfo: EventClickArg) {
-    debugger
     this.isEditMode = true;
     this.editEvent = clickInfo.event;
     setTimeout(() => {

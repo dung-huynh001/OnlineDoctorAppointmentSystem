@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^17.2.0",
+    "@angular/cdk": "^17.2.2",
     "@angular/common": "^17.2.0",
     "@angular/compiler": "^17.2.0",
     "@angular/core": "^17.2.0",
@@ -40,6 +41,7 @@
     "@popperjs/core": "^2.11.8",
     "@types/quill": "^2.0.14",
     "angular-datatables": "^17.0.0",
+    "angular-ng-stepper": "^2.0.0",
     "angular-shepherd": "^17.0.0",
     "angularx-flatpickr": "^7.3.0",
     "apexcharts": "^3.46.0",
