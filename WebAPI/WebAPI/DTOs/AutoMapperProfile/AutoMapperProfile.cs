@@ -22,6 +22,10 @@ namespace WebAPI.DTOs.AutoMapperProfile
                 .ForMember(des => des.DoctorId, opt => opt.MapFrom(src => src.Id));
             CreateMap<GetAppointmentDetailDto, Appointment>().ReverseMap();
             CreateMap<UpdateDepartmentDto, Department>().ReverseMap();
+            CreateMap<DepartmentToOptiontDto, Department>().ReverseMap();
+            CreateMap<DepartmentToOptiontDto, Department>().ReverseMap();
+            CreateMap<CreateDoctorDto, RegisterModel>().ReverseMap();
+            /*CreateMap<CreateDoctorDto, RegisterModel>().ReverseMap();*//**/
         }
     }
 }

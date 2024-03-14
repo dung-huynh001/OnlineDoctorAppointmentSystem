@@ -1,60 +1,65 @@
 // import { CdkStepper } from '@angular/cdk/stepper';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RestApiService } from '../../../../core/services/rest-api.service';
+import { catchError, throwError } from 'rxjs';
+import { ToastService } from '../../../../core/services/toast.service';
+import { DoctorService } from '../../../../core/services/doctor.service';
 
 @Component({
   selector: 'app-add-doctor',
   templateUrl: './add-doctor.component.html',
   styleUrl: './add-doctor.component.scss',
 })
-export class AddDoctorComponent implements OnInit {
+export class AddDoctorComponent implements OnInit, AfterViewInit {
   breadCrumbItems!: Array<{}>;
   accountForm!: FormGroup;
   doctorInfoForm!: FormGroup;
   workInfoForm!: FormGroup;
-  maxFileSize: number = 204932;
+  maxFileSize: number = 272025;
   accountForm_submitted: boolean = false;
-  accountForm_valid: boolean = false;
   doctorInfoForm_submitted: boolean = false;
-  doctorInfoForm_valid: boolean = false;
-
   workInfoForm_submitted: boolean = false;
-  workInfoForm_valid: boolean = false;
+  avatarFile!: File;
+  currUser: any;
 
   selectedIndex: number = 0;
 
   // Config department select
-  Default = [
-    { name: 'Choice 1', id: 1 },
-    { name: 'Choice 2', id: 2 },
-    { name: 'Choice 3', id: 3 },
-  ];
-  selectedAccount = this.Default[0].name;
+  departmentData = [{}];
+  selectedAccount = 1;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private _restApiService: RestApiService,
+    private _toastService: ToastService,
+    private _doctorService: DoctorService
+  ) {}
   ngOnInit(): void {
+    this.currUser = JSON.parse(localStorage.getItem('currentUser')!);
     this.accountForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      UserType: ['doctor', Validators.required],
+      Email: ['doctor1@gmail.com', [Validators.required, Validators.email]],
+      Username: ['doctor1', Validators.required],
+      Password: ['password123', Validators.required],
+      ConfirmPassword: ['password123', Validators.required],
     });
 
     this.doctorInfoForm = this.formBuilder.group({
-      fullName: ['', Validators.required],
-      nationalId: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
-      gender: ['1', Validators.required],
-      phoneNumber: ['', Validators.required],
-      address: ['', Validators.required],
-      avatar: ['', [Validators.required, Validators.max(this.maxFileSize)]],
+      FullName: ['Hai Nguyen', Validators.required],
+      NationalId: ['93445893493', Validators.required],
+      DateOfBirth: ['06/12/2001', Validators.required],
+      Gender: ['1', Validators.required],
+      PhoneNumber: ['0954958439', Validators.required],
+      Address: ['Hem 51, 3/2', Validators.required],
+      Avatar: [null, [Validators.required, Validators.max(this.maxFileSize)]],
     });
 
     this.workInfoForm = this.formBuilder.group({
-      speciality: ['', Validators.required],
-      department: ['', Validators.required],
-      workingStartDate: ['', Validators.required],
-      workingEndDate: [''],
+      Speciality: ['Brain', Validators.required],
+      DepartmentId: ['', Validators.required],
+      WorkingStartDate: ['06/12/2018', Validators.required],
+      WorkingEndDate: ['06/12/2021', Validators.required],
     });
 
     this.breadCrumbItems = [
@@ -62,6 +67,20 @@ export class AddDoctorComponent implements OnInit {
       { label: 'Doctor Management' },
       { label: 'Create New Doctor', active: true },
     ];
+  }
+
+  ngAfterViewInit(): void {
+    this._restApiService
+      .get('/Department/get-department-to-select', '')
+      .pipe(
+        catchError((err) => {
+          this._toastService.error('Cannot connect to server');
+          return throwError(() => err);
+        })
+      )
+      .subscribe((res) => {
+        this.departmentData = res;
+      });
   }
 
   get accountFormControl() {
@@ -76,54 +95,48 @@ export class AddDoctorComponent implements OnInit {
     return this.doctorInfoForm.controls;
   }
 
-  onSelectionChange(event: any) {
-    if (event.selectedIndex > event.previouslySelectedIndex) {
-      if (true) {
-        event.preventDefault();
-      }
-    }
-  }
-
   accountFormSubmit() {
     this.accountForm_submitted = true;
-    if (this.accountForm.valid) {
-      this.accountForm_valid = true;
-      this.selectedIndex = 1;
-    }
+    this.selectedIndex = 1;
+    // if (this.accountForm.valid) {
+    //   this.selectedIndex = 1;
+    // }
   }
   doctorInfoFormSubmit() {
+    this.selectedIndex = 2;
     this.doctorInfoForm_submitted = true;
-    if (this.doctorInfoForm.valid) {
-      this.doctorInfoForm_valid = true;
-      this.selectedIndex = 2;
-    }
+    // if (this.doctorInfoForm.valid) {
+    //   this.selectedIndex = 2;
+    // }
   }
   workInfoFormSubmit() {
     this.workInfoForm_submitted = true;
+
     if (this.workInfoForm.valid) {
-      this.workInfoForm_valid = true;
+      const data = {
+        ...this.accountForm.value,
+        ...this.doctorInfoForm.value,
+        ...this.workInfoForm.value,
+      };
+      console.log(data);
+
+      this._doctorService
+        .create('/Doctor/create', data)
+        .pipe(catchError(err => {
+          this._toastService.error('Something went wrong');
+          return throwError(() => err);
+        }))
+        .subscribe((res) => {
+          if (res.isSuccess) {
+            this._toastService.success(res.message);
+          }
+        });
     }
   }
 
-  // nextStep() {
-  //   if(this.selectedIndex === 0 && this.accountForm_valid){
-  //     this.selectedIndex = 1;
-  //     console.log(this.selectedIndex)
-
-  //   } else if(this.selectedIndex === 1 && this.doctorInfoForm_valid) {
-  //     this.selectedIndex = 2; 
-  //     console.log(this.selectedIndex)
-
-  //   }
-  // }
-
-  previousStep() {
-    if(this.selectedIndex === 1) {
-      this.selectedIndex = 0;
-    } else if(this.selectedIndex === 2){
-      this.selectedIndex = 1;
-    }
-    console.log(this.selectedIndex)
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    this.doctorInfoForm.get('Avatar')?.setValue(file);
+    console.log(file);
   }
-
 }

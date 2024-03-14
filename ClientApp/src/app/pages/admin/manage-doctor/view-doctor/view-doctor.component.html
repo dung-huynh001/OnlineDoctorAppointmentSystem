@@ -1,1 +1,18 @@
-<p>view-doctor works!</p>
+<app-breadcrumbs title="Department Management" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<div class="card">
+    <div class="card-header border-0">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0 flex-grow-1">Department List</h5>
+            <div class="flex-shrink-0 d-flex gap-1">
+                <button class="btn btn-soft-primary add-btn" data-bs-toggle="modal">
+                    <i class="ri-add-line align-bottom me-1"></i> Add Department</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border border-dashed border-end-0 border-start-0">
+        <div class="table-responsive">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                class="table table-bordered dt-responsive display nowrap" cellspacing="0" width="100%"></table>
+        </div>
+    </div>
+</div>

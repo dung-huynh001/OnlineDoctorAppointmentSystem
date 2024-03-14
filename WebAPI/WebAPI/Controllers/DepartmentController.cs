@@ -60,5 +60,10 @@ namespace WebAPI.Controllers
             return Ok(await _departmentService.Update(id, model));
         }
 
+        [HttpGet("get-department-to-select")]
+        public async Task<ActionResult>GetDepartmentToSelect()
+        {
+            return Ok(await _departmentService.GetDepartmentToSelect());
+        }
     }
 }

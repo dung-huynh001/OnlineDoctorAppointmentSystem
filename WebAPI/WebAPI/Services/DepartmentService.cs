@@ -157,10 +157,10 @@ namespace WebAPI.Services
             }
             catch
             {
-                _unitOfWork.Rollback(); 
+                _unitOfWork.Rollback();
                 throw;
             }
-            
+
         }
 
         public async Task<ApiResponse> Update(int id, UpdateDepartmentDto model)
@@ -183,6 +183,18 @@ namespace WebAPI.Services
                 _unitOfWork.Rollback();
                 throw;
             }
+        }
+
+        public async Task<List<DepartmentToOptiontDto>> GetDepartmentToSelect()
+        {
+            var result = _unitOfWork.Repository<Department>().GetAll
+                .Select(d => new DepartmentToOptiontDto
+                    {
+                        Id = d.Id,
+                        DepartmentName = d.DepartmentName
+                    })
+                .ToListAsync();
+            return await result;
         }
     }
 }

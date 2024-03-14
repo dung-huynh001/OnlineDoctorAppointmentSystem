@@ -27,6 +27,7 @@
   <ItemGroup>
     <Folder Include="Domain\Enums\" />
     <Folder Include="Infrastructure\Configurations\" />
+    <Folder Include="Uploads\Avatars\" />
   </ItemGroup>
 
 </Project>

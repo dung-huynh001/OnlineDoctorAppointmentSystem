@@ -13,5 +13,6 @@ namespace WebAPI.Interfaces.IService
         Task<ApiResponse> Delete(int id);
         Task<ApiResponse> Update(int id, UpdateDepartmentDto department);
         Task<ApiResponse> Restore(int id);
+        Task<List<DepartmentToOptiontDto>> GetDepartmentToSelect();
     }
 }

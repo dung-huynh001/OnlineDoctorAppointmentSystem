@@ -4,7 +4,7 @@ import {ToastService} from './toast-service';
 
 
 @Component({
-  selector: 'app-toasts',
+  selector: 'app-toasts--de',
   template: `
     <ngb-toast
       *ngFor="let toast of toastService.toasts"

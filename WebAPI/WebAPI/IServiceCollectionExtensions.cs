@@ -23,6 +23,7 @@ namespace WebAPI
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUploadService, UploadService>();
 
         }
     }

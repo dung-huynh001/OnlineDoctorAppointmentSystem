@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,6 +24,7 @@ namespace WebAPI.Services
         private readonly IPatientService _patientService;
         private readonly IDoctorService _doctorService;
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
         public AuthService(
             UserManager<AppUser> userManager,
@@ -31,7 +33,8 @@ namespace WebAPI.Services
             IConfiguration configuration,
             IPatientService patientService,
             IDoctorService doctorService,
-            IUserService userService)
+            IUserService userService,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -40,6 +43,7 @@ namespace WebAPI.Services
             _patientService = patientService;
             this._doctorService = doctorService;
             this._userService = userService;
+            this._mapper = mapper;
         }
 
         public async Task<AuthResponse> LoginAsync(LoginModel request)
@@ -105,7 +109,8 @@ namespace WebAPI.Services
             {
                 UserName = request.Username,
                 Email = request.Email,
-                UserType = request.UserType!.Trim().ToLower()
+                UserType = request.UserType!.Trim().ToLower(),
+                AvatarUrl = request.AvatarUrl,
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -132,7 +137,7 @@ namespace WebAPI.Services
                 case "patient":
                     if(!await _patientService.Create(new CreatePatientDto { FullName = user.UserName, UserId = user.Id }))
                     {
-                        await DeleteUser(user.Id);
+                        await DeleteUserAsync(user.Id);
                         throw new Exception("Patient account registration failed");
                     }
                     break;
@@ -148,20 +153,7 @@ namespace WebAPI.Services
             };
         }
 
-
-        public async Task<RegisterResponse> CreateDoctorAccount(RegisterModel model, CreateDoctorDto doctor)
-        {
-            var res = await RegisterAsync(model);
-            doctor.UserId = res.UserId;
-            if(! await _doctorService.Create(doctor))
-            {
-                await DeleteUser(res.UserId);
-                throw new Exception("An error occurred during the doctor account provisioning process");
-            }
-            return res;
-        }
-
-        public async Task<bool> DeleteUser(string id)
+        public async Task<bool> DeleteUserAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if(user == null)

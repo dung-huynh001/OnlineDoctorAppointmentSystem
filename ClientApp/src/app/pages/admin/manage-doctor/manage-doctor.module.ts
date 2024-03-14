@@ -9,6 +9,7 @@ import { NgStepperModule } from 'angular-ng-stepper'
 import { SharedModule } from '../../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DataTablesModule } from 'angular-datatables';
 
 
 
@@ -27,7 +28,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
+    DataTablesModule
   ]
 })
 export class ManageDoctorModule { }

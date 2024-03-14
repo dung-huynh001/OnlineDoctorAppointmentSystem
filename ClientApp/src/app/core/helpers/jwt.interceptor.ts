@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
-    HttpRequest,
-    HttpHandler,
-    HttpEvent,
-    HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -13,36 +13,45 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(
-        private authServiceService: AuthService,
-        private authfackservice: AuthfakeService
-    ) { }
+  constructor(
+    private authServiceService: AuthService,
+    private authfackservice: AuthfakeService
+  ) {}
 
-    intercept(
-        request: HttpRequest<any>,
-        next: HttpHandler
-    ): Observable<HttpEvent<any>> {
-        if (environment.defaultauth === 'firebase') {
-            // add authorization header with jwt token if available
-            let currentUser = this.authServiceService.currentUser();
-            if (currentUser && currentUser.token) {
-                request = request.clone({
-                    setHeaders: {
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                });
-            }
-        } else {
-            // add authorization header with jwt token if available
-            const currentUser = this.authfackservice.currentUserValue;
-            if (currentUser && currentUser.token) {
-                request = request.clone({
-                    setHeaders: {
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                });
-            }
-        }
-        return next.handle(request);
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    // if (environment.defaultauth === 'firebase') {
+    //     // add authorization header with jwt token if available
+    //     let currentUser = this.authServiceService.currentUser();
+    //     if (currentUser && currentUser.token) {
+    //         request = request.clone({
+    //             setHeaders: {
+    //                 Authorization: `Bearer ${currentUser.token}`,
+    //             },
+    //         });
+    //     }
+    // } else {
+    //     // add authorization header with jwt token if available
+    //     const currentUser = this.authfackservice.currentUserValue;
+    //     if (currentUser && currentUser.token) {
+    //         request = request.clone({
+    //             setHeaders: {
+    //                 Authorization: `Bearer ${currentUser.token}`,
+    //             },
+    //         });
+    //     }
+    // }
+
+    if (this.authServiceService.token$.value) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${this.authServiceService.token$.value}`,
+        },
+      });
     }
+
+    return next.handle(request);
+  }
 }

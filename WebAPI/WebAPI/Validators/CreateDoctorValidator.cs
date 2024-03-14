@@ -7,18 +7,18 @@ namespace WebAPI.Validators
     {
         public CreateDoctorValidator()
         {
-            RuleFor(d => d.UserId)
+            /*RuleFor(d => d.UserId)
                 .NotEmpty();
             RuleFor(d => d.PhoneNumber)
                 .NotEmpty();
             RuleFor(d => d.FullName)
                 .NotEmpty();
-            RuleFor(d => d.DepartmentId)
+            RuleFor(d => d.Department)
                 .NotEmpty();
             RuleFor(d => d.NationalId)
                 .NotEmpty();
             RuleFor(d => d.Speciality)
-                .NotEmpty();
+                .NotEmpty();*/
         }
     }
 }

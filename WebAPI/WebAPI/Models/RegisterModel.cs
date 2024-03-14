@@ -11,5 +11,7 @@ namespace WebAPI.Models
         [Required]
         public string Email { get; set; }
         public string? UserType { get; set; }
+        [Required]
+        public string? AvatarUrl { get; set; }
     }
 }
