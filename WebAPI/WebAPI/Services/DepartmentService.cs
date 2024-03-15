@@ -72,9 +72,7 @@ namespace WebAPI.Services
                     || d.CreatedDate.ToString().Trim().ToLower().Contains(searchValue)
                     || d.UpdatedBy.Trim().ToLower().Contains(searchValue)
                     || d.UpdatedDate.ToString().Trim().ToLower().Contains(searchValue)
-                    || d.IsDeleted.ToString().Trim().ToLower().Contains(searchValue))
-                .Skip(parameters.Start)
-                .Take(parameters.Length);
+                    || d.IsDeleted.ToString().Trim().ToLower().Contains(searchValue));
 
             // Filter with order column
             if (parameters.Order.Count() != 0)
@@ -102,6 +100,10 @@ namespace WebAPI.Services
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
                         break;
                 }
+            records = records
+                .Skip(parameters.Start)
+                .Take(parameters.Length);
+
             response.RecordsTotal = recordsTotal;
             response.RecordsFiltered = recordsTotal;
             response.Data = await records.ToListAsync();

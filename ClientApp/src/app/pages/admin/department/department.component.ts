@@ -138,11 +138,15 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
         emptyTable: 'No records found',
       },
       ajax: (dataTablesParameters: any, callback: Function) => {
-        console.log('ajax', dataTablesParameters);
         this._restApiService
           .post('/Department/get-department', dataTablesParameters)
           .pipe(
             catchError((err) => {
+              callback({
+                recordsTotal: 0,
+                recordsFiltered: 0,
+                data: null,
+              });
               return throwError(() => {
                 this._toastService.error('Cannot connect to server!');
                 return err;

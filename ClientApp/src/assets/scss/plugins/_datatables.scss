@@ -54,7 +54,7 @@ table {
                         >td {
                             &.dtr-control {
                                 &::before {
-                                    background-color: $primary;
+                                    background-color: none;
                                     border-color: var(--#{$prefix}secondary-bg);
                                 }
                             }

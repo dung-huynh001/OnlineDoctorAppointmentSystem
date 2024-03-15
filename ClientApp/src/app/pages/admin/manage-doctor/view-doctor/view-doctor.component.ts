@@ -1,7 +1,5 @@
-import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { ToastService } from '../../../../core/services/toast.service';
+import { interval, map } from 'rxjs';
 
 @Component({
   selector: 'app-view-doctor',
@@ -9,54 +7,168 @@ import { ToastService } from '../../../../core/services/toast.service';
   styleUrl: './view-doctor.component.scss',
 })
 export class ViewDoctorComponent implements OnInit, AfterViewInit {
+  UpcomingActivities:
+    | Array<{
+        date?: string;
+        day?: string;
+        time?: string;
+        content?: string;
+        users: Array<{
+          name?: string;
+          profile?: string;
+          variant?: string;
+        }>;
+      }>
+    | undefined;
   breadCrumbItems!: Array<{}>;
-  dtOptions: DataTables.Settings = {};
+  userType = localStorage.getItem('userType');
+  completionLevel!: number;
+  selectedId: number = 1;
+  constructor() {
+    this.completionLevel = 30;
+  }
 
-  dtTrigger: Subject<any> = new Subject();
-
-  constructor(
-    private datePipe: DatePipe,
-    private _toastService: ToastService,
-    private renderer: Renderer2
-  ) {}
-
+  ngAfterViewInit(): void {
+  }
   ngOnInit(): void {
+    /**
+     * BreadCrumb
+     */
     this.breadCrumbItems = [
       { label: 'Home' },
-      { label: 'Department Management', active: true },
+      { label: 'Doctor Management' },
+      { label: 'Doctor Details', active: true },
     ];
 
-    this.dtOptions = {
-      serverSide: true,
-      pagingType: 'full_numbers',
-      processing: true,
-      responsive: true,
-      destroy: true,
-      order: [[1, 'asc']],
-      columnDefs: [
-        { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false },
-        {
-          className: 'dtr-control',
-          orderable: false,
-          width: '15px',
-          searchable: false,
-          targets: 0,
-        },
-      ],
-      language: {
-        emptyTable: 'No records found',
+    this.UpcomingActivities = [
+      {
+        date: '25',
+        day: 'Tue',
+        time: '12:00am - 03:30pm',
+        content: 'Meeting for campaign with sales team',
+        users: [
+          {
+            name: 'Stine Nielsen',
+            profile: 'assets/images/users/avatar-1.jpg',
+          },
+          {
+            name: 'Jansh Brown',
+            profile: 'assets/images/users/avatar-2.jpg',
+          },
+          {
+            name: 'Dan Gibson',
+            profile: 'assets/images/users/avatar-3.jpg',
+          },
+          {
+            name: '5',
+            variant: 'bg-info',
+          },
+        ],
       },
-      columns: [
-        {
-          orderable: false,
-          data: null,
-          defaultContent: '',
-        },
-      ],
-    };
+      {
+        date: '20',
+        day: 'Wed',
+        time: '02:00pm - 03:45pm',
+        content: 'Adding a new event with attachments',
+        users: [
+          {
+            name: 'Frida Bang',
+            profile: 'assets/images/users/avatar-4.jpg',
+          },
+          {
+            name: 'Malou Silva',
+            profile: 'assets/images/users/avatar-5.jpg',
+          },
+          {
+            name: 'Simon Schmidt',
+            profile: 'assets/images/users/avatar-6.jpg',
+          },
+          {
+            name: 'Tosh Jessen',
+            profile: 'assets/images/users/avatar-7.jpg',
+          },
+          {
+            name: '3',
+            variant: 'bg-success',
+          },
+        ],
+      },
+      {
+        date: '17',
+        day: 'Wed',
+        time: '04:30pm - 07:15pm',
+        content: 'Create new project Bundling Product',
+        users: [
+          {
+            name: 'Nina Schmidt',
+            profile: 'assets/images/users/avatar-8.jpg',
+          },
+          {
+            name: 'Stine Nielsen',
+            profile: 'assets/images/users/avatar-1.jpg',
+          },
+          {
+            name: 'Jansh Brown',
+            profile: 'assets/images/users/avatar-2.jpg',
+          },
+          {
+            name: '4',
+            variant: 'bg-primary',
+          },
+        ],
+      },
+      {
+        date: '12',
+        day: 'Tue',
+        time: '10:30am - 01:15pm',
+        content: 'Weekly closed sales won checking with sales team',
+        users: [
+          {
+            name: 'Stine Nielsen',
+            profile: 'assets/images/users/avatar-1.jpg',
+          },
+          {
+            name: 'Jansh Brown',
+            profile: 'assets/images/users/avatar-5.jpg',
+          },
+          {
+            name: 'Dan Gibson',
+            profile: 'assets/images/users/avatar-2.jpg',
+          },
+          {
+            name: '9',
+            variant: 'bg-warning',
+          },
+        ],
+      },
+    ];
   }
-  ngAfterViewInit(): void {
-    this.dtTrigger.next(this.dtOptions);
+
+  /**
+   * Day Set
+   */
+  getDays(t: number) {
+    return Math.floor(t / (1000 * 60 * 60 * 24));
+  }
+
+  /**
+   * Hours Set
+   */
+  getHours(t: number) {
+    return Math.floor((t / (1000 * 60 * 60)) % 24);
+  }
+
+  /**
+   * Minutes set
+   */
+  getMinutes(t: number) {
+    return Math.floor((t / 1000 / 60) % 60);
+  }
+
+  /**
+   * Secound set
+   */
+  getSeconds(t: number) {
+    return Math.floor((t / 1000) % 60);
   }
 }

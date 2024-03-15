@@ -32,6 +32,12 @@ namespace WebAPI.Controllers
             this._mapper = mapper;
         }
 
+        [HttpPost("get-all")]
+        public async Task<IActionResult> GetAll(DataTablesParameters parameters)
+        {
+            return Ok(await _doctorService.GetAll(parameters));
+        }
+
         [HttpGet("get-doctor-on-duty")]
         public async Task<ActionResult<List<DoctorOnDutyDto>>> GetDoctorListOnDuty(DateTime date)
         {

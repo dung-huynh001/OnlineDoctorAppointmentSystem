@@ -8,7 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 // Auth Services
 import { AuthService } from '../services/auth.service';
-import { RoleAccess } from '../models/role-access';
+import { RoleAccess } from '../models/roleAccess';
 import { json } from 'stream/consumers';
 
 @Injectable({ providedIn: 'root' })

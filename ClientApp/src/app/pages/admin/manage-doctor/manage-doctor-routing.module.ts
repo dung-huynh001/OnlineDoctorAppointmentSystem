@@ -10,11 +10,11 @@ const routes: Routes = [
     component: AddDoctorComponent,
   },
   {
-    path: 'view-doctor',
+    path: 'view-doctor/:id',
     component: ViewDoctorComponent,
   },
   {
-    path: 'edit-doctor',
+    path: 'edit-doctor/:id',
     component: EditDoctorComponent,
   },
 ];

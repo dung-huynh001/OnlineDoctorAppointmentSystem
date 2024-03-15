@@ -539,6 +539,22 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.DoctorController",
+    "Method": "GetAll",
+    "RelativePath": "api/Doctor/get-all",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "parameters",
+        "Type": "WebAPI.Models.DataTablesParameters",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DoctorController",
     "Method": "GetDoctorListOnDuty",
     "RelativePath": "api/Doctor/get-doctor-on-duty",
     "HttpMethod": "GET",
