@@ -17,7 +17,7 @@ import { SharedModule } from '../../shared/shared.module';
   declarations: [
     PatientDashboardComponent,
     DoctorDashboardComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
   ],
   imports: [
     CommonModule,

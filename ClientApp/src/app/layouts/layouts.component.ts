@@ -1,6 +1,8 @@
+import { AuthService } from './../core/services/auth.service';
 import { Component } from '@angular/core';
 import { EventService } from '../core/services/event.service';
 import { LAYOUT } from './layouts.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-layouts',
@@ -10,7 +12,7 @@ import { LAYOUT } from './layouts.model';
 export class LayoutsComponent {
   layoutType!: string;
 
-  constructor(private eventService: EventService) { }
+  constructor(private eventService: EventService, private _authService: AuthService, private _router: Router) { }
 
   ngOnInit(): void {
     this.layoutType = LAYOUT;
@@ -20,6 +22,7 @@ export class LayoutsComponent {
      this.eventService.subscribe('changeLayout', (layout) => {
       this.layoutType = layout;
     });
+    
     
   }
 

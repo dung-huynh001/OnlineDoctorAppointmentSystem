@@ -8,7 +8,7 @@ import { DataTableResponse } from '../models/dataTableResponse.model';
   providedIn: 'root',
 })
 export class DoctorService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   create(url: string, data: any): Observable<any> {
     const formData = new FormData();
@@ -21,5 +21,9 @@ export class DoctorService {
 
   getAll(url: string, dataTablesParameters: any) {
     return this.http.post<DataTableResponse>(environment.serverApi + `/api` + url, dataTablesParameters);
+  }
+
+  getScheduleByDate(url: string, id: any, dateTime: any) {
+    return this.http.get(environment.serverApi + `/api/${url}/${id}/?dateTime=${dateTime}`);
   }
 }

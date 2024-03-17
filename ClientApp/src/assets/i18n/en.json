@@ -9,20 +9,10 @@
       "TEXT": "MENU"
     },
     "DASHBOARD": {
-      "TEXT": "Dashboards",
-      "BADGE": "New",
-      "LIST": {
-        "ANALYTICS": "Analytics",
-        "CRM": "CRM",
-        "ECOMMERCE": "Ecommerce",
-        "CRYPTO": "Crypto",
-        "PROJECTS": "Projects",
-        "NFT": "NFT",
-        "JOB": "Job"
-      }
+      "TEXT": "Dashboards"
     },
     "USERMANAGEMENT":{
-      "TEXT": "Users Management",
+      "TEXT": "Manage Users",
       "LIST": {
         "PATIENT": "Patients",
         "DOCTOR": "Doctors",
@@ -30,11 +20,7 @@
       }
     },
     "SCHEDULES": {
-      "TEXT": "Schedules Management",
-      "LIST": {
-        "DOCTOR": "Doctors Schedule",
-        "APPOINTMENT": "Appointment"
-      }
+      "TEXT": "Manage Schedules"
     },
 
     "MANAGEAPPOINTMENT": {
@@ -43,12 +29,12 @@
         "ALL": "All",
         "CANCEL": "Cancelled",
         "COMPLETE": "Completed",
-        "WAITING": "Waiting",
+        "WAITING": "Pending",
         "OUTOFDATE": "Out of date"
       }
     },
     "SCHEDULEONSITE": {
-      "TEXT": "Schedule on-site"
+      "TEXT": "Appointment on-site"
     },
     "ABOUTUS": {
       "TEXT": "About Us"

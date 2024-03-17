@@ -127,22 +127,12 @@ export const MENU_ADMIN: MenuItem[] = [
   {
     id: 7,
     label: 'MENUITEMS.SCHEDULES.TEXT',
+    icon: 'las la-user-nurse',
+  },
+  {
+    id: 8,
+    label: 'MENUITEMS.MANAGEAPPOINTMENT.TEXT',
     icon: 'las la-calendar',
-    subItems: [
-      {
-        id: 8,
-        label: 'MENUITEMS.SCHEDULES.LIST.DOCTOR',
-        link: '',
-        parentId: 7
-      },
-      {
-        id: 9,
-        label: 'MENUITEMS.SCHEDULES.LIST.APPOINTMENT',
-        link: '',
-        parentId: 7
-      },
-      
-    ]
   },
   {
     id: 10,

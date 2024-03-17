@@ -11,7 +11,7 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
-
+  role: any;
   menu: any;
   toggle: any = true;
   menuItems: MenuItem[] = [];
@@ -24,7 +24,23 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // Menu Items
-    this.menuItems = MENU_PATIENT;
+    const currentUser:any = JSON.parse(localStorage.getItem('currentUser')!) as Object;
+    currentUser ? this.role = currentUser.userType : this.role = null;
+    switch (this.role) {
+      case 'admin':
+        this.menuItems = MENU_ADMIN;
+        break;
+      case 'doctor':
+        this.menuItems = MENU_DOCTOR;
+        break;
+      case 'patient':
+        this.menuItems = MENU_PATIENT;
+        break;
+      default:
+        this.menuItems = MENU_PATIENT;
+        break;
+    }
+
     this.router.events.subscribe((event) => {
       if (document.documentElement.getAttribute('data-layout') != "twocolumn") {
         if (event instanceof NavigationEnd) {

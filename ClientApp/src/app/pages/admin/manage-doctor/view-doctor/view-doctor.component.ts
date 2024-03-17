@@ -9,21 +9,22 @@ import { interval, map } from 'rxjs';
 export class ViewDoctorComponent implements OnInit, AfterViewInit {
   UpcomingActivities:
     | Array<{
-        date?: string;
-        day?: string;
-        time?: string;
-        content?: string;
-        users: Array<{
-          name?: string;
-          profile?: string;
-          variant?: string;
-        }>;
-      }>
+      date?: string;
+      day?: string;
+      time?: string;
+      content?: string;
+      users: Array<{
+        name?: string;
+        profile?: string;
+        variant?: string;
+      }>;
+    }>
     | undefined;
   breadCrumbItems!: Array<{}>;
   userType = localStorage.getItem('userType');
   completionLevel!: number;
   selectedId: number = 1;
+  selectedDate: Date = new Date();
   constructor() {
     this.completionLevel = 30;
   }
@@ -31,9 +32,6 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
   }
   ngOnInit(): void {
-    /**
-     * BreadCrumb
-     */
     this.breadCrumbItems = [
       { label: 'Home' },
       { label: 'Doctor Management' },
@@ -144,31 +142,11 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
     ];
   }
 
-  /**
-   * Day Set
-   */
-  getDays(t: number) {
-    return Math.floor(t / (1000 * 60 * 60 * 24));
+  onChangeDate(event: any) {
+    this.selectedDate = new Date(event.target.value);
   }
 
-  /**
-   * Hours Set
-   */
-  getHours(t: number) {
-    return Math.floor((t / (1000 * 60 * 60)) % 24);
-  }
-
-  /**
-   * Minutes set
-   */
-  getMinutes(t: number) {
-    return Math.floor((t / 1000 / 60) % 60);
-  }
-
-  /**
-   * Secound set
-   */
-  getSeconds(t: number) {
-    return Math.floor((t / 1000) % 60);
+  getDate(): number {
+    return this.selectedDate.getDate();
   }
 }
