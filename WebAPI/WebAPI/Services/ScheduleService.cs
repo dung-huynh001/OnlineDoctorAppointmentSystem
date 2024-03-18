@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using WebAPI.Domain.Entities;
 using WebAPI.DTOs;
 using WebAPI.Interfaces;
@@ -54,7 +55,7 @@ namespace WebAPI.Services
                 await _unitOfWork.Repository<Schedule>().UpdateAsync(schedule);
                 _unitOfWork.Commit();
 
-                return new ApiResponse { IsSuccess = true, Id = schedule.Id.ToString(), Message="Updated schedule success" };
+                return new ApiResponse { IsSuccess = true, Id = schedule.Id.ToString(), Message = "Updated schedule success" };
             }
             catch
             {
@@ -105,6 +106,43 @@ namespace WebAPI.Services
             doctorAndSchedulesDto.Schedules = schedules;
 
             return doctorAndSchedulesDto;
+        }
+
+        public async Task<DatatableResponse<DoctorCardDto>> GetDoctorList(ScheduleFilter filter)
+        {
+            var records = _unitOfWork.Repository<Doctor>().GetAll
+                .Select(d => new DoctorCardDto
+                {
+                    AvatarUrl = d.User.AvatarUrl,
+                    DepartmentName = d.Department.DepartmentName,
+                    DepartmentId = d.DepartmentId,
+                    FullName = d.FullName,
+                    Id = d.Id,
+                    Speciality = d.Speciality
+                });
+            var recordsTotal = records.Count();
+
+            var searchValue = filter.SearchValue?.Trim().ToLower() ?? "";
+            var departmentId = filter.DepartmentId;
+
+            records = records.Where(r =>
+                r.DepartmentName.Trim().ToLower().Contains(searchValue) ||
+                r.Speciality.Trim().ToLower().Contains(searchValue) ||
+                r.FullName.Trim().ToLower().Contains(searchValue) ||
+                r.Id.ToString().Contains(searchValue));
+
+            if (departmentId != 0)
+            {
+                records = records.Where(r => r.DepartmentId.Equals(departmentId));
+            }
+
+            records = records.Skip(filter.Start).Take(filter.Length);
+            return new DatatableResponse<DoctorCardDto>
+            {
+                Data = await records.ToListAsync(),
+                RecordsFiltered = recordsTotal,
+                RecordsTotal = recordsTotal,
+            };
         }
     }
 }

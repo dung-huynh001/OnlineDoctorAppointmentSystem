@@ -61,8 +61,9 @@ export class AssignScheduleComponent {
      * BreadCrumb
      */
     this.breadCrumbItems = [
-      { label: 'Menu' },
-      { label: 'Schedule Management', active: true },
+      { label: 'Home' },
+      { label: 'Schedule Management' },
+      { label: 'Assign Schedule', active: true },
     ];
 
     // Validation

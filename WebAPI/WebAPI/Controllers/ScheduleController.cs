@@ -3,6 +3,7 @@ using System.Text.Json;
 using WebAPI.DTOs;
 using WebAPI.Exceptions;
 using WebAPI.Interfaces.IService;
+using WebAPI.Models;
 using WebAPI.Responses;
 using WebAPI.Validators;
 
@@ -36,6 +37,12 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<GetSchedulesByDoctorIdDto>> GetSchedulesByDoctorId(int doctorId)
         {
             return Ok(await _scheduleService.GetSchedulesByDoctorId(doctorId));
+        }
+
+        [HttpPost("get-doctor-list")]
+        public async Task<IActionResult> GetDoctorList(ScheduleFilter filter)
+        {
+            return Ok(await _scheduleService.GetDoctorList(filter));
         }
     }
 }

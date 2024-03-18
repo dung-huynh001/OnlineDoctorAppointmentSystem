@@ -6,11 +6,13 @@ import { defineElement } from 'lord-icon-element';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 import { ManageScheduleComponent } from './manage-schedule/manage-schedule.component';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbPagination, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CountUpModule } from 'ngx-countup';
 import { ManageDoctorComponent } from './manage-doctor/manage-doctor.component';
 import { SharedModule } from '../../shared/shared.module';
 import { CommonModule } from '@angular/common';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -29,6 +31,10 @@ import { CommonModule } from '@angular/common';
     NgbNavModule,
     CountUpModule,
     SharedModule, 
+    NgbTooltip,
+    FlatpickrModule,
+    NgbPagination,
+    NgSelectModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

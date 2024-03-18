@@ -36,6 +36,9 @@
     "SCHEDULEONSITE": {
       "TEXT": "Appointment on-site"
     },
+    "MANAGEDEPARTMENT": {
+      "TEXT": "Manage Departments"
+    },
     "ABOUTUS": {
       "TEXT": "About Us"
     },
