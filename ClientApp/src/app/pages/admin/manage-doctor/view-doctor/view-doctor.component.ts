@@ -1,5 +1,6 @@
+import { DoctorService } from './../../../../core/services/doctor.service';
 import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
-import { interval, map } from 'rxjs';
+import { catchError, interval, map, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-view-doctor',
@@ -9,28 +10,34 @@ import { interval, map } from 'rxjs';
 export class ViewDoctorComponent implements OnInit, AfterViewInit {
   UpcomingActivities:
     | Array<{
-      date?: string;
-      day?: string;
-      time?: string;
-      content?: string;
-      users: Array<{
-        name?: string;
-        profile?: string;
-        variant?: string;
-      }>;
-    }>
+        date?: string;
+        day?: string;
+        time?: string;
+        content?: string;
+        users: Array<{
+          name?: string;
+          profile?: string;
+          variant?: string;
+        }>;
+      }>
     | undefined;
   breadCrumbItems!: Array<{}>;
   userType = localStorage.getItem('userType');
   completionLevel!: number;
   selectedId: number = 1;
   selectedDate: Date = new Date();
-  constructor() {
+  schedulesInfo!: Array<{
+    shiftTime: any;
+    breakTime: any;
+    description: string;
+    appt: number;
+  }>;
+  totalApptOnDate: number = 0;
+  constructor(private _doctorService: DoctorService) {
     this.completionLevel = 30;
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Home' },
@@ -144,6 +151,42 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
 
   onChangeDate(event: any) {
     this.selectedDate = new Date(event.target.value);
+    this._doctorService
+      .getScheduleByDate('', '', this.selectedDate)
+      .pipe(
+        catchError((err) => {
+          this.schedulesInfo = [
+            {
+              shiftTime: '07:30 AM',
+              breakTime: '12:30 PM',
+              description: 'On duty in clinic number 3',
+              appt: 3,
+            },
+            {
+              shiftTime: '07:30 AM',
+              breakTime: '12:30 PM',
+              description: 'On duty in clinic number 3',
+              appt: 2,
+            },
+          ];
+          this.totalApptOnDate = this.schedulesInfo.reduce(
+            (total, s) => total + s.appt,
+            0
+          );
+          return throwError(() => err);
+        })
+      )
+      .subscribe((res) => {
+        if (res.length) {
+          this.schedulesInfo = res;
+          this.totalApptOnDate = this.schedulesInfo.reduce(
+            (total, s) => total + s.appt,
+            0
+          );
+        } else {
+          this.schedulesInfo = [];
+        }
+      });
   }
 
   getDate(): number {

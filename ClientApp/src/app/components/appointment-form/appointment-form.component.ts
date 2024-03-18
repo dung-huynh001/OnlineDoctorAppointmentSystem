@@ -5,9 +5,9 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ToastService } from '../../account/login/toast-service';
 import { RestApiService } from '../../core/services/rest-api.service';
 import { catchError, throwError } from 'rxjs';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-appointment-form',

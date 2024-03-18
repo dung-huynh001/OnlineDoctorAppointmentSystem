@@ -90,29 +90,43 @@
                         </div>
 
                         <h6 class="text-uppercase fw-semibold mt-4 mb-3 text-muted">Events:</h6>
-                        <div class="mini-stats-wid d-flex align-items-center mt-3">
-                            <div class="flex-shrink-0 avatar-sm">
-                                <span
-                                    class="mini-stat-icon avatar-title rounded-circle text-success bg-success-subtle fs-4">
-                                    {{getDate()}}
-                                </span>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <div>
-                                    <h6 class="mb-1">7:20 AM - 10:30 AM</h6>
-                                    <p class="text-muted mb-0">On duty in clinic number 3</p>
+                        <div
+                            *ngIf="this.schedulesInfo && this.schedulesInfo.length !== 0, then haveSchedules else noSchedules">
+                        </div>
+                        <ng-template #haveSchedules>
+                            <div class="mini-stats-wid d-flex align-items-center mt-3">
+                                <div class="flex-shrink-0 avatar-sm">
+                                    <span
+                                        class="mini-stat-icon avatar-title rounded-circle text-success bg-success-subtle fs-4">
+                                        {{getDate()}}
+                                    </span>
                                 </div>
-                                <div class="mt-3">
-                                    <h6 class="mb-1">01:20 PM - 07:30 PM</h6>
-                                    <p class="text-muted mb-0">On duty in clinic number 2</p>
+                                <div class="flex-grow-1 ms-3">
+                                    <div *ngFor="let schedule of this.schedulesInfo">
+                                        <h6 class="mb-1">{{schedule.shiftTime}} - {{schedule.shiftTime}}</h6>
+                                        <p class="text-muted mb-0">{{schedule.description}}</p>
+                                    </div>
                                 </div>
+                                <div class="flex-shrink-0">
+                                    <a href="javascript:void(0);" class="text-muted mb-0 text-decoration-underline">have
+                                        <span class="text-success fw-bold fs-6">{{this.totalApptOnDate}}</span>
+                                        appts
+                                    </a>
+                                </div>
+                            </div><!-- end -->
+                        </ng-template>
+                        <ng-template #noSchedules>
+                            <div class="mini-stats-wid d-flex align-items-center mt-3">
+                                <div class="flex-shrink-0 avatar-sm">
+                                    <span
+                                        class="mini-stat-icon avatar-title rounded-circle text-success bg-success-subtle fs-4">
+                                        {{getDate()}}
+                                    </span>
+                                </div>
+                                <h5 class="flex-grow-1 ms-3">No schedules on this day</h5>
                             </div>
-                            <div class="flex-shrink-0">
-                                <a href="javascript:void(0);" class="text-muted mb-0 text-decoration-underline">have
-                                    <span class="text-success fw-bold fs-6">3</span> appts
-                                </a>
-                            </div>
-                        </div><!-- end -->
+                        </ng-template>
+
                     </div><!-- end cardbody -->
                 </div><!-- end card -->
             </div>

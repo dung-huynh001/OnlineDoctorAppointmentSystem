@@ -1,4 +1,3 @@
-import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   UntypedFormBuilder,
@@ -7,8 +6,8 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastService } from './toast-service';
 import { catchError, throwError } from 'rxjs';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -71,13 +70,8 @@ export class LoginComponent implements OnInit {
         .login(this.f['username'].value, this.f['password'].value)
         .pipe(
           catchError((err) => {
-            this.toastService.show(
-              err?.Message ? err?.Message : 'Cannot connect to server',
-              {
-                classname: 'bg-danger text-white',
-                delay: 3000,
-              }
-            );
+            debugger
+            this.toastService.error('Cannot connected to server');
             return throwError(() => err);
           })
         )

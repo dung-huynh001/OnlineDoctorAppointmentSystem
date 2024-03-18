@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using WebAPI.Domain.Entities;
 using WebAPI.DTOs;
+using WebAPI.Exceptions;
 using WebAPI.Implementations;
 using WebAPI.Interfaces;
 using WebAPI.Interfaces.IService;
@@ -179,6 +181,98 @@ namespace WebAPI.Services
             response.Data = records.ToList();
 
             return Task.FromResult(response);
+        }
+
+        public async Task<DoctorDetailsDto> GetDoctorDetails(int id)
+        {
+            var doctor = await _unitOfWork.Repository<Doctor>().GetAll
+                .Where(d => d.Id == id)
+                .Include(d => d.User)
+                .Select(d => new DoctorDetailsDto
+                {
+                    Id = id,
+                    UserId = d.UserId,
+                    Address = d.Address,
+                    DateOfBirth = d.DateOfBirth.ToString("yyyy-MM-dd"),
+                    DepartmentId = d.DepartmentId,
+                    Email = d.User.Email.Trim(),
+                    FullName = d.FullName,
+                    Gender = d.Gender,
+                    NationalId = d.NationalId,
+                    PhoneNumber = d.PhoneNumber,
+                    Speciality = d.Speciality,
+                    WorkingEndDate = d.WorkingEndDate.Date.ToString("yyyy-MM-dd"),
+                    WorkingStartDate = d.WorkingStartDate.ToString("yyyy-MM-dd"),
+                    CreatedDate = d.CreatedDate.ToString("yyyy-MM-dd"),
+                    UpdatedDate = d.UpdatedDate.ToString("yyyy-MM-dd"),
+                })
+                .FirstOrDefaultAsync();
+            if (doctor == null)
+                throw new NotFoundException("doctor", id);
+            return doctor;
+        }
+
+        public async Task<bool> UpdatePersonalInfo(DoctorPersonalInfo data)
+        {
+            _unitOfWork.BeginTransaction();
+            try
+            {
+                var doctor = await _unitOfWork.Repository<Doctor>().GetByIdAsync(data.Id);
+                doctor.Id = data.Id;
+                doctor.Address = data.Address ?? doctor.Address;
+                doctor.PhoneNumber = data.PhoneNumber ?? doctor.PhoneNumber;
+                doctor.FullName = data.FullName ?? doctor.FullName;
+                doctor.Gender = data.Gender;
+                doctor.NationalId = data.NationalId ?? doctor.NationalId;
+                doctor.DateOfBirth = data.DateOfBirth;
+
+                if (await _unitOfWork.Repository<Doctor>().UpdateAsync(doctor) != null)
+                {
+                    _unitOfWork.Commit();
+                    return true;
+                }
+
+                throw new Exception();
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+                return false;
+            }
+        }
+
+        public async Task<ApiResponse> UpdateWorkInfo(WorkInfoDto data)
+        {
+            _unitOfWork.BeginTransaction();
+            try
+            {
+                var doctor = await _unitOfWork.Repository<Doctor>().GetByIdAsync(data.Id);
+                doctor.Speciality = data.Speciality;
+                doctor.DepartmentId = data.DepartmentId;
+                doctor.WorkingStartDate = data.WorkingStartDate;
+                doctor.WorkingEndDate = data.WorkingEndDate;
+                if (await _unitOfWork.Repository<Doctor>().UpdateAsync(doctor) != null)
+                {
+                    _unitOfWork.Commit();
+                    return new ApiResponse
+                    {
+                        IsSuccess = true,
+                        Message = "Updated work info successfully",
+                        Id = data.Id.ToString(),
+                    };
+                }
+                throw new Exception();
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = "Update work info failed",
+                    Id = data.Id.ToString(),
+                };
+            }
         }
     }
 }

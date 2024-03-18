@@ -169,5 +169,23 @@ namespace WebAPI.Services
         {
             await _signInManager.SignOutAsync();
         }
+
+        public async Task<bool> UpdateEmailAndAvatarUrlAsync(string id, string email, string avatarUrl)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if(user == null)
+            {
+                throw new NotFoundException("user", id);
+            }
+            user.Email = email;
+            user.AvatarUrl = avatarUrl;
+            user.UserName = user.UserName.Trim();
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

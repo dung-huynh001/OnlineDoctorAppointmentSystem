@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, catchError, throwError } from 'rxjs';
-import { ToastService } from '../../../account/login/toast-service';
 import { DatePipe } from '@angular/common';
 import { RestApiService } from '../../../core/services/rest-api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataTableDirective } from 'angular-datatables';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-department',

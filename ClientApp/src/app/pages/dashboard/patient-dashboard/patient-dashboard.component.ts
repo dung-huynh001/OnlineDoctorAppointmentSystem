@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastService } from '../../../account/login/toast-service';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-patient-dashboard',

@@ -118,8 +118,6 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
         ...this.doctorInfoForm.value,
         ...this.workInfoForm.value,
       };
-      console.log(data);
-
       this._doctorService
         .create('/Doctor/create', data)
         .pipe(catchError(err => {

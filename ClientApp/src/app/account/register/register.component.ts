@@ -7,7 +7,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { catchError, throwError } from 'rxjs';
-import { ToastService } from '../login/toast-service';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-register',

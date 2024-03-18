@@ -81,5 +81,51 @@ namespace WebAPI.Controllers
                 Id = model.UserId
             });
         }
+
+        [HttpGet("get-doctor-details/{id}")]
+        public async Task<IActionResult> GetDoctorDetail([FromRoute]int id)
+        {
+            return Ok(await _doctorService.GetDoctorDetails(id));
+        }
+
+        [HttpPatch("update-personal-info/{id}")]
+        public async Task<IActionResult> UpdatePersonalInfo([FromRoute] int id, [FromForm] DoctorPersonalInfo data)
+        {
+            
+
+            if (!await _doctorService.UpdatePersonalInfo(data))
+            {
+                throw new Exception("Update doctor failed");
+            }
+            var img = data.Avatar;
+            if (img != null && img.Length != 0)
+            {
+                string uniqueName = Guid.NewGuid().ToString() + img.FileName;
+                string folderName = "Uploads/Avatars";
+
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), folderName, uniqueName);
+                string relativePath = Path.Combine(folderName, uniqueName);
+                relativePath = relativePath.Replace("\\", "/");
+                data.AvatarUrl = relativePath;
+                if (!await _authService.UpdateEmailAndAvatarUrlAsync(data.UserId, data.Email, data.AvatarUrl))
+                {
+                    throw new Exception("Updated email and avatar url failed");
+                }
+                await _uploadService.UploadImageToFolderAsync(data.Avatar, filePath);
+            }
+
+            return Ok(new ApiResponse
+            {
+                IsSuccess = true,
+                Message = "Updated doctor sucessfully",
+                Id = data.Id.ToString()
+            });
+        }
+
+        [HttpPatch("update-work-info/{id}")]
+        public async Task<IActionResult> UpdateWorkInfo([FromForm]WorkInfoDto data)
+        {
+            return Ok(await _doctorService.UpdateWorkInfo(data));
+        }
     }
 }

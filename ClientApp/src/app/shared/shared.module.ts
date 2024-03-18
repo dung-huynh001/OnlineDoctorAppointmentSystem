@@ -8,6 +8,7 @@ import { DatepickerComponent } from './datepicker/datepicker.component';
 import { TimepickerComponent } from './timepicker/timepicker.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask, IConfig } from 'ngx-mask';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
+import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { ToastContainerComponent } from './toast-container/toast-container.compo
     FlatpickrModule.forRoot(),
     NgxMaskDirective, 
     NgxMaskPipe,
+    NgbToastModule
   ],
   exports: [
     BreadcrumbsComponent,

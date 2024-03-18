@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ManageDoctorRoutingModule } from './manage-doctor-routing.module';
 import { ViewDoctorComponent } from './view-doctor/view-doctor.component';
@@ -12,6 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DataTablesModule } from 'angular-datatables';
 import { NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
+
 
 
 
@@ -34,7 +35,8 @@ import { FlatpickrModule } from 'angularx-flatpickr';
     DataTablesModule,
     NgbTooltip,
     NgbNavModule,
-    FlatpickrModule
-  ]
+    FlatpickrModule,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ManageDoctorModule { }

@@ -10,8 +10,9 @@ import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRoutingModule } from './account-routing.module';
-import { ToastsContainer } from './login/toasts-container.component';
 import lottie from 'lottie-web';
+import { ToastContainerComponent } from '../shared/toast-container/toast-container.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -23,7 +24,6 @@ import lottie from 'lottie-web';
     PasswordResetComponent,
     LoginComponent,
     RegisterComponent,
-    ToastsContainer,
   ],
   imports: [
     CommonModule,
@@ -31,8 +31,9 @@ import lottie from 'lottie-web';
     FormsModule,
     NgbToastModule,
     AccountRoutingModule,
+    SharedModule
   ],
-  exports: [ToastsContainer],
+  exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AccountModule {

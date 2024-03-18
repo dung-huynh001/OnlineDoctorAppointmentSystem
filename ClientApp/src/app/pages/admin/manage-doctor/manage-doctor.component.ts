@@ -132,13 +132,13 @@ export class ManageDoctorComponent implements OnInit {
           title: 'Action',
           data: 'id',
           render: (data: any, type: any, row: any, meta: any) => {
-            const viewButton = `<button class="btn btn-soft-info btn-sm edit-btn" data-bs-toggle="modal" data-department-name="${row.fullName}" data-department-id="${data}" title="Edit">View</button>`;
-            const editButton = `<button class="btn btn-soft-primary btn-sm edit-btn" data-bs-toggle="modal" data-department-name="${row.fullName}" data-department-id="${data}" title="Edit">Edit</button>`;
+            const viewButton = `<button class="btn btn-soft-info btn-sm edit-btn" data-department-name="${row.fullName}" data-department-id="${data}" title="Edit" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">View</button>`;
+            const editButton = `<button class="btn btn-soft-primary btn-sm edit-btn" data-department-name="${row.fullName}" data-department-id="${data}" title="Edit" onClick="location.assign('admin/manage-doctor/edit-doctor/${data}')">Edit</button>`;
             const deleteButton = row.isDeleted
-              ? `<button class="btn btn-soft-danger btn-sm delete-btn border-0" data-bs-toggle="modal" data-department-name="${row.fullName}" data-department-id="${data}" title="Resource has been deleted" disabled>Deleted</button>`
-              : `<button class="btn btn-soft-danger btn-sm delete-btn" data-bs-toggle="modal" data-department-name="${row.fullName}" data-department-id="${data}" title="Delete">Delete</button>`;
+              ? `<button class="btn btn-soft-danger btn-sm delete-btn border-0" data-department-name="${row.fullName}" data-department-id="${data}" title="Resource has been deleted" disabled onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Deleted</button>`
+              : `<button class="btn btn-soft-danger btn-sm delete-btn" data-department-name="${row.fullName}" data-department-id="${data}" title="Delete" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Delete</button>`;
             const restoreButton = row.isDeleted
-              ? `<button class="btn btn-soft-success btn-sm restore-btn border-0" data-bs-toggle="modal" data-department-name="${row.fullName}" data-department-id="${data}" title="Restore this resource">Restore</button>`
+              ? `<button class="btn btn-soft-success btn-sm restore-btn border-0" data-department-name="${row.fullName}" data-department-id="${data}" title="Restore this resource" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Restore</button>`
               : ``;
             return `${viewButton} ${editButton} ${restoreButton} ${deleteButton}`;
           },
@@ -169,5 +169,9 @@ export class ManageDoctorComponent implements OnInit {
   }
   ngAfterViewInit(): void {
     this.dtTrigger.next(this.dtOptions);
+  }
+
+  onClick() {
+    console.log('clicked')
   }
 }

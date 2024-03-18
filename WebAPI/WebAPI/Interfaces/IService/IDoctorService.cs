@@ -10,5 +10,8 @@ namespace WebAPI.Interfaces.IService
         Task<DatatableResponse<GetDoctorToDrawTableDto>> GetAll(DataTablesParameters parameters);
         Task<List<DoctorOnDutyDto>> GetDoctorListOnDuty(DateTime dateTime);
         Task<bool> Create(CreateDoctorDto doctor);
+        Task<DoctorDetailsDto> GetDoctorDetails(int id);
+        Task<bool> UpdatePersonalInfo(DoctorPersonalInfo data);
+        Task<ApiResponse> UpdateWorkInfo(WorkInfoDto data);
     }
 }

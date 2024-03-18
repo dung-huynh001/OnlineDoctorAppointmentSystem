@@ -1,6 +1,5 @@
 import lottie from 'lottie-web';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { DepartmentComponent } from './department/department.component';
 import { defineElement } from 'lord-icon-element';
@@ -11,6 +10,7 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { CountUpModule } from 'ngx-countup';
 import { ManageDoctorComponent } from './manage-doctor/manage-doctor.component';
 import { SharedModule } from '../../shared/shared.module';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -28,7 +28,7 @@ import { SharedModule } from '../../shared/shared.module';
     DataTablesModule,
     NgbNavModule,
     CountUpModule,
-    SharedModule
+    SharedModule, 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
