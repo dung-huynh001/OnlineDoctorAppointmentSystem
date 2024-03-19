@@ -13,6 +13,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 
@@ -20,7 +22,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
   declarations: [
     DepartmentComponent,
     ManageScheduleComponent,
-    ManageDoctorComponent
+    ManageDoctorComponent,
+    AssignScheduleComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +37,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgbTooltip,
     FlatpickrModule,
     NgbPagination,
-    NgSelectModule
+    NgSelectModule,
+    FullCalendarModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

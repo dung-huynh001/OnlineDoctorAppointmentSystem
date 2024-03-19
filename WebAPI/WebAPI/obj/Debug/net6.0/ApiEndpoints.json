@@ -717,7 +717,7 @@
     "Parameters": [
       {
         "Name": "model",
-        "Type": "WebAPI.DTOs.AddScheduleDto",
+        "Type": "WebAPI.DTOs.CreateScheduleDto",
         "IsRequired": true
       }
     ],
@@ -732,6 +732,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetDoctorList",
+    "RelativePath": "api/Schedule/get-doctor-list",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "WebAPI.Models.ScheduleFilter",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "WebAPI.Controllers.ScheduleController",

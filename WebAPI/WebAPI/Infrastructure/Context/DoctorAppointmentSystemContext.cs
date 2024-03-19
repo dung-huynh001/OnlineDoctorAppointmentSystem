@@ -428,6 +428,9 @@ namespace WebAPI.Infrastructure.Context
                 entity.Property(e => e.Id)
                     .ValueGeneratedOnAdd();
 
+                entity.Property(e => e.Description);
+
+                entity.Property(e => e.Type);
 
                 entity.Property(e => e.BreakTime);
 

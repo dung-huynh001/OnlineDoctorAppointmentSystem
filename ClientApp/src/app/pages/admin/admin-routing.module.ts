@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DepartmentComponent } from './department/department.component';
 import { ManageScheduleComponent } from './manage-schedule/manage-schedule.component';
 import { ManageDoctorComponent } from './manage-doctor/manage-doctor.component';
+import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
 
 
 const routes: Routes = [
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'schedule',
     component: ManageScheduleComponent,
+  },
+  {
+    path: 'assign-schedule/:id',
+    component: AssignScheduleComponent
   },
 ];
 

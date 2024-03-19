@@ -10,8 +10,9 @@ namespace WebAPI.Domain.Entities
         {
             Appointments = new HashSet<Appointment>();
         }
-
         public int DoctorId { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
         public DateTime WorkingDay { get; set; }
         public TimeSpan ShiftTime { get; set; }
         public TimeSpan BreakTime { get; set; }

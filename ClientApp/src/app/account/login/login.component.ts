@@ -70,8 +70,7 @@ export class LoginComponent implements OnInit {
         .login(this.f['username'].value, this.f['password'].value)
         .pipe(
           catchError((err) => {
-            debugger
-            this.toastService.error('Cannot connected to server');
+            this.toastService.error(err.Message);
             return throwError(() => err);
           })
         )

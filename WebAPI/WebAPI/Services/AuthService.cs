@@ -144,6 +144,7 @@ namespace WebAPI.Services
                 case "doctor":
                     break;
                 default:
+                    await DeleteUserAsync(user.Id);
                     throw new Exception("Can only sign up for a patient or doctor account");
             }
 

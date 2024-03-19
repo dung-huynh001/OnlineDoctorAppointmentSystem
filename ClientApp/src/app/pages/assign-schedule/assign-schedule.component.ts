@@ -175,6 +175,7 @@ export class AssignScheduleComponent {
   }
 
   openModal(events?: any) {
+    console.log(events)
     this.modalService.open(this.modalShow, { centered: true });
     // cons
     this.submitted = false;
@@ -192,6 +193,7 @@ export class AssignScheduleComponent {
    * Event click modal show
    */
   handleEventClick(clickInfo: EventClickArg) {
+    console.log(clickInfo);
     this.isEditMode = true;
     this.editEvent = clickInfo.event;
     setTimeout(() => {

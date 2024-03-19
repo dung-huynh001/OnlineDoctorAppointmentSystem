@@ -1,5 +1,6 @@
 import { DoctorService } from './../../../../core/services/doctor.service';
 import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, interval, map, throwError } from 'rxjs';
 
 @Component({
@@ -24,7 +25,7 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
   breadCrumbItems!: Array<{}>;
   userType = localStorage.getItem('userType');
   completionLevel!: number;
-  selectedId: number = 1;
+  selectedId!: any;
   selectedDate: Date = new Date();
   schedulesInfo!: Array<{
     shiftTime: any;
@@ -33,7 +34,7 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
     appt: number;
   }>;
   totalApptOnDate: number = 0;
-  constructor(private _doctorService: DoctorService) {
+  constructor(private _doctorService: DoctorService, private router: Router) {
     this.completionLevel = 30;
   }
 
@@ -44,6 +45,9 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
       { label: 'Doctor Management' },
       { label: 'Doctor Details', active: true },
     ];
+
+    const currentUrl = this.router.url;
+    this.selectedId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
 
     this.UpcomingActivities = [
       {

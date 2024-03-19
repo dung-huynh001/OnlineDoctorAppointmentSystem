@@ -21,14 +21,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add-schedule")]
-        public async Task<ActionResult<ApiResponse>> AddSchedule(AddScheduleDto model)
+        public async Task<ActionResult<ApiResponse>> AddSchedule(CreateScheduleDto model)
         {
             var validator = new AddScheduleValidator();
-            var validatorResult = validator.Validate(model);
+            /*var validatorResult = validator.Validate(model);
             if (!validatorResult.IsValid)
             {
                 throw new ValidationException(validatorResult);
-            }
+            }*/
 
             return Ok(await _scheduleService.AddSchedule(model));
         }
