@@ -1,7 +1,9 @@
+import { iDoctorOnDuty } from './../../../core/models/doctorOnDuty.model';
 import { Component, OnInit } from '@angular/core';
 import { RestApiService } from '../../../core/services/rest-api.service';
-import { catchError, throwError } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { ToastService } from '../../../core/services/toast.service';
+import { AppointmentService } from '../../../core/services/appointment.service';
 
 @Component({
   selector: 'app-make-appointment',
@@ -12,6 +14,8 @@ export class MakeAppointmentComponent implements OnInit {
   breadcrumbItems!: Array<{}>;
   workingDay!: string;
   workingTime!: string;
+
+  doctorOndutyData!: Array<iDoctorOnDuty>;
 
   defaultData!: {
     doctorId: number;
@@ -30,7 +34,7 @@ export class MakeAppointmentComponent implements OnInit {
 
   constructor(
     private _toastService: ToastService,
-    private _restApiService: RestApiService
+    private _appointmentService: AppointmentService
   ) {
     this.defaultData = {
       doctorId: 1,
@@ -66,19 +70,34 @@ export class MakeAppointmentComponent implements OnInit {
   }
 
   getScheduleDateTime(): string {
-    console.log(new Date(this.workingDay + ' ' + this.workingTime));
-    return new Date(this.workingDay + ' ' + this.workingTime).toLocaleString();
+    return new Date(this.workingDay + ' ' + this.workingTime).toLocaleString('en-GB');
   }
 
-  getDoctorOnDutyList() {
+  getDoctorsOnDuty() {
     const date = this.getScheduleDateTime();
-    console.log(date);
-    this._restApiService
-      .get('/Doctor/get-doctor-on-duty', `?date=${date}`)
-      .pipe(catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
-      }))
-      .subscribe((res) => console.log(res));
+    this._appointmentService
+      .getDoctorOnDuty('/Doctor/get-doctor-on-duty', date)
+      .pipe(
+        map((res): Array<iDoctorOnDuty> => {
+          return res.map((doctor: any) => ({
+            id: doctor.id,
+            fullName: doctor.fullName,
+            scheduleId: doctor.scheduleId,
+            speciality: doctor.speciality,
+          }));
+        }),
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      )
+      .subscribe((doctors) => {
+        // Ở đây, bạn có thể sử dụng danh sách các bác sĩ đã được chuyển đổi
+        this.doctorOndutyData = doctors;
+        console.table(this.doctorOndutyData);
+        console.table(doctors);
+      });
   }
+
+
 }

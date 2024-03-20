@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
+  FormBuilder,
   FormGroup,
-  UntypedFormBuilder,
-  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { RestApiService } from '../../core/services/rest-api.service';
@@ -28,11 +27,11 @@ export class AppointmentFormComponent implements OnInit {
     email: string;
     address: string;
   };
-  appointmentForm!: UntypedFormGroup;
+  appointmentForm!: FormGroup;
   submitted: boolean = false;
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private _toastService: ToastService,
     private _restApiService: RestApiService
   ) {}

@@ -25,7 +25,7 @@
                         <app-timepicker title="Time" (timeChange)="onTimeChange($event)"></app-timepicker>
                     </div>
                     <div class="col">
-                        <button class="btn btn-soft-primary float-end" (click)="getDoctorOnDutyList()">Find
+                        <button class="btn btn-soft-primary float-end" (click)="getDoctorsOnDuty()">Find
                             Doctor</button>
                     </div>
                 </div>
@@ -37,17 +37,120 @@
             <div class="card-header border-0">
                 <h5 class="card-title mb-0 flex-grow-1">Doctors On Duty</h5>
             </div>
-            <div class="card-body border border-dashed border-end-0 border-start-0">
-                <div class="row gap-3">
-                    <div class="col-12">
-                        <app-datepicker title="Date" (dateChange)="onDateChange($event)"></app-datepicker>
+            <div class="card-body border border-dashed border-end-0 border-start-0 over">
+                <form class="app-search d-none d-md-block">
+                    <div class="position-sticky">
+                        <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Search doctor name or speciality"
+                                autocomplete="off" id="search-options" value="" />
+                            <span class="mdi mdi-magnify search-widget-icon"></span>
+                            <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
+                                id="search-close-options"></span>
+                        </div>
                     </div>
-                    <div class="col-12">
-                        <app-timepicker title="Time" (timeChange)="onTimeChange($event)"></app-timepicker>
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-soft-primary float-end" (click)="getDoctorOnDutyList()">Find
-                            Doctor</button>
+                </form>
+                <div class=" overflow-scroll">
+                    <div data-simplebar style="max-height: 200px;">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 avatar-xs">
+                                                <div class="avatar-title bg-danger-subtle text-danger rounded">
+                                                    <i class="ri-netflix-fill"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">John Smith</h6>
+                                                <small class="text-muted">Brain</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <button class="btn btn-sm btn-soft-primary">Choose</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 avatar-xs">
+                                                <div class="avatar-title bg-success-subtle text-success rounded">
+                                                    <i class="ri-spotify-fill"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">Phu Tran</h6>
+                                                <small class="text-muted">Stomach</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <button class="btn btn-sm btn-soft-primary">Choose</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0">
+                                                <img src="assets/images/users/avatar-2.jpg" alt=""
+                                                    class="avatar-xs rounded" />
+                                            </div>
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">Anh Dinh</h6>
+                                                <small class="text-muted">Lung</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <button class="btn btn-sm btn-soft-primary">Choose</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 avatar-xs">
+                                                <div class="avatar-title bg-secondary-subtle text-secondary rounded">
+                                                    <i class="ri-paypal-fill"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">Hai Nguyen</h6>
+                                                <small class="text-muted">Tooth</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <button class="btn btn-sm btn-soft-primary">Choose</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0">
+                                                <img src="assets/images/users/avatar-3.jpg" alt=""
+                                                    class="avatar-xs rounded" />
+                                            </div>
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">Harvey Wells</h6>
+                                                <small class="text-muted">Ly Tran</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <button class="btn btn-sm btn-soft-primary">Choose</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
