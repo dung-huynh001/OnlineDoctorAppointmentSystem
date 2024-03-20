@@ -94,6 +94,7 @@ D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\ne
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\FluentValidation.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Humanizer.dll
+D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\MailKit.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
@@ -122,8 +123,11 @@ D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\ne
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.OpenApi.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\MimeKit.dll
+D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\NETCore.MailKit.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\BouncyCastle.Crypto.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\src\Refactor Project\OnlineDoctorAppointmentSystem\WebAPI\WebAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll

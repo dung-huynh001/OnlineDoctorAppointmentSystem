@@ -117,7 +117,7 @@ namespace WebAPI.Infrastructure.Context
 
                 entity.HasOne(d => d.Schedule)
                     .WithMany(p => p.Appointments)
-                    .HasForeignKey(d => new { d.DoctorId, d.ScheduleId })
+                    .HasForeignKey(d => d.ScheduleId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
@@ -418,15 +418,14 @@ namespace WebAPI.Infrastructure.Context
 
             modelBuilder.Entity<Schedule>(entity =>
             {
-                entity.HasKey(e => new { e.DoctorId, e.Id })
+                entity.HasKey(e => e.Id)
                     .IsClustered(false);
 
                 entity.HasIndex(e => e.DoctorId, "RELATIONSHIP_7_FK");
 
                 entity.Property(e => e.DoctorId);
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd();
+                entity.Property(e => e.Id);
 
                 entity.Property(e => e.Description);
 

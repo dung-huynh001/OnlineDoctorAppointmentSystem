@@ -107,7 +107,7 @@
                 </a>
                 <div class="avatar-md mb-2">
                     <div class="avatar-title bg-light rounded">
-                        <img src="{{doctor.avatarUrl}}" alt="" class="avatar-sm">
+                        <img src="{{hostName + '/' + doctor.avatarUrl}}" alt="" class="avatar-sm">
                     </div>
                 </div> <a href="javascript:void(0);">
                     <h5>{{doctor.fullName}}</h5>
@@ -142,3 +142,5 @@
         </ng-template>
     </ngb-pagination>
 </div>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

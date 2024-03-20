@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebAPI;
 using WebAPI.Domain.Entities;
 using WebAPI.Infrastructure.Context;
+using WebAPI.Infrastructure.EmailConfigs;
 using WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +21,10 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddLogging();
 
+builder.Services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
 // Add services to the container.
 builder.Services.AddDependencyInjection();
+
 
 //Config for connect to database
 builder.Services.AddAuthentication(options =>
@@ -113,6 +118,14 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "Uploads")),
+    RequestPath = "/Uploads"
+});
 
 app.UseEndpoints(endpoints =>
 {

@@ -22,6 +22,11 @@ namespace WebAPI.Implementations
             await _context.AddAsync(entity);
         }
 
+        public void AddRange(IEnumerable<TEntity> entities)
+        {
+            _context.Set<TEntity>().AddRange(entities);
+        }
+
         public Task<TEntity> DeleteAsync(TEntity entity)
         {
             var exist =  _context.Set<TEntity>().Find(entity.Id);
@@ -35,8 +40,8 @@ namespace WebAPI.Implementations
 
         public async Task<int> DeleteByIdAsync(int id)
         {
-            TEntity? exist = await _context.FindAsync<TEntity>(id);
-            if(exist != null)
+            var exist = await _context.Set<TEntity>().FindAsync(id);
+            if (exist != null)
             {
                 exist.IsDeleted = true;
                 return exist.Id;

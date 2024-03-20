@@ -9,6 +9,7 @@ namespace WebAPI.Interfaces
         Task<List<TEntity>> GetAllAsync();
         Task<int> DeleteByIdAsync(int id);
         Task AddAsync(TEntity entity);
+        void AddRange (IEnumerable<TEntity> entities);
         Task<TEntity> UpdateAsync(TEntity entity);
         Task<TEntity> DeleteAsync(TEntity entity);
     }

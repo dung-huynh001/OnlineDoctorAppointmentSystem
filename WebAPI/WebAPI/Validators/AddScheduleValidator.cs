@@ -3,11 +3,11 @@ using WebAPI.DTOs;
 
 namespace WebAPI.Validators
 {
-    public class AddScheduleValidator : AbstractValidator<AddScheduleDto>
+    public class AddScheduleValidator : AbstractValidator<CreateScheduleDto>
     {
         public AddScheduleValidator()
         {
-            RuleFor(s => s.DoctorId)
+            /*RuleFor(s => s.DoctorId)
                 .NotEmpty()
                 .GreaterThan(1)
                 .WithMessage("Cannot found doctor to matched");
@@ -24,7 +24,7 @@ namespace WebAPI.Validators
             RuleFor(s => s.WorkingDay)
                 .NotEmpty()
                 .GreaterThan(new DateTime().Date)
-                .WithMessage("It is not possible to set a schedule for the current period");
+                .WithMessage("It is not possible to set a schedule for the current period");*/
         }
     }
 }

@@ -3,6 +3,7 @@ import { DoctorService } from '../../../core/services/doctor.service';
 import { catchError, throwError } from 'rxjs';
 import { ScheduleService } from '../../../core/services/schedule.service';
 import { DataTableResponse } from '../../../core/models/dataTableResponse.model';
+import { environment } from '../../../../environments/environment';
 
 const MAX_ITEMS_ON_PAGES = 12;
 @Component({
@@ -11,6 +12,7 @@ const MAX_ITEMS_ON_PAGES = 12;
   styleUrl: './manage-schedule.component.scss',
 })
 export class ManageScheduleComponent implements OnInit {
+  hostName = environment.serverApi;
   breadCrumbItems!: Array<{}>;
   departmentData!: Array<{
     id: number;

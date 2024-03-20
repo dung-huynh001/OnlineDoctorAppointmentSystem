@@ -28,12 +28,18 @@ namespace WebAPI.Services
             var scheduleDate = model.ScheduleDate.Split(" to ");
             var scheduleDate_start = scheduleDate[0];
             var scheduleDate_end = scheduleDate[1];
+            var _startDate = DateTime.ParseExact(scheduleDate_start, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var _endDate = DateTime.ParseExact(scheduleDate_end, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-            
+
+
+
 
             _unitOfWork.BeginTransaction();
             try
             {
+                List<Schedule> schedules = new List<Schedule>();
+
                 var mStartTime = TimeSpan.Parse(model.mStartTime);
                 var mEndTime = TimeSpan.Parse(model.mEndTime);
                 var nStartTime = TimeSpan.Parse(model.nStartTime);
@@ -41,49 +47,69 @@ namespace WebAPI.Services
                 var aStartTime = TimeSpan.Parse(model.aStartTime);
                 var aEndTime = TimeSpan.Parse(model.aEndTime);
 
-                if (scheduleDate_start != scheduleDate_end)
+
+
+                for (DateTime date = _startDate; date <= _endDate; date = date.AddDays(1.0))
                 {
-                    var _startDate = DateTime.ParseExact(scheduleDate_start, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                    var _endDate = DateTime.ParseExact(scheduleDate_start, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                    for(DateTime date = _startDate; date <= _endDate; date.AddDays(1))
+                    var exist = _unitOfWork.Repository<Schedule>().GetAll
+                        .Where(
+                            s => s.DoctorId == model.DoctorId &&
+                            s.WorkingDay == date &&
+                            s.IsDeleted != true)
+                        .ToList();
+                    if (exist.Count > 0)
                     {
-                        var mSchedule = new Schedule();
-                        mSchedule.ShiftTime = mStartTime;
-                        mSchedule.BreakTime = mEndTime;
-                        mSchedule.Description = model.Description;
-                        mSchedule.Type = model.Type;
-                        mSchedule.WorkingDay = date;
-                        mSchedule.DoctorId = model.DoctorId;
-                        mSchedule.ConsultantTime = model.ConsultantTime;
-
-                        var aSchedule = new Schedule();
-                        aSchedule.ShiftTime = aStartTime;
-                        aSchedule.BreakTime = aEndTime;
-                        aSchedule.Description = model.Description;
-                        aSchedule.Type = model.Type;
-                        aSchedule.WorkingDay = date;
-                        aSchedule.DoctorId = model.DoctorId;
-                        aSchedule.ConsultantTime = model.ConsultantTime;
-
-                        var nSchedule = new Schedule();
-                        nSchedule.ShiftTime = nStartTime;
-                        nSchedule.BreakTime = nEndTime;
-                        nSchedule.Description = model.Description;
-                        nSchedule.Type = model.Type;
-                        nSchedule.WorkingDay = date;
-                        nSchedule.DoctorId = model.DoctorId;
-                        nSchedule.ConsultantTime = model.ConsultantTime;
-
-                        await _unitOfWork.Repository<Schedule>().AddAsync(mSchedule);
-                        await _unitOfWork.Repository<Schedule>().AddAsync(aSchedule);
-                        await _unitOfWork.Repository<Schedule>().AddAsync(nSchedule);
-                        _unitOfWork.Commit();
+                        if(!model.Force)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            foreach (var item in exist)
+                            {
+                                await _unitOfWork.Repository<Schedule>().DeleteByIdAsync(item.Id);
+                            }
+                        }
                     }
+
+                    var mSchedule = new Schedule();
+                    mSchedule.ShiftTime = mStartTime;
+                    mSchedule.BreakTime = mEndTime;
+                    mSchedule.Description = model.Description;
+                    mSchedule.Type = model.Type;
+                    mSchedule.WorkingDay = date;
+                    mSchedule.DoctorId = model.DoctorId;
+                    mSchedule.ConsultantTime = model.ConsultantTime;
+
+                    var aSchedule = new Schedule();
+                    aSchedule.ShiftTime = aStartTime;
+                    aSchedule.BreakTime = aEndTime;
+                    aSchedule.Description = model.Description;
+                    aSchedule.Type = model.Type;
+                    aSchedule.WorkingDay = date;
+                    aSchedule.DoctorId = model.DoctorId;
+                    aSchedule.ConsultantTime = model.ConsultantTime;
+
+                    var nSchedule = new Schedule();
+                    nSchedule.ShiftTime = nStartTime;
+                    nSchedule.BreakTime = nEndTime;
+                    nSchedule.Description = model.Description;
+                    nSchedule.Type = model.Type;
+                    nSchedule.WorkingDay = date;
+                    nSchedule.DoctorId = model.DoctorId;
+                    nSchedule.ConsultantTime = model.ConsultantTime;
+
+                    schedules.Add(aSchedule);
+                    schedules.Add(mSchedule);
+                    schedules.Add(nSchedule);
                 }
+                _unitOfWork.Repository<Schedule>().AddRange(schedules);
+                _unitOfWork.Commit();
+
                 return new ApiResponse
                 {
                     IsSuccess = true,
-                    Message = $"Add schedule for doctor with id {model.DoctorId} successfully",
+                    Message = $"Add schedule for doctor successfully",
                 };
             }
             catch
@@ -142,21 +168,22 @@ namespace WebAPI.Services
             }
         }
 
-        public async Task<GetSchedulesByDoctorIdDto> GetSchedulesByDoctorId(int doctorId)
+        public async Task<List<ScheduleEventDto>> GetScheduleEventsByDoctor(int doctorId)
         {
-            var schedules = _unitOfWork.Repository<Schedule>().GetAll
-                .Where(s => !s.IsDeleted &&
-                    s.DoctorId == doctorId &&
-                    s.WorkingDay.CompareTo(DateTime.Now) >= 0)
-                .Select(s => _mapper.Map<SchedulesOfDoctor>(s))
-                .ToList();
-
-            var doctor = await _unitOfWork.Repository<Doctor>().GetByIdAsync(doctorId);
-            var doctorAndSchedulesDto = _mapper.Map<GetSchedulesByDoctorIdDto>(doctor);
-
-            doctorAndSchedulesDto.Schedules = schedules;
-
-            return doctorAndSchedulesDto;
+            var schedules = await _unitOfWork.Repository<Schedule>().GetAll
+                .Where(s => !s.IsDeleted && s.DoctorId == doctorId)
+                .Select(s => new ScheduleEventDto
+                {
+                    Id=s.Id,
+                    ConsultantTime = s.ConsultantTime,
+                    Description = s.Description,
+                    StartTime = s.ShiftTime.ToString(@"hh\:mm\:ss"),
+                    EndTime = s.BreakTime.ToString(@"hh\:mm\:ss"),
+                    Type = s.Type,
+                    WorkingDay = s.WorkingDay.ToString("yyyy-MM-dd")
+                })
+                .ToListAsync();
+            return schedules;
         }
 
         public async Task<DatatableResponse<DoctorCardDto>> GetDoctorList(ScheduleFilter filter)

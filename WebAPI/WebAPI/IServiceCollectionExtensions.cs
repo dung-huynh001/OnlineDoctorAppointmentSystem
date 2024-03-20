@@ -14,6 +14,8 @@ namespace WebAPI
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>))
                 .AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            services.AddScoped<IMailService, MailService>();
+
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));

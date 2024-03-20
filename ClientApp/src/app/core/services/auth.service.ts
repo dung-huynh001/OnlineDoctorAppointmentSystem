@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IUser, User } from '../models/auth.models';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 const httpOptions = {
@@ -46,7 +46,8 @@ export class AuthService {
           return {
             data: User.createFromData(res),
           };
-        })
+        }),
+        catchError(err => { return throwError(() => err) })
       );
   }
 

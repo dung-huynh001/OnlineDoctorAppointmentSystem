@@ -222,6 +222,8 @@ namespace WebAPI.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
+                    b.HasIndex("ScheduleId");
+
                     b.HasIndex(new[] { "PatientId" }, "RELATIONSHIP_13_FK");
 
                     b.HasIndex(new[] { "DoctorId", "ScheduleId" }, "RELATIONSHIP_14_FK");
@@ -721,9 +723,6 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Domain.Entities.Schedule", b =>
                 {
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
@@ -747,6 +746,9 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -767,9 +769,9 @@ namespace WebAPI.Migrations
                     b.Property<DateTime>("WorkingDay")
                         .HasColumnType("date");
 
-                    b.HasKey("DoctorId", "Id");
+                    b.HasKey("Id");
 
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("DoctorId", "Id"), false);
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
                     b.HasIndex(new[] { "DoctorId" }, "RELATIONSHIP_7_FK");
 
@@ -887,7 +889,7 @@ namespace WebAPI.Migrations
 
                     b.HasOne("WebAPI.Domain.Entities.Schedule", "Schedule")
                         .WithMany("Appointments")
-                        .HasForeignKey("DoctorId", "ScheduleId")
+                        .HasForeignKey("ScheduleId")
                         .IsRequired();
 
                     b.Navigation("Patient");

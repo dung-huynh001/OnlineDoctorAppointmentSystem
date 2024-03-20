@@ -15,6 +15,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { NgxSpinnerModule } from 'ngx-spinner'
 
 
 
@@ -39,6 +40,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     NgbPagination,
     NgSelectModule,
     FullCalendarModule,
+    NgxSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

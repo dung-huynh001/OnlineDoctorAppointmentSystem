@@ -34,9 +34,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("get-schedules-of-doctor")]
-        public async Task<ActionResult<GetSchedulesByDoctorIdDto>> GetSchedulesByDoctorId(int doctorId)
+        public async Task<ActionResult> GetSchedulesByDoctorId(int doctorId)
         {
-            return Ok(await _scheduleService.GetSchedulesByDoctorId(doctorId));
+            return Ok(await _scheduleService.GetScheduleEventsByDoctor(doctorId));
         }
 
         [HttpPost("get-doctor-list")]
