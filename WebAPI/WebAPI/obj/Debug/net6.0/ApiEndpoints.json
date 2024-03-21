@@ -573,27 +573,17 @@
     "ContainingType": "WebAPI.Controllers.DoctorController",
     "Method": "GetDoctorListOnDuty",
     "RelativePath": "api/Doctor/get-doctor-on-duty",
-    "HttpMethod": "GET",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "date",
-        "Type": "System.DateTime",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[WebAPI.DTOs.DoctorOnDutyDto, WebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "WebAPI.Controllers.DoctorController",
@@ -783,15 +773,15 @@
   {
     "ContainingType": "WebAPI.Controllers.ScheduleController",
     "Method": "GetSchedulesByDoctorId",
-    "RelativePath": "api/Schedule/get-schedules-of-doctor",
-    "HttpMethod": "GET",
+    "RelativePath": "api/Schedule/get-schedules-of-doctor/{id}",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "doctorId",
+        "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

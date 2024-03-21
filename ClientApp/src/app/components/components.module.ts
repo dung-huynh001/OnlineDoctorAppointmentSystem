@@ -9,6 +9,7 @@ import { NgApexchartsModule} from 'ng-apexcharts';
 import { AppointmentStatisticComponent } from './appointment-statistic/appointment-statistic.component'
 import { CountUpModule } from 'ngx-countup';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NgApexchartsModule,
     CountUpModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlatpickrModule
   ],
   exports: [
     AppointmentFormComponent, 

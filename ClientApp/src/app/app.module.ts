@@ -26,11 +26,11 @@ export function tokenGetter() {
   return localStorage.getItem('token');
 }
 
-if (environment.defaultauth === 'firebase') {
-  initFirebaseBackend(environment.firebaseConfig);
-} else {
-  FakeBackendInterceptor;
-}
+// if (environment.defaultauth === 'firebase') {
+//   initFirebaseBackend(environment.firebaseConfig);
+// } else {
+//   FakeBackendInterceptor;
+// }
 
 
 @NgModule({
@@ -65,7 +65,7 @@ if (environment.defaultauth === 'firebase') {
     provideClientHydration(),
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
     provideCharts(withDefaultRegisterables())
   ],
   bootstrap: [AppComponent]

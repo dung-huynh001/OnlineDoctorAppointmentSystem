@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using WebAPI.DTOs;
 using WebAPI.Exceptions;
 using WebAPI.Interfaces.IService;
@@ -38,11 +39,14 @@ namespace WebAPI.Controllers
             return Ok(await _doctorService.GetAll(parameters));
         }
 
-        [HttpGet("get-doctor-on-duty")]
-        public async Task<ActionResult<List<DoctorOnDutyDto>>> GetDoctorListOnDuty(DateTime date)
+        [HttpPost("get-doctor-on-duty")]
+        public async Task<IActionResult> GetDoctorListOnDuty(string date)
         {
+            string formatString = "M/d/yyyy, h:mm:ss tt";
 
-            return Ok(await _doctorService.GetDoctorListOnDuty(date));
+            DateTime dateTime = DateTime.ParseExact(date, formatString, CultureInfo.InvariantCulture);
+
+            return Ok(await _doctorService.GetDoctorsOnDuty(dateTime));
         }
 
         [HttpPost("create")]

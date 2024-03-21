@@ -1,6 +1,6 @@
 export interface iDoctorOnDuty {
-    id: number;
+    doctorId: number;
     fullName: string;
-    scheduleId: number;
+    scheduleId: any;
     speciality: string;
 }

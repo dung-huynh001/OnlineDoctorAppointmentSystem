@@ -1,9 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RestApiService } from '../../core/services/rest-api.service';
 import { catchError, throwError } from 'rxjs';
 import { ToastService } from '../../core/services/toast.service';
@@ -13,19 +16,12 @@ import { ToastService } from '../../core/services/toast.service';
   templateUrl: './appointment-form.component.html',
   styleUrl: './appointment-form.component.scss',
 })
-export class AppointmentFormComponent implements OnInit {
+export class AppointmentFormComponent implements OnInit, OnChanges {
   @Input() defaultData!: {
     doctorId: number;
-    patientId: number;
     scheduleId: number;
     doctorName: string;
-    patientName: string;
     speciality: string;
-    phoneNumber: string;
-    dateOfBirth: string;
-    gender: number;
-    email: string;
-    address: string;
   };
   appointmentForm!: FormGroup;
   submitted: boolean = false;
@@ -33,29 +29,29 @@ export class AppointmentFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private _toastService: ToastService,
-    private _restApiService: RestApiService
+    private _restApiService: RestApiService,
+    private readonly elementRef: ElementRef
   ) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['defaultData']){
+      this.defaultData = changes['defaultData'].currentValue;
+    }
 
-  get f() {
-    return this.appointmentForm.controls;
-  }
-
-  ngOnInit(): void {
     this.appointmentForm = this.formBuilder.group({
-      patientId: [this.defaultData.patientId, Validators.required],
-      patientName: [this.defaultData.patientName, Validators.required],
-      dateOfBirth: [this.defaultData.dateOfBirth, Validators.required],
-      gender: [this.defaultData.gender, [Validators.required]],
+      patientId: ['', Validators.required],
+      patientName: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      gender: ['1', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
-      email: [this.defaultData.email, [Validators.required, Validators.email]],
-      address: [this.defaultData.address, Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      address: ['', Validators.required],
 
       doctorId: [this.defaultData.doctorId, Validators.required],
       doctorName: [this.defaultData.doctorName, Validators.required],
       speciality: [this.defaultData.speciality, Validators.required],
-      appointmentDate: ['', Validators.required],
+      appointmentDate: [new Date().toLocaleDateString('en-CA'), Validators.required],
       appointmentStatus: ['Pending', Validators.required],
-      time: ['', Validators.required],
+      time: [new Date().toLocaleTimeString(), Validators.required],
       scheduleId: [this.defaultData.scheduleId, Validators.required],
       modeOfConsultant: ['1', Validators.required],
       consultantType: ['1', Validators.required],
@@ -63,6 +59,17 @@ export class AppointmentFormComponent implements OnInit {
       drugAllergies: [''],
       note: [''],
     });
+
+    const doctorNameElement = this.elementRef.nativeElement.querySelector('#appointmentDate');
+    doctorNameElement.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  get f() {
+    return this.appointmentForm.controls;
+  }
+
+  ngOnInit(): void {
+
   }
 
   onSubmit(): void {

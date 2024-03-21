@@ -19,10 +19,16 @@
             <div class="card-body border border-dashed border-end-0 border-start-0">
                 <div class="row gap-3">
                     <div class="col-12">
-                        <app-datepicker title="Date" (dateChange)="onDateChange($event)"></app-datepicker>
+                        <label class="form-label mb-0">Date</label>
+                        <input class="form-control flatpickr-input" type="text" mwlFlatpickr [altInput]="true"
+                            [(ngModel)]="workingDay" altFormat="d/m/Y" autocomplete="off" />
+
                     </div>
                     <div class="col-12">
-                        <app-timepicker title="Time" (timeChange)="onTimeChange($event)"></app-timepicker>
+                        <label class="form-label mb-0">Time</label>
+                        <input class="form-control flatpickr-input" type="text" mwlFlatpickr [defaultValue]="'07:00'"
+                            [(ngModel)]="workingTime" [noCalendar]="true" [enableTime]="true" [dateFormat]="'H:i'"
+                            placeholder="hh:mm" id="cleave-time" autocomplete="off" />
                     </div>
                     <div class="col">
                         <button class="btn btn-soft-primary float-end" (click)="getDoctorsOnDuty()">Find
@@ -42,7 +48,8 @@
                     <div class="position-sticky">
                         <div class="position-relative">
                             <input type="text" class="form-control" placeholder="Search doctor name or speciality"
-                                autocomplete="off" id="search-options" value="" />
+                                [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}" autocomplete=" off"
+                                id="search-options" value="" (input)="searchInput($event)"/>
                             <span class="mdi mdi-magnify search-widget-icon"></span>
                             <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
                                 id="search-close-options"></span>
@@ -50,107 +57,36 @@
                     </div>
                 </form>
                 <div class=" overflow-scroll">
-                    <div data-simplebar style="max-height: 200px;">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0 avatar-xs">
-                                                <div class="avatar-title bg-danger-subtle text-danger rounded">
-                                                    <i class="ri-netflix-fill"></i>
+                    <div data-simplebar style="max-height: 200px; min-height: 100px;">
+                        <div class="text-center" style="height: 100px;" *ngIf="!this.foundFlag">No
+                            available data</div>
+                        <div>
+                            <ul class="list-group" *ngFor="let doctor of searchResults">
+                                <div class="text-center" style="height: 100px;" *ngIf="doctorData.length === 0">No
+                                    doctor found</div>
+                                <li class="list-group-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 avatar-xs">
+                                                    <div class="avatar-title bg-danger-subtle text-danger rounded">
+                                                        <i class="ri-netflix-fill"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-shrink-0 ms-2">
+                                                    <h6 class="fs-14 mb-0">{{doctor.fullName}}</h6>
+                                                    <small class="text-muted">{{doctor.speciality}}</small>
                                                 </div>
                                             </div>
-                                            <div class="flex-shrink-0 ms-2">
-                                                <h6 class="fs-14 mb-0">John Smith</h6>
-                                                <small class="text-muted">Brain</small>
-                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <button class="btn btn-sm btn-soft-primary"
+                                                (click)="onSelect(doctor)">Choose</button>
                                         </div>
                                     </div>
-                                    <div class="flex-shrink-0">
-                                        <button class="btn btn-sm btn-soft-primary">Choose</button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0 avatar-xs">
-                                                <div class="avatar-title bg-success-subtle text-success rounded">
-                                                    <i class="ri-spotify-fill"></i>
-                                                </div>
-                                            </div>
-                                            <div class="flex-shrink-0 ms-2">
-                                                <h6 class="fs-14 mb-0">Phu Tran</h6>
-                                                <small class="text-muted">Stomach</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <button class="btn btn-sm btn-soft-primary">Choose</button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0">
-                                                <img src="assets/images/users/avatar-2.jpg" alt=""
-                                                    class="avatar-xs rounded" />
-                                            </div>
-                                            <div class="flex-shrink-0 ms-2">
-                                                <h6 class="fs-14 mb-0">Anh Dinh</h6>
-                                                <small class="text-muted">Lung</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <button class="btn btn-sm btn-soft-primary">Choose</button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0 avatar-xs">
-                                                <div class="avatar-title bg-secondary-subtle text-secondary rounded">
-                                                    <i class="ri-paypal-fill"></i>
-                                                </div>
-                                            </div>
-                                            <div class="flex-shrink-0 ms-2">
-                                                <h6 class="fs-14 mb-0">Hai Nguyen</h6>
-                                                <small class="text-muted">Tooth</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <button class="btn btn-sm btn-soft-primary">Choose</button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0">
-                                                <img src="assets/images/users/avatar-3.jpg" alt=""
-                                                    class="avatar-xs rounded" />
-                                            </div>
-                                            <div class="flex-shrink-0 ms-2">
-                                                <h6 class="fs-14 mb-0">Harvey Wells</h6>
-                                                <small class="text-muted">Ly Tran</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <button class="btn btn-sm btn-soft-primary">Choose</button>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

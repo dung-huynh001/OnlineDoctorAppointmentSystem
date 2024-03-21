@@ -33,10 +33,16 @@ namespace WebAPI.Controllers
             return Ok(await _scheduleService.AddSchedule(model));
         }
 
-        [HttpGet("get-schedules-of-doctor")]
+        /*[HttpPost("get-schedules-of-doctor")]
         public async Task<ActionResult> GetSchedulesByDoctorId(int doctorId)
         {
             return Ok(await _scheduleService.GetScheduleEventsByDoctor(doctorId));
+        }*/
+
+        [HttpPost("get-schedules-of-doctor/{id}")]
+        public async Task<ActionResult> GetSchedulesByDoctorId(int id)
+        {
+            return Ok(await _scheduleService.GetScheduleEventsByDoctor(id));
         }
 
         [HttpPost("get-doctor-list")]

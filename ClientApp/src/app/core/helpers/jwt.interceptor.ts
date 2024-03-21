@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   constructor(
-    private authServiceService: AuthService,
+    private authService: AuthService,
     private authfackservice: AuthfakeService
   ) {}
 
@@ -44,10 +44,10 @@ export class JwtInterceptor implements HttpInterceptor {
     //     }
     // }
 
-    if (this.authServiceService.token$.value) {
+    if (this.authService.token$.value) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${this.authServiceService.token$.value}`,
+          Authorization: `Bearer ${this.authService.token$.value}`,
         },
       });
     }

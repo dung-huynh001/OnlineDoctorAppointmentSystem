@@ -29,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'assign-schedule/:id',
-    component: AssignScheduleComponent
+    component: AssignScheduleComponent,
   },
 ];
 

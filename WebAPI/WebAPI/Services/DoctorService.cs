@@ -25,23 +25,26 @@ namespace WebAPI.Services
             this._mapper = mapper;
         }
 
-        public async Task<List<DoctorOnDutyDto>> GetDoctorListOnDuty(DateTime dateTime)
+        public async Task<List<DoctorOnDutyDto>> GetDoctorsOnDuty(DateTime dateTime)
         {
-            var result = new List<DoctorOnDutyDto>();
+            var doctors = new List<DoctorOnDutyDto>();
             var workingDay = dateTime.Date;
             var time = dateTime.TimeOfDay;
 
-            result = await _unitOfWork.Repository<Doctor>().GetAll
-                .Include(d => d.Schedules)
-                .Where(d => !d.IsDeleted &&
-                    d.Schedules.Any(s =>
+
+            var result = await _unitOfWork.Repository<Schedule>().GetAll
+                .Include(s => s.Doctor)
+                .Where(s =>
+                    !s.IsDeleted &&
                     s.WorkingDay.Date == workingDay &&
-                    s.ShiftTime <= time && s.BreakTime > time))
-                .Select(d => new DoctorOnDutyDto
+                    s.ShiftTime.CompareTo(time) <= 0 &&
+                    s.BreakTime.CompareTo(time) >= 0)
+                .Select(s => new DoctorOnDutyDto
                 {
-                    FullName = d.FullName,
-                    Speciality = d.Speciality,
-                    Id = d.Id,
+                    DoctorId = s.DoctorId,
+                    ScheduleId = s.Id,
+                    FullName = s.Doctor.FullName,
+                    Speciality = s.Doctor.Speciality,
                 })
                 .ToListAsync();
 

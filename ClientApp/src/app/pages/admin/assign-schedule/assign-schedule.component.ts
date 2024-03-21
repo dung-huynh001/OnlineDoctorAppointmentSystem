@@ -4,8 +4,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {
-  AfterViewInit,
   Component,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -16,11 +16,11 @@ import {
   EventClickArg,
   EventInput,
 } from '@fullcalendar/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ScheduleService } from '../../../core/services/schedule.service';
-import { catchError, finalize, throwError } from 'rxjs';
+import { catchError, throwError, Subscription, first, map } from 'rxjs';
 import { ToastService } from '../../../core/services/toast.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -29,7 +29,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './assign-schedule.component.html',
   styleUrl: './assign-schedule.component.scss',
 })
-export class AssignScheduleComponent implements OnInit, AfterViewInit {
+export class AssignScheduleComponent implements OnInit, OnDestroy {
+  private addEvent$!: Subscription;
+  private fetchEvent$!: Subscription;
   breadCrumbItems!: Array<{}>;
 
   calendarEvents!: EventInput[];
@@ -51,6 +53,7 @@ export class AssignScheduleComponent implements OnInit, AfterViewInit {
   description: string = 'Default description';
   force: boolean = true;
   type: string = 'bg-success-subtle';
+  shiftName: any;
 
   selectedRangeDate!: {
     from: string;
@@ -97,7 +100,15 @@ export class AssignScheduleComponent implements OnInit, AfterViewInit {
     private _toastService: ToastService,
     private _spinnerService: NgxSpinnerService
   ) {}
-  ngAfterViewInit(): void {}
+
+  ngOnDestroy(): void {
+    if (this.addEvent$) {
+      this.addEvent$.unsubscribe();
+    }
+    if (this.fetchEvent$) {
+      this.fetchEvent$.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
@@ -108,6 +119,7 @@ export class AssignScheduleComponent implements OnInit, AfterViewInit {
 
     const currentUrl = this.router.url;
     this.doctorId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+
     this.formAddEvent = this.formBuilder.group({
       description: [this.description, Validators.required],
       scheduleDate: ['', Validators.required],
@@ -122,7 +134,6 @@ export class AssignScheduleComponent implements OnInit, AfterViewInit {
       type: ['bg-success-subtle'],
       force: [true],
     });
-
     this.fetchEvent();
   }
 
@@ -131,28 +142,37 @@ export class AssignScheduleComponent implements OnInit, AfterViewInit {
   }
 
   fetchEvent() {
-    this._scheduleService
-      .getScheduleEvents('Schedule/get-schedules-of-doctor', this.doctorId)
+    this.fetchEvent$ = this._scheduleService
+      .getScheduleEvents('/Schedule/get-schedules-of-doctor', this.doctorId)
       .pipe(
+        first(),
         catchError((err) => {
           console.log('cannot load schedule event: ' + err);
           return throwError(() => err);
+        }),
+        map((res) => {
+          return (res = res.map((event: any) => {
+            return {
+              id: event.id,
+              date: new Date(event.workingDay + ' ' + event.startTime),
+              title: event.description,
+              start: new Date(event.workingDay + ' ' + event.startTime),
+              end: new Date(event.workingDay + ' ' + event.endTime),
+              allDay: false,
+              className: event.type,
+              description: event.description,
+            };
+          }));
         })
       )
       .subscribe((events) => {
-        this.calendarEvents = events.map((event: any) => {
-          return {
-            id: event.id,
-            date: new Date(event.workingDay),
-            title: event.description,
-            start: new Date(event.workingDay + ' ' + event.startTime),
-            end: new Date(event.workingDay + ' ' + event.endDate),
-            className: event.type,
-            description: event.description,
-          };
-        });
-        this.calendarOptions.initialEvents = this.calendarEvents;
+        this.calendarEvents = events;
+        this.updateCalendarEvents();
       });
+  }
+
+  updateCalendarEvents() {
+    this.calendarOptions.initialEvents = this.calendarEvents;
   }
 
   openAddOrUpdateModal(events?: any) {
@@ -178,15 +198,25 @@ export class AssignScheduleComponent implements OnInit, AfterViewInit {
   }
 
   openViewModal(clickInfo: EventClickArg) {
-    console.log(clickInfo);
-
     this.selectedEvent = {
       id: clickInfo.event._def.publicId,
       description: clickInfo.event._def.title,
-      date: clickInfo.event._instance?.range.start.toLocaleDateString(),
-      startDate: clickInfo.event._instance?.range.start.toLocaleTimeString().slice(0,5),
-      endDate: clickInfo.event._instance?.range.end.toLocaleTimeString().slice(0,5),
+      date: clickInfo.event.start?.toLocaleDateString(),
+      start: clickInfo.event.start?.toLocaleTimeString().slice(0, 5),
+      end: clickInfo.event.end?.toLocaleTimeString().slice(0, 5),
     };
+
+    switch (true) {
+      case this.selectedEvent.start.slice(0, 2) < '12':
+        this.shiftName = 'Morning Shift';
+        break;
+      case this.selectedEvent.start.slice(0, 2) < '18':
+        this.shiftName = 'Afternoon Shift';
+        break;
+      default:
+        this.shiftName = 'Night Shift';
+        break;
+    }
 
     this._modalService.open(this.ViewModal, {
       centered: true,
@@ -212,26 +242,32 @@ export class AssignScheduleComponent implements OnInit, AfterViewInit {
 
     this.showSpinner();
     if (this.formAddEvent.valid) {
-      this._scheduleService
-        .addSchedule('/Schedule/add-schedule', this.formAddEvent.value)
-        .pipe(
-          catchError((err) => {
-            this.hideSpinner();
-            this._toastService.error(
-              'Add schedule failed. Please check your connection again'
-            );
-            return throwError(() => err);
-          }),
-          finalize(() => {
-            this.fetchEvent();
-          })
-        )
-        .subscribe((res) => {
-          this._toastService.success(res.message);
-          this.hideSpinner();
-          this.closeEventModal();
-        });
+      this.addEvent(this.formAddEvent.value);
     }
+  }
+
+  addEvent(data: any) {
+    this.addEvent$ = this._scheduleService
+      .addSchedule('/Schedule/add-schedule', data)
+      .pipe(
+        first(),
+        catchError((err) => {
+          this.hideSpinner();
+          this._toastService.error(
+            'Add schedule failed. Please check your connection again'
+          );
+          return throwError(() => err);
+        })
+      )
+      .subscribe((res) => {
+        this._toastService.success(res.message);
+        this.hideSpinner();
+        this.closeEventModal();
+        if (this.fetchEvent$) {
+          this.fetchEvent$.unsubscribe();
+        }
+        this.fetchEvent();
+      });
   }
 
   handleEvents(events: EventApi[]) {

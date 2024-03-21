@@ -2,9 +2,10 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PatientRoutingModule } from './patient-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '../../components/components.module';
 import { MakeAppointmentComponent } from './make-appointment/make-appointment.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 
 
@@ -17,7 +18,9 @@ import { MakeAppointmentComponent } from './make-appointment/make-appointment.co
     PatientRoutingModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     ComponentsModule,
+    FlatpickrModule.forRoot(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

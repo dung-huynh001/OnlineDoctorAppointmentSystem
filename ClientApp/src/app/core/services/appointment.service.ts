@@ -11,6 +11,6 @@ export class AppointmentService {
   constructor(private http: HttpClient) { }
 
   getDoctorOnDuty(url: string, dateTime: any): Observable<any> {
-    return this.http.post(environment.serverApi + `/api` + url, dateTime);
+    return this.http.post(environment.serverApi + `/api` + url + `?date=${dateTime}`, dateTime);
   }
 }
