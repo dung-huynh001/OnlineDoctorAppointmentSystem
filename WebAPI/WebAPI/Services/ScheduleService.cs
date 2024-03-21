@@ -17,11 +17,13 @@ namespace WebAPI.Services
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMailService _mailService;
 
-        public ScheduleService(IMapper mapper, IUnitOfWork unitOfWork)
+        public ScheduleService(IMapper mapper, IUnitOfWork unitOfWork, IMailService mailService)
         {
             this._mapper = mapper;
             this._unitOfWork = unitOfWork;
+            _mailService = mailService;
         }
         public async Task<ApiResponse> AddSchedule(CreateScheduleDto model)
         {
@@ -30,10 +32,6 @@ namespace WebAPI.Services
             var scheduleDate_end = scheduleDate[1];
             var _startDate = DateTime.ParseExact(scheduleDate_start, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             var _endDate = DateTime.ParseExact(scheduleDate_end, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-
-
-
 
             _unitOfWork.BeginTransaction();
             try
@@ -46,8 +44,6 @@ namespace WebAPI.Services
                 var nEndTime = TimeSpan.Parse(model.nEndTime);
                 var aStartTime = TimeSpan.Parse(model.aStartTime);
                 var aEndTime = TimeSpan.Parse(model.aEndTime);
-
-
 
                 for (DateTime date = _startDate; date <= _endDate; date = date.AddDays(1.0))
                 {
@@ -106,6 +102,32 @@ namespace WebAPI.Services
                 _unitOfWork.Repository<Schedule>().AddRange(schedules);
                 _unitOfWork.Commit();
 
+                var doctor = await _unitOfWork.Repository<Doctor>().GetByIdAsync(model.DoctorId);
+                var toEmail = doctor.User.Email;
+                var _startDateStr = _startDate.ToString("MMM dd, yyyy");
+                var _endDateStr = _endDate.ToString("MMM dd, yyyy");
+                string scheduleDateStr = $"{_startDateStr}";
+                if(!_startDateStr.Equals(_endDateStr))
+                {
+                    scheduleDateStr = $"from {_startDateStr} to {_endDateStr}";
+                }
+
+                var formMail = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "EmailTemplates/AssignmentMailSample.htm"));
+                formMail = formMail.Replace("#doctor#", doctor.FullName);
+                formMail = formMail.Replace("#mStart#", model.mStartTime);
+                formMail = formMail.Replace("#aStart#", model.aStartTime);
+                formMail = formMail.Replace("#nStart#", model.nStartTime);
+                formMail = formMail.Replace("#mEnd#", model.mEndTime);
+                formMail = formMail.Replace("#aEnd#", model.aEndTime);
+                formMail = formMail.Replace("#nEnd#", model.nEndTime);
+                formMail = formMail.Replace("#scheduleDate#", scheduleDateStr);
+
+                _ = Task.Run(() => _mailService.SendEmailAsync(new MailRequest
+                {
+                    ToEmail = toEmail,
+                    Subject = $"Assigned duty schedule {scheduleDateStr}",
+                    Body = formMail
+                }));
                 return new ApiResponse
                 {
                     IsSuccess = true,

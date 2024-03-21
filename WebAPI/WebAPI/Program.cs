@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebAPI;
@@ -52,7 +53,10 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<DoctorAppointmentSystemContext>(opt =>
-                    opt.UseSqlServer(builder.Configuration.GetConnectionString("DBConnectString")));
+{
+    opt.UseLazyLoadingProxies();
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DBConnectString"));
+});
 
 builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<DoctorAppointmentSystemContext>()
