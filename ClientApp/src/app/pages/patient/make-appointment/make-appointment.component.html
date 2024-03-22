@@ -49,46 +49,45 @@
                         <div class="position-relative">
                             <input type="text" class="form-control" placeholder="Search doctor name or speciality"
                                 [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}" autocomplete=" off"
-                                id="search-options" value="" (input)="searchInput($event)"/>
+                                id="search-options" value="" (input)="searchInput($event)" />
                             <span class="mdi mdi-magnify search-widget-icon"></span>
                             <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
                                 id="search-close-options"></span>
                         </div>
                     </div>
                 </form>
-                <div class=" overflow-scroll">
-                    <div data-simplebar style="max-height: 200px; min-height: 100px;">
-                        <div class="text-center" style="height: 100px;" *ngIf="!this.foundFlag">No
-                            available data</div>
-                        <div>
-                            <ul class="list-group" *ngFor="let doctor of searchResults">
-                                <div class="text-center" style="height: 100px;" *ngIf="doctorData.length === 0">No
-                                    doctor found</div>
-                                <li class="list-group-item">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-grow-1">
-                                            <div class="d-flex">
-                                                <div class="flex-shrink-0 avatar-xs">
-                                                    <div class="avatar-title bg-danger-subtle text-danger rounded">
-                                                        <i class="ri-netflix-fill"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="flex-shrink-0 ms-2">
-                                                    <h6 class="fs-14 mb-0">{{doctor.fullName}}</h6>
-                                                    <small class="text-muted">{{doctor.speciality}}</small>
+                <ngx-simplebar style="max-height: 220px; min-height: 100px;">
+                    <div class="text-center" style="height: 100px;" *ngIf="!this.foundFlag">
+                        <h5>No available data</h5>
+                    </div>
+                    <div>
+                        <ul class="list-group" *ngFor="let doctor of searchResults">
+                            <div class="text-center" style="height: 100px;" *ngIf="doctorData.length === 0">No
+                                doctor found</div>
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 avatar-xs">
+                                                <div class="avatar-title bg-danger-subtle text-danger rounded">
+                                                    <i class="ri-netflix-fill"></i>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="flex-shrink-0">
-                                            <button class="btn btn-sm btn-soft-primary"
-                                                (click)="onSelect(doctor)">Choose</button>
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">{{doctor.fullName}}</h6>
+                                                <small class="text-muted">{{doctor.speciality}}</small>
+                                            </div>
                                         </div>
                                     </div>
-                                </li>
-                            </ul>
-                        </div>
+                                    <div class="flex-shrink-0">
+                                        <button class="btn btn-sm btn-soft-primary"
+                                            (click)="onSelect(doctor)">Choose</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                </div>
+                </ngx-simplebar>
             </div>
         </div>
     </div>
@@ -106,3 +105,20 @@
         <!-- end col -->
     </div>
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Modal Title</h4>
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Nội dung modal
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Lưu</button>
+        <button type="button" class="btn btn-secondary">Hủy</button>
+    </div>
+</ng-template>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

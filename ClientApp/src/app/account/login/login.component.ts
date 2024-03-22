@@ -6,8 +6,9 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
+import { catchError, finalize, throwError } from 'rxjs';
 import { ToastService } from '../../core/services/toast.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    public toastService: ToastService
+    private toastService: ToastService,
+    private _spinnerService: NgxSpinnerService
   ) {
     // redirect to home if already logged in
     if (this.authService.user$.value) {
@@ -37,8 +39,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(localStorage.getItem('toast')) {
-      this.toastService.success('Account registration successful! Please log in to continue');
+    if (localStorage.getItem('toast')) {
+      this.toastService.success(
+        'Account registration successful! Please log in to continue'
+      );
       localStorage.removeItem('toast');
     }
 
@@ -63,15 +67,23 @@ export class LoginComponent implements OnInit {
    */
   onSubmit() {
     this.submitted = true;
-    
+
     if (this.loginForm.valid) {
+      this._spinnerService.show();
       // Login Api
       this.authService
         .login(this.f['username'].value, this.f['password'].value)
         .pipe(
           catchError((err) => {
-            this.toastService.error(err.Message);
+            if (err.message) this.toastService.error(err.message);
+            else
+              this.toastService.error(
+                'Cannot connected to server. Please check your connection again'
+              );
             return throwError(() => err);
+          }),
+          finalize(() => {
+            this._spinnerService.hide();
           })
         )
         .subscribe((res) => {
@@ -80,6 +92,8 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('currentUser', JSON.stringify(res.data));
             localStorage.setItem('token', res.data.token);
             this.authService.setLogin(res.data, res.data.token);
+
+            console.log(res);
 
             const role = res.data.userType;
             this.router.navigate([`/${role}`]);

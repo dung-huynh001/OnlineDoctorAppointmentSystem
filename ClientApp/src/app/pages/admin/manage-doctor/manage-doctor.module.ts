@@ -12,6 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DataTablesModule } from 'angular-datatables';
 import { NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
@@ -36,6 +37,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
     NgbTooltip,
     NgbNavModule,
     FlatpickrModule,
+    NgxSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

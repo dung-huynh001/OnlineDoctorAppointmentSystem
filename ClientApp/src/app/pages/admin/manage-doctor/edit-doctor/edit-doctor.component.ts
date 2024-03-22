@@ -4,6 +4,7 @@ import { DoctorService } from '../../../../core/services/doctor.service';
 import { catchError, throwError } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '../../../../core/services/toast.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-edit-doctor',
@@ -125,16 +126,22 @@ export class EditDoctorComponent implements OnInit {
         this.isLoading = false;
         this.doctorDetails = res;
         this.selectedDepartment = res.departmentId;
+
+        // Format datetime yyyy-mm-dd to bind it to input
+        const dateOfBirth = this.doctorDetails.dateOfBirth.split('/').reverse().join('-');
+        const workingEndDate = this.doctorDetails.workingEndDate.split('/').reverse().join('-');
+        const workingStartDate = this.doctorDetails.workingStartDate.split('/').reverse().join('-');
+
         this.personalForm = this.formBuilder.group({
           Id: [this.doctorDetails.id, Validators.required],
           UserId: [this.doctorDetails.userId, Validators.required],
           FullName: [this.doctorDetails.fullName, Validators.required],
           Email: [
             this.doctorDetails.email,
-            [Validators.required, Validators.email],
+            [Validators.required, Validators.email, Validators.pattern('[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$')],
           ],
           NationalId: [this.doctorDetails.nationalId, Validators.required],
-          DateOfBirth: [this.doctorDetails.dateOfBirth, Validators.required],
+          DateOfBirth: [dateOfBirth, Validators.required],
           Gender: [this.doctorDetails.gender, Validators.required],
           PhoneNumber: [this.doctorDetails.phoneNumber, Validators.required],
           Address: [this.doctorDetails.address, Validators.required],
@@ -146,11 +153,11 @@ export class EditDoctorComponent implements OnInit {
           Speciality: [this.doctorDetails.speciality, Validators.required],
           DepartmentId: [this.doctorDetails.departmentId, Validators.required],
           WorkingStartDate: [
-            this.doctorDetails.workingEndDate,
+            workingEndDate,
             Validators.required,
           ],
           WorkingEndDate: [
-            this.doctorDetails.workingEndDate,
+            workingEndDate,
             Validators.required,
           ],
         });

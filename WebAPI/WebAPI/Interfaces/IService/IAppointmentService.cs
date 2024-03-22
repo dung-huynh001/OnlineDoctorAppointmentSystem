@@ -15,5 +15,7 @@ namespace WebAPI.Interfaces.IService
         Task<List<GetAppointmentToDrawTableDto>> GetCancelled(int id, string userType);
         Task<List<GetAppointmentToDrawTableDto>> GetOutOfDate(int id, string userType);
         Task<GetAppointmentDetailDto> GetAppointmentDetail(int appointmentId);
+
+        Task<PatientDataToAppointment> GetPatientDataToAppointment(string currentUserId);
     }
 }

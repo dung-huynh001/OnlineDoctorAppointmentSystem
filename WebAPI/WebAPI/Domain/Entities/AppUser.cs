@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using WebAPI.Domain.Enums;
 
 namespace WebAPI.Domain.Entities
 {
@@ -14,13 +15,7 @@ namespace WebAPI.Domain.Entities
 
         public string UserType { get; set; } = null!;
         public string? AvatarUrl { get; set; }
-        public int? PasswordRecoveryQue1 { get; set; }
-        public int? PasswordRecoveryQue2 { get; set; }
-        public int? PasswordRecoveryQue3 { get; set; }
-        public string? PasswordRecoveryAns1 { get; set; }
-        public string? PasswordRecoveryAns2 { get; set; }
-        public string? PasswordRecoveryAns3 { get; set; }
-        public bool Status { get; set; }
+        public StatusAccount Status { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? UpdatedBy { get; set; }

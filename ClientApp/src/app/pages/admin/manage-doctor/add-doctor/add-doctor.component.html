@@ -20,10 +20,16 @@
                             <div class="col-lg-6">
                                 <label class="form-label " for="email">Email <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="email" formControlName="Email"
-                                    autocomplete="off" placeholder="Enter email"
+                                    pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" autocomplete="off"
+                                    placeholder="Enter email"
                                     [ngClass]="{'is-invalid': accountForm_submitted && this.accountFormControl['Email'].errors }">
-                                <div class="invalid-feedback">
+                                <div class="invalid-feedback"
+                                    *ngIf="this.accountFormControl['Email'].errors?.['required']">
                                     Please enter email
+                                </div>
+                                <div class="invalid-feedback"
+                                    *ngIf="this.accountFormControl['Email'].errors?.['email'] || this.accountFormControl['Email'].errors?.['pattern']">
+                                    Please enter the correct email format
                                 </div>
                             </div>
                         </div>
@@ -60,8 +66,13 @@
                                 <input type="password" class="form-control" id="confirmPassword"
                                     placeholder="Enter confirm password" formControlName="ConfirmPassword"
                                     [ngClass]="{'is-invalid': accountForm_submitted && this.accountFormControl['ConfirmPassword'].errors }">
-                                <div class="invalid-feedback">
+                                <div class="invalid-feedback"
+                                    *ngIf="this.accountFormControl['ConfirmPassword'].errors?.['required']">
                                     Please enter confirm password
+                                </div>
+                                <div class="invalid-feedback"
+                                    *ngIf="this.accountFormControl['ConfirmPassword'].errors?.['compare']">
+                                    Confirm password must be equals password
                                 </div>
                             </div>
                         </div>
@@ -101,7 +112,7 @@
                                 <label class="form-label" for="nationalId">National
                                     ID <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nationalId" formControlName="NationalId"
-                                    autocomplete="off" placeholder="Enter doctor's national id"
+                                    autocomplete="off" placeholder="Enter doctor's national id" maxlength="10"
                                     [ngClass]="{'is-invalid': doctorInfoForm_submitted && this.doctorInfoFormControl['NationalId'].errors }">
                                 <div class="invalid-feedback">
                                     Please enter doctor's national id
@@ -131,6 +142,7 @@
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="phoneNumber" autocomplete="off"
                                     formControlName="PhoneNumber" placeholder="Enter doctor's phone number"
+                                    maxlength="10"
                                     [ngClass]="{'is-invalid': doctorInfoForm_submitted && this.doctorInfoFormControl['PhoneNumber'].errors }">
                                 <div class="invalid-feedback">
                                     Please enter doctor's phone number

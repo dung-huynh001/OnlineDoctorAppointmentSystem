@@ -1,8 +1,6 @@
-import { ScheduleOfDoctorsComponent } from './schedule-of-doctors/schedule-of-doctors.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../core/guards/auth.guard';
-import { CustomerCareComponent } from './customer-care/customer-care.component';
 import { MedicalProcessComponent } from './medical-process/medical-process.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
@@ -24,10 +22,6 @@ const routes: Routes = [
   {
     path: 'about',
     component: AboutUsComponent,
-  },
-  {
-    path: 'schedule-of-doctors',
-    component: ScheduleOfDoctorsComponent,
   },
   {
     path: 'assign-schedule',

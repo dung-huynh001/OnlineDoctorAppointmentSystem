@@ -20,22 +20,22 @@ namespace WebAPI.Controllers
             this._scheduleService = scheduleService;
         }
 
+        [HttpGet("get-schedule-by-date/{doctorId}")]
+        public async Task<IActionResult> GetScheduleByDate([FromRoute]int doctorId, DateTime date)
+        {
+            return Ok(await _scheduleService.GetScheduleByDate(doctorId, date));
+        }
+
         [HttpPost("add-schedule")]
         public async Task<ActionResult<ApiResponse>> AddSchedule(CreateScheduleDto model)
         {
             return Ok(await _scheduleService.AddSchedule(model));
         }
 
-        /*[HttpPost("get-schedules-of-doctor")]
+        [HttpGet("get-schedules-of-doctor")]
         public async Task<ActionResult> GetSchedulesByDoctorId(int doctorId)
         {
             return Ok(await _scheduleService.GetScheduleEventsByDoctor(doctorId));
-        }*/
-
-        [HttpPost("get-schedules-of-doctor/{id}")]
-        public async Task<ActionResult> GetSchedulesByDoctorId(int id)
-        {
-            return Ok(await _scheduleService.GetScheduleEventsByDoctor(id));
         }
 
         [HttpPost("get-doctor-list")]

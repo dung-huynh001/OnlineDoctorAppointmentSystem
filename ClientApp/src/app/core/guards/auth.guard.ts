@@ -32,6 +32,7 @@ export class AuthGuard {
         queryParams: { returnUrl: state.url },
       });
     }
+
     const currAccess = roleAccess.filter(
       (item) => item.role === currUser.userType
     )[0];

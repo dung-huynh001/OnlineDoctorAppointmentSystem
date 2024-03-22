@@ -27,11 +27,12 @@
                                     </div><!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="PhoneNumber" class="form-label">National ID <span
+                                            <label for="NationalId" class="form-label">National ID <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" autocomplete="off" class="form-control" id="PhoneNumber"
-                                                placeholder="Enter doctor's national id" formControlName="PhoneNumber"
-                                                [ngClass]="{ 'is-invalid': personalFormSubmitted && personalFormControl['PhoneNumber'].errors }">
+                                                maxlength="10" placeholder="Enter doctor's national id"
+                                                formControlName="NationalId"
+                                                [ngClass]="{ 'is-invalid': personalFormSubmitted && personalFormControl['NationalId'].errors }">
                                             <div class="invalid-feedback">
                                                 Please enter doctor's national
                                             </div>
@@ -42,10 +43,16 @@
                                             <label for="Email" class="form-label">Email <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" autocomplete="off" class="form-control" id="Email"
+                                                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                                                 placeholder="Enter doctor's email" formControlName="Email"
                                                 [ngClass]="{ 'is-invalid': personalFormSubmitted && personalFormControl['Email'].errors }">
-                                            <div class="invalid-feedback">
+                                            <div class="invalid-feedback"
+                                                *ngIf="this.personalFormControl['Email'].errors?.['required']">
                                                 Please enter doctor's email
+                                            </div>
+                                            <div class="invalid-feedback"
+                                                *ngIf="this.personalFormControl['Email'].errors?.['email'] || this.personalFormControl['Email'].errors?.['pattern']">
+                                                Please enter the correct email format
                                             </div>
                                         </div>
                                     </div><!--end col-->
@@ -53,7 +60,7 @@
                                         <div class="mb-3">
                                             <label for="DateOfBirth" class="form-label">Date Of Birth <span
                                                     class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" id="DateOfBirth"
+                                            <input type="date" class="form-control" id="DateOfBirth" 
                                                 placeholder="Select date of birth" formControlName="DateOfBirth"
                                                 [ngClass]="{ 'is-invalid': personalFormSubmitted && personalFormControl['DateOfBirth'].errors }">
                                             <div class="invalid-feedback">
@@ -80,8 +87,9 @@
                                         <div class="mb-3">
                                             <label for="PhoneNumber" class="form-label">Mobile <span
                                                     class="text-danger">*</span></label>
-                                            <input type="email" class="form-control" id="PhoneNumber"
+                                            <input type="text" class="form-control" id="PhoneNumber" autocomplete="off"
                                                 placeholder="Enter doctor's phone number" formControlName="PhoneNumber"
+                                                maxlength="10"
                                                 [ngClass]="{ 'is-invalid': personalFormSubmitted && personalFormControl['PhoneNumber'].errors }">
                                             <div class="invalid-feedback">
                                                 Please enter doctor's mobile
@@ -103,7 +111,8 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3 pb-2">
                                             <label for="avatar" class="form-label">Upload Avatar</label>
-                                            <input type="file" id="avatar" class="form-control" (change)="onFileChange($event)"
+                                            <input type="file" id="avatar" class="form-control"
+                                                (change)="onFileChange($event)"
                                                 [ngClass]="{ 'is-invalid': personalFormSubmitted && personalFormControl['Avatar'].errors }">
                                             <div class="invalid-feedback">
                                                 Please select doctor's avatar
@@ -113,7 +122,8 @@
                                 </div><!--end row-->
                                 <div class="d-flex justify-content-end gap-3">
                                     <button class="btn btn-soft-danger" type="button">Cancel</button>
-                                    <button [disabled]="!personalFormChanged()" class="btn btn-soft-success" type="submit">Save changes</button>
+                                    <button [disabled]="!personalFormChanged()" class="btn btn-soft-success"
+                                        type="submit">Save changes</button>
                                 </div>
                             </form>
                         </ng-template>
@@ -132,7 +142,8 @@
                                                 <div class="mb-3">
                                                     <label for="speciality" class="form-label">Speciality <span
                                                             class="text-danger">*</span></label>
-                                                    <input type="text" autocomplete="off" class="form-control" id="speciality" [value]="this.doctorDetails.speciality"
+                                                    <input type="text" autocomplete="off" class="form-control"
+                                                        id="speciality" [value]="this.doctorDetails.speciality"
                                                         placeholder="Enter doctor's Speciality"
                                                         formControlName="Speciality"
                                                         [ngClass]="{ 'is-invalid': workInfoFormSubmitted && workInfoFormControl['Speciality'].errors }">

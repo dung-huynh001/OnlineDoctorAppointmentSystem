@@ -1,7 +1,9 @@
+import { iDoctorDetails } from './../../../../core/models/doctor.model';
 import { DoctorService } from './../../../../core/services/doctor.service';
 import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, interval, map, throwError } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { catchError, finalize, interval, map, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-view-doctor',
@@ -24,21 +26,48 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
     | undefined;
   breadCrumbItems!: Array<{}>;
   userType = localStorage.getItem('userType');
+
+  doctorData: iDoctorDetails = {
+    id: 0,
+    userId: '',
+    address: '',
+    dateOfBirth: '',
+    departmentId: '',
+    departmentName: '',
+    email: '',
+    fullName: '',
+    avatarUrl: '',
+    gender:  '',
+    nationalId: '',
+    phoneNumber: '',
+    speciality: '',
+    workingEndDate: '',
+    workingStartDate: '',
+    createdDate: '',
+    updatedDate: '',
+  };
+
   completionLevel!: number;
   selectedId!: any;
   selectedDate: Date = new Date();
   schedulesInfo!: Array<{
+    shiftName: any;
     shiftTime: any;
     breakTime: any;
     description: string;
     appt: number;
   }>;
   totalApptOnDate: number = 0;
-  constructor(private _doctorService: DoctorService, private router: Router) {
+
+  constructor(
+    private _doctorService: DoctorService,
+    private router: Router,
+    private _spinnerService: NgxSpinnerService
+  ) {
     this.completionLevel = 30;
   }
-
   ngAfterViewInit(): void {}
+
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Home' },
@@ -48,6 +77,9 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
 
     const currentUrl = this.router.url;
     this.selectedId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+
+    this.fetchData();
+    this.getScheduleByDate();
 
     this.UpcomingActivities = [
       {
@@ -153,30 +185,83 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
     ];
   }
 
+  fetchData() {
+    this._spinnerService.show();
+    this._doctorService
+      .getDoctorDetails('Doctor/get-doctor-details', this.selectedId)
+      .pipe(
+        map((res): iDoctorDetails => {
+          return {
+            id: res.id,
+            userId: res.userId,
+            address: res.address,
+            dateOfBirth: res.dateOfBirth,
+            departmentId: res.departmentId,
+            departmentName: res.departmentName,
+            email: res.email,
+            fullName: res.fullName,
+            avatarUrl: res.avatarUrl,
+            gender:
+              res.gender === 0 ? 'Male' : res.gender === 1 ? 'Female' : 'Other',
+            nationalId: res.nationalId,
+            phoneNumber: res.phoneNumber,
+            speciality: res.speciality,
+            workingEndDate: res.workingEndDate,
+            workingStartDate: res.workingStartDate,
+            createdDate: res.createdDate,
+            updatedDate: res.updatedDate,
+          };
+        }),
+        catchError((err) => {
+          this.doctorData = {
+            id: 0,
+            userId: '...',
+            address: '...',
+            dateOfBirth: '...',
+            departmentId: '...',
+            departmentName: '...',
+            email: '...',
+            fullName: '...',
+            avatarUrl: '...',
+            gender: '...',
+            nationalId: '...',
+            phoneNumber: '...',
+            speciality: '...',
+            workingEndDate: '...',
+            workingStartDate: '...',
+            createdDate: '...',
+            updatedDate: '...',
+          };
+          return throwError(() => err);
+        }),
+        finalize(() => {
+          this._spinnerService.hide();
+        })
+      )
+      .subscribe((res) => {
+        this.doctorData = res;
+      });
+  }
+
   onChangeDate(event: any) {
     this.selectedDate = new Date(event.target.value);
+    this.getScheduleByDate();
+  }
+
+  getScheduleByDate() {
     this._doctorService
-      .getScheduleByDate('', '', this.selectedDate)
+      .getScheduleByDate('Schedule/get-schedule-by-date', this.selectedId, this.selectedDate.toLocaleDateString('en-CA'))
       .pipe(
+        map(res => {
+          return res = res.map((schedule: any) => ({
+            shiftTime: schedule.start,
+            breakTime: schedule.end,
+            description: schedule.description,
+            shiftName: schedule.shiftName,
+            appt: schedule.appt
+          }));
+        }),
         catchError((err) => {
-          this.schedulesInfo = [
-            {
-              shiftTime: '07:30 AM',
-              breakTime: '12:30 PM',
-              description: 'On duty in clinic number 3',
-              appt: 3,
-            },
-            {
-              shiftTime: '07:30 AM',
-              breakTime: '12:30 PM',
-              description: 'On duty in clinic number 3',
-              appt: 2,
-            },
-          ];
-          this.totalApptOnDate = this.schedulesInfo.reduce(
-            (total, s) => total + s.appt,
-            0
-          );
           return throwError(() => err);
         })
       )
@@ -189,6 +274,7 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
           );
         } else {
           this.schedulesInfo = [];
+          this.totalApptOnDate = 0;
         }
       });
   }

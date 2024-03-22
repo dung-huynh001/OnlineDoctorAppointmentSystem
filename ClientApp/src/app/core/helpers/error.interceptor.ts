@@ -30,8 +30,8 @@ export class ErrorInterceptor implements HttpInterceptor {
           location.reload();
         }
         const res: {
-          Message: string;
-          StatusCode: number;
+          message: string;
+          statusCode: number;
         } = err.error;
         // if (err instanceof HttpErrorResponse) {
         //     if (err.status === 400) {

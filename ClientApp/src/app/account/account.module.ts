@@ -13,6 +13,7 @@ import { AccountRoutingModule } from './account-routing.module';
 import lottie from 'lottie-web';
 import { ToastContainerComponent } from '../shared/toast-container/toast-container.component';
 import { SharedModule } from '../shared/shared.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
@@ -31,7 +32,8 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     NgbToastModule,
     AccountRoutingModule,
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule
   ],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

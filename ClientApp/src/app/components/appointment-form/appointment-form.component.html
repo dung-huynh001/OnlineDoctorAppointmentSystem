@@ -32,7 +32,7 @@
                 style="min-width: 130px;">Patient
                 <span class="text-danger">*</span></label>
               <div class="w-100">
-                <input type="text" autocomplete="off" placeholder="Enter your name" class="form-control"
+                <input type="text" readonly autocomplete="off" placeholder="Enter your name" class="form-control"
                   id="patientName" formControlName="patientName"
                   [ngClass]="{'is-invalid': submitted && this.f['patientName'].errors}">
                 <div class="invalid-feedback">
@@ -70,7 +70,7 @@
                 style="min-width: 130px;">Mobile
                 <span class="text-danger">*</span></label>
               <div class="w-100">
-                <input type="text" autocomplete="off" placeholder="Enter your phone number"
+                <input type="text" readonly autocomplete="off" placeholder="Enter your phone number"
                   class="form-control flex-grow-1" id="phoneNumber" formControlName="phoneNumber"
                   [ngClass]="{'is-invalid': submitted && this.f['phoneNumber'].errors}">
                 <div class="invalid-feedback">
@@ -85,7 +85,7 @@
                 style="min-width: 130px;">Date of
                 birth <span class="text-danger">*</span></label>
               <div class="w-100">
-                <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth"
+                <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth" readonly
                   [ngClass]="{'is-invalid': submitted && this.f['dateOfBirth'].errors}">
                 <div class="invalid-feedback">
                   Please select date of birth
@@ -98,7 +98,7 @@
               <label for="email" class="form-label float-lg-end float-start text-lg-end text-nowrap mb-0"
                 style="min-width: 130px;">Email <span class="text-danger">*</span></label>
               <div class="w-100">
-                <input type="text" autocomplete="off" placeholder="Enter your email" class="form-control" id="email"
+                <input type="text" readonly autocomplete="off" placeholder="Enter your email" class="form-control" id="email"
                   formControlName="email" [ngClass]="{'is-invalid': submitted && this.f['email'].errors}">
                 <div class="invalid-feedback">
                   Please enter email
@@ -116,7 +116,7 @@
                 style="min-width: 130px;">Address
                 <span class="text-danger">*</span></label>
               <div class="w-100">
-                <input type="text" autocomplete="off" placeholder="Enter your address" class="form-control flex-grow-1"
+                <input type="text" readonly autocomplete="off" placeholder="Enter your address" class="form-control flex-grow-1"
                   id="address" formControlName="address"
                   [ngClass]="{'is-invalid': submitted && this.f['address'].errors}">
                 <div class="invalid-feedback">
@@ -168,7 +168,7 @@
               <label for="doctorName" class="form-label float-lg-end float-start text-lg-end text-nowrap mb-0"
                 style="min-width: 130px;">Doctor <span class="text-danger">*</span></label>
               <div class="w-100">
-                <input type="text" autocomplete="off" placeholder="Choose a doctor" readonly
+                <input type="text" readonly autocomplete="off" placeholder="Choose a doctor" readonly
                   class="form-control flex-grow-1 bg-primary-subtle" id="doctorName" formControlName="doctorName"
                   [ngClass]="{'is-invalid': submitted && this.f['doctorName'].errors}">
                 <div class="invalid-feedback">
@@ -182,7 +182,7 @@
               <label for="speciality" class="form-label float-lg-end float-start text-lg-end text-nowrap mb-0"
                 style="min-width: 130px;">Speciality <span class="text-danger">*</span></label>
               <div class="w-100">
-                <input type="text" autocomplete="off" placeholder="Speciality of doctor" readonly
+                <input type="text" readonly autocomplete="off" placeholder="Speciality of doctor" readonly
                   class="form-control flex-grow-1 bg-primary-subtle" id="speciality" formControlName="speciality"
                   [ngClass]="{'is-invalid': submitted && this.f['speciality'].errors}">
                 <div class="invalid-feedback">

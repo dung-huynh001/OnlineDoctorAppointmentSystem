@@ -34,7 +34,7 @@ export class DoctorService {
   }
 
   getScheduleByDate(url: string, id: any, dateTime: any): Observable<any> {
-    return this.http.get(environment.serverApi + `/api/${url}/${id}/?dateTime=${dateTime}`);
+    return this.http.get(environment.serverApi + `/api/${url}/${id}/?date=${dateTime}`);
   }
 
   getDoctorDetails(url: string, id: any): Observable<any> {

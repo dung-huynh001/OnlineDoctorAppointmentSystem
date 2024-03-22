@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WebAPI.Domain.Entities;
+using WebAPI.Domain.Enums;
 using WebAPI.DTOs;
 using WebAPI.Exceptions;
 using WebAPI.Interfaces;
@@ -92,7 +93,8 @@ namespace WebAPI.Services
                 UserName = user.UserName,
                 FullName = fullName,
                 UserType = userType,
-                AvartarUrl = user.AvatarUrl,
+                AvatarUrl = user.AvatarUrl,
+                Status = user.Status,
                 Token = new JwtSecurityTokenHandler().WriteToken(token)
             };
         }
@@ -102,7 +104,7 @@ namespace WebAPI.Services
             var userExists = await _userManager.FindByNameAsync(request.Username);
             if (userExists != null)
             {
-                throw new Exception("Username already exist!");
+                throw new Exception("Username already taken");
             }
 
             var user = new AppUser
@@ -111,13 +113,14 @@ namespace WebAPI.Services
                 Email = request.Email,
                 UserType = request.UserType!.Trim().ToLower(),
                 AvatarUrl = request.AvatarUrl,
+                Status = StatusAccount.NotActivate
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
 
             if (!result.Succeeded)
             {
-                throw new Exception("Cannot create new user!");
+                throw new Exception(result.Errors.ToList()[0].Description);
             }
 
             string role = request.UserType!.ToString();

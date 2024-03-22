@@ -2,7 +2,6 @@ import lottie  from 'lottie-web';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
-import { ScheduleOfDoctorsComponent } from './schedule-of-doctors/schedule-of-doctors.component';
 import { MedicalProcessComponent } from './medical-process/medical-process.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { CustomerCareComponent } from './customer-care/customer-care.component';
@@ -16,7 +15,7 @@ import { defineElement } from 'lord-icon-element';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { CountUpModule } from 'ngx-countup';
-import { NgbdListSortableHeader } from './schedule-of-doctors/list-sortable.directive';
+
 import { AccountModule } from '../account/account.module';
 import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
 import { NgxMaskPipe } from 'ngx-mask';
@@ -27,12 +26,10 @@ import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
-    ScheduleOfDoctorsComponent,
     MedicalProcessComponent,
     AboutUsComponent,
     CustomerCareComponent,
     SitemapComponent,
-    NgbdListSortableHeader,
     AssignScheduleComponent,
   ],
   imports: [

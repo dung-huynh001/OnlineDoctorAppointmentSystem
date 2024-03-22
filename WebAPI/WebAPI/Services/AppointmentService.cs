@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Domain.Entities;
 using WebAPI.DTOs;
+using WebAPI.Exceptions;
 using WebAPI.Interfaces;
 using WebAPI.Interfaces.IService;
 
@@ -341,6 +342,25 @@ namespace WebAPI.Services
                 .Select(a => _mapper.Map<GetAppointmentDetailDto>(a))
                 .FirstOrDefaultAsync();
             return result;
+        }
+
+        public async Task<PatientDataToAppointment> GetPatientDataToAppointment(string currentUserId)
+        {
+            var patient = await _unitOfWork.Repository<Patient>().GetAll
+                .Where(p => p.UserId.Equals(currentUserId))
+                .Select(p => new PatientDataToAppointment
+                {
+                    PatientId = p.Id,
+                    Address = p.Address,
+                    DateOfBirth = p.DateOfBirth,
+                    Email = p.User.Email,
+                    Gender = p.Gender,
+                    PatientName = p.FullName,
+                    PhoneNumber = p.PhoneNumber
+                })
+                .FirstOrDefaultAsync();
+            if (patient == null) throw new NotFoundException("Patient", currentUserId);
+            return patient;
         }
     }
 }

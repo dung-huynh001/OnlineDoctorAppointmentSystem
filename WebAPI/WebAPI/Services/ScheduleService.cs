@@ -25,6 +25,26 @@ namespace WebAPI.Services
             this._unitOfWork = unitOfWork;
             _mailService = mailService;
         }
+
+        public async Task<List<ScheduleShiftDto>> GetScheduleByDate(int doctorId, DateTime date)
+        {
+            var result = await _unitOfWork.Repository<Schedule>().GetAll
+                .Where(s => !s.IsDeleted &&
+                s.DoctorId == doctorId &&
+                s.WorkingDay.Date.Equals(date.Date))
+                .Select(s => new ScheduleShiftDto
+                {
+                    ShiftName = s.ShiftTime.Hours.CompareTo(12) <= 0 ? "Morning" :
+                    (s.ShiftTime.Hours.CompareTo(17) <= 0 ? "Afternoon" : "Night"),
+                    Description = s.Description,
+                    End = s.BreakTime.ToString(@"hh\:mm"),
+                    Start = s.ShiftTime.ToString(@"hh\:mm"),
+                    Appt = s.Appointments.Count
+                })
+                .ToListAsync();
+            return result;
+        }
+
         public async Task<ApiResponse> AddSchedule(CreateScheduleDto model)
         {
             var scheduleDate = model.ScheduleDate.Split(" to ");

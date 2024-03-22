@@ -39,27 +39,27 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
     this.currUser = JSON.parse(localStorage.getItem('currentUser')!);
     this.accountForm = this.formBuilder.group({
       UserType: ['doctor', Validators.required],
-      Email: ['doctor1@gmail.com', [Validators.required, Validators.email]],
-      Username: ['doctor1', Validators.required],
-      Password: ['password123', Validators.required],
-      ConfirmPassword: ['password123', Validators.required],
+      Email: ['', [Validators.required, Validators.email, Validators.pattern('[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$')]],
+      Username: ['', Validators.required],
+      Password: ['', Validators.required],
+      ConfirmPassword: ['', Validators.required],
     });
 
     this.doctorInfoForm = this.formBuilder.group({
-      FullName: ['Hai Nguyen', Validators.required],
-      NationalId: ['93445893493', Validators.required],
-      DateOfBirth: ['06/12/2001', Validators.required],
+      FullName: ['', Validators.required],
+      NationalId: ['', Validators.required],
+      DateOfBirth: ['', Validators.required],
       Gender: ['1', Validators.required],
-      PhoneNumber: ['0954958439', Validators.required],
-      Address: ['Hem 51, 3/2', Validators.required],
+      PhoneNumber: ['', Validators.required],
+      Address: ['', Validators.required],
       Avatar: [null, [Validators.required, Validators.max(this.maxFileSize)]],
     });
 
     this.workInfoForm = this.formBuilder.group({
-      Speciality: ['Brain', Validators.required],
+      Speciality: ['', Validators.required],
       DepartmentId: ['', Validators.required],
-      WorkingStartDate: ['06/12/2018', Validators.required],
-      WorkingEndDate: ['06/12/2021', Validators.required],
+      WorkingStartDate: ['', Validators.required],
+      WorkingEndDate: ['', Validators.required],
     });
 
     this.breadCrumbItems = [
@@ -97,17 +97,18 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
 
   accountFormSubmit() {
     this.accountForm_submitted = true;
-    this.selectedIndex = 1;
-    // if (this.accountForm.valid) {
-    //   this.selectedIndex = 1;
-    // }
+    if (this.accountFormControl['ConfirmPassword'].value && this.accountFormControl['Password'].value !== this.accountFormControl['ConfirmPassword'].value) {
+      this.accountFormControl['ConfirmPassword'].setErrors({ compare: true });
+    }
+    if (this.accountForm.valid) {
+      this.selectedIndex = 1;
+    }
   }
   doctorInfoFormSubmit() {
-    this.selectedIndex = 2;
     this.doctorInfoForm_submitted = true;
-    // if (this.doctorInfoForm.valid) {
-    //   this.selectedIndex = 2;
-    // }
+    if (this.doctorInfoForm.valid) {
+      this.selectedIndex = 2;
+    }
   }
   workInfoFormSubmit() {
     this.workInfoForm_submitted = true;
@@ -120,10 +121,12 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
       };
       this._doctorService
         .create('/Doctor/create', data)
-        .pipe(catchError(err => {
-          this._toastService.error('Something went wrong');
-          return throwError(() => err);
-        }))
+        .pipe(
+          catchError((err) => {
+            this._toastService.error(err.Message);
+            return throwError(() => err);
+          })
+        )
         .subscribe((res) => {
           if (res.isSuccess) {
             this._toastService.success(res.message);
@@ -135,6 +138,5 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
   onFileChange(event: any) {
     const file = event.target.files[0];
     this.doctorInfoForm.get('Avatar')?.setValue(file);
-    console.log(file);
   }
 }

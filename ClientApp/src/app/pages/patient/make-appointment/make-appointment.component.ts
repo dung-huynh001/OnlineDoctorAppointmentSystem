@@ -1,8 +1,22 @@
 import { iDoctorOnDuty } from './../../../core/models/doctorOnDuty.model';
-import { Component, OnInit } from '@angular/core';
-import { Observable, Subject, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, throwError } from 'rxjs';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Observable,
+  Subject,
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  finalize,
+  map,
+  of,
+  switchMap,
+  throwError,
+} from 'rxjs';
 import { ToastService } from '../../../core/services/toast.service';
 import { AppointmentService } from '../../../core/services/appointment.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-make-appointment',
@@ -22,6 +36,7 @@ export class MakeAppointmentComponent implements OnInit {
   private searchValue$ = new Subject<string>();
   searchResults!: Array<iDoctorOnDuty>;
 
+  @ViewChild('content') abc!: TemplateRef<any>;
 
   defaultData!: {
     doctorId: number;
@@ -32,24 +47,29 @@ export class MakeAppointmentComponent implements OnInit {
 
   constructor(
     private _toastService: ToastService,
-    private _appointmentService: AppointmentService
+    private _appointmentService: AppointmentService,
+    private _spinnerService: NgxSpinnerService,
+    private _modalService: NgbModal,
+    private _authService: AuthService
   ) {
     this.defaultData = {
       doctorId: 1,
       scheduleId: 1,
-      doctorName: 'John Smith',
-      speciality: 'Brain',
+      doctorName: '',
+      speciality: '',
     };
 
-    this.searchValue$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      switchMap((term: string) => {
-        return this.search(term);
-      })
-    ).subscribe(results => {
-      this.searchResults = results;
-    });
+    this.searchValue$
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap((term: string) => {
+          return this.search(term);
+        })
+      )
+      .subscribe((results) => {
+        this.searchResults = results;
+      });
   }
 
   ngOnInit(): void {
@@ -59,6 +79,11 @@ export class MakeAppointmentComponent implements OnInit {
     ];
     this.workingDay = new Date().toLocaleDateString('en-ZA');
     this.workingTime = new Date().toLocaleTimeString('en-ZA');
+
+    const currentUser = this._authService.currentUser();
+    if (currentUser.status == 0) {
+      this._modalService.open(this.abc);
+    }
   }
 
   onDateChange(workingDate: string) {
@@ -77,10 +102,13 @@ export class MakeAppointmentComponent implements OnInit {
   }
 
   search(term: string): Observable<any[]> {
-    return of(this.doctorData.filter(item =>
-      item.fullName.toLowerCase().includes(term.toLowerCase()) ||
-      item.speciality.toLowerCase().includes(term.toLowerCase())
-    ));
+    return of(
+      this.doctorData.filter(
+        (item) =>
+          item.fullName.toLowerCase().includes(term.toLowerCase()) ||
+          item.speciality.toLowerCase().includes(term.toLowerCase())
+      )
+    );
   }
 
   searchInput(event: Event): void {
@@ -91,6 +119,7 @@ export class MakeAppointmentComponent implements OnInit {
   getDoctorsOnDuty() {
     this.foundFlag = true;
     const date = this.getScheduleDateTime();
+    this._spinnerService.show();
     this._appointmentService
       .getDoctorOnDuty('/Doctor/get-doctor-on-duty', date)
       .pipe(
@@ -105,6 +134,11 @@ export class MakeAppointmentComponent implements OnInit {
         catchError((err) => {
           console.log(err);
           return throwError(() => err);
+        }),
+        finalize(() => {
+          setTimeout(() => {
+            this._spinnerService.hide();
+          }, 200);
         })
       )
       .subscribe((doctors) => {
@@ -118,7 +152,7 @@ export class MakeAppointmentComponent implements OnInit {
       doctorId: doctor.doctorId,
       doctorName: doctor.fullName,
       scheduleId: doctor.scheduleId,
-      speciality: doctor.speciality
-    }
+      speciality: doctor.speciality,
+    };
   }
 }

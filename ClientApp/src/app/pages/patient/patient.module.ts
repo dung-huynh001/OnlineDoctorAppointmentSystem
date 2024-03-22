@@ -6,6 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '../../components/components.module';
 import { MakeAppointmentComponent } from './make-appointment/make-appointment.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SimplebarAngularModule } from 'simplebar-angular';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 
@@ -21,6 +25,9 @@ import { FlatpickrModule } from 'angularx-flatpickr';
     ReactiveFormsModule,
     ComponentsModule,
     FlatpickrModule.forRoot(),
+    NgxSpinnerModule,
+    SimplebarAngularModule,
+    NgbModalModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

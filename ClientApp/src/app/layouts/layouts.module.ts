@@ -13,7 +13,7 @@ import { VerticalComponent } from './vertical/vertical.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { LanguageService } from '../core/services/language.service';
 
@@ -41,7 +41,8 @@ import { LanguageService } from '../core/services/language.service';
     SimplebarAngularModule,
     TranslateModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbTooltip
   ],
   providers: [LanguageService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

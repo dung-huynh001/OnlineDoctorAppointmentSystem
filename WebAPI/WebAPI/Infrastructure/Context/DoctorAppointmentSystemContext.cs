@@ -534,25 +534,6 @@ namespace WebAPI.Infrastructure.Context
                     .HasColumnName("EMAIL")
                     .IsFixedLength();
 
-                entity.Property(e => e.PasswordRecoveryAns1)
-                    .HasMaxLength(256);
-
-
-                entity.Property(e => e.PasswordRecoveryAns2)
-                    .HasMaxLength(256);
-
-
-                entity.Property(e => e.PasswordRecoveryAns3)
-                    .HasMaxLength(256);
-
-
-                entity.Property(e => e.PasswordRecoveryQue1);
-
-                entity.Property(e => e.PasswordRecoveryQue2);
-
-                entity.Property(e => e.PasswordRecoveryQue3);
-
-
                 entity.Property(e => e.Status);
 
                 entity.Property(e => e.UpdatedBy)

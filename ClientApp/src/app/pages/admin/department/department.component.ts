@@ -249,17 +249,6 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
     this._modalService.dismissAll();
   }
 
-  // onFileSelected(event: any) {
-  //   const selectedFile = event.target.files[0];
-
-  //   if (selectedFile) {
-  //     if (selectedFile.size > this.maxFileSize) {
-  //       this.formAdd['image'].setErrors({ max: true });
-  //       return;
-  //     }
-  //   }
-  // }
-
   openDeleteOrRestoreModal(id: any, departmentName: any) {
     this.deleteId = id;
     this.deleteName = departmentName;
