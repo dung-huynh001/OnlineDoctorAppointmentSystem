@@ -3,7 +3,6 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Subject, catchError, throwError } from 'rxjs';
 import { ToastService } from '../../../core/services/toast.service';
 import { DoctorService } from '../../../core/services/doctor.service';
-
 @Component({
   selector: 'app-manage-doctor',
   templateUrl: './manage-doctor.component.html',
@@ -25,7 +24,7 @@ export class ManageDoctorComponent implements OnInit {
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Home' },
-      { label: 'Department Management', active: true },
+      { label: 'Doctor Management', active: true },
     ];
 
     this.dtOptions = {
@@ -54,6 +53,11 @@ export class ManageDoctorComponent implements OnInit {
           .getAll(`/Doctor/get-all`, dataTablesParameters)
           .pipe(
             catchError((err) => {
+              callback({
+                recordsTotal: 0,
+                recordsFiltered: 0,
+                data: [],
+              });
               return throwError(() => err);
             })
           )
@@ -145,16 +149,19 @@ export class ManageDoctorComponent implements OnInit {
         },
         {
           title: 'Updated by',
+          className: 'priority-5',
           data: 'updatedBy',
         },
         {
           title: 'Updated date',
+          className: 'priority-5',
           data: 'updatedDate',
           render: (data: any) =>
             this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
         },
         {
           title: 'Deleted',
+          className: 'priority-5',
           data: 'isDeleted',
           render: (data: any) => {
             const bagdes = data
@@ -163,7 +170,6 @@ export class ManageDoctorComponent implements OnInit {
             return bagdes;
           },
         },
-        
       ],
     };
   }

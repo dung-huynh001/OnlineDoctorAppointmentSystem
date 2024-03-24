@@ -8,7 +8,9 @@ import { MakeAppointmentComponent } from './make-appointment/make-appointment.co
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SimplebarAngularModule } from 'simplebar-angular';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { CountUpModule } from 'ngx-countup';
+import { NgbNavModule, NgbPagination, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -27,7 +29,11 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     FlatpickrModule.forRoot(),
     NgxSpinnerModule,
     SimplebarAngularModule,
-    NgbModalModule
+    NgbNavModule,
+    CountUpModule,
+    NgbTooltip,
+    NgbPagination,
+    NgSelectModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

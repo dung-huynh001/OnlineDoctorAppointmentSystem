@@ -24,7 +24,7 @@ import { NgxSpinnerModule } from 'ngx-spinner'
     DepartmentComponent,
     ManageScheduleComponent,
     ManageDoctorComponent,
-    AssignScheduleComponent
+    AssignScheduleComponent,
   ],
   imports: [
     CommonModule,
@@ -40,8 +40,9 @@ import { NgxSpinnerModule } from 'ngx-spinner'
     NgbPagination,
     NgSelectModule,
     FullCalendarModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
+  exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AdminModule { 

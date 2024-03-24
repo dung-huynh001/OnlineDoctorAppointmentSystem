@@ -61,9 +61,9 @@
                         <h5>No available data</h5>
                     </div>
                     <div>
+                        <h5 class="text-center" style="height: 100px;" *ngIf="doctorData?.length === 0">Not
+                            found any doctors</h5>
                         <ul class="list-group" *ngFor="let doctor of searchResults">
-                            <div class="text-center" style="height: 100px;" *ngIf="doctorData.length === 0">No
-                                doctor found</div>
                             <li class="list-group-item">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
@@ -106,19 +106,22 @@
     </div>
 </div>
 
+
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title">Modal Title</h4>
-        <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <h4 class="modal-title" id="modal-basic-title">Activate Your Account</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        Nội dung modal
+        <p>You have not activated your account yet. Please activate your account before making an appointment</p>
+        <p><a routerLink="" (click)="modal.close('Save click')"
+                class="link-primary link-offset-2 text-decoration-underline link-underline-opacity-25 link-underline-opacity-100-hover">Activate
+                now</a></p>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Lưu</button>
-        <button type="button" class="btn btn-secondary">Hủy</button>
+        <a routerLink="/patient" role="button" class="btn border-0 btn-outline-dark"
+            (click)="modal.close('Save click')">Return to dashboard</a>
     </div>
 </ng-template>
+
 <ngx-spinner type="ball-scale-multiple"></ngx-spinner>

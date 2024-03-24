@@ -17,12 +17,11 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
-
 @NgModule({
   declarations: [
     ViewDoctorComponent,
     EditDoctorComponent,
-    AddDoctorComponent
+    AddDoctorComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +36,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NgbTooltip,
     NgbNavModule,
     FlatpickrModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -1,5 +1,5 @@
 import { iDoctorOnDuty } from './../../../core/models/doctorOnDuty.model';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
   Observable,
   Subject,
@@ -15,15 +15,16 @@ import {
 import { ToastService } from '../../../core/services/toast.service';
 import { AppointmentService } from '../../../core/services/appointment.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-make-appointment',
   templateUrl: './make-appointment.component.html',
   styleUrl: './make-appointment.component.scss',
 })
-export class MakeAppointmentComponent implements OnInit {
+export class MakeAppointmentComponent implements OnInit, AfterViewInit {
   breadcrumbItems!: Array<{}>;
   workingDay!: string;
   workingTime!: string;
@@ -32,11 +33,14 @@ export class MakeAppointmentComponent implements OnInit {
   selectedDoctor!: iDoctorOnDuty;
   foundFlag: boolean = false;
 
+  @ViewChild('content') content!: TemplateRef<any>;
+
+
+  closeResult = '';
+
   searchValue: any;
   private searchValue$ = new Subject<string>();
   searchResults!: Array<iDoctorOnDuty>;
-
-  @ViewChild('content') abc!: TemplateRef<any>;
 
   defaultData!: {
     doctorId: number;
@@ -50,7 +54,8 @@ export class MakeAppointmentComponent implements OnInit {
     private _appointmentService: AppointmentService,
     private _spinnerService: NgxSpinnerService,
     private _modalService: NgbModal,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private router: Router,
   ) {
     this.defaultData = {
       doctorId: 1,
@@ -71,6 +76,13 @@ export class MakeAppointmentComponent implements OnInit {
         this.searchResults = results;
       });
   }
+  ngAfterViewInit(): void {
+    const currentUser = this._authService.currentUser();
+
+    if (currentUser?.status == 0) {
+      this.openWarningModal(this.content);
+    }
+  }
 
   ngOnInit(): void {
     this.breadcrumbItems = [
@@ -80,11 +92,21 @@ export class MakeAppointmentComponent implements OnInit {
     this.workingDay = new Date().toLocaleDateString('en-ZA');
     this.workingTime = new Date().toLocaleTimeString('en-ZA');
 
-    const currentUser = this._authService.currentUser();
-    if (currentUser.status == 0) {
-      this._modalService.open(this.abc);
-    }
+
   }
+
+  openWarningModal(content: TemplateRef<any>) {
+    this._modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result
+      .then(
+        () => {
+
+        },
+        () => {
+          this.openWarningModal(content);
+        }
+      )
+  }
+
 
   onDateChange(workingDate: string) {
     this.workingDay = workingDate;
@@ -125,10 +147,10 @@ export class MakeAppointmentComponent implements OnInit {
       .pipe(
         map((res): Array<iDoctorOnDuty> => {
           return res.map((data: any) => ({
-            doctorId: data.doctorId,
-            fullName: data.fullName,
-            scheduleId: data.scheduleId,
-            speciality: data.speciality,
+            doctorId: data?.doctorId,
+            fullName: data?.fullName,
+            scheduleId: data?.scheduleId,
+            speciality: data?.speciality,
           }));
         }),
         catchError((err) => {
