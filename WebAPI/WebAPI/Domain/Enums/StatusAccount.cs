@@ -3,9 +3,10 @@
     public enum StatusAccount
     {
         NotActivate = 0,
-        Activated = 1,
-        IsActive = 2,
-        Offline = 3,
-        HangingUp = 4
+        EnoughInformation = 1,
+        Activated = 2,
+        IsActive = 3,
+        Offline = 4,
+        HangingUp = 5
     }
 }

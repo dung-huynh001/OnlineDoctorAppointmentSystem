@@ -8,16 +8,18 @@ import { MakeAppointmentComponent } from './make-appointment/make-appointment.co
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SimplebarAngularModule } from 'simplebar-angular';
-import { CountUpModule } from 'ngx-countup';
-import { NgbNavModule, NgbPagination, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 
 
 
 @NgModule({
   declarations: [
-    MakeAppointmentComponent
+    MakeAppointmentComponent,
+    ProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     CommonModule,
@@ -30,10 +32,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgxSpinnerModule,
     SimplebarAngularModule,
     NgbNavModule,
-    CountUpModule,
     NgbTooltip,
-    NgbPagination,
-    NgSelectModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

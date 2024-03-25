@@ -70,7 +70,7 @@ export class TopbarComponent implements OnInit {
     this.element = document.documentElement;
     this.currentUser = this.authService.currentUser();
 
-    if(this.currentUser.status != 0) {
+    if(this.currentUser.status != 0 && this.currentUser.status != 1) {
       this.isActivated = true;
     }
 

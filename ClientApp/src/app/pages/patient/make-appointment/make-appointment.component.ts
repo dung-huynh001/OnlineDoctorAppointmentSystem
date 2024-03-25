@@ -15,7 +15,7 @@ import {
 import { ToastService } from '../../../core/services/toast.service';
 import { AppointmentService } from '../../../core/services/appointment.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 
@@ -55,7 +55,6 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
     private _spinnerService: NgxSpinnerService,
     private _modalService: NgbModal,
     private _authService: AuthService,
-    private router: Router,
   ) {
     this.defaultData = {
       doctorId: 1,
@@ -79,7 +78,7 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const currentUser = this._authService.currentUser();
 
-    if (currentUser?.status == 0) {
+    if (currentUser?.status == 0 || currentUser?.status == 1) {
       this.openWarningModal(this.content);
     }
   }

@@ -36,7 +36,6 @@ namespace WebAPI.DTOs.AutoMapperProfile
                             return "Other";
                     }
                 }));
-
         }
     }
 }

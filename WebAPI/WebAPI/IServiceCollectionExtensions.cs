@@ -26,6 +26,7 @@ namespace WebAPI
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUploadService, UploadService>();
+            services.AddScoped<IGenerateOtpService, GenerateOtpService>();
 
         }
     }

@@ -48,36 +48,6 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="card overflow-hidden">
-                    <div class="card-body">
-                        <div class="d-flex">
-                            <div class="flex-grow-1" [ngSwitch]="true">
-                                <h6 *ngSwitchCase="completionLevel <= 30" class="mb-0">Completion level: <b
-                                        class="text-danger">{{completionLevel}}%</b></h6>
-                                <h6 *ngSwitchCase="completionLevel <= 60 && completionLevel > 30" class="mb-0">
-                                    Completion level: <b class="text-primary">{{completionLevel}}%</b></h6>
-                                <h6 *ngSwitchDefault class="mb-0">Completion level: <b
-                                        class="text-success">{{completionLevel}}%</b></h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="progress bg-success-subtle rounded-0" [ngSwitch]="true">
-                        <div *ngSwitchCase="completionLevel <= 30" class="progress-bar bg-danger" role="progressbar"
-                            [ngStyle]="{'width': completionLevel + '%'}" aria-valuenow="60" aria-valuemin="0"
-                            aria-valuemax="100"></div>
-                        <div *ngSwitchCase="completionLevel > 30 && completionLevel <= 60"
-                            class="progress-bar bg-primary" role="progressbar"
-                            [ngStyle]="{'width': completionLevel + '%'}" aria-valuenow="60" aria-valuemin="0"
-                            aria-valuemax="100"></div>
-                        <div *ngSwitchDefault class="progress-bar bg-success" role="progressbar"
-                            [ngStyle]="{'width': completionLevel + '%'}" aria-valuenow="60" aria-valuemin="0"
-                            aria-valuemax="100"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Allergies</h4>
@@ -104,23 +74,6 @@
         </div>
     </div>
     <div class="col-12 col-lg-8">
-        <div class="row">
-            <div class="col-12">
-                <div class="card ribbon-box">
-                    <div class="card-body">
-                        <div class="ribbon ribbon-primary border shadow-none ribbon-shape">About</div>
-                        <div class="ribbon-content text-muted mt-4">
-                            <p class="fs-6 text-muted fst-italic">
-                                " As of my last update in January 2022, Angular 17 had not been released. Angular 12 was
-                                the
-                                latest stable version available at that time. However, I can provide information about
-                                the
-                                "compare" validator in Angular and how it's typically used. "</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -198,18 +151,7 @@
                                         <td>Lanora Sandoval</td>
                                         <td>$4,521</td>
                                         <td>
-                                            <div class="dropdown">
-                                                <a href="#" role="button" id="dropdownMenuLink"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </a>
-
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <li><a class="dropdown-item" href="#">View</a></li>
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Delete</a></li>
-                                                </ul>
-                                            </div>
+                                            <button class="btn btn-sm btn-soft-primary">View</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -221,18 +163,7 @@
                                         <td>Calvin Garrett</td>
                                         <td>$7,546</td>
                                         <td>
-                                            <div class="dropdown">
-                                                <a href="#" role="button" id="dropdownMenuLink"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </a>
-
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <li><a class="dropdown-item" href="#">View</a></li>
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Delete</a></li>
-                                                </ul>
-                                            </div>
+                                            <button class="btn btn-sm btn-soft-primary">View</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -242,18 +173,7 @@
                                         <td>Florence Guzman</td>
                                         <td>$1,350</td>
                                         <td>
-                                            <div class="dropdown">
-                                                <a href="#" role="button" id="dropdownMenuLink"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </a>
-
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <li><a class="dropdown-item" href="#">View</a></li>
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Delete</a></li>
-                                                </ul>
-                                            </div>
+                                            <button class="btn btn-sm btn-soft-primary">View</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -265,18 +185,7 @@
                                         <td>Maritza Blanda</td>
                                         <td>$4,521</td>
                                         <td>
-                                            <div class="dropdown">
-                                                <a href="#" role="button" id="dropdownMenuLink"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </a>
-
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <li><a class="dropdown-item" href="#">View</a></li>
-                                                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#">Delete</a></li>
-                                                </ul>
-                                            </div>
+                                            <button class="btn btn-sm btn-soft-primary">View</button>
                                         </td>
                                     </tr>
                                 </tbody>
