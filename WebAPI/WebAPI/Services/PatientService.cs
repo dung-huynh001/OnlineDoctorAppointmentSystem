@@ -88,9 +88,50 @@ namespace WebAPI.Services
             return otp;
         }
 
-        public async Task<bool> ValidOTP(string id, OTP otp)
+        public async Task<ApiResponse> ValidOTP(string id, OTP otp)
         {
-            return await _generateOtpService.ValidOtpCode(id, otp);
+            var valid = await _generateOtpService.ValidOtpCode(id, otp);
+            var res = new ApiResponse { 
+                IsSuccess = valid,
+            };
+            if(valid)
+            {
+                res = await UpdateStatus(id);
+            }
+            return res;
+        }
+
+        private async Task<ApiResponse> UpdateStatus(string id)
+        {
+            _unitOfWork.BeginTransaction();
+            try
+            {
+                var patient = await _unitOfWork.Repository<Patient>().GetAll
+                .Where(p => p.UserId == id)
+                .FirstOrDefaultAsync();
+
+                if (patient == null) throw new NotFoundException("Patient", id);
+                patient.User.Status = StatusAccount.Activated;
+
+                _unitOfWork.Commit();
+                return new ApiResponse
+                {
+                    Id = id,
+                    IsSuccess = true,
+                    Message = "Activated your account successfully"
+                };
+            }
+            catch(Exception ex)
+            {
+                _unitOfWork.Rollback();
+
+                return new ApiResponse
+                {
+                    Id = id,
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
         }
 
         public async Task<ApiResponse> UpdatePatientInfo(UpdatePatientDetailsDto model)

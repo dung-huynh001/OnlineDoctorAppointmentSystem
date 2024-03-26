@@ -37,7 +37,7 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
     email: '',
     fullName: '',
     avatarUrl: '',
-    gender:  '',
+    gender: '',
     nationalId: '',
     phoneNumber: '',
     speciality: '',
@@ -213,25 +213,7 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
           };
         }),
         catchError((err) => {
-          this.doctorData = {
-            id: 0,
-            userId: '...',
-            address: '...',
-            dateOfBirth: '...',
-            departmentId: '...',
-            departmentName: '...',
-            email: '...',
-            fullName: '...',
-            avatarUrl: '...',
-            gender: '...',
-            nationalId: '...',
-            phoneNumber: '...',
-            speciality: '...',
-            workingEndDate: '...',
-            workingStartDate: '...',
-            createdDate: '...',
-            updatedDate: '...',
-          };
+          this.router.navigate(['/pages/page-not-found']);
           return throwError(() => err);
         }),
         finalize(() => {
@@ -250,16 +232,20 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
 
   getScheduleByDate() {
     this._doctorService
-      .getScheduleByDate('Schedule/get-schedule-by-date', this.selectedId, this.selectedDate.toLocaleDateString('en-CA'))
+      .getScheduleByDate(
+        'Schedule/get-schedule-by-date',
+        this.selectedId,
+        this.selectedDate.toLocaleDateString('en-CA')
+      )
       .pipe(
-        map(res => {
-          return res = res.map((schedule: any) => ({
+        map((res) => {
+          return (res = res.map((schedule: any) => ({
             shiftTime: schedule.start,
             breakTime: schedule.end,
             description: schedule.description,
             shiftName: schedule.shiftName,
-            appt: schedule.appt
-          }));
+            appt: schedule.appt,
+          })));
         }),
         catchError((err) => {
           return throwError(() => err);

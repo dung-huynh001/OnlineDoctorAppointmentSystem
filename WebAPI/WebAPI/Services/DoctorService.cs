@@ -41,6 +41,7 @@ namespace WebAPI.Services
                     s.BreakTime.CompareTo(time) >= 0)
                 .Select(s => new DoctorOnDutyDto
                 {
+                    AvatarUrl = s.Doctor.User.AvatarUrl,
                     DoctorId = s.DoctorId,
                     ScheduleId = s.Id,
                     FullName = s.Doctor.FullName,

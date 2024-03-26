@@ -31,6 +31,7 @@ namespace WebAPI.Domain.Entities
         public string? LabTests { get; set; }
 
         public virtual Patient Patient { get; set; } = null!;
+        public virtual Doctor Doctor { get; set; } = null!;
         public virtual Schedule Schedule { get; set; } = null!;
         public virtual ICollection<AppointmentPrescription> AppointmentPrescriptions { get; set; }
     }

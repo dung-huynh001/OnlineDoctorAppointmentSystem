@@ -1,4 +1,6 @@
 ﻿using WebAPI.DTOs;
+using WebAPI.Models;
+using WebAPI.Responses;
 
 namespace WebAPI.Interfaces.IService
 {
@@ -16,6 +18,11 @@ namespace WebAPI.Interfaces.IService
         Task<List<GetAppointmentToDrawTableDto>> GetOutOfDate(int id, string userType);
         Task<GetAppointmentDetailDto> GetAppointmentDetail(int appointmentId);
 
+        Task<DatatableResponse<GetAppointmentToDrawTableDto>> GetAppointments(string id, string userType, string type, DataTablesParameters parameters);
+
+
         Task<PatientDataToAppointment> GetPatientDataToAppointment(string currentUserId);
+
+        Task<ApiResponse> MakeAppointment(MakeAppointmentDto model);
     }
 }

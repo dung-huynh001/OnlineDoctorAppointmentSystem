@@ -29,6 +29,10 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.authService.logout();
           location.reload();
         }
+        // if(err.status === 404){
+        //   location.assign('/pages/page-not-found')
+        //   return throwError(() => err);
+        // }
         const res: {
           message: string;
           statusCode: number;

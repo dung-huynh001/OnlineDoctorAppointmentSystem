@@ -1,13 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { iPatientInfo } from '../models/patientInfo.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
-  constructor(private http: HttpClient) {}
+  private patientData$: Subject<iPatientInfo> = new Subject<iPatientInfo>();
+  
+  constructor(private http: HttpClient) {
+  }
+
+  getPatientData() {
+    return this.patientData$.asObservable();
+  }
+
+  setPatientData(data: iPatientInfo) {
+    this.patientData$.next(data);
+  }
 
   getPatientInfo(url: string, id: any): Observable<any> {
     return this.http.get(environment.serverApi + `/api` + url + `?id=${id}`);

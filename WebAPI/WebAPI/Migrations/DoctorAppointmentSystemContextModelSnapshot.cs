@@ -861,6 +861,11 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Domain.Entities.Appointment", b =>
                 {
+                    b.HasOne("WebAPI.Domain.Entities.Doctor", "Doctor")
+                        .WithMany("Appointments")
+                        .HasForeignKey("DoctorId")
+                        .IsRequired();
+
                     b.HasOne("WebAPI.Domain.Entities.Patient", "Patient")
                         .WithMany("Appointments")
                         .HasForeignKey("PatientId")
@@ -870,6 +875,8 @@ namespace WebAPI.Migrations
                         .WithMany("Appointments")
                         .HasForeignKey("ScheduleId")
                         .IsRequired();
+
+                    b.Navigation("Doctor");
 
                     b.Navigation("Patient");
 
@@ -951,6 +958,8 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Domain.Entities.Doctor", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("Schedules");
                 });
 

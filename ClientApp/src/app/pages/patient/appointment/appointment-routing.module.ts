@@ -6,6 +6,7 @@ import { OutOfDateComponent } from './out-of-date/out-of-date.component';
 import { WaitingComponent } from './waiting/waiting.component';
 import { CompletedComponent } from './completed/completed.component';
 import { CancelledComponent } from './cancelled/cancelled.component';
+import { ViewAppointmentComponent } from './view-appointment/view-appointment.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'cancelled',
     component: CancelledComponent,
+  },
+  {
+    path: 'view/:id',
+    component: ViewAppointmentComponent,
   }
 ]
 

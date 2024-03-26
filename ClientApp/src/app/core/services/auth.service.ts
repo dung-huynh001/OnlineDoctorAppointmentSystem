@@ -17,8 +17,9 @@ export class AuthService {
   );
   user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
+  status$: BehaviorSubject<number|null> = new BehaviorSubject<number|null>(null);
+
   constructor(private http: HttpClient) {
-    this.user$.subscribe((value) => console.log(value));
   }
 
   register(email: string, username: string, password: string, userType: string) {
@@ -54,6 +55,21 @@ export class AuthService {
   setLogin(user: User, token: string) {
     this.user$.next(user);
     this.token$.next(token);
+
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    document.cookie=(`token=${token}`);
+  }
+
+  setStatus(status: number) {
+    this.status$.next(status);
+    const currentUser = this.currentUser();
+    currentUser.status = status;
+
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  }
+
+  getStatus() {
+    return this.status$.asObservable();
   }
 
   /**

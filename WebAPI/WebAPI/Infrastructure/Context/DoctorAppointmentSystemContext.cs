@@ -115,6 +115,11 @@ namespace WebAPI.Infrastructure.Context
                     .HasForeignKey(d => d.PatientId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.Appointments)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
                 entity.HasOne(d => d.Schedule)
                     .WithMany(p => p.Appointments)
                     .HasForeignKey(d => d.ScheduleId)

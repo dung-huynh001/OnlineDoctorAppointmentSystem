@@ -10,6 +10,6 @@ namespace WebAPI.Interfaces.IService
         Task<PatientDetailsDto> GetPatientDetails(string id);
         Task<ApiResponse> UpdatePatientInfo(UpdatePatientDetailsDto model);
         Task<OTP> SendActivateMail(string id, string email);
-        Task<bool> ValidOTP(string id, OTP otp);
+        Task<ApiResponse> ValidOTP(string id, OTP otp);
     }
 }

@@ -7,7 +7,6 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { CartModel } from './topbar.model';
 import { DOCUMENT } from '@angular/common';
 import { EventService } from '../../core/services/event.service';
 import { LanguageService } from '../../core/services/language.service';
@@ -16,10 +15,11 @@ import { AuthService } from '../../core/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-import { allNotification, cartData, messages } from './data';
+import { allNotification, messages } from './data';
 import { TokenStorageService } from '../../core/services/token-storage.service';
 import { User } from '../../core/models/auth.models';
 import { environment } from '../../../environments/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-topbar',
@@ -38,7 +38,6 @@ export class TopbarComponent implements OnInit {
   countryName: any;
   cookieValue: any;
   userData?: User;
-  cartData!: CartModel[];
   total = 0;
   cart_length: any = 0;
   totalNotify: number = 0;
@@ -47,6 +46,7 @@ export class TopbarComponent implements OnInit {
   isDropdownOpen = false;
   isActivated: boolean = false;
   currentUser: any;
+  status!: any;
 
   hostName = environment.serverApi;
 
@@ -70,9 +70,10 @@ export class TopbarComponent implements OnInit {
     this.element = document.documentElement;
     this.currentUser = this.authService.currentUser();
 
-    if(this.currentUser.status != 0 && this.currentUser.status != 1) {
-      this.isActivated = true;
-    }
+    this.authService.getStatus().subscribe(status => {
+      if(status && status != 0 && status != 1)
+        this.isActivated = true;
+    })
 
     // Cookies wise Language set
     this.cookieValue = this._cookiesService.get('lang');
@@ -90,12 +91,6 @@ export class TopbarComponent implements OnInit {
     this.allnotifications = allNotification;
 
     this.messages = messages;
-    this.cartData = cartData;
-    this.cart_length = this.cartData.length;
-    this.cartData.forEach((item) => {
-      var item_price = item.quantity * item.price;
-      this.total += item_price;
-    });
   }
 
   /**

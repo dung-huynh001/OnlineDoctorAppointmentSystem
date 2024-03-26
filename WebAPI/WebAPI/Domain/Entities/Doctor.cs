@@ -26,5 +26,6 @@ namespace WebAPI.Domain.Entities
         public virtual Department Department { get; set; } 
         public virtual AppUser User { get; set; } 
         public virtual ICollection<Schedule> Schedules { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
     }
 }

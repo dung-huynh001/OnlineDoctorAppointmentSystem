@@ -194,7 +194,7 @@
                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ userData?.fullName }}</span>
                 <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ userData?.userType}}</span>
               </span>
-              <a *ngIf="!isActivated" href="#" class="position-absolute text-danger fs-4 bottom-0" style="left: 10px;" ngbTooltip="Account is not activated">
+              <a *ngIf="!isActivated" routerLink="patient/edit-profile/{{userData?.id}}" class="position-absolute text-danger fs-4 bottom-0" style="left: 10px;" ngbTooltip="Account is not activated">
                 <i class="ri ri-information-fill"></i>
               </a>
             </span>

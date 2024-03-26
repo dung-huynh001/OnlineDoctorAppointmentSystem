@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.DTOs;
 using WebAPI.Interfaces.IService;
+using WebAPI.Models;
 using WebAPI.Responses;
 
 namespace WebAPI.Controllers
@@ -21,9 +22,9 @@ namespace WebAPI.Controllers
 
 
         [HttpGet("all")]
-        public async Task<List<GetAppointmentToDrawTableDto>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return await _appointmentService.GetAll();
+            return Ok(await _appointmentService.GetAll());
         }
 
         [HttpGet("completed")]
@@ -50,20 +51,10 @@ namespace WebAPI.Controllers
             return await _appointmentService.GetWaiting();
         }
 
-        [HttpGet("all/{id}/{userType}")]
-        public async Task<List<GetAppointmentToDrawTableDto>> GetAll(string id, string userType)
+        [HttpPost("get-appointments/{id}")]
+        public async Task<IActionResult> GetAppointments([FromRoute]string id, [FromQuery]string userType, [FromQuery]string type, DataTablesParameters parameters)
         {
-            switch(userType.Trim().ToLower())
-            {
-                case "patient":
-                    var patient = await _userService.GetPatientInfo(id);
-                    return await _appointmentService.GetAll(patient.Id, userType);
-                case "doctor":
-                    var doctor = await _userService.GetPatientInfo(id);
-                    return await _appointmentService.GetAll(doctor.Id, userType);
-                default:
-                    throw new Exception("UserType is invalid");
-            }
+            return Ok(await _appointmentService.GetAppointments(id, userType, type, parameters));
         }
 
         [HttpGet("completed/{id}/{userType}")]
@@ -131,9 +122,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("make-appointment")]
-        public async Task<ActionResult<ApiResponse>> MakeAppointment(MakeAppointmentDto model)
+        public async Task<ActionResult> MakeAppointment([FromForm]MakeAppointmentDto model)
         {
-            return Ok();
+            return Ok(await _appointmentService.MakeAppointment(model));
         }
     }
 }

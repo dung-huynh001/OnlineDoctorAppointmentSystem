@@ -1,5 +1,12 @@
 import { iDoctorOnDuty } from './../../../core/models/doctorOnDuty.model';
-import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import {
   Observable,
   Subject,
@@ -17,7 +24,8 @@ import { AppointmentService } from '../../../core/services/appointment.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { User } from '../../../core/models/auth.models';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-make-appointment',
@@ -28,13 +36,14 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
   breadcrumbItems!: Array<{}>;
   workingDay!: string;
   workingTime!: string;
+  userData!: User;
+  hostName: string = environment.serverApi;
 
   doctorData!: Array<iDoctorOnDuty>;
   selectedDoctor!: iDoctorOnDuty;
   foundFlag: boolean = false;
 
   @ViewChild('content') content!: TemplateRef<any>;
-
 
   closeResult = '';
 
@@ -48,6 +57,8 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
     doctorName: string;
     speciality: string;
   };
+
+  
 
   constructor(
     private _toastService: ToastService,
@@ -76,11 +87,13 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
       });
   }
   ngAfterViewInit(): void {
-    const currentUser = this._authService.currentUser();
+    this._authService.getStatus().subscribe(status => {
+      if (status == 0 || status == 1) {
+        this.openWarningModal(this.content);
+      }
+    });
 
-    if (currentUser?.status == 0 || currentUser?.status == 1) {
-      this.openWarningModal(this.content);
-    }
+
   }
 
   ngOnInit(): void {
@@ -91,21 +104,20 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
     this.workingDay = new Date().toLocaleDateString('en-ZA');
     this.workingTime = new Date().toLocaleTimeString('en-ZA');
 
-
+    this.userData = this._authService.currentUser();
+    
   }
 
   openWarningModal(content: TemplateRef<any>) {
-    this._modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result
-      .then(
-        () => {
-
-        },
+    this._modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        () => {},
         () => {
           this.openWarningModal(content);
         }
-      )
+      );
   }
-
 
   onDateChange(workingDate: string) {
     this.workingDay = workingDate;
@@ -146,6 +158,7 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
       .pipe(
         map((res): Array<iDoctorOnDuty> => {
           return res.map((data: any) => ({
+            avatarUrl: this.hostName + `/` + data?.avatarUrl,
             doctorId: data?.doctorId,
             fullName: data?.fullName,
             scheduleId: data?.scheduleId,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { iPatientInfo } from '../../../core/models/patientInfo.model';
 import { ProfileService } from '../../../core/services/profile.service';
-import { Subscription, catchError, finalize, map, throwError } from 'rxjs';
+import { catchError, finalize, map, throwError } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../../environments/environment';
 
@@ -76,7 +76,8 @@ export class ProfileComponent implements OnInit {
       )
       .subscribe((res) => {
         this.patientData = res;
-        this.avatarUrl = this.patientData.avatarUrl ? "Default" : this.hostName + `/` + this.patientData.avatarUrl
+        this._profileService.setPatientData(res);
+        this.avatarUrl = this.patientData.avatarUrl == null ? "Default" : this.hostName + `/` + this.patientData.avatarUrl;
       });
   }
 }

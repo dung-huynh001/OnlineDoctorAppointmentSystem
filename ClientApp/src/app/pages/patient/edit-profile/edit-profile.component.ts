@@ -7,16 +7,19 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '../../../core/services/toast.service';
-import { catchError, finalize, map, throwError } from 'rxjs';
+import { Subscription, catchError, finalize, map, throwError } from 'rxjs';
 import { ProfileService } from '../../../core/services/profile.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../../../core/services/auth.service';
-import { iPatientInfo } from '../../../core/models/patientInfo.model';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { count } from 'console';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { isObject } from 'chart.js/dist/helpers/helpers.core';
 
 const MINIMUM_BIRTHDAY_YEAR = '1910';
-const COUNT_DOWN_TIME = 3;
+const COUNT_DOWN_MINUTES = 1;
+const COUNT_DOWN_SECONDS = 0;
+const STATUS_ENOUGH_INFO = 1;
+const STATUS_NOT_ACTIVATE = 0;
+const STATUS_ACTIVATED = 2;
 
 @Component({
   selector: 'app-edit-profile',
@@ -31,8 +34,8 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   userId: any;
   status: any;
 
-  patientData!: iPatientInfo;
   loaded: boolean = false;
+  subscription$!: Subscription;
 
   form!: FormGroup;
   submitted: boolean = false;
@@ -40,10 +43,12 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
 
   otpCode!: string;
   expiredTime!: string;
-  countDownMinute = COUNT_DOWN_TIME;
-  countDownTime = {
-    m: 3,
-    s: 0
+  countDownTime: {
+    m: number;
+    s: number;
+  } = {
+    m: COUNT_DOWN_MINUTES,
+    s: COUNT_DOWN_SECONDS,
   };
   disableResend = false;
 
@@ -55,21 +60,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     private _authService: AuthService,
     private _modalService: NgbModal
   ) {}
-  ngAfterViewInit(): void {
-    const email = localStorage.getItem('email')!;
-    const id = this.currentUser.id;
-    if (this.status == 1) {
-      this._profileService
-        .sendActivateEmail('Patient/send-activate-email', id, email)
-        .pipe(
-          catchError((err) => {
-            return throwError(() => err);
-          })
-        )
-        .subscribe((res) => (this.expiredTime = res));
-      this.openWarningModal(this.content);
-    }
-  }
+
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Home' },
@@ -83,8 +74,36 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     this.fetchData();
   }
 
+  ngAfterViewInit(): void {
+    if (this.status == 1) {
+      this._profileService.getPatientData().subscribe((data) => {
+        this.sendActivateEmail(data.userId, data.email);
+      });
+      this.openWarningModal(this.content);
+    }
+  }
+
+  sendActivateEmail(id: string, email: string) {
+    this.countDown();
+    this._profileService
+      .sendActivateEmail('Patient/send-activate-email', id, email)
+      .pipe(
+        catchError((err) => {
+          return throwError(() => err);
+        })
+      )
+      .subscribe((res) => (this.expiredTime = res));
+  }
+
   get formControl() {
     return this.form.controls;
+  }
+
+  reSendActivateEmail() {
+    this.countDown();
+    this._profileService.getPatientData().subscribe((data) => {
+      this.sendActivateEmail(data.userId, data.email);
+    });
   }
 
   validOTP() {
@@ -92,6 +111,13 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
       code: this.otpCode,
       expiredTime: this.expiredTime,
     };
+
+    if (this.countDownTime.m == 0 && this.countDownTime.s == 0) {
+      this._toastService.warning(
+        'OTP code expired. Please click on Resend OTP code'
+      );
+      return;
+    }
 
     this._profileService
       .validOTP('Patient/valid-otp', this.currentUser.id, otp)
@@ -101,17 +127,30 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
           return throwError(() => err);
         })
       )
-      .subscribe((success) => {
-        if (success) {
-          this._toastService.success('Activate account successfully');
+      .subscribe((res) => {
+        if (res.isSuccess) {
+          this._toastService.success(res.message);
+          this._authService.setStatus(STATUS_ACTIVATED);
+          this.setStatus(STATUS_ACTIVATED);
+          this.closeModal();
+        } else {
+          this._toastService.warning('OTP code invalid');
         }
       });
   }
 
+  closeModal() {
+    this._modalService.dismissAll('Completed');
+  }
+
   countDown() {
-    this.disableResend = true;
+    this.countDownTime = {
+      m: COUNT_DOWN_MINUTES,
+      s: COUNT_DOWN_SECONDS,
+    };
     const interval = setInterval(() => {
-      if (this.countDownTime.m == 0) {
+      if (this.countDownTime.m == 0 && this.countDownTime.s == 0) {
+        this.disableResend = true;
         clearInterval(interval);
       } else {
         if (this.countDownTime.s == 0) {
@@ -150,8 +189,11 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
         .subscribe((res) => {
           if (res.isSuccess) {
             this._toastService.success(res.message);
+            this._profileService.getPatientData().subscribe(res => {
+              this.sendActivateEmail(res.userId, res.email);
+            })
             if (this.status == 0 || this.status == 1) {
-              this.setStatus();
+              this.setStatus(STATUS_ENOUGH_INFO);
               this.openWarningModal(this.content);
             }
           } else {
@@ -172,25 +214,24 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
       .open(content, { ariaLabelledBy: 'modal-basic-title' })
       .result.then(
         (result) => {
-          if (result != 'Later') this.openWarningModal(content);
+          if (result != 'Later' && result != 'Completed')
+            this.openWarningModal(content);
         },
         (reason) => {
-          this.openWarningModal(content);
+          if (reason != 'Completed') this.openWarningModal(content);
         }
       );
   }
 
-  sendActiveEmail() {}
-
-  setStatus() {
-    this.currentUser.status = 1;
+  setStatus(status: number) {
+    this.currentUser.status = status;
     const currentUser = JSON.stringify(this.currentUser);
     localStorage.setItem('currentUser', currentUser);
   }
 
   fetchData() {
     this._spinnerService.show();
-    this._profileService
+    this.subscription$ = this._profileService
       .getPatientInfo('/Patient/get-patient-details', this.userId)
       .pipe(
         map((data) => {
@@ -220,18 +261,14 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe((res) => {
-        this.patientData = res;
-
-        localStorage.setItem('userId', res.id);
-        localStorage.setItem('email', res.email);
-
+        this._profileService.setPatientData(res);
         this.loaded = true;
         this.form = this.formBuilder.group({
-          Id: [this.patientData.id, Validators.required],
-          UserId: [this.patientData.userId, Validators.required],
-          FullName: [this.patientData.fullName, Validators.required],
+          Id: [res.id, Validators.required],
+          UserId: [res.userId, Validators.required],
+          FullName: [res.fullName, Validators.required],
           Email: [
-            this.patientData.email,
+            res.email,
             [
               Validators.required,
               Validators.email,
@@ -239,33 +276,23 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
             ],
           ],
           NationalId: [
-            this.patientData.nationalId.includes('Not update')
-              ? ''
-              : this.patientData.nationalId,
+            res.nationalId.includes('Not update') ? '' : res.nationalId,
             Validators.required,
           ],
           DateOfBirth: [
-            this.patientData.dateOfBirth.split('/').reverse().join('-'),
+            res.dateOfBirth.split('/').reverse().join('-'),
             [Validators.required],
           ],
           Gender: [
-            this.patientData.gender === 'Male'
-              ? 0
-              : this.patientData.gender === 'Female'
-              ? 1
-              : 2,
+            res.gender === 'Male' ? 0 : res.gender === 'Female' ? 1 : 2,
             Validators.required,
           ],
           PhoneNumber: [
-            this.patientData.phoneNumber.includes('Not update')
-              ? ''
-              : this.patientData.phoneNumber,
+            res.phoneNumber.includes('Not update') ? '' : res.phoneNumber,
             Validators.required,
           ],
           Address: [
-            this.patientData.address.includes('Not update')
-              ? ''
-              : this.patientData.address,
+            res.address.includes('Not update') ? '' : res.address,
             Validators.required,
           ],
           Avatar: [null, [Validators.max(this.maxFileSize)]],
