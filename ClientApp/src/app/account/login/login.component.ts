@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
             console.log(res);
 
             const role = res.data.userType;
-            this.router.navigate([`/${role}`]);
+            this.router.navigate([`/${role}/dashboard`]);
           }
         });
     }

@@ -1,0 +1,202 @@
+<app-breadcrumbs title="Dashboard" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-lg-9">
+            <div class="row" *ngIf="widgetsData != null">
+                <div class="col-xxl-3 col-sm-6">
+                    <div class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-start gap-2">
+                                <div class="align-self-center">
+                                    <div class="avatar-md flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
+                                            <i class="las la-list-ul"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <h5 class="fw-semibold text-muted mb-0">Total Appointment</h5>
+                                    <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="widgetsData[0]"
+                                            class="counter-value"></span></h2>
+                                    <p class="mb-0 text-muted">till today</p>
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div>
+                </div>
+                <div class="col-xxl-3 col-sm-6">
+                    <div class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-start gap-2">
+                                <div class="align-self-center">
+                                    <div class="avatar-md flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
+                                            <i class="las la-calendar-day"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <h5 class="fw-semibold text-muted mb-0">Today Appointment</h5>
+                                    <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="widgetsData[1]"
+                                            class="counter-value"></span></h2>
+                                    <p class="mb-0 text-muted">{{today}}</p>
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div>
+                </div>
+                <div class="col-xxl-3 col-sm-6">
+                    <div class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-start gap-2">
+                                <div class="align-self-center">
+                                    <div class="avatar-md flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
+                                            <i class="las la-calendar-plus"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <h5 class="fw-semibold text-muted mb-0">Confirmed Appointment</h5>
+                                    <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="widgetsData[2]"
+                                            class="counter-value"></span></h2>
+                                    <p class="mb-0 text-muted">were approved</p>
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div>
+                </div>
+                <div class="col-xxl-3 col-sm-6">
+                    <div class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-start gap-2">
+                                <div class="align-self-center">
+                                    <div class="avatar-md flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
+                                            <i class="las la-hourglass-half"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <h5 class="fw-semibold text-muted mb-0">Pending Appointment</h5>
+                                    <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="widgetsData[3]"
+                                            class="counter-value"></span></h2>
+                                    <p class="mb-0 text-muted">are awaiting approval</p>
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xxl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Upcoming Appointment</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <div class="table-responsive">
+                                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                                    class="table table-bordered dt-responsive display nowrap" cellspacing="0"
+                                    width="100%"></table>
+                            </div>
+                        </div><!-- end card-body -->
+                    </div>
+                </div><!--end col-->
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-12">
+            <div class="card card-animate">
+                <div class="card-header border-0">
+                    <h4 class="card-title mb-0">Schedules</h4>
+                </div>
+                <div class="card-body pt-0">
+                    <div class="upcoming-scheduled">
+                        <input type="text" class="form-control" mwlFlatpickr [altInput]="true"
+                            [convertModelValue]="true" [inline]="true">
+                    </div>
+
+                    <!-- <h6 class="text-uppercase fw-semibold mt-4 mb-3 text-muted">Events:</h6>
+                    <div
+                        *ngIf="this.schedulesInfo && this.schedulesInfo.length !== 0, then haveSchedules else noSchedules">
+                    </div>
+                    <ng-template #haveSchedules>
+                        <div class="mini-stats-wid d-flex align-items-center mt-3">
+                            <div class="flex-shrink-0 avatar-sm">
+                                <span
+                                    class="mini-stat-icon avatar-title rounded-circle text-success bg-success-subtle fs-4">
+                                    {{getDate()}}
+                                </span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="mb-2" *ngFor="let schedule of this.schedulesInfo">
+                                    <div><span class="fw-semibold">{{schedule.shiftName}}:</span> {{schedule.shiftTime}}
+                                        - {{schedule.breakTime}}</div>
+                                    <p class="text-muted mb-0">{{schedule.description}}</p>
+                                </div>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <a href="javascript:void(0);" class="text-muted mb-0 text-decoration-underline">have
+                                    <span class="text-success fw-bold fs-6">{{this.totalApptOnDate}}</span>
+                                    appts
+                                </a>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #noSchedules>
+                        <div class="mini-stats-wid d-flex align-items-center mt-3" style="min-height: 150px">
+                            <div class="flex-shrink-0 avatar-sm">
+                                <span
+                                    class="mini-stat-icon avatar-title rounded-circle text-success bg-success-subtle fs-4">
+                                    {{getDate()}}
+                                </span>
+                            </div>
+                            <h5 class="flex-grow-1 ms-3">No schedules on this day</h5>
+                        </div>
+                    </ng-template> -->
+
+                </div>
+            </div>
+            <div class="card card-animate">
+                <div class="card-header d-flex justify-content-between">
+                    <h4>Recently Appointments</h4>
+                    <a routerLink="/patient/appointment/all"
+                        class="btn btn-ghost-dark text-muted px-1 py-0 d-flex align-items-center">See all <i
+                            class="ri ri-arrow-right-s-line"></i></a>
+                </div>
+                <div class="card-body">
+                    <div
+                        *ngIf="this.recentlyAppointments && this.recentlyAppointments.length != 0, then haveData else noData">
+                    </div>
+                    <ng-template #noData>
+                        <div class="d-flex justify-content-center align-items-center" style="height: 120px;">
+                            <h6>There are no recent appointments</h6>
+                        </div>
+                    </ng-template>
+                    <ng-template #haveData>
+                        <div class="row" *ngFor="let appt of this.recentlyAppointments">
+                            <div class="col-12 mb-3">
+                                <div class="d-flex gap-3">
+                                    <img src="{{hostName + '/' + appt.avatarUrl}}" alt=""
+                                        class="avatar-sm rounded rounded-circle">
+                                    <div class="d-flex flex-column">
+                                        <b>{{appt.doctorName}}</b>
+                                        <span class="text-muted">Speciality: {{appt.speciality}}</span>
+                                        <span class="text-muted fst-italic">{{appt.appointmentDate}}</span>
+                                    </div>
+                                    <a role="button" routerLink="/patient/appointment/view/{{appt.id}}"
+                                        class="btn btn-sm btn-soft-primary align-self-center ms-auto">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

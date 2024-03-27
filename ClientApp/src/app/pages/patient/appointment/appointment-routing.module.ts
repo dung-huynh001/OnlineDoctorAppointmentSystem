@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { MakeAppointmentComponent } from '../make-appointment/make-appointment.component';
 import { AllComponent } from './all/all.component';
 import { OutOfDateComponent } from './out-of-date/out-of-date.component';
-import { WaitingComponent } from './waiting/waiting.component';
 import { CompletedComponent } from './completed/completed.component';
 import { CancelledComponent } from './cancelled/cancelled.component';
 import { ViewAppointmentComponent } from './view-appointment/view-appointment.component';
+import { PendingComponent } from './pending/pending.component';
+import { ConfirmedComponent } from './confirmed/confirmed.component';
 
 const routes: Routes = [
   {
@@ -22,8 +23,8 @@ const routes: Routes = [
     component: OutOfDateComponent,
   },
   {
-    path: 'waiting',
-    component: WaitingComponent,
+    path: 'pending',
+    component: PendingComponent,
   },
   {
     path: 'completed',
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'cancelled',
     component: CancelledComponent,
+  },
+  {
+    path: 'confirmed',
+    component: ConfirmedComponent,
   },
   {
     path: 'view/:id',

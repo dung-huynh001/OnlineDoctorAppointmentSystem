@@ -10,6 +10,7 @@ import { AppointmentStatisticComponent } from './appointment-statistic/appointme
 import { CountUpModule } from 'ngx-countup';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { FlatpickrModule } from 'angularx-flatpickr';
     CountUpModule,
     FormsModule,
     ReactiveFormsModule,
-    FlatpickrModule
+    FlatpickrModule,
+    NgxSpinnerModule
   ],
   exports: [
     AppointmentFormComponent, 

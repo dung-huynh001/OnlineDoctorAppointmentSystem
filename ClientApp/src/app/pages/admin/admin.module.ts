@@ -15,7 +15,9 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { NgxSpinnerModule } from 'ngx-spinner'
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { DashboardComponent } from './dashboard/dashboard.component'
+import { ComponentsModule } from '../../components/components.module';
 
 
 
@@ -25,6 +27,7 @@ import { NgxSpinnerModule } from 'ngx-spinner'
     ManageScheduleComponent,
     ManageDoctorComponent,
     AssignScheduleComponent,
+    DashboardComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +44,7 @@ import { NgxSpinnerModule } from 'ngx-spinner'
     NgSelectModule,
     FullCalendarModule,
     NgxSpinnerModule,
+    ComponentsModule
   ],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

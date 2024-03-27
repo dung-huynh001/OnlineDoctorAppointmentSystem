@@ -8,13 +8,14 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RestApiService } from '../../core/services/rest-api.service';
-import { catchError, map, throwError } from 'rxjs';
+import { catchError, finalize, map, throwError } from 'rxjs';
 import { ToastService } from '../../core/services/toast.service';
 import { ProfileService } from '../../core/services/profile.service';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/models/auth.models';
 import { iPatientInfo } from '../../core/models/patientInfo.model';
 import { AppointmentService } from '../../core/services/appointment.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-appointment-form',
@@ -39,7 +40,8 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
     private _appointmentService: AppointmentService,
     private readonly elementRef: ElementRef,
     private _patientService: ProfileService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _spinnerService: NgxSpinnerService
   ) {
     this.appointmentForm = this.formBuilder.group({
       patientId: ['', Validators.required],
@@ -103,7 +105,10 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
       .subscribe((res) => {
         const gender: number =
           res.gender === 'Male' ? 0 : res.gender === 'Female' ? 1 : 2;
-        const dateOfBirth: string = res.dateOfBirth.split('/').reverse().join('-');
+        const dateOfBirth: string = res.dateOfBirth
+          .split('/')
+          .reverse()
+          .join('-');
         this.appointmentForm = this.formBuilder.group({
           patientId: [res.id, Validators.required],
           patientName: [res.fullName, Validators.required],
@@ -134,18 +139,27 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   onSubmit(): void {
     this.submitted = true;
     if (this.appointmentForm.valid) {
-      console.log(this.appointmentForm.value);
+      this._spinnerService.show();
       this._appointmentService
-        .makeAppoinntment(`/Appointment/make-appointment`, this.appointmentForm.value)
+        .makeAppoinntment(
+          `/Appointment/make-appointment`,
+          this.appointmentForm.value
+        )
         .pipe(
           catchError((err) => {
             console.log(err);
             return throwError(() => err);
+          }),
+          finalize(() => {
+            setTimeout(() => {
+              this._spinnerService.hide();
+            }, 300);
           })
         )
         .subscribe((res) => {
           if (res.isSuccess) {
-            localStorage.setItem('toast', 'true');
+            this._toastService.success(res.message);
+            this.resetForm();
           }
         });
     }
@@ -163,5 +177,8 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
     this.f['scheduleId'].setValue(null);
     this.f['appointmentDate'].setValue(new Date().toLocaleDateString('en-CA'));
     this.f['time'].setValue(new Date().toLocaleTimeString('en-GB'));
+    this.appointmentForm.markAsPristine();
+    this.appointmentForm.markAsUntouched();
+    this.submitted = false;
   }
 }

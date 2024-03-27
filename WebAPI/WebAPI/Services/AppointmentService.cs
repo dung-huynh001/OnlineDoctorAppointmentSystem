@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WebAPI.Domain.Entities;
+using WebAPI.Domain.Enums;
 using WebAPI.DTOs;
 using WebAPI.Exceptions;
 using WebAPI.Interfaces;
@@ -21,321 +22,6 @@ namespace WebAPI.Services
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
         }
-        public async Task<List<GetAppointmentToDrawTableDto>> GetAll()
-        {
-            var result = await _unitOfWork.Repository<Appointment>().GetAll
-                .Where(a => a.IsDeleted != true)
-                .Include(a => a.Patient)
-                .Include(a => a.Schedule.Doctor)
-                .Select(a => new GetAppointmentToDrawTableDto
-                {
-                    Id = a.Id,
-                    DoctorName = a.Schedule.Doctor.FullName,
-                    PatientName = a.Patient.FullName,
-                    AppointmentDate = a.AppointmentDate.Value,
-                    DateOfConsultation = a.DateOfConsultation,
-                    Status = a.AppointmentStatus,
-                    ClosedBy = a.ClosedBy,
-                    ClosedDate = a.ClosedDate.Value,
-                    CreatedBy = a.CreatedBy,
-                    CreatedDate = a.CreatedDate,
-                })
-                .ToListAsync();
-            return result;
-        }
-
-        public async Task<List<GetAppointmentToDrawTableDto>> GetAll(int id, string userType)
-        {
-            IQueryable<Appointment> data;
-            switch (userType.Trim().ToLower())
-            {
-                case "patient":
-                    data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.PatientId == id)
-                                .Include(a => a.Patient)
-                                .Include(a => a.Schedule.Doctor);
-                    break;
-                case "doctor":
-                    data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.DoctorId == id)
-                                .Include(a => a.Patient)
-                                .Include(a => a.Schedule.Doctor);
-                    break;
-                default:
-                    data = null;
-                    break;
-
-            }
-
-            var result = data?.Select(a => new GetAppointmentToDrawTableDto
-            {
-                Id = a.Id,
-                DoctorName = a.Schedule.Doctor.FullName,
-                PatientName = a.Patient.FullName,
-                AppointmentDate = a.AppointmentDate.Value,
-                DateOfConsultation = a.DateOfConsultation,
-                Status = a.AppointmentStatus,
-                ClosedBy = a.ClosedBy,
-                ClosedDate = a.ClosedDate.Value,
-                CreatedBy = a.CreatedBy,
-                CreatedDate = a.CreatedDate,
-            }).ToListAsync();
-
-            return await result;
-        }
-
-        public async Task<List<GetAppointmentToDrawTableDto>> GetCancelled()
-        {
-            var result = await _unitOfWork.Repository<Appointment>().GetAll
-                .Where(a => a.IsDeleted != true && a.AppointmentStatus.ToLower().Trim() == "cancel")
-                .Include(a => a.Patient)
-                .Include(a => a.Schedule.Doctor)
-                .Select(a => new GetAppointmentToDrawTableDto
-                {
-                    Id = a.Id,
-                    DoctorName = a.Schedule.Doctor.FullName,
-                    PatientName = a.Patient.FullName,
-                    AppointmentDate = a.AppointmentDate.Value,
-                    DateOfConsultation = a.DateOfConsultation,
-                    Status = a.AppointmentStatus,
-                    ClosedBy = a.ClosedBy,
-                    ClosedDate = a.ClosedDate.Value,
-                    CreatedBy = a.CreatedBy,
-                    CreatedDate = a.CreatedDate,
-                })
-                .ToListAsync();
-            return result;
-        }
-
-        public async Task<List<GetAppointmentToDrawTableDto>> GetCancelled(int id, string userType)
-        {
-            IQueryable<Appointment> data;
-            switch (userType.Trim().ToLower())
-            {
-                case "patient":
-                    data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "cancel" && a.PatientId == id)
-                                .Include(a => a.Patient)
-                                .Include(a => a.Schedule.Doctor);
-                    break;
-                case "doctor":
-                    data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "cancel" && a.DoctorId == id)
-                                .Include(a => a.Patient)
-                                .Include(a => a.Schedule.Doctor);
-                    break;
-                default:
-                    data = null;
-                    break;
-
-            }
-
-            var result = data?.Select(a => new GetAppointmentToDrawTableDto
-            {
-                Id = a.Id,
-                DoctorName = a.Schedule.Doctor.FullName,
-                PatientName = a.Patient.FullName,
-                AppointmentDate = a.AppointmentDate.Value,
-                DateOfConsultation = a.DateOfConsultation,
-                Status = a.AppointmentStatus,
-                ClosedBy = a.ClosedBy,
-                ClosedDate = a.ClosedDate.Value,
-                CreatedBy = a.CreatedBy,
-                CreatedDate = a.CreatedDate,
-            }).ToListAsync();
-
-            return await result;
-        }
-
-        public async Task<List<GetAppointmentToDrawTableDto>> GetCompleted()
-        {
-            var result = await _unitOfWork.Repository<Appointment>().GetAll
-                .Where(a => a.IsDeleted != true && a.AppointmentStatus.ToLower().Trim() == "completed")
-                .Include(a => a.Patient)
-                .Include(a => a.Schedule.Doctor)
-                .Select(a => new GetAppointmentToDrawTableDto
-                {
-                    Id = a.Id,
-                    DoctorName = a.Schedule.Doctor.FullName,
-                    PatientName = a.Patient.FullName,
-                    AppointmentDate = a.AppointmentDate.Value,
-                    DateOfConsultation = a.DateOfConsultation,
-                    Status = a.AppointmentStatus,
-                    ClosedBy = a.ClosedBy,
-                    ClosedDate = a.ClosedDate.Value,
-                    CreatedBy = a.CreatedBy,
-                    CreatedDate = a.CreatedDate,
-                })
-                .ToListAsync();
-            return result;
-        }
-
-        public async Task<List<GetAppointmentToDrawTableDto>> GetCompleted(int id, string userType)
-        {
-            IQueryable<Appointment> data;
-            switch (userType.Trim().ToLower())
-            {
-                case "patient":
-                    data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "completed" && a.PatientId == id)
-                                .Include(a => a.Patient)
-                                .Include(a => a.Schedule.Doctor);
-                    break;
-                case "doctor":
-                    data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "completed" && a.DoctorId == id)
-                                .Include(a => a.Patient)
-                                .Include(a => a.Schedule.Doctor);
-                    break;
-                default:
-                    data = null;
-                    break;
-
-            }
-
-            var result = data?.Select(a => new GetAppointmentToDrawTableDto
-            {
-                Id = a.Id,
-                DoctorName = a.Schedule.Doctor.FullName,
-                PatientName = a.Patient.FullName,
-                AppointmentDate = a.AppointmentDate.Value,
-                DateOfConsultation = a.DateOfConsultation,
-                Status = a.AppointmentStatus,
-                ClosedBy = a.ClosedBy,
-                ClosedDate = a.ClosedDate.Value,
-                CreatedBy = a.CreatedBy,
-                CreatedDate = a.CreatedDate,
-            }).ToListAsync();
-
-            return await result;
-        }
-
-        public async Task<List<GetAppointmentToDrawTableDto>> GetOutOfDate()
-        {
-            var result = await _unitOfWork.Repository<Appointment>().GetAll
-                .Where(a => a.IsDeleted != true && a.AppointmentStatus.ToLower().Trim() == "confirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) <= 0)
-                .Include(a => a.Patient)
-                .Include(a => a.Schedule.Doctor)
-                .Select(a => new GetAppointmentToDrawTableDto
-                {
-                    Id = a.Id,
-                    DoctorName = a.Schedule.Doctor.FullName,
-                    PatientName = a.Patient.FullName,
-                    AppointmentDate = a.AppointmentDate.Value,
-                    DateOfConsultation = a.DateOfConsultation,
-                    Status = a.AppointmentStatus,
-                    ClosedBy = a.ClosedBy,
-                    ClosedDate = a.ClosedDate.Value,
-                    CreatedBy = a.CreatedBy,
-                    CreatedDate = a.CreatedDate,
-                })
-                .ToListAsync();
-            return result;
-        }
-
-        public async Task<List<GetAppointmentToDrawTableDto>> GetOutOfDate(int id, string userType)
-        {
-            IQueryable<Appointment> data;
-            switch (userType.Trim().ToLower())
-            {
-                case "patient":
-                    data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "confirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) <= 0 && a.PatientId == id)
-                                .Include(a => a.Patient)
-                                .Include(a => a.Schedule.Doctor);
-                    break;
-                case "doctor":
-                    data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "comfirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) <= 0 && a.DoctorId == id)
-                                .Include(a => a.Patient)
-                                .Include(a => a.Schedule.Doctor);
-                    break;
-                default:
-                    data = null;
-                    break;
-
-            }
-
-            var result = data?.Select(a => new GetAppointmentToDrawTableDto
-            {
-                Id = a.Id,
-                DoctorName = a.Schedule.Doctor.FullName,
-                PatientName = a.Patient.FullName,
-                AppointmentDate = a.AppointmentDate.Value,
-                DateOfConsultation = a.DateOfConsultation,
-                Status = a.AppointmentStatus,
-                ClosedBy = a.ClosedBy,
-                ClosedDate = a.ClosedDate.Value,
-                CreatedBy = a.CreatedBy,
-                CreatedDate = a.CreatedDate,
-            }).ToListAsync();
-
-            return await result;
-        }
-
-        public async Task<List<GetAppointmentToDrawTableDto>> GetWaiting()
-        {
-            var result = await _unitOfWork.Repository<Appointment>().GetAll
-                .Where(a => a.IsDeleted != true && a.AppointmentStatus.ToLower().Trim() == "confirm" && a.AppointmentDate.Value.CompareTo(DateTime.Now) > 0)
-                .Include(a => a.Patient)
-                .Include(a => a.Schedule.Doctor)
-                .Select(a => new GetAppointmentToDrawTableDto
-                {
-                    Id = a.Id,
-                    DoctorName = a.Schedule.Doctor.FullName,
-                    PatientName = a.Patient.FullName,
-                    AppointmentDate = a.AppointmentDate.Value,
-                    DateOfConsultation = a.DateOfConsultation,
-                    Status = a.AppointmentStatus,
-                    ClosedBy = a.ClosedBy,
-                    ClosedDate = a.ClosedDate.Value,
-                    CreatedBy = a.CreatedBy,
-                    CreatedDate = a.CreatedDate,
-                })
-                .ToListAsync();
-            return result;
-        }
-
-        public async Task<List<GetAppointmentToDrawTableDto>> GetWaiting(int id, string userType)
-        {
-            IQueryable<Appointment> data;
-            switch (userType.Trim().ToLower())
-            {
-                case "patient":
-                    data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "confirm" && a.PatientId == id)
-                                .Include(a => a.Patient)
-                                .Include(a => a.Schedule.Doctor);
-                    break;
-                case "doctor":
-                    data = _unitOfWork.Repository<Appointment>().GetAll
-                                .Where(a => a.IsDeleted != true && a.AppointmentStatus.Trim().ToLower() == "confirm" && a.DoctorId == id)
-                                .Include(a => a.Patient)
-                                .Include(a => a.Schedule.Doctor);
-                    break;
-                default:
-                    data = null;
-                    break;
-
-            }
-
-            var result = data?.Select(a => new GetAppointmentToDrawTableDto
-            {
-                Id = a.Id,
-                DoctorName = a.Schedule.Doctor.FullName,
-                PatientName = a.Patient.FullName,
-                AppointmentDate = a.AppointmentDate.Value,
-                DateOfConsultation = a.DateOfConsultation,
-                Status = a.AppointmentStatus,
-                ClosedBy = a.ClosedBy,
-                ClosedDate = a.ClosedDate.Value,
-                CreatedBy = a.CreatedBy,
-                CreatedDate = a.CreatedDate,
-            }).ToListAsync();
-
-            return await result;
-        }
-
         public async Task<GetAppointmentDetailDto> GetAppointmentDetail(int id)
         {
             var result = await _unitOfWork.Repository<Appointment>().GetAll
@@ -344,6 +30,7 @@ namespace WebAPI.Services
                 .Include(a => a.Patient)
                 .Select(a => _mapper.Map<GetAppointmentDetailDto>(a))
                 .FirstOrDefaultAsync();
+            if (result == null) throw new Exception();
             return result;
         }
 
@@ -354,12 +41,12 @@ namespace WebAPI.Services
                 .Select(p => new PatientDataToAppointment
                 {
                     PatientId = p.Id,
-                    Address = p.Address,
+                    Address = p.Address!,
                     DateOfBirth = p.DateOfBirth,
                     Email = p.User.Email,
                     Gender = p.Gender,
-                    PatientName = p.FullName,
-                    PhoneNumber = p.PhoneNumber
+                    PatientName = p.FullName!,
+                    PhoneNumber = p.PhoneNumber!
                 })
                 .FirstOrDefaultAsync();
             if (patient == null) throw new NotFoundException("Patient", currentUserId);
@@ -372,6 +59,7 @@ namespace WebAPI.Services
             try
             {
                 var appointment = _mapper.Map<Appointment>(model);
+                appointment.AppointmentDate = model.AppointmentDate.Add(model.Time);
                 appointment.DateOfConsultation = model.AppointmentDate;
 
                 await _unitOfWork.Repository<Appointment>().AddAsync(appointment);
@@ -382,7 +70,7 @@ namespace WebAPI.Services
                     Message = "Make appointment successfully. You will be notified when you hear back from your doctor",
                 };
             }
-            catch (Exception ex)
+            catch
             {
                 _unitOfWork.Rollback();
                 return new ApiResponse
@@ -399,10 +87,27 @@ namespace WebAPI.Services
 
             string status = GetStatus(type);
             int id = GetActorId(userId, userType);
+            IQueryable<Appointment> appointments;
+            if (status == "out-of-date")
+            {
+                appointments = _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted
+                        && a.AppointmentStatus.ToLower().Contains("confirmed")
+                        && a.AppointmentDate!.Value.CompareTo(DateTime.Now) > 0);
 
-            var appointments = _unitOfWork.Repository<Appointment>().GetAll
+            }
+            else if (status == "confirmed")
+            {
+                appointments = _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted
+                        && a.AppointmentStatus.ToLower().Contains("confirmed")
+                        && a.AppointmentDate!.Value.CompareTo(DateTime.Now) <= 0);
+            }
+            else
+            {
+                appointments = _unitOfWork.Repository<Appointment>().GetAll
                         .Where(a => !a.IsDeleted && a.AppointmentStatus.ToLower().Contains(status));
-                        
+            }
 
             switch (userType)
             {
@@ -445,60 +150,36 @@ namespace WebAPI.Services
                     || d.AppointmentDate!.Value.ToString().Trim().ToLower().Contains(searchValue)
                     || d.ClosedBy!.Trim().ToLower().Contains(searchValue)
                     || d.ClosedDate.Value.ToString().Trim().ToLower().Contains(searchValue));
-                    
 
-            /*if (parameters.Order.Count() != 0)
+
+            if (parameters.Order.Count() != 0)
                 switch (parameters.Order[0].Column)
                 {
                     case (2):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.FullName) : records.OrderByDescending(r => r.FullName);
+                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.DoctorName) : records.OrderByDescending(r => r.DoctorName);
                         break;
                     case (3):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Speciality) : records.OrderByDescending(r => r.Speciality);
+                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.AppointmentDate) : records.OrderByDescending(r => r.AppointmentDate);
                         break;
                     case (4):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Department) : records.OrderByDescending(r => r.Department);
+                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.DateOfConsultation) : records.OrderByDescending(r => r.DateOfConsultation);
                         break;
                     case (5):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Gender) : records.OrderByDescending(r => r.Gender);
+                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Status) : records.OrderByDescending(r => r.Status);
                         break;
                     case (6):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.DateOfBirth) : records.OrderByDescending(r => r.DateOfBirth);
+                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.ClosedBy) : records.OrderByDescending(r => r.ClosedBy);
                         break;
                     case (7):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.NationalId) : records.OrderByDescending(r => r.NationalId);
+                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.ClosedDate) : records.OrderByDescending(r => r.ClosedDate);
                         break;
                     case (8):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.PhoneNumber) : records.OrderByDescending(r => r.PhoneNumber);
-                        break;
-                    case (9):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Email) : records.OrderByDescending(r => r.Email);
-                        break;
-                    case (10):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.IsDeleted) : records.OrderByDescending(r => r.IsDeleted);
-                        break;
-                    case (11):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.WorkingStartDate) : records.OrderByDescending(r => r.WorkingStartDate);
-                        break;
-                    case (12):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.WorkingEndDate) : records.OrderByDescending(r => r.WorkingEndDate);
-                        break;
-                    case (13):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.CreatedBy) : records.OrderByDescending(r => r.CreatedBy);
-                        break;
-                    case (14):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.CreatedDate) : records.OrderByDescending(r => r.CreatedDate);
-                        break;
-                    case (15):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.UpdatedBy) : records.OrderByDescending(r => r.UpdatedBy);
-                        break;
-                    case (16):
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.UpdatedDate) : records.OrderByDescending(r => r.UpdatedDate);
+                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.CreatedBy) : records.OrderByDescending(r => r.CreatedDate);
                         break;
                     default:
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
                         break;
-                }*/
+                }
 
 
             records = records
@@ -514,7 +195,7 @@ namespace WebAPI.Services
 
         private int GetActorId(string userId, string userType)
         {
-            switch(userType.ToLower().Trim())
+            switch (userType.ToLower().Trim())
             {
                 case "patient":
                     var patient = _unitOfWork.Repository<Patient>().GetAll.FirstOrDefault(x => x.UserId == userId);
@@ -545,11 +226,187 @@ namespace WebAPI.Services
                 case "cancelled":
                     status = "cancelled";
                     break;
+                case "out-of-date":
+                    status = "cancelled";
+                    break;
                 default:
                     break;
             }
 
             return status;
+        }
+
+        public async Task<ApiResponse> CancelAppointment(int id)
+        {
+            _unitOfWork.BeginTransaction();
+            try
+            {
+                var appointment = await _unitOfWork.Repository<Appointment>().GetByIdAsync(id);
+                appointment.AppointmentStatus = AppointmentStatus.Cancelled.ToString();
+                _unitOfWork.Commit();
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Message = $"You just cancelled appointment with id {id}",
+                    Id = id.ToString()
+                };
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = $"Cancel appointment with id = {id} failed",
+                    Id = id.ToString()
+                };
+            }
+        }
+
+        public async Task<ViewAppointmentDto> ViewAppointmentDetails(int id)
+        {
+            var appointment = await _unitOfWork.Repository<Appointment>().GetByIdAsync(id);
+            if (appointment == null) throw new NotFoundException("appointment", id);
+            var viewApptDto = _mapper.Map<ViewAppointmentDto>(appointment);
+            return viewApptDto;
+        }
+
+        public async Task<List<int>> LoadWidgets(string id, string userType)
+        {
+            List<int> result = new List<int>
+            {
+                await GetTotalAppointment(id, userType),
+                await GetTodayAppointment(id, userType),
+                await GetConfirmedAppointment(id, userType),
+                await GetPendingAppointment(id, userType)
+            };
+            return result;
+        }
+
+        private async Task<int> GetTotalAppointment(string id, string userType)
+        {
+            switch (userType)
+            {
+                case "patient":
+                    var totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.Patient.UserId == id)
+                        .CountAsync();
+                    return totalAppt;
+                case "doctor":
+                    totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.Doctor.UserId == id)
+                        .CountAsync();
+                    return totalAppt;
+                default:
+                    totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted)
+                        .CountAsync();
+                    return totalAppt;
+            }
+        }
+
+        private async Task<int> GetTodayAppointment(string id, string userType)
+        {
+            switch (userType)
+            {
+                case "patient":
+                    var totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.Patient.UserId == id && a.AppointmentDate.Value.Date.Equals(DateTime.Now.Date))
+                        .CountAsync();
+                    return totalAppt;
+                case "doctor":
+                    totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.Doctor.UserId == id && a.AppointmentDate.Value.Date.Equals(DateTime.Now.Date))
+                        .CountAsync();
+                    return totalAppt;
+                default:
+                    totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.AppointmentDate.Value.Date.Equals(DateTime.Now.Date))
+                        .CountAsync();
+                    return totalAppt;
+            }
+        }
+
+        private async Task<int> GetConfirmedAppointment(string id, string userType)
+        {
+            switch (userType)
+            {
+                case "patient":
+                    var totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.Patient.UserId == id && a.AppointmentStatus.ToLower() == "confirmed")
+                        .CountAsync();
+                    return totalAppt;
+                case "doctor":
+                    totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.Doctor.UserId == id && a.AppointmentStatus.ToLower() == "confirmed")
+                        .CountAsync();
+                    return totalAppt;
+                default:
+                    totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.AppointmentStatus.ToLower() == "confirmed")
+                        .CountAsync();
+                    return totalAppt;
+            }
+        }
+
+        private async Task<int> GetPendingAppointment(string id, string userType)
+        {
+            switch (userType)
+            {
+                case "patient":
+                    var totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.Patient.UserId == id && a.AppointmentStatus.ToLower() == "pending")
+                        .CountAsync();
+                    return totalAppt;
+                case "doctor":
+                    totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.Doctor.UserId == id && a.AppointmentStatus.ToLower() == "pending")
+                        .CountAsync();
+                    return totalAppt;
+                default:
+                    totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
+                        .Where(a => !a.IsDeleted && a.AppointmentStatus.ToLower() == "pending")
+                        .CountAsync();
+                    return totalAppt;
+            }
+        }
+
+        public async Task<List<RecentlyAppointmentDto>> GetRecentlyAppointment(string id)
+        {
+            var result = await _unitOfWork.Repository<Appointment>().GetAll
+                .Where(a => !a.IsDeleted && a.Patient.UserId == id)
+                .OrderByDescending(a => a.AppointmentDate)
+                .Select(a => new RecentlyAppointmentDto
+                {
+                    Id = a.Id,
+                    AppointmentDate = a.AppointmentDate.Value.ToString("ddd dd/MM/yyyy"),
+                    AvatarUrl = a.Doctor.User.AvatarUrl ?? "Uploads/Avatars/defaults_user.png",
+                    DoctorName = a.Doctor.FullName,
+                    Speciality = a.Doctor.Speciality
+                })
+                .Take(5)
+                .ToListAsync();
+            return result;
+        }
+
+        public async Task<List<UpcomingAppointmentDto>> GetUpcomingAppointment(string id)
+        {
+            var result = await _unitOfWork.Repository<Appointment>().GetAll
+                .Where(a => !a.IsDeleted && a.Patient.UserId == id)
+                .OrderByDescending(a => a.AppointmentDate)
+                .Select(a => new UpcomingAppointmentDto
+                {
+                    Id = a.Id,
+                    AppointmentDate = a.AppointmentDate.Value.ToString("hh:ss dd/MM/yyyy"),
+                    DateOfConsultation = a.DateOfConsultation.ToString("hh:ss dd/MM/yyyy"),
+                    DoctorName = a.Doctor.FullName,
+                    Speciality = a.Doctor.Speciality,
+                    CreatedDate = a.CreatedDate.ToString("dd/MM/yyyy"),
+                    Status = a.AppointmentStatus,
+                })
+                .Take(15)
+                .ToListAsync();
+            return result;
         }
     }
 }

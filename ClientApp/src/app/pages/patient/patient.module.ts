@@ -11,6 +11,9 @@ import { SimplebarAngularModule } from 'simplebar-angular';
 import { NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CountUpModule } from 'ngx-countup';
+import { DataTablesModule } from 'angular-datatables';
 
 
 
@@ -19,7 +22,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
   declarations: [
     MakeAppointmentComponent,
     ProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,
@@ -33,6 +37,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     SimplebarAngularModule,
     NgbNavModule,
     NgbTooltip,
+    CountUpModule,
+    DataTablesModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

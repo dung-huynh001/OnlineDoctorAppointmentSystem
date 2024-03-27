@@ -7,11 +7,6 @@ import { AssignScheduleComponent } from './assign-schedule/assign-schedule.compo
 
 const routes: Routes = [
   {
-    path: '',
-    loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
-  },
-  {
     path: 'help',
     redirectTo: 'pages/coming-soon',
   },

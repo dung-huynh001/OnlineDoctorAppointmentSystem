@@ -1,10 +1,19 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  Renderer2,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { Subject, catchError, finalize, throwError } from 'rxjs';
 import { AppointmentService } from '../../../../core/services/appointment.service';
-import { ProfileService } from '../../../../core/services/profile.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { User } from '../../../../core/models/auth.models';
 import { DatePipe } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from '../../../../core/services/toast.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-all',
@@ -18,15 +27,30 @@ export class AllComponent implements OnInit, AfterViewInit {
   breadCrumbItems!: Array<{}>;
 
   currentUser!: User;
+  selectedId!: number;
+
+  @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
 
   constructor(
     private _appointmentService: AppointmentService,
-    private _patientService: ProfileService,
     private _authService: AuthService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private _modalService: NgbModal,
+    private renderer: Renderer2,
+    private _toastService: ToastService,
+    private _spinnerService: NgxSpinnerService
   ) {}
   ngAfterViewInit(): void {
     this.dtTrigger.next(this.dtOptions);
+    this.renderer.listen('document', 'click', (event) => {
+      if (event.target.hasAttribute('data-appointment-id')) {
+        const id = event.target.getAttribute('data-appointment-id');
+        this.selectedId = id;
+        if (event.target.classList.contains('cancel-btn')) {
+          this.openModal(this.deleteModal);
+        }
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -129,7 +153,7 @@ export class AllComponent implements OnInit, AfterViewInit {
               case 'pending':
                 badgeType = 'warning';
                 break;
-              case 'comfirmed':
+              case 'confirmed':
                 badgeType = 'primary';
                 break;
               case 'completed':
@@ -149,7 +173,7 @@ export class AllComponent implements OnInit, AfterViewInit {
           data: 'closedBy',
           title: 'Closed by',
           render: (data: any) => {
-            return data !== null ? data : 'Not completed';
+            return data !== null ? data : '--unknown--';
           },
         },
         {
@@ -158,7 +182,7 @@ export class AllComponent implements OnInit, AfterViewInit {
           render: (data: any) => {
             return data !== null
               ? this.datePipe.transform(data, 'hh:mm dd/MM/yyyy ')
-              : 'Not completed';
+              : '--unknown--';
           },
         },
         {
@@ -176,12 +200,41 @@ export class AllComponent implements OnInit, AfterViewInit {
           data: 'id',
           render: (data: any, type: any, row: any, meta: any) => {
             const viewButton = `<button class="btn btn-soft-info btn-sm edit-btn" title="View" onClick="location.assign('/patient/appointment/view/${data}')">View</button>`;
-            const cancelButton = `<button class="btn btn-soft-danger btn-sm delete-btn" title="Delete">Cancel</button>`;
-            
+            const cancelButton = row.status.toLowerCase() !== 'cancelled' ? 
+            `<button class="btn btn-soft-danger btn-sm cancel-btn" data-appointment-id=${data} title="cancel">Cancel</button>`
+            : `<button class="btn btn-soft-light btn-sm cancel-btn text-dark" disabled data-appointment-id=${data} title="cancel">Cancelled</button>`;
+
             return `<div class="d-flex gap-3">${viewButton} ${cancelButton}</div>`;
           },
         },
       ],
     };
+  }
+
+  cancelAppointment(id: number) {
+    this._spinnerService.show();
+    this._appointmentService
+      .cancelAppointment('Appointment/cancel-appointment', id)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        }),
+        finalize(() => {
+          setTimeout(() => {
+            this._spinnerService.hide();
+          }, 300);
+        }))
+      .subscribe((res) => {
+        if(res.isSuccess) {
+          this._toastService.success(res.message);
+        } else {
+          this._toastService.error(res.message);
+        }
+      });
+  }
+
+  openModal(target: TemplateRef<any>) {
+    this._modalService.open(target, { size: 'md', centered: true });
   }
 }

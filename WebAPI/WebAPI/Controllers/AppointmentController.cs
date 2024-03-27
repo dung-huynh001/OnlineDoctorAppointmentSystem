@@ -20,111 +20,40 @@ namespace WebAPI.Controllers
             this._userService = userService;
         }
 
-
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
-        {
-            return Ok(await _appointmentService.GetAll());
-        }
-
-        [HttpGet("completed")]
-        public async Task<List<GetAppointmentToDrawTableDto>> GetCompleted()
-        {
-            return await _appointmentService.GetCompleted();
-        }
-
-        [HttpGet("cancel")]
-        public async Task<List<GetAppointmentToDrawTableDto>> GetCancelled()
-        {
-            return await _appointmentService.GetCancelled();
-        }
-
-        [HttpGet("out-of-date")]
-        public async Task<List<GetAppointmentToDrawTableDto>> GetOutOfDate()
-        {
-            return await _appointmentService.GetOutOfDate();
-        }
-
-        [HttpGet("waiting")]
-        public async Task<List<GetAppointmentToDrawTableDto>> GetWaiting()
-        {
-            return await _appointmentService.GetWaiting();
-        }
-
         [HttpPost("get-appointments/{id}")]
-        public async Task<IActionResult> GetAppointments([FromRoute]string id, [FromQuery]string userType, [FromQuery]string type, DataTablesParameters parameters)
+        public async Task<IActionResult> GetAppointments([FromRoute] string id, [FromQuery] string userType, [FromQuery] string type, DataTablesParameters parameters)
         {
             return Ok(await _appointmentService.GetAppointments(id, userType, type, parameters));
-        }
-
-        [HttpGet("completed/{id}/{userType}")]
-        public async Task<List<GetAppointmentToDrawTableDto>> GetCompleted(string id, string userType)
-        {
-            switch (userType.Trim().ToLower())
-            {
-                case "patient":
-                    var patient = await _userService.GetPatientInfo(id);
-                    return await _appointmentService.GetCompleted(patient.Id, userType);
-                case "doctor":
-                    var doctor = await _userService.GetPatientInfo(id);
-                    return await _appointmentService.GetCompleted(doctor.Id, userType);
-                default:
-                    throw new Exception("UserType is invalid");
-            }
-        }
-
-        [HttpGet("cancel/{id}/{userType}")]
-        public async Task<List<GetAppointmentToDrawTableDto>> GetCancelled(string id, string userType)
-        {
-            switch (userType.Trim().ToLower())
-            {
-                case "patient":
-                    var patient = await _userService.GetPatientInfo(id);
-                    return await _appointmentService.GetCancelled(patient.Id, userType);
-                case "doctor":
-                    var doctor = await _userService.GetPatientInfo(id);
-                    return await _appointmentService.GetCancelled(doctor.Id, userType);
-                default:
-                    throw new Exception("UserType is invalid");
-            }
-        }
-
-        [HttpGet("out-of-date/{id}/{userType}")]
-        public async Task<List<GetAppointmentToDrawTableDto>> GetOutOfDate(string id, string userType)
-        {
-            switch (userType.Trim().ToLower())
-            {
-                case "patient":
-                    var patient = await _userService.GetPatientInfo(id);
-                    return await _appointmentService.GetOutOfDate(patient.Id, userType);
-                case "doctor":
-                    var doctor = await _userService.GetPatientInfo(id);
-                    return await _appointmentService.GetOutOfDate(doctor.Id, userType);
-                default:
-                    throw new Exception("UserType is invalid");
-            }
-        }
-
-        [HttpGet("waiting/{id}/{userType}")]
-        public async Task<List<GetAppointmentToDrawTableDto>> GetWaiting(string id, string userType)
-        {
-            switch (userType.Trim().ToLower())
-            {
-                case "patient":
-                    var patient = await _userService.GetPatientInfo(id);
-                    return await _appointmentService.GetWaiting(patient.Id, userType);
-                case "doctor":
-                    var doctor = await _userService.GetPatientInfo(id);
-                    return await _appointmentService.GetWaiting(doctor.Id, userType);
-                default:
-                    throw new Exception("UserType is invalid");
-            }
         }
 
         [HttpPost("make-appointment")]
         public async Task<ActionResult> MakeAppointment([FromForm]MakeAppointmentDto model)
         {
             return Ok(await _appointmentService.MakeAppointment(model));
+        }
+
+        [HttpGet("cancel-appointment/{id}")]
+        public async Task<IActionResult> CancelAppointment([FromRoute]int id)
+        {
+            return Ok(await _appointmentService.CancelAppointment(id));
+        }
+
+        [HttpGet("view-appointment-details/{id}")]
+        public async Task<IActionResult> ViewAppointmentDetails(int id)
+        {
+            return Ok(await _appointmentService.ViewAppointmentDetails(id));
+        }
+
+        [HttpGet("load-widgets/{id}")]
+        public async Task<IActionResult> LoadWidgets([FromRoute]string id, string userType)
+        {
+            return Ok(await _appointmentService.LoadWidgets(id, userType));
+        }
+
+        [HttpGet("get-recently-appointments/{id}")]
+        public async Task<IActionResult> GetRecentlyAppointments([FromRoute]string id)
+        {
+            return Ok(await _appointmentService.GetRecentlyAppointment(id));
         }
     }
 }

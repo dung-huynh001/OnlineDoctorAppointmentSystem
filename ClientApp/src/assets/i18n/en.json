@@ -29,7 +29,8 @@
         "ALL": "All",
         "CANCEL": "Cancelled",
         "COMPLETE": "Completed",
-        "WAITING": "Pending",
+        "PENDING": "Pending",
+        "CONFIRMED": "Confirmed",
         "OUTOFDATE": "Out of date"
       }
     },

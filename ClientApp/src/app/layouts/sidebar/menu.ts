@@ -10,7 +10,7 @@ export const MENU_PATIENT: MenuItem[] = [
     id: 2,
     label: 'MENUITEMS.DASHBOARD.TEXT',
     icon: 'las la-tachometer-alt',
-    link: '/'
+    link: '/patient/dashboard'
   },
   {
     id: 3,
@@ -31,24 +31,30 @@ export const MENU_PATIENT: MenuItem[] = [
       },
       {
         id: 6,
-        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.WAITING',
-        link: '/patient/appointment/waiting',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.PENDING',
+        link: '/patient/appointment/pending',
         parentId: 4
       },
       {
         id: 7,
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.CONFIRMED',
+        link: '/patient/appointment/confirmed',
+        parentId: 4
+      },
+      {
+        id: 8,
         label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.COMPLETE',
         link: '/patient/appointment/completed',
         parentId: 4
       },
       {
-        id: 8,
+        id: 9,
         label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.OUTOFDATE',
         link: '/patient/appointment/out-of-date',
         parentId: 4
       },
       {
-        id: 9,
+        id: 10,
         label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.CANCEL',
         link: '/patient/appointment/cancelled',
         parentId: 4
@@ -56,31 +62,31 @@ export const MENU_PATIENT: MenuItem[] = [
     ]
   },
   {
-    id: 10,
+    id: 11,
     label: 'MENUITEMS.SCHEDULEOFDOCTOR.TEXT',
     icon: 'las la-user-nurse',
     link: '/schedule-of-doctors'
   },
   {
-    id: 11,
+    id: 12,
     label: 'MENUITEMS.MEDICALPROCESS.TEXT',
     icon: 'las la-procedures',
     link: '/medical-process'
   },
   {
-    id: 12,
+    id: 13,
     label: 'MENUITEMS.ABOUTUS.TEXT',
     icon: 'las la-user-friends',
     link: '/about'
   },
   {
-    id: 13,
+    id: 14,
     label: 'MENUITEMS.HELP.TEXT',
     icon: 'las la-info-circle',
     link: '/help'
   },
   {
-    id: 14,
+    id: 15,
     label: 'MENUITEMS.LOGOFF.TEXT',
     icon: 'las la-file-export',
     link: ''
@@ -185,7 +191,7 @@ export const MENU_DOCTOR: MenuItem[] = [
       },
       {
         id: 5,
-        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.WAITING',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.PENDING',
         link: '',
         parentId: 3
       },
