@@ -1,4 +1,5 @@
-import multiMonthPlugin from '@fullcalendar/multimonth';
+import { environment } from './../../../../environments/environment';
+// import  multiMonthPlugin from '@fullcalendar/multimonth';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
@@ -10,6 +11,9 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription, catchError, first, map, throwError } from 'rxjs';
+
 import {
   CalendarOptions,
   EventApi,
@@ -17,24 +21,24 @@ import {
   EventInput,
 } from '@fullcalendar/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ScheduleService } from '../../../core/services/schedule.service';
-import { catchError, throwError, Subscription, first, map } from 'rxjs';
 import { ToastService } from '../../../core/services/toast.service';
+import { ScheduleService } from '../../../core/services/schedule.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-assign-schedule',
-  templateUrl: './assign-schedule.component.html',
-  styleUrl: './assign-schedule.component.scss',
+  selector: 'app-schedule-of-doctor',
+  templateUrl: './schedule-of-doctor.component.html',
+  styleUrl: './schedule-of-doctor.component.scss',
 })
-export class AssignScheduleComponent implements OnInit, OnDestroy {
+export class ScheduleOfDoctorComponent implements OnInit, OnDestroy {
   private addEvent$!: Subscription;
   private fetchEvent$!: Subscription;
   breadCrumbItems!: Array<{}>;
 
-  calendarEvents!: EventInput[];
+  private hostName = environment.serverApi;
+
+  calendarEvents!: EventInit[];
   currentEvents: EventApi[] = [];
   calendarApi: any;
 
@@ -68,14 +72,14 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
       listPlugin,
       interactionPlugin,
       timeGridPlugin,
-      multiMonthPlugin,
+      // multiMonthPlugin,
     ],
     headerToolbar: {
-      right: 'multiMonthYear,dayGridMonth,dayGridWeek,dayGridDay,listWeek',
+      right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek',
       center: 'title',
       left: 'prev,next today',
     },
-    initialView: 'multiMonthYear',
+    initialView: 'dayGridMonth',
     initialEvents: this.calendarEvents,
     themeSystem: 'bootstrap',
     weekends: true,
@@ -87,7 +91,7 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
     dayMaxEvents: true,
     direction: 'ltr',
     locale: 'en',
-    select: this.openAddOrUpdateModal.bind(this),
+    // select: this.openAddOrUpdateModal.bind(this),
     eventClick: this.openViewModal.bind(this),
     eventsSet: this.handleEvents.bind(this),
   };
@@ -143,7 +147,7 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
 
   fetchEvent() {
     this.fetchEvent$ = this._scheduleService
-      .getScheduleEvents('/Schedule/get-schedules-of-doctor', this.doctorId)
+      .getSchedulesOfDoctors('/Schedule/get-schedules-of-doctors')
       .pipe(
         first(),
         catchError((err) => {
@@ -151,22 +155,25 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
           return throwError(() => err);
         }),
         map((res) => {
+          console.table(res);
           return (res = res.map((event: any) => {
             return {
               id: event.id,
-              date: new Date(event.workingDay + ' ' + event.startTime),
-              title:
-                event.startTime.slice(0, 2) < 12
-                  ? 'Morning Shift'
-                  : event.startTime.slice(0, 2) < 18
-                  ? 'Afternoon Shift'
-                  : 'Night Shift',
+              date: new Date(event.workingDay),
+              title: event.fullName,
+              // title:
+              //   event.startTime.slice(0, 2) < 12
+              //     ? 'Morning Shift'
+              //     : event.startTime.slice(0, 2) < 18
+              //     ? 'Afternoon Shift'
+              //     : 'Night Shift',
               // title: event.description,
-              start: new Date(event.workingDay + ' ' + event.startTime),
-              end: new Date(event.workingDay + ' ' + event.endTime),
+              // start: new Date(event.workingDay + ' ' + event.startTime),
+              // end: new Date(event.workingDay + ' ' + event.endTime),
               allDay: false,
-              className: event.type,
-              description: event.description,
+              imageUrl: this.hostName + '/' + event.avatarUrl,
+              // className: event.type,
+              // description: event.description,
             };
           }));
         })
@@ -183,22 +190,15 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
 
   openAddOrUpdateModal(events?: any) {
     //Fix error get next day of end date
-    let to = events.endStr.split('-');
-    if (to[to.length - 1] != 1) {
-      to[to.length - 1] = to[to.length - 1] - 1;
-      to[to.length - 1] =
-        to[to.length - 1] < 10
-          ? '0' + to[to.length - 1].toString()
-          : to[to.length - 1].toString();
-      to = to.join('-');
-    } else {
-      to = events.startStr;
-    }
-
-    const toDate = to;
+    const to = events.endStr.split('-');
+    to[to.length - 1] = to[to.length - 1] - 1;
+    to[to.length - 1] =
+      to[to.length - 1] < 10
+        ? '0' + to[to.length - 1].toString()
+        : to[to.length - 1].toString();
     const rangeDate = {
       from: events.startStr,
-      to: events.endStr,
+      to: to.join('-'),
     };
 
     this.selectedRangeDate = rangeDate;

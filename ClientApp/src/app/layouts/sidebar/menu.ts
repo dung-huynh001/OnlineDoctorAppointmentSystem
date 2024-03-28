@@ -65,7 +65,7 @@ export const MENU_PATIENT: MenuItem[] = [
     id: 11,
     label: 'MENUITEMS.SCHEDULEOFDOCTOR.TEXT',
     icon: 'las la-user-nurse',
-    link: '/schedule-of-doctors'
+    link: '/patient/schedule-of-doctors'
   },
   {
     id: 12,
@@ -104,6 +104,7 @@ export const MENU_ADMIN: MenuItem[] = [
     id: 2,
     label: 'MENUITEMS.DASHBOARD.TEXT',
     icon: 'las la-tachometer-alt',
+    link: '/admin/dashboard'
   },
   {
     id: 3,
@@ -113,7 +114,7 @@ export const MENU_ADMIN: MenuItem[] = [
       {
         id: 4,
         label: 'MENUITEMS.USERMANAGEMENT.LIST.PATIENT',
-        link: '',
+        link: '/admin/manage-patient',
         parentId: 3
       },
       {
@@ -140,6 +141,7 @@ export const MENU_ADMIN: MenuItem[] = [
     id: 8,
     label: 'MENUITEMS.MANAGEDEPARTMENT.TEXT',
     icon: 'mdi mdi-hospital-building',
+    link: '/admin/manage-department'
   },
   {
     id: 9,
@@ -177,6 +179,7 @@ export const MENU_DOCTOR: MenuItem[] = [
     id: 2,
     label: 'MENUITEMS.DASHBOARD.TEXT',
     icon: 'las la-tachometer-alt',
+    link: '/doctor/dashboard'
   },
   {
     id: 3,

@@ -91,7 +91,7 @@
             </div>
             <div class="row">
                 <div class="col-xxl-12">
-                    <div class="card">
+                    <div class="card card-animate">
                         <div class="card-header">
                             <h4>Upcoming Appointment</h4>
                         </div>
@@ -159,7 +159,7 @@
 
                 </div>
             </div>
-            <div class="card card-animate">
+            <div class="card card-animate" *ngIf="this.upcomingAppointments">
                 <div class="card-header d-flex justify-content-between">
                     <h4>Recently Appointments</h4>
                     <a routerLink="/patient/appointment/all"
@@ -172,7 +172,7 @@
                     </div>
                     <ng-template #noData>
                         <div class="d-flex justify-content-center align-items-center" style="height: 120px;">
-                            <h6>There are no recent appointments</h6>
+                            <p>There are no recently appointments</p>
                         </div>
                     </ng-template>
                     <ng-template #haveData>

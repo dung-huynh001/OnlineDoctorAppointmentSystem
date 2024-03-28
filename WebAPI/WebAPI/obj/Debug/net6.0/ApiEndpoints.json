@@ -64,6 +64,22 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "GetUpcomingAppointment",
+    "RelativePath": "api/Appointment/get-upcoming-appointments/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "LoadWidgets",
     "RelativePath": "api/Appointment/load-widgets/{id}",
     "HttpMethod": "GET",
@@ -864,6 +880,16 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetSchedulesOfDoctors",
+    "RelativePath": "api/Schedule/get-schedules-of-doctors",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

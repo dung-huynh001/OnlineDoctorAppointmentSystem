@@ -5,14 +5,40 @@ import { MedicalProcessComponent } from './medical-process/medical-process.compo
 import { AboutUsComponent } from './about-us/about-us.component';
 import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
 
+const currentUser: any = JSON.parse(
+  localStorage.getItem('currentUser')!
+) as object;
+
+var redirectToDashboard = 'patient/dashboard';
+
+if (currentUser) {
+  switch (currentUser.userType) {
+    case 'admin':
+      redirectToDashboard = 'admin/dashboard';
+      break;
+    case 'doctor':
+      redirectToDashboard = 'doctor/dashboard';
+      break;
+    default:
+      redirectToDashboard = 'patient/dashboard';
+      break;
+  }
+}
+
 const routes: Routes = [
   {
     path: 'help',
     redirectTo: 'pages/coming-soon',
   },
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: redirectToDashboard,
+  },
+  {
     path: 'medical-process',
-    component: MedicalProcessComponent, canActivate: [AuthGuard],
+    component: MedicalProcessComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'about',
@@ -30,20 +56,25 @@ const routes: Routes = [
   {
     path: 'edit-profile',
     loadChildren: () =>
-      import('./edit-profile/edit-profile.module').then((m) => m.EditProfileModule),
+      import('./edit-profile/edit-profile.module').then(
+        (m) => m.EditProfileModule
+      ),
   },
   {
     path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
   },
   {
     path: 'patient',
-    loadChildren: () => import('./patient/patient.module').then((m) => m.PatientModule),
+    loadChildren: () =>
+      import('./patient/patient.module').then((m) => m.PatientModule),
   },
   {
     path: 'doctor',
-    loadChildren: () => import('./doctor/doctor.module').then((m) => m.DoctorModule),
-  }
+    loadChildren: () =>
+      import('./doctor/doctor.module').then((m) => m.DoctorModule),
+  },
 ];
 
 @NgModule({

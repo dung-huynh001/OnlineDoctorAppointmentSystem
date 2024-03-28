@@ -55,5 +55,10 @@ namespace WebAPI.Controllers
         {
             return Ok(await _appointmentService.GetRecentlyAppointment(id));
         }
+        [HttpGet("get-upcoming-appointments/{id}")]
+        public async Task<IActionResult> GetUpcomingAppointment([FromRoute]string id)
+        {
+            return Ok(await _appointmentService.GetUpcomingAppointment(id));
+        }
     }
 }

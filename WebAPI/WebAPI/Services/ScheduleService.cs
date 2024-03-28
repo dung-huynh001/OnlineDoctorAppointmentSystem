@@ -45,6 +45,24 @@ namespace WebAPI.Services
             return result;
         }
 
+        public Task<List<DoctorScheduleEventDto>> GetSchedulesOfDoctors()
+        {
+            var schedules = _unitOfWork.Repository<Schedule>().GetAll
+                .Where(s => !s.IsDeleted)
+                .Select(s => new DoctorScheduleEventDto
+                {
+                    FullName = s.Doctor.FullName,
+                    Id = s.Doctor.Id,
+                    AvatarUrl = s.Doctor.User.AvatarUrl,
+                    Speciality = s.Doctor.Speciality,
+                    WorkingDay = s.WorkingDay.ToString("yyyy-MM-dd"),
+                })
+                .AsEnumerable()
+                .Distinct()
+                .ToList();
+            return Task.FromResult(schedules);
+        }
+
         public async Task<ApiResponse> AddSchedule(CreateScheduleDto model)
         {
             var scheduleDate = model.ScheduleDate.Split(" to ");
@@ -75,7 +93,7 @@ namespace WebAPI.Services
                         .ToList();
                     if (exist.Count > 0)
                     {
-                        if(!model.Force)
+                        if (!model.Force)
                         {
                             continue;
                         }
@@ -127,7 +145,7 @@ namespace WebAPI.Services
                 var _startDateStr = _startDate.ToString("MMM dd, yyyy");
                 var _endDateStr = _endDate.ToString("MMM dd, yyyy");
                 string scheduleDateStr = $"{_startDateStr}";
-                if(!_startDateStr.Equals(_endDateStr))
+                if (!_startDateStr.Equals(_endDateStr))
                 {
                     scheduleDateStr = $"from {_startDateStr} to {_endDateStr}";
                 }
@@ -216,7 +234,7 @@ namespace WebAPI.Services
                 .Where(s => !s.IsDeleted && s.DoctorId == doctorId)
                 .Select(s => new ScheduleEventDto
                 {
-                    Id=s.Id,
+                    Id = s.Id,
                     ConsultantTime = s.ConsultantTime,
                     Description = s.Description,
                     StartTime = s.ShiftTime.ToString(@"hh\:mm\:ss"),

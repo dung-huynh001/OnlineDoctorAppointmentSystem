@@ -67,13 +67,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.getRecentlyAppointments();
     this.loadWidgets();
     this.getUpcomningAppointments();
-    this.loadDataTable();
+    this.fetchData();
   }
 
-  ngAfterViewInit(): void {
-    this.fetchData();
-    this.dtTrigger.next(this.dtOptions);
-  }
+  ngAfterViewInit(): void {}
 
   fetchData() {
     this._spinnerService.show();
@@ -90,6 +87,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       ),
     ]).finally(() => {
       setTimeout(() => {
+        this.loadDataTable();
+        this.dtTrigger.next(this.dtOptions);
         this._spinnerService.hide();
       }, 300);
     });
@@ -169,6 +168,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   loadDataTable() {
     this.dtOptions = {
+      // serverSide: true,
       pagingType: 'full_numbers',
       processing: true,
       responsive: true,
@@ -211,14 +211,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         {
           data: 'appointmentDate',
           title: 'Appointment date',
-          render: (data: any) =>
-            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
         },
         {
           data: 'dateOfConsultation',
           title: 'Consultation date',
-          render: (data: any) =>
-            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
         },
         {
           data: 'status',
@@ -248,8 +244,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         {
           data: 'createdDate',
           title: 'Created date',
-          render: (data: any) =>
-            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
         },
         {
           title: 'Action',

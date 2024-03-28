@@ -19,10 +19,11 @@ export class ScheduleService {
     return this.http.post(environment.serverApi + `/api` + url, data);
   } 
 
-  // getScheduleEvents(url: string, data: any): Observable<any> {
-  //   return this.http.post(environment.serverApi + `/api` + url + `/${data}`, '');
-  // }
   getScheduleEvents(url: string, doctorId: any): Observable<any> {
     return this.http.get(environment.serverApi + `/api${url}?doctorId=${doctorId}`);
+  }
+
+  getSchedulesOfDoctors(url: string): Observable<any> {
+    return this.http.get(environment.serverApi + `/api${url}`);
   }
 }

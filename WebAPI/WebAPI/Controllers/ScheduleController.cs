@@ -38,6 +38,12 @@ namespace WebAPI.Controllers
             return Ok(await _scheduleService.GetScheduleEventsByDoctor(doctorId));
         }
 
+        [HttpGet("get-schedules-of-doctors")]
+        public async Task<ActionResult> GetSchedulesOfDoctors()
+        {
+            return Ok(await _scheduleService.GetSchedulesOfDoctors());
+        }
+
         [HttpPost("get-doctor-list")]
         public async Task<IActionResult> GetDoctorList(ScheduleFilter filter)
         {

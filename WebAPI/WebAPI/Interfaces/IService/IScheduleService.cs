@@ -10,6 +10,7 @@ namespace WebAPI.Interfaces.IService
         Task<ApiResponse> AddSchedule(CreateScheduleDto model);
         Task<ApiResponse> UpdateSchedule(UpdateScheduleDto model);
         Task<List<ScheduleEventDto>> GetScheduleEventsByDoctor(int doctorId);
-        Task<DatatableResponse<DoctorCardDto>> GetDoctorList(ScheduleFilter filter); 
+        Task<DatatableResponse<DoctorCardDto>> GetDoctorList(ScheduleFilter filter);
+        Task<List<DoctorScheduleEventDto>> GetSchedulesOfDoctors();
     }
 }

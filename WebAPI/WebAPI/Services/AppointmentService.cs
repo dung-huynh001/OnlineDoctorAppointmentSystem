@@ -392,7 +392,9 @@ namespace WebAPI.Services
         public async Task<List<UpcomingAppointmentDto>> GetUpcomingAppointment(string id)
         {
             var result = await _unitOfWork.Repository<Appointment>().GetAll
-                .Where(a => !a.IsDeleted && a.Patient.UserId == id)
+                .Where(a => !a.IsDeleted 
+                && a.Patient.UserId == id
+                && a.AppointmentStatus.ToLower() == "confirmed")
                 .OrderByDescending(a => a.AppointmentDate)
                 .Select(a => new UpcomingAppointmentDto
                 {

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System;
+using System.Diagnostics;
 using System.Net;
+using System.Security.Claims;
 using System.Text.Json;
 using WebAPI.Exceptions;
 
@@ -27,6 +29,20 @@ namespace WebAPI.Middleware
             }
             catch(Exception ex)
             {
+                var stackTrace = new StackTrace(ex, true);
+                var frame = stackTrace.GetFrame(0);
+                var fileName = frame?.GetFileName();
+                var lineNumber = frame?.GetFileLineNumber();
+                var methodName = frame?.GetMethod()?.DeclaringType?.Name;
+
+                var sEventCatg = fileName?.Substring(fileName?.LastIndexOf("\\") ?? 0).Replace("\\", "");
+                var sEventMsg = ex.Message + " Line:" + lineNumber;
+                var sEventSrc = methodName?.Substring(0, methodName.LastIndexOf(">") + 1);
+                var sEventType = context.Request.Method;
+                var sInsBy = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                await TraceLog(sEventCatg!, sEventMsg, sEventSrc!, sEventType, sInsBy);
+
                 _logger.LogError($"Something went wrong: {ex}");
                 await HandleExceptionAsync(context, ex);
             }
@@ -65,6 +81,35 @@ namespace WebAPI.Middleware
 
             await context.Response.WriteAsync(errorDetail.ToString());
         }
+
+        private async Task TraceLog(string sEventCatg, string sEventMsg, string sEventSrc, string sEventType, string sInsBy)
+        {
+            string sTraceTime = DateTime.Now.ToString("ddMMMyyyyHH");
+            string sLogFormat = DateTime.Now.ToShortDateString().ToString() + " " + DateTime.Now.ToLongTimeString().ToString() + " ==> ";
+
+            string sTraceMsg = sEventCatg + "\t" + sEventMsg + "\t" + sEventSrc + "\t" + sEventType + "\t" + sInsBy + "\n";
+
+            string loggingFolder = Path.Combine(Directory.GetCurrentDirectory(), "Logging/Exceptions");
+            if (!Directory.Exists(loggingFolder))
+            {
+                Directory.CreateDirectory(loggingFolder);
+            }
+
+            string lstPathSeparator = Path.DirectorySeparatorChar.ToString();
+            string lstMonth = DateTime.Now.Month < 10
+                                         ? "0" + DateTime.Now.Month.ToString()
+                                         : DateTime.Now.Month.ToString();
+            string lstYear = DateTime.Now.Year.ToString();
+            string lstDestination = loggingFolder + lstPathSeparator + lstYear + lstMonth + lstPathSeparator + DateTime.Now.ToString("ddMMM") + lstPathSeparator;
+            if (!Directory.Exists(lstDestination))
+                Directory.CreateDirectory(lstDestination);
+            string sPathName = lstDestination + lstPathSeparator + sTraceTime + ".txt";
+            StreamWriter sw = new StreamWriter(sPathName, true);
+            await sw.WriteLineAsync(sLogFormat + sTraceMsg);
+            sw.Flush();
+            sw.Close();
+        }
+
     }
 
     public class ErrorDetails
