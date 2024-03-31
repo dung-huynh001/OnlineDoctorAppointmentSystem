@@ -71,6 +71,7 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
     if (changes['defaultData']) {
       this.defaultData = changes['defaultData'].currentValue;
     }
@@ -82,7 +83,9 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
 
     const doctorNameElement =
       this.elementRef.nativeElement.querySelector('#appointmentDate');
-    doctorNameElement?.scrollIntoView({ behavior: 'smooth' });
+    
+    if(!changes['defaultData'].firstChange)
+      doctorNameElement?.scrollIntoView({ behavior: 'smooth' });
   }
 
   get f() {

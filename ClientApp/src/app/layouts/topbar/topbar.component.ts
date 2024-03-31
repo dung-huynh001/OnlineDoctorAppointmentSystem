@@ -15,11 +15,14 @@ import { AuthService } from '../../core/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-import { allNotification, messages } from './data';
 import { TokenStorageService } from '../../core/services/token-storage.service';
 import { User } from '../../core/models/auth.models';
 import { environment } from '../../../environments/environment';
 import { Subscription } from 'rxjs';
+
+const STATUS_ENOUGH_INFO = '1';
+const STATUS_NOT_ACTIVATE = '0';
+const STATUS_ACTIVATED = '2';
 
 @Component({
   selector: 'app-topbar',
@@ -32,12 +35,11 @@ export class TopbarComponent implements OnInit {
   element: any;
   mode: string | undefined;
   @Output() mobileMenuButtonClicked = new EventEmitter();
-  allnotifications: any;
   flagvalue: any;
   valueset: any;
   countryName: any;
   cookieValue: any;
-  userData?: User;
+  userData!: User|null;
   total = 0;
   cart_length: any = 0;
   totalNotify: number = 0;
@@ -66,12 +68,15 @@ export class TopbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userData = this.TokenStorageService.getUser();
+    // this.userData = this.TokenStorageService.getUser();
+    this.authService.currentUser$.subscribe(user => {
+      this.userData = user;
+    });
     this.element = document.documentElement;
     this.currentUser = this.authService.currentUser();
 
     this.authService.getStatus().subscribe(status => {
-      if(status && status != 0 && status != 1)
+      if(status && status != STATUS_NOT_ACTIVATE && status != STATUS_ENOUGH_INFO)
         this.isActivated = true;
     })
 
@@ -87,10 +92,6 @@ export class TopbarComponent implements OnInit {
       this.flagvalue = val.map((element) => element.flag);
     }
 
-    // Fetch Data
-    this.allnotifications = allNotification;
-
-    this.messages = messages;
   }
 
   /**
@@ -306,79 +307,5 @@ export class TopbarComponent implements OnInit {
     dropdown.classList.remove('show');
     searchOptions.classList.add('d-none');
     searchInputReponsive.value = '';
-  }
-
-  // Remove Notification
-  checkedValGet: any[] = [];
-  onCheckboxChange(event: any, id: any) {
-    this.notifyId = id;
-    var result;
-    if (id == '1') {
-      var checkedVal: any[] = [];
-      for (var i = 0; i < this.allnotifications.length; i++) {
-        if (this.allnotifications[i].state == true) {
-          result = this.allnotifications[i].id;
-          checkedVal.push(result);
-        }
-      }
-      this.checkedValGet = checkedVal;
-    } else {
-      var checkedVal: any[] = [];
-      for (var i = 0; i < this.messages.length; i++) {
-        if (this.messages[i].state == true) {
-          result = this.messages[i].id;
-          checkedVal.push(result);
-        }
-      }
-      console.log(checkedVal);
-      this.checkedValGet = checkedVal;
-    }
-    checkedVal.length > 0
-      ? ((
-          document.getElementById('notification-actions') as HTMLElement
-        ).style.display = 'block')
-      : ((
-          document.getElementById('notification-actions') as HTMLElement
-        ).style.display = 'none');
-  }
-
-  notificationDelete() {
-    if (this.notifyId == '1') {
-      for (var i = 0; i < this.checkedValGet.length; i++) {
-        for (var j = 0; j < this.allnotifications.length; j++) {
-          if (this.allnotifications[j].id == this.checkedValGet[i]) {
-            this.allnotifications.splice(j, 1);
-          }
-        }
-      }
-    } else {
-      for (var i = 0; i < this.checkedValGet.length; i++) {
-        for (var j = 0; j < this.messages.length; j++) {
-          if (this.messages[j].id == this.checkedValGet[i]) {
-            this.messages.splice(j, 1);
-          }
-        }
-      }
-    }
-    this.calculatenotification();
-    this.modalService.dismissAll();
-  }
-
-  calculatenotification() {
-    this.totalNotify = 0;
-    this.checkedValGet = [];
-
-    this.checkedValGet.length > 0
-      ? ((
-          document.getElementById('notification-actions') as HTMLElement
-        ).style.display = 'block')
-      : ((
-          document.getElementById('notification-actions') as HTMLElement
-        ).style.display = 'none');
-    if (this.totalNotify == 0) {
-      document
-        .querySelector('.empty-notification-elem')
-        ?.classList.remove('d-none');
-    }
   }
 }

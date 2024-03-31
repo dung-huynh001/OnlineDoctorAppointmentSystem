@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   hostName = HOSTNAME;
 
-  widgetsData!: Array<number>;
+  widgetsData: Array<number> = [0, 0, 0, 0];
   recentlyAppointments!: Array<{
     id: number;
     appointmentDate: string;
@@ -35,13 +35,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     doctorName: string;
   }>;
 
-  upcomingAppointments!: Array<{
+  upcomingAppointments: Array<{
     id: number;
     appointmentDate: string;
     doctorName: string;
     speciality: string;
     dateOfConsultation: string;
-  }>;
+  }> =  [];
 
   constructor(
     private _toastService: ToastService,

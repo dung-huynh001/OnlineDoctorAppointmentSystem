@@ -2,7 +2,6 @@ import { environment } from './../../../../environments/environment';
 // import  multiMonthPlugin from '@fullcalendar/multimonth';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import listPlugin from '@fullcalendar/list';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {
   Component,
@@ -64,18 +63,27 @@ export class ScheduleOfDoctorComponent implements OnInit, OnDestroy {
     to: string;
   };
 
-  selectedEvent: any;
+  selectedEvent!: {
+    id: any;
+    title: string;
+    date?: string;
+    shifts: {
+      shiftName: string;
+      start: string;
+      end: string;
+      description: string;
+      appt: any;
+    }[]
+  };
 
   calendarOptions: CalendarOptions = {
     plugins: [
       dayGridPlugin,
-      listPlugin,
       interactionPlugin,
       timeGridPlugin,
-      // multiMonthPlugin,
     ],
     headerToolbar: {
-      right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek',
+      right: 'dayGridMonth,dayGridWeek,dayGridDay',
       center: 'title',
       left: 'prev,next today',
     },
@@ -91,8 +99,8 @@ export class ScheduleOfDoctorComponent implements OnInit, OnDestroy {
     dayMaxEvents: true,
     direction: 'ltr',
     locale: 'en',
-    // select: this.openAddOrUpdateModal.bind(this),
-    eventClick: this.openViewModal.bind(this),
+    eventContent: this.reRenderEventContent,
+    eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
   };
 
@@ -103,7 +111,7 @@ export class ScheduleOfDoctorComponent implements OnInit, OnDestroy {
     private _scheduleService: ScheduleService,
     private _toastService: ToastService,
     private _spinnerService: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnDestroy(): void {
     if (this.addEvent$) {
@@ -155,85 +163,59 @@ export class ScheduleOfDoctorComponent implements OnInit, OnDestroy {
           return throwError(() => err);
         }),
         map((res) => {
-          console.table(res);
           return (res = res.map((event: any) => {
             return {
               id: event.id,
+              groupId: event.workingDay,
               date: new Date(event.workingDay),
               title: event.fullName,
-              // title:
-              //   event.startTime.slice(0, 2) < 12
-              //     ? 'Morning Shift'
-              //     : event.startTime.slice(0, 2) < 18
-              //     ? 'Afternoon Shift'
-              //     : 'Night Shift',
-              // title: event.description,
-              // start: new Date(event.workingDay + ' ' + event.startTime),
-              // end: new Date(event.workingDay + ' ' + event.endTime),
-              allDay: false,
+              allDay: true,
               imageUrl: this.hostName + '/' + event.avatarUrl,
-              // className: event.type,
-              // description: event.description,
+              className: event.type,
             };
           }));
         })
       )
-      .subscribe((events) => {
+      .subscribe((events: EventInit[]) => {
         this.calendarEvents = events;
         this.updateCalendarEvents();
       });
+  }
+
+  reRenderEventContent(eventInfo: EventClickArg, createEl: any): any {
+    let innerHtml;
+    let avatarUrl = eventInfo.event._def.extendedProps['imageUrl'];
+    if (avatarUrl) {
+      innerHtml = `<img class="avatar-xs rounded-circle" src=${avatarUrl} alt="doctor_avatar">` + eventInfo.event._def.title;
+      return createEl = { html: `<div class="d-flex gap-2">${innerHtml}</div>` };
+    }
   }
 
   updateCalendarEvents() {
     this.calendarOptions.initialEvents = this.calendarEvents;
   }
 
-  openAddOrUpdateModal(events?: any) {
-    //Fix error get next day of end date
-    const to = events.endStr.split('-');
-    to[to.length - 1] = to[to.length - 1] - 1;
-    to[to.length - 1] =
-      to[to.length - 1] < 10
-        ? '0' + to[to.length - 1].toString()
-        : to[to.length - 1].toString();
-    const rangeDate = {
-      from: events.startStr,
-      to: to.join('-'),
-    };
+  handleEventClick(clickInfo: EventClickArg) {
+    let date = clickInfo.event.start?.toLocaleDateString("en-CA");
+    let doctorId = clickInfo.event._def.publicId;
+    this._scheduleService.getScheduleShiftByDate('Schedule/get-schedule-shift-by-date', doctorId, date)
+      .pipe(catchError(err => {
+        console.log(err);
+        return throwError(() => err);
+      }))
+      .subscribe(res => {
+        this.selectedEvent = {
+          id: clickInfo.event._def.publicId,
+          title: clickInfo.event._def.title,
+          date: clickInfo.event.start?.toLocaleDateString('en-GB'),
+          shifts: res
+      };
+      });
 
-    this.selectedRangeDate = rangeDate;
-    this.calendarApi = events;
-
-    this._modalService.open(this.AddOrUpdateModal, {
-      centered: true,
-      size: 'xl',
-    });
-  }
-
-  openViewModal(clickInfo: EventClickArg) {
-    this.selectedEvent = {
-      id: clickInfo.event._def.publicId,
-      description: clickInfo.event._def.title,
-      date: clickInfo.event.start?.toLocaleDateString(),
-      start: clickInfo.event.start?.toLocaleTimeString().slice(0, 5),
-      end: clickInfo.event.end?.toLocaleTimeString().slice(0, 5),
-    };
-
-    switch (true) {
-      case this.selectedEvent.start.slice(0, 2) < '12':
-        this.shiftName = 'Morning Shift';
-        break;
-      case this.selectedEvent.start.slice(0, 2) < '18':
-        this.shiftName = 'Afternoon Shift';
-        break;
-      default:
-        this.shiftName = 'Night Shift';
-        break;
-    }
 
     this._modalService.open(this.ViewModal, {
       centered: true,
-      size: 'md',
+      size: 'lg',
     });
   }
 
@@ -286,8 +268,6 @@ export class ScheduleOfDoctorComponent implements OnInit, OnDestroy {
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
   }
-
-  handleEventClick(clickInfo: EventClickArg) {}
 
   scheduleDateChange(event: any) {
     const rangeDate = event.target.defaultValue.split(' to ');

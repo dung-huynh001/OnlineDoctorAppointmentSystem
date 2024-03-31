@@ -8,7 +8,7 @@ namespace WebAPI.Interfaces.IService
     {
         Task<bool> Create(CreatePatientDto model);
         Task<PatientDetailsDto> GetPatientDetails(string id);
-        Task<ApiResponse> UpdatePatientInfo(UpdatePatientDetailsDto model);
+        Task<UpdatePatientDetailsDto> UpdatePatientInfo(UpdatePatientDetailsDto model);
         Task<OTP> SendActivateMail(string id, string email);
         Task<ApiResponse> ValidOTP(string id, OTP otp);
     }

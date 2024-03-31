@@ -1,20 +1,20 @@
 export interface IUser {
-  id?: string;
-  userName?: string;
-  fullName?: string;
-  userType?: string;
-  avatarUrl?: string;
-  status?: string;
-  token?: string;
+  id: string;
+  userName: string;
+  fullName: string;
+  userType: string;
+  avatarUrl: string;
+  status: string;
+  token: string;
 }
 export class User {
-  id?: string;
-  userName?: string;
-  fullName?: string;
-  userType?: string;
-  avatarUrl?: string;
-  status?: string;
-  token?: string;
+  id!: string;
+  userName!: string;
+  fullName!: string;
+  userType!: string;
+  avatarUrl!: string;
+  status!: string;
+  token!: string;
 
   public static createFromData(data: IUser): User {
     const user: User = new User();

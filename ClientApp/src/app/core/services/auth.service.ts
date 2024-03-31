@@ -17,7 +17,7 @@ export class AuthService {
   );
   user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
-  status$: BehaviorSubject<number|null> = new BehaviorSubject<number|null>(null);
+  status$: BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
 
   constructor(private http: HttpClient) {
   }
@@ -43,7 +43,7 @@ export class AuthService {
         },
         httpOptions)
       .pipe(
-        map((res) => {
+        map((res:any) => {
           return {
             data: User.createFromData(res),
           };
@@ -60,7 +60,12 @@ export class AuthService {
     document.cookie=(`token=${token}`);
   }
 
-  setStatus(status: number) {
+  setCurrentUser(user: User) {
+    this.user$.next(user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
+  setStatus(status: string) {
     this.status$.next(status);
     const currentUser = this.currentUser();
     currentUser.status = status;
@@ -75,8 +80,13 @@ export class AuthService {
   /**
    * Returns the current user
    */
-  public currentUser(): any {
-    return JSON.parse(localStorage.getItem('currentUser')!) as Object;
+  public currentUser(): User {
+    return JSON.parse(localStorage.getItem('currentUser')!) as User;
+  }
+
+  get currentUser$() {
+    this.user$.next(this.currentUser());
+    return this.user$.asObservable();
   }
 
   /**

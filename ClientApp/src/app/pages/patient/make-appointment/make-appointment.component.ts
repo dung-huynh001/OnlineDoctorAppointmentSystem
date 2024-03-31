@@ -27,6 +27,10 @@ import { AuthService } from '../../../core/services/auth.service';
 import { User } from '../../../core/models/auth.models';
 import { environment } from '../../../../environments/environment';
 
+const STATUS_ENOUGH_INFO = '1';
+const STATUS_NOT_ACTIVATE = '0';
+const STATUS_ACTIVATED = '2';
+
 @Component({
   selector: 'app-make-appointment',
   templateUrl: './make-appointment.component.html',
@@ -88,7 +92,7 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     this._authService.getStatus().subscribe(status => {
-      if (status == 0 || status == 1) {
+      if (status == STATUS_NOT_ACTIVATE || status == STATUS_ENOUGH_INFO) {
         this.openWarningModal(this.content);
       }
     });

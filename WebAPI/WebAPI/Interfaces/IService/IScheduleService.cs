@@ -12,5 +12,6 @@ namespace WebAPI.Interfaces.IService
         Task<List<ScheduleEventDto>> GetScheduleEventsByDoctor(int doctorId);
         Task<DatatableResponse<DoctorCardDto>> GetDoctorList(ScheduleFilter filter);
         Task<List<DoctorScheduleEventDto>> GetSchedulesOfDoctors();
+        Task<List<ScheduleShiftDto>> GetScheduleShiftsByDate(int doctorId, DateTime date);
     }
 }

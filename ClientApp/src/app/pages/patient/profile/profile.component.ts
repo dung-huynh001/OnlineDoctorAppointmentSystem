@@ -5,6 +5,7 @@ import { ProfileService } from '../../../core/services/profile.service';
 import { catchError, finalize, map, throwError } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../../environments/environment';
+import { User } from '../../../core/models/auth.models';
 
 @Component({
   selector: 'app-profile',
@@ -15,14 +16,7 @@ export class ProfileComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   hostName = environment.serverApi;
 
-  userData!: {
-    id: any;
-    userName: string;
-    userType: string;
-    status: number;
-    fullName: string;
-    avatarUrl: string;
-  };
+  userData!: User;
 
   patientData!: iPatientInfo;
 

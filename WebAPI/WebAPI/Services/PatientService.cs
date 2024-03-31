@@ -134,7 +134,7 @@ namespace WebAPI.Services
             }
         }
 
-        public async Task<ApiResponse> UpdatePatientInfo(UpdatePatientDetailsDto model)
+        public async Task<UpdatePatientDetailsDto?> UpdatePatientInfo(UpdatePatientDetailsDto model)
         {
             _unitOfWork.BeginTransaction();
             try
@@ -147,26 +147,20 @@ namespace WebAPI.Services
                 patient.User.Email = model.Email;
                 patient.DateOfBirth = DateTime.ParseExact(model.DateOfBirth, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 patient.Gender = model.Gender == "0" ? 0 : model.Gender == "1" ? 1 : 2;
-                patient.User.AvatarUrl = model.AvatarUrl ?? patient.User.AvatarUrl;
+
+                model.AvatarUrl = model.AvatarUrl ?? patient.User.AvatarUrl;
+                patient.User.AvatarUrl = model.AvatarUrl;
                 patient.User.Status = StatusAccount.EnoughInformation;
+
                 await _unitOfWork.Repository<Patient>().UpdateAsync(patient);
 
                 _unitOfWork.Commit();
-                return new ApiResponse
-                {
-                    IsSuccess = true,
-                    Message = "Updated patient information successfully",
-                    Id = model.Id.ToString(),
-                };
+                return model;
             }
-            catch(Exception ex)
+            catch
             {
                 _unitOfWork.Rollback();
-                return new ApiResponse
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                };
+                return null;
             }
         }
     }

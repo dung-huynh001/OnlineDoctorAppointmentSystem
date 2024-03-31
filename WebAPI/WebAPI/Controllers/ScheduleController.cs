@@ -49,5 +49,12 @@ namespace WebAPI.Controllers
         {
             return Ok(await _scheduleService.GetDoctorList(filter));
         }
+
+        [HttpGet("get-schedule-shift-by-date/{doctorId}")]
+        public async Task<IActionResult> GetScheduleShiftByDate ([FromRoute]int doctorId, [FromQuery]DateTime date)
+        {
+            return Ok(await _scheduleService.GetScheduleShiftsByDate(doctorId, date));
+        }
+
     }
 }

@@ -13,13 +13,14 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../../../core/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isObject } from 'chart.js/dist/helpers/helpers.core';
+import { User } from '../../../core/models/auth.models';
 
-const MINIMUM_BIRTHDAY_YEAR = '1910';
+const MINIMUM_BIRTHDAY_YEAR = 1910;
 const COUNT_DOWN_MINUTES = 1;
 const COUNT_DOWN_SECONDS = 0;
-const STATUS_ENOUGH_INFO = 1;
-const STATUS_NOT_ACTIVATE = 0;
-const STATUS_ACTIVATED = 2;
+const STATUS_ENOUGH_INFO = '1';
+const STATUS_NOT_ACTIVATE = '0';
+const STATUS_ACTIVATED = '2';
 
 @Component({
   selector: 'app-edit-profile',
@@ -30,7 +31,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   breadCrumbItems!: Array<{}>;
   @ViewChild('content') content!: TemplateRef<any>;
 
-  currentUser: any;
+  currentUser!: User;
   userId: any;
   status: any;
 
@@ -47,9 +48,9 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     m: number;
     s: number;
   } = {
-    m: COUNT_DOWN_MINUTES,
-    s: COUNT_DOWN_SECONDS,
-  };
+      m: COUNT_DOWN_MINUTES,
+      s: COUNT_DOWN_SECONDS,
+    };
   disableResend = false;
 
   constructor(
@@ -59,7 +60,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     private _spinnerService: NgxSpinnerService,
     private _authService: AuthService,
     private _modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
@@ -75,7 +76,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.status == 1) {
+    if (this.status == STATUS_ENOUGH_INFO) {
       this._profileService.getPatientData().subscribe((data) => {
         this.sendActivateEmail(data.userId, data.email);
       });
@@ -129,9 +130,9 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
       )
       .subscribe((res) => {
         if (res.isSuccess) {
+          this.currentUser.status = STATUS_ACTIVATED;
           this._toastService.success(res.message);
-          this._authService.setStatus(STATUS_ACTIVATED);
-          this.setStatus(STATUS_ACTIVATED);
+          this.setCurrentUser(this.currentUser);
           this.closeModal();
         } else {
           this._toastService.warning('OTP code invalid');
@@ -187,15 +188,20 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
           })
         )
         .subscribe((res) => {
-          if (res.isSuccess) {
-            this._toastService.success(res.message);
-            this._profileService.getPatientData().subscribe(res => {
-              this.sendActivateEmail(res.userId, res.email);
-            })
-            if (this.status == 0 || this.status == 1) {
-              this.setStatus(STATUS_ENOUGH_INFO);
+          if (res) {
+            this._toastService.success('Updated your profile successfully');
+            
+            if (this.status == STATUS_NOT_ACTIVATE || this.currentUser.status == STATUS_ENOUGH_INFO) {
+
+              this._profileService.getPatientData().subscribe(res => {
+                this.sendActivateEmail(res.userId, res.email);
+              })
+              this.currentUser.status = STATUS_ENOUGH_INFO;
               this.openWarningModal(this.content);
             }
+            this.currentUser.fullName =  res.fullName
+            this.currentUser.avatarUrl = res.avatarUrl;
+            this.setCurrentUser(this.currentUser);
           } else {
             this._toastService.error(res.message);
           }
@@ -223,10 +229,8 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
       );
   }
 
-  setStatus(status: number) {
-    this.currentUser.status = status;
-    const currentUser = JSON.stringify(this.currentUser);
-    localStorage.setItem('currentUser', currentUser);
+  setCurrentUser(user: User) {
+    this._authService.setCurrentUser(user);
   }
 
   fetchData() {

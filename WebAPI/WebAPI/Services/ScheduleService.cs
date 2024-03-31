@@ -58,9 +58,26 @@ namespace WebAPI.Services
                     WorkingDay = s.WorkingDay.ToString("yyyy-MM-dd"),
                 })
                 .AsEnumerable()
-                .Distinct()
+                .DistinctBy(a => new {a.FullName, a.WorkingDay})
                 .ToList();
             return Task.FromResult(schedules);
+        }
+
+        public async Task<List<ScheduleShiftDto>> GetScheduleShiftsByDate(int doctorId, DateTime date)
+        {
+            var shifts = await _unitOfWork.Repository<Schedule>().GetAll
+                .Where(s => !s.IsDeleted && s.WorkingDay.Date.Equals(date.Date) && s.DoctorId == doctorId)
+                .OrderBy(s => s.ShiftTime)
+                .Select(s => new ScheduleShiftDto
+                {
+                    Appt = s.Appointments.Count,
+                    Description = s.Description,
+                    End = s.BreakTime.ToString(@"hh\:mm"),
+                    Start = s.ShiftTime.ToString(@"hh\:mm"),
+                    ShiftName = s.ShiftTime.Hours <= 12 ? "Morning Shift" : (s.ShiftTime.Hours <= 17 ? "Afternoon Shift" : "Night Shift")
+                })
+                .ToListAsync();
+            return shifts;
         }
 
         public async Task<ApiResponse> AddSchedule(CreateScheduleDto model)

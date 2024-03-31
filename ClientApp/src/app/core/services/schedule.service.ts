@@ -26,4 +26,8 @@ export class ScheduleService {
   getSchedulesOfDoctors(url: string): Observable<any> {
     return this.http.get(environment.serverApi + `/api${url}`);
   }
+
+  getScheduleShiftByDate(url: string, doctorId:any, date: any): Observable<any> {
+    return this.http.get(environment.serverApi + `/api/${url}/${doctorId}?date=${date}`);
+  }
 }
