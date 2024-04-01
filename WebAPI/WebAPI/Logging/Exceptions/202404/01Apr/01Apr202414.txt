@@ -1,0 +1,12 @@
+4/1/2024 2:15:44 PM ==> PatientService.cs	patient 542d16f6-a287-418a-9bbd-54480f547566 was not found Line:69	<GetPatientDetails>	GET	
+
+4/1/2024 2:16:43 PM ==> PatientService.cs	patient 542d16f6-a287-418a-9bbd-54480f547566 was not found Line:69	<GetPatientDetails>	GET	
+
+4/1/2024 2:17:04 PM ==> PatientService.cs	patient 542d16f6-a287-418a-9bbd-54480f547566 was not found Line:69	<GetPatientDetails>	GET	
+
+4/1/2024 2:34:21 PM ==> 	The AuthorizationPolicy named: 'admin' was not found. Line:0	<CombineAsync>	POST	
+
+4/1/2024 2:36:07 PM ==> 	The AuthorizationPolicy named: 'admin' was not found. Line:0	<CombineAsync>	POST	
+
+4/1/2024 2:39:41 PM ==> 	The AuthorizationPolicy named: 'patient' was not found. Line:0	<CombineAsync>	POST	
+

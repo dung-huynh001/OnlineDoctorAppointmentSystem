@@ -86,25 +86,6 @@ export class AssignScheduleComponent {
   private _fetchData() {
     // Event category
     this.category = category;
-    // Calender Event Data
-
-    console.log('calendarEvents', calendarEvents);
-    // this.restApiService.getCalendarData().subscribe((data) => {
-    //   const users = JSON.parse(data);
-    //   // console.log('users', users.data)
-    //   // this.calendarEvents = users.data;
-    //   // this.calendarOptions.initialEvents = this.calendarEvents.map(
-    //   //   (evt: any) => {
-    //   //     return {
-    //   //       date: evt.start,
-    //   //       title: evt.title,
-    //   //       className: evt.className,
-    //   //       location: evt.location,
-    //   //       description: evt.description,
-    //   //     };
-    //   //   }
-    //   // );
-    // });
     this.calendarEvents = calendarEvents;
   }
 

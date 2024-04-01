@@ -10,12 +10,14 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { ToastService } from '../services/toast.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private router: Router
   ) {}
 
   intercept(
@@ -24,15 +26,15 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((err) => {
-        if (err.status === 401) {
+        if (err.status === 401 || err.status === 403) {
           // auto logout if 401 response returned from api
-          this.authService.logout();
-          location.reload();
+          // this.authService.logout();
+          // location.reload();
+
+          setTimeout(() => {
+            this.router.navigate(['/pages/access-denied']);
+          }, 200);
         }
-        // if(err.status === 404){
-        //   location.assign('/pages/page-not-found')
-        //   return throwError(() => err);
-        // }
         const res: {
           message: string;
           statusCode: number;

@@ -12,7 +12,7 @@
             </div>
         </div>
         <ng-template #AddOrUpdateModal let-modal>
-            <div id="event-modal">
+            <div *ngIf="addEventFormGroup" [formGroup]="addEventFormGroup" id="event-modal">
                 <div class="modal-content border-0">
                     <div class="modal-header p-3 bg-info-subtle">
                         <h5 class="modal-title" id="modal-title">Add Schedule</h5>
@@ -26,7 +26,7 @@
                                         <label class="form-label">Short Description <span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control" placeholder="Enter short description" type="text"
-                                            name="title" id="event-title" [(ngModel)]="description"
+                                            name="title" id="event-title" formControlName="description"
                                             [ngClass]="{'is-invalid': submitted && formAddEventControl['description'].errors}">
                                         <div class="invalid-feedback">Please provide a short description</div>
                                     </div>
@@ -36,10 +36,10 @@
                                     <div class="mb-3">
                                         <label class="form-label">Schedule Date <span
                                                 class="text-danger">*</span></label>
-                                        <div class="input-group">
+                                        <div class="input-group" [ngClass]="{'is-invalid': submitted && formAddEventControl['scheduleDate'].invalid}">
                                             <input type="text" id="event-start-date"
                                                 class="form-control flatpickr flatpickr-input" mwlFlatpickr
-                                                [mode]="'range'" [altInput]="true" altFormat="d/m/Y"
+                                                [mode]="'range'" [altInput]="true" altFormat="d/m/Y" formControlName="scheduleDate"
                                                 [defaultValue]="this.selectedRangeDate.from + ' to ' + this.selectedRangeDate.to"
                                                 (change)="scheduleDateChange($event)" [convertModelValue]="true"
                                                 placeholder="Select date" readonly required>
@@ -62,7 +62,7 @@
                                                         <label class="form-label">Start Time</label>
                                                         <div class="input-group">
                                                             <input id="timepicker1" type="text" mwlFlatpickr
-                                                                [noCalendar]="true" [(ngModel)]="mStartTime"
+                                                                [noCalendar]="true" formControlName="mStartTime"
                                                                 [enableTime]="true" [dateFormat]="'H:i'"
                                                                 [minTime]="'07:00'" [maxTime]="'12:00'"
                                                                 [defaultValue]="'07:00'"
@@ -78,7 +78,7 @@
                                                         <label class="form-label">End Time</label>
                                                         <div class="input-group">
                                                             <input id="timepicker2" type="text" mwlFlatpickr
-                                                                [noCalendar]="true" [(ngModel)]="mEndTime"
+                                                                [noCalendar]="true" formControlName="mEndTime" 
                                                                 [enableTime]="true" [dateFormat]="'H:i'"
                                                                 [minTime]="'07:00'" [maxTime]="'12:00'"
                                                                 [defaultValue]="'11:00'"
@@ -105,7 +105,7 @@
                                                         <label class="form-label">Start Time</label>
                                                         <div class="input-group">
                                                             <input id="timepicker1" type="text" mwlFlatpickr
-                                                                [noCalendar]="true" [(ngModel)]="aStartTime"
+                                                                [noCalendar]="true" formControlName="aStartTime" 
                                                                 [enableTime]="true" [dateFormat]="'H:i'"
                                                                 [minTime]="'13:00'" [maxTime]="'17:00'"
                                                                 [defaultValue]="'13:00'"
@@ -121,7 +121,7 @@
                                                         <label class="form-label">End Time</label>
                                                         <div class="input-group">
                                                             <input id="timepicker2" type="text" mwlFlatpickr
-                                                                [noCalendar]="true" [(ngModel)]="aEndTime"
+                                                                [noCalendar]="true" formControlName="aEndTime" 
                                                                 [enableTime]="true" [dateFormat]="'H:i'"
                                                                 [minTime]="'13:00'" [maxTime]="'18:00'"
                                                                 [defaultValue]="'17:00'"
@@ -148,7 +148,7 @@
                                                         <label class="form-label">Start Time</label>
                                                         <div class="input-group">
                                                             <input id="timepicker1" type="text" mwlFlatpickr
-                                                                [noCalendar]="true" [(ngModel)]="nStartTime"
+                                                                [noCalendar]="true" formControlName="nStartTime"
                                                                 [enableTime]="true" [dateFormat]="'H:i'"
                                                                 [minTime]="'18:00'" [maxTime]="'22:00'"
                                                                 [defaultValue]="'18:00'"
@@ -164,7 +164,7 @@
                                                         <label class="form-label">End Time</label>
                                                         <div class="input-group">
                                                             <input id="timepicker2" type="text" mwlFlatpickr
-                                                                [noCalendar]="true" [(ngModel)]="nEndTime"
+                                                                [noCalendar]="true" formControlName="nEndTime"
                                                                 [enableTime]="true" [dateFormat]="'H:i'"
                                                                 [minTime]="'18:00'" [maxTime]="'22:00'"
                                                                 [defaultValue]="'22:00'"
@@ -182,7 +182,7 @@
                                 <div class="col-12">
                                     <div class="form-check mb-3">
                                         <input class="form-check-input" type="checkbox" id="force" [checked]="force"
-                                            [(ngModel)]="force">
+                                            formControlName="force">
                                         <label class="form-check-label" for="force">Force</label>
                                     </div>
                                 </div>
@@ -213,7 +213,7 @@
                                         <label class="form-label">Consultant Time <span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control" placeholder="Enter consultant time" type="text"
-                                            name="title" id="event-title" [(ngModel)]="consultantTime"
+                                            name="title" id="event-title" formControlName="consultantTime" 
                                             [ngClass]="{'is-invalid': submitted && formAddEventControl['consultantTime'].errors}">
                                         <div class="invalid-feedback">Please provide consultant time</div>
                                     </div>
@@ -223,7 +223,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">Type <span class="text-danger">*</span></label>
                                         <select class="form-select" name="category" id="event-category" required
-                                            [(ngModel)]="type">
+                                            formControlName="type">
                                             <option value="bg-danger-subtle">Danger</option>
                                             <option value="bg-success-subtle">Success</option>
                                             <option value="bg-primary-subtle">Primary</option>

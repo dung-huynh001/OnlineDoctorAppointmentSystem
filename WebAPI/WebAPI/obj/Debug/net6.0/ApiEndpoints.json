@@ -868,6 +868,27 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetScheduleShiftByDate",
+    "RelativePath": "api/Schedule/get-schedule-shift-by-date/{doctorId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "doctorId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "date",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
     "Method": "GetSchedulesByDoctorId",
     "RelativePath": "api/Schedule/get-schedules-of-doctor",
     "HttpMethod": "GET",

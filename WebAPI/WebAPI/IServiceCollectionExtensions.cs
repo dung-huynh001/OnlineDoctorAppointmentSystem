@@ -15,16 +15,19 @@ namespace WebAPI
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>))
                 .AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             services.AddScoped<IMailService, MailService>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
 
 
             services.AddScoped<IAuthService, AuthService>();
-            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IUploadService, UploadService>();
             services.AddScoped<IGenerateOtpService, GenerateOtpService>();
 

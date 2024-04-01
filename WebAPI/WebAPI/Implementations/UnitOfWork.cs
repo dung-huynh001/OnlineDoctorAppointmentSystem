@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections;
+using System.Security.Claims;
 using WebAPI.Domain.Common;
 using WebAPI.Infrastructure.Context;
 using WebAPI.Interfaces;
@@ -49,7 +50,7 @@ namespace WebAPI.Implementations
         {
             try
             {
-                var editor = _httpContextAccessor.HttpContext!.User.FindFirst("uid")?.Value;
+                var editor = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.SaveChangesAsync(editor ?? "admin").GetAwaiter().GetResult();
                 _transaction.Commit();
             }

@@ -9,7 +9,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 // Auth Services
 import { AuthService } from '../services/auth.service';
 import { RoleAccess } from '../models/roleAccess';
-import { json } from 'stream/consumers';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard {
@@ -20,21 +19,18 @@ export class AuthGuard {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const token = localStorage.getItem('token');
-    const currUser: any = JSON.parse(
-      localStorage.getItem('currentUser')!
-    ) as Object;
+    const currentUser = this.authService.currentUser();
     const roleAccess = RoleAccess;
 
     // check token
-    if (!token || this.jwtHelperService.isTokenExpired(token)) {
+    if (!currentUser.token || this.jwtHelperService.isTokenExpired(currentUser.token)) {
       this.router.navigate(['/auth/login'], {
         queryParams: { returnUrl: state.url },
       });
     }
 
     const currAccess = roleAccess.filter(
-      (item) => item.role === currUser.userType
+      (item) => item.role === currentUser.userType
     )[0];
 
     // check role

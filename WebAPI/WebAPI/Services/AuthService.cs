@@ -24,7 +24,7 @@ namespace WebAPI.Services
         private readonly IConfiguration _configuration;
         private readonly IPatientService _patientService;
         private readonly IDoctorService _doctorService;
-        private readonly IUserService _userService;
+        private readonly ICurrentUserService _userService;
         private readonly IMapper _mapper;
 
         public AuthService(
@@ -34,7 +34,7 @@ namespace WebAPI.Services
             IConfiguration configuration,
             IPatientService patientService,
             IDoctorService doctorService,
-            IUserService userService,
+            ICurrentUserService userService,
             IMapper mapper)
         {
             _userManager = userManager;
@@ -67,7 +67,8 @@ namespace WebAPI.Services
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
             };
 
             foreach (var role in userRoles)
@@ -85,7 +86,7 @@ namespace WebAPI.Services
                     SecurityAlgorithms.HmacSha512Signature)
             );
 
-            var fullName = await _userService.GetFullName(user.Id, userType);
+            var fullName = await _userService.GetFullName(user.Id);
 
             return new AuthResponse
             {

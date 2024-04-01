@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.DTOs;
 using WebAPI.Interfaces.IService;
@@ -9,12 +10,13 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
-        private readonly IUserService _userService;
+        private readonly ICurrentUserService _userService;
 
-        public AppointmentController(IAppointmentService appointmentService, IUserService userService)
+        public AppointmentController(IAppointmentService appointmentService, ICurrentUserService userService)
         {
             this._appointmentService = appointmentService;
             this._userService = userService;
@@ -29,6 +31,10 @@ namespace WebAPI.Controllers
         [HttpPost("make-appointment")]
         public async Task<ActionResult> MakeAppointment([FromForm]MakeAppointmentDto model)
         {
+            var appointmentDate = model.AppointmentDate.ToString("dd/MM/yyyy");
+
+            await _appointmentService.SendAppointmentConfirmMail(model.DoctorId, model.PatientId, appointmentDate);
+
             return Ok(await _appointmentService.MakeAppointment(model));
         }
 

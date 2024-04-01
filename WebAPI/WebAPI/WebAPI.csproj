@@ -31,6 +31,7 @@
     <Folder Include="Logging\Exceptions\" />
     <Folder Include="Logging\Exceptions\202403\28Mar\" />
     <Folder Include="Uploads\Avatars\" />
+    <Folder Include="Uploads\Images\" />
   </ItemGroup>
 
 </Project>

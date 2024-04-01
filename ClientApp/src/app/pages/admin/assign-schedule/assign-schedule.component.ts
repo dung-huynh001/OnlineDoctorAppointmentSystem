@@ -17,10 +17,23 @@ import {
   EventInput,
 } from '@fullcalendar/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ScheduleService } from '../../../core/services/schedule.service';
-import { catchError, throwError, Subscription, first, map } from 'rxjs';
+import {
+  catchError,
+  throwError,
+  Subscription,
+  first,
+  map,
+  finalize,
+} from 'rxjs';
 import { ToastService } from '../../../core/services/toast.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -38,7 +51,7 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
   currentEvents: EventApi[] = [];
   calendarApi: any;
 
-  formAddEvent!: FormGroup;
+  addEventFormGroup!: FormGroup;
   submitted: boolean = false;
   @ViewChild('AddOrUpdateModal') AddOrUpdateModal!: TemplateRef<any>;
   @ViewChild('ViewModal') ViewModal!: TemplateRef<any>;
@@ -120,15 +133,17 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
     const currentUrl = this.router.url;
     this.doctorId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
 
-    this.formAddEvent = this.formBuilder.group({
-      description: [this.description, Validators.required],
+    this.addEventFormGroup = this.formBuilder.group({
+      description: new FormControl('Default description', {
+        validators: [Validators.required],
+      }),
       scheduleDate: ['', Validators.required],
-      mStartTime: [''],
-      mEndTime: [''],
-      aStartTime: [''],
-      aEndTime: [''],
-      nStartTime: [''],
-      nEndTime: [''],
+      mStartTime: ['07:00'],
+      mEndTime: ['11:00'],
+      aStartTime: ['11:00'],
+      aEndTime: ['17:00'],
+      nStartTime: ['18:00'],
+      nEndTime: ['22:00'],
       doctorId: [this.doctorId, Validators.required],
       consultantTime: [this.consultantTime, Validators.required],
       type: ['bg-success-subtle'],
@@ -138,7 +153,7 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
   }
 
   get formAddEventControl() {
-    return this.formAddEvent.controls;
+    return this.addEventFormGroup.controls;
   }
 
   fetchEvent() {
@@ -202,6 +217,7 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
     };
 
     this.selectedRangeDate = rangeDate;
+
     this.calendarApi = events;
 
     this._modalService.open(this.AddOrUpdateModal, {
@@ -239,37 +255,32 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.submitted = true;
-    this.formAddEventControl['description'].setValue(this.description);
     this.formAddEventControl['scheduleDate'].setValue(
       this.selectedRangeDate.from + ' to ' + this.selectedRangeDate.to
     );
-    this.formAddEventControl['mStartTime'].setValue(this.mStartTime);
-    this.formAddEventControl['mEndTime'].setValue(this.mEndTime);
-    this.formAddEventControl['aStartTime'].setValue(this.aStartTime);
-    this.formAddEventControl['aEndTime'].setValue(this.aEndTime);
-    this.formAddEventControl['nStartTime'].setValue(this.nStartTime);
-    this.formAddEventControl['nEndTime'].setValue(this.nEndTime);
-    this.formAddEventControl['consultantTime'].setValue(this.consultantTime);
-    this.formAddEventControl['force'].setValue(this.force);
-    this.formAddEventControl['type'].setValue(this.type);
 
-    this.showSpinner();
-    if (this.formAddEvent.valid) {
-      this.addEvent(this.formAddEvent.value);
+    if (this.addEventFormGroup.valid) {
+      this.addEvent(this.addEventFormGroup.value);
     }
   }
 
   addEvent(data: any) {
+    this.showSpinner();
     this.addEvent$ = this._scheduleService
       .addSchedule('/Schedule/add-schedule', data)
       .pipe(
         first(),
         catchError((err) => {
           this.hideSpinner();
+          this.closeEventModal();
           this._toastService.error(
             'Add schedule failed. Please check your connection again'
           );
           return throwError(() => err);
+        }),
+        finalize(() => {
+          this.closeEventModal();
+          this.hideSpinner();
         })
       )
       .subscribe((res) => {

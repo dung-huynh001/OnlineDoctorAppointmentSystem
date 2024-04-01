@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using WebAPI.DTOs;
 using WebAPI.Exceptions;
@@ -11,6 +12,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ScheduleController : ControllerBase
     {
         private readonly IScheduleService _scheduleService;
@@ -26,6 +28,7 @@ namespace WebAPI.Controllers
             return Ok(await _scheduleService.GetScheduleByDate(doctorId, date));
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost("add-schedule")]
         public async Task<ActionResult<ApiResponse>> AddSchedule(CreateScheduleDto model)
         {

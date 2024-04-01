@@ -16,11 +16,15 @@ namespace WebAPI.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IMailService _mailService;
+        private readonly ICurrentUserService _currentUserService;
 
-        public AppointmentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AppointmentService(IUnitOfWork unitOfWork, IMapper mapper, IMailService mailService, ICurrentUserService currentUserService)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
+            this._mailService = mailService;
+            this._currentUserService = currentUserService;
         }
         public async Task<GetAppointmentDetailDto> GetAppointmentDetail(int id)
         {
@@ -60,10 +64,15 @@ namespace WebAPI.Services
             {
                 var appointment = _mapper.Map<Appointment>(model);
                 appointment.AppointmentDate = model.AppointmentDate.Add(model.Time);
-                appointment.DateOfConsultation = model.AppointmentDate;
+                appointment.DateOfConsultation = appointment.AppointmentDate.Value;
 
                 await _unitOfWork.Repository<Appointment>().AddAsync(appointment);
+
+                
+
                 _unitOfWork.Commit();
+
+
                 return new ApiResponse
                 {
                     IsSuccess = true,
@@ -79,6 +88,31 @@ namespace WebAPI.Services
                     Message = "Make appointment failed",
                 };
             }
+        }
+
+        public async Task SendAppointmentConfirmMail(int doctorId, int patientId, string appointmentDate)
+        {
+            var doctor = await _unitOfWork.Repository<Doctor>().GetByIdAsync(doctorId);
+            var patient = await _unitOfWork.Repository<Patient>().GetByIdAsync(patientId);
+
+            var patientEmail = patient.User.Email;
+            var doctorName = doctor.FullName;
+
+            var formMail = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "EmailTemplates/ConfirmationAppointmentMailSample.htm"));
+            formMail = formMail.Replace("#DoctorName#", doctor.FullName);
+            formMail = formMail.Replace("#Speciality#", doctor.Speciality);
+            formMail = formMail.Replace("#PatientName#", patient.FullName);
+            formMail = formMail.Replace("#AppointmentDate#", appointmentDate);
+
+            _ = Task.Run(() =>
+            {
+                _mailService.SendEmailAsync(new MailRequest
+                {
+                    ToEmail = patientEmail,
+                    Body = formMail,
+                    Subject = $"Appointment Confirmation with {doctorName} [CUSC - Online Doctor Appointment]"
+                });
+            });
         }
 
         public Task<DatatableResponse<GetAppointmentToDrawTableDto>> GetAppointments(string userId, string userType, string type, DataTablesParameters parameters)
@@ -185,6 +219,16 @@ namespace WebAPI.Services
             records = records
                 .Skip(parameters.Start)
                 .Take(parameters.Length);
+
+            var data = records.ToList();
+            data.ForEach(async d =>
+            {
+                if(!d.CreatedBy.IsNullOrEmpty())
+                {
+                    var nameOfCreator = await _currentUserService.GetFullName(d.CreatedBy!);
+                    d.CreatedBy = nameOfCreator;
+                }
+            });
 
             response.RecordsTotal = recordsTotal;
             response.RecordsFiltered = recordsTotal;

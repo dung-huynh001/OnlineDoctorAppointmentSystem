@@ -147,18 +147,19 @@ export const MENU_ADMIN: MenuItem[] = [
     id: 9,
     label: 'MENUITEMS.MANAGEAPPOINTMENT.TEXT',
     icon: 'las la-calendar',
+    link: ''
   },
   {
     id: 10,
     label: 'MENUITEMS.MEDICALPROCESS.TEXT',
     icon: 'las la-procedures',
-    link: ''
+    link: '/medical-process'
   },
   {
     id: 11,
     label: 'MENUITEMS.ABOUTUS.TEXT',
     icon: 'las la-user-friends',
-    link: ''
+    link: '/about'
   },
   {
     id: 12,
@@ -200,18 +201,24 @@ export const MENU_DOCTOR: MenuItem[] = [
       },
       {
         id: 6,
-        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.COMPLETE',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.CONFIRMED',
         link: '',
         parentId: 3
       },
       {
         id: 7,
-        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.OUTOFDATE',
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.COMPLETE',
         link: '',
         parentId: 3
       },
       {
         id: 8,
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.OUTOFDATE',
+        link: '',
+        parentId: 3
+      },
+      {
+        id: 9,
         label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.CANCEL',
         link: '',
         parentId: 3
@@ -219,33 +226,28 @@ export const MENU_DOCTOR: MenuItem[] = [
     ]
   },
   {
-    id: 9,
+    id: 10,
     label: 'MENUITEMS.SCHEDULEONSITE.TEXT',
     icon: 'las la-calendar-plus',
-  },
-  {
-    id: 10,
-    label: 'MENUITEMS.REPORT.TEXT',
-    icon: 'las la-chart-bar',
     link: ''
   },
   {
     id: 11,
-    label: 'MENUITEMS.MEDICALPROCESS.TEXT',
-    icon: 'las la-procedures',
-    link: ''
+    label: 'MENUITEMS.REPORT.TEXT',
+    icon: 'las la-chart-bar',
+    link: '/report'
   },
   {
     id: 12,
-    label: 'MENUITEMS.ABOUTUS.TEXT',
-    icon: 'las la-user-friends',
-    link: ''
+    label: 'MENUITEMS.MEDICALPROCESS.TEXT',
+    icon: 'las la-procedures',
+    link: '/medical-process'
   },
   {
     id: 13,
-    label: 'MENUITEMS.SITEMAP.TEXT',
-    icon: 'las la-sitemap',
-    link: ''
+    label: 'MENUITEMS.ABOUTUS.TEXT',
+    icon: 'las la-user-friends',
+    link: '/about'
   },
   {
     id: 14,
