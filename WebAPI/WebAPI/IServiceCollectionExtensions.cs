@@ -10,10 +10,10 @@ namespace WebAPI
     {
         public static void AddDependencyInjection(this IServiceCollection services)
         {
-            services.AddScoped<DoctorAppointmentSystemContext>();
+            services.AddTransient<DoctorAppointmentSystemContext>();
 
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>))
-                .AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
+                .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
             services.AddScoped<IMailService, MailService>();
             services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

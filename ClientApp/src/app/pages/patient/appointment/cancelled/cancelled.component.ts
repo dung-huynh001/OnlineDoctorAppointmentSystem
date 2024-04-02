@@ -116,23 +116,22 @@ export class CancelledComponent implements OnInit, AfterViewInit {
         {
           data: 'id',
           title: 'ID',
+          className:'text-center',
         },
         {
           data: 'doctorName',
           title: 'Doctor',
         },
-        // {
-        //   data: 'patientName',
-        //   title: 'Patient',
-        // },
         {
           data: 'appointmentDate',
           title: 'Appointment date',
+          className:'text-end',
           render: (data: any) =>
             this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
         },
         {
           data: 'dateOfConsultation',
+          className:'text-end',
           title: 'Consultation date',
           render: (data: any) =>
             this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
@@ -172,6 +171,7 @@ export class CancelledComponent implements OnInit, AfterViewInit {
         {
           data: 'closedDate',
           title: 'Closed date',
+          className:'text-end',
           render: (data: any) => {
             return data !== null
               ? this.datePipe.transform(data, 'hh:mm dd/MM/yyyy ')
@@ -181,6 +181,7 @@ export class CancelledComponent implements OnInit, AfterViewInit {
         {
           data: 'createdDate',
           title: 'Created date',
+          className:'text-end',
           render: (data: any) =>
             this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
         },

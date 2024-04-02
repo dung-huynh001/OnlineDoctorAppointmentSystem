@@ -62,14 +62,12 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
     speciality: string;
   };
 
-  
-
   constructor(
     private _toastService: ToastService,
     private _appointmentService: AppointmentService,
     private _spinnerService: NgxSpinnerService,
     private _modalService: NgbModal,
-    private _authService: AuthService,
+    private _authService: AuthService
   ) {
     this.defaultData = {
       doctorId: 1,
@@ -91,13 +89,9 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
       });
   }
   ngAfterViewInit(): void {
-    this._authService.getStatus().subscribe(status => {
-      if (status == STATUS_NOT_ACTIVATE || status == STATUS_ENOUGH_INFO) {
-        this.openWarningModal(this.content);
-      }
-    });
-
-
+    if (this._authService.status$.value == STATUS_NOT_ACTIVATE || this._authService.status$.value == STATUS_ENOUGH_INFO) {
+      this.openWarningModal(this.content);
+    }
   }
 
   ngOnInit(): void {
@@ -109,7 +103,6 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
     this.workingTime = new Date().toLocaleTimeString('en-ZA');
 
     this.userData = this._authService.currentUser();
-    
   }
 
   openWarningModal(content: TemplateRef<any>) {

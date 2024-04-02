@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Inject,
@@ -29,7 +30,7 @@ const STATUS_ACTIVATED = '2';
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss',
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent implements OnInit, AfterViewInit {
   // authSuccess: boolean = false;
   messages: any;
   element: any;
@@ -64,8 +65,13 @@ export class TopbarComponent implements OnInit {
     public translate: TranslateService,
     private authService: AuthService,
     private router: Router,
-    private TokenStorageService: TokenStorageService
   ) {}
+  ngAfterViewInit(): void {
+    if(this.authService.status$.value != STATUS_NOT_ACTIVATE 
+      && this.authService.status$.value != STATUS_ENOUGH_INFO){
+        this.isActivated = true;
+    }
+  }
 
   ngOnInit(): void {
     // this.userData = this.TokenStorageService.getUser();
@@ -75,10 +81,10 @@ export class TopbarComponent implements OnInit {
     this.element = document.documentElement;
     this.currentUser = this.authService.currentUser();
 
-    this.authService.getStatus().subscribe(status => {
-      if(status && status != STATUS_NOT_ACTIVATE && status != STATUS_ENOUGH_INFO)
+    if(this.authService.status$.value != STATUS_NOT_ACTIVATE 
+      && this.authService.status$.value != STATUS_ENOUGH_INFO){
         this.isActivated = true;
-    })
+    }
 
     // Cookies wise Language set
     this.cookieValue = this._cookiesService.get('lang');

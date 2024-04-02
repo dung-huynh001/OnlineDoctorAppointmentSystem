@@ -64,16 +64,19 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'patient',
     loadChildren: () =>
       import('./patient/patient.module').then((m) => m.PatientModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'doctor',
     loadChildren: () =>
       import('./doctor/doctor.module').then((m) => m.DoctorModule),
+    canActivate: [AuthGuard],
   },
 ];
 

@@ -33,17 +33,13 @@ namespace WebAPI.Controllers
             return Ok(await _departmentService.Create(model));
         }
 
-        [HttpGet("get-all")]
-        public async Task<ActionResult> GetAll()
+        [HttpPost("get-department")]
+        public async Task<IActionResult> Get(DataTablesParameters parameters)
         {
-            return Ok(await _departmentService.GetAll());
+            var result = await _departmentService.Get(parameters);
+            return Ok(result);
         }
 
-        [HttpPost("get-department")]
-        public async Task<ActionResult> Get(DataTablesParameters parameters)
-        {
-            return Ok(await _departmentService.Get(parameters));
-        }
         [HttpDelete("delete")]
         public async Task<ActionResult> Delete(int id)
         {

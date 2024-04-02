@@ -221,20 +221,32 @@ namespace WebAPI.Services
                 .Take(parameters.Length);
 
             var data = records.ToList();
-            data.ForEach(async d =>
+            foreach(var item in data)
             {
-                if(!d.CreatedBy.IsNullOrEmpty())
+                if (!item.CreatedBy.IsNullOrEmpty())
                 {
-                    var nameOfCreator = await _currentUserService.GetFullName(d.CreatedBy!);
-                    d.CreatedBy = nameOfCreator;
+                    item.CreatedBy = GetFullName(userId, userType); ;
                 }
-            });
+            }
 
             response.RecordsTotal = recordsTotal;
             response.RecordsFiltered = recordsTotal;
-            response.Data = records.ToList();
+            response.Data = data;
             return Task.FromResult(response);
 
+        }
+
+        private string GetFullName(string id, string userType)
+        {
+            switch (userType.ToLower().Trim())
+            {
+                case "patient":
+                    return (_unitOfWork.Repository<Patient>().GetAll.Where(d => d.UserId == id).FirstOrDefault())!.FullName!;
+                case "doctor":
+                    return (_unitOfWork.Repository<Doctor>().GetAll.Where(d => d.UserId == id).FirstOrDefault())!.FullName;
+                default:
+                    return "admin";
+            }
         }
 
         private int GetActorId(string userId, string userType)

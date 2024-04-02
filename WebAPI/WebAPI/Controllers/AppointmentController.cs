@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
         [HttpPost("make-appointment")]
         public async Task<ActionResult> MakeAppointment([FromForm]MakeAppointmentDto model)
         {
-            var appointmentDate = model.AppointmentDate.ToString("dd/MM/yyyy");
+            var appointmentDate = model.AppointmentDate.ToString("hh:mm dd/MM/yyyy");
 
             await _appointmentService.SendAppointmentConfirmMail(model.DoctorId, model.PatientId, appointmentDate);
 

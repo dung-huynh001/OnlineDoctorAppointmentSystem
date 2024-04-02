@@ -71,7 +71,6 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (changes['defaultData']) {
       this.defaultData = changes['defaultData'].currentValue;
     }

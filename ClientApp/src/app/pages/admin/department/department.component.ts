@@ -2,10 +2,10 @@ import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2, TemplateRef, Vi
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, catchError, throwError } from 'rxjs';
 import { DatePipe } from '@angular/common';
-import { RestApiService } from '../../../core/services/rest-api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataTableDirective } from 'angular-datatables';
 import { ToastService } from '../../../core/services/toast.service';
+import { DepartmentService } from '../../../core/services/department.service';
 
 @Component({
   selector: 'app-department',
@@ -33,72 +33,13 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
 
   editId: any;
 
-  dataTableColumn = [
-    {
-      title: 'ID',
-      data: 'id',
-      render: (data: any) => data.toString(),
-    },
-    {
-      title: 'Department',
-      data: 'departmentName',
-    },
-    {
-      title: 'Create by',
-      data: 'createdBy',
-      render: (data: any) => {
-        return data ? data : 'admin';
-      },
-    },
-    {
-      title: 'Create date',
-      data: 'createdDate',
-      render: (data: any) =>
-        this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
-    },
-    {
-      title: 'Update by',
-      data: 'updatedBy',
-    },
-    {
-      title: 'Update date',
-      data: 'updatedDate',
-      render: (data: any) =>
-        this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss'),
-    },
-    {
-      title: 'Deleted',
-      data: 'isDeleted',
-      render: (data: any) => {
-        const bagdes = data
-          ? `<span class="badge bg-danger">${data}</span>`
-          : `<span class="badge bg-info">${data}</span>`;
-        return bagdes;
-      },
-    },
-    {
-      title: 'Action',
-      data: 'id',
-      render: (data: any, type: any, row: any, meta: any) => {
-        const editButton = `<button class="btn btn-soft-primary btn-sm edit-btn" data-bs-toggle="modal" data-department-name="${row.departmentName}" data-department-id="${data}" title="Edit">Edit</button>`;
-        const deleteButton = row.isDeleted
-          ? `<button class="btn btn-soft-danger btn-sm delete-btn border-0" data-bs-toggle="modal" data-department-name="${row.departmentName}" data-department-id="${data}" title="Resource has been deleted" disabled>Deleted</button>`
-          : `<button class="btn btn-soft-danger btn-sm delete-btn" data-bs-toggle="modal" data-department-name="${row.departmentName}" data-department-id="${data}" title="Delete">Delete</button>`;
-        const restoreButton = row.isDeleted
-          ? `<button class="btn btn-soft-success btn-sm restore-btn border-0" data-bs-toggle="modal" data-department-name="${row.departmentName}" data-department-id="${data}" title="Restore this resource">Restore</button>`
-          : ``;
-        return `${editButton} ${restoreButton} ${deleteButton}`;
-      },
-    },
-  ];
-
   constructor(
     private _modalService: NgbModal,
     private _formBuilder: FormBuilder,
-    private _restApiService: RestApiService,
     private datePipe: DatePipe,
     private _toastService: ToastService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private _departmentService: DepartmentService
   ) {}
 
   get formAdd() {
@@ -113,7 +54,6 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.formAddDepartment = this._formBuilder.group({
       departmentName: ['', Validators.required],
-      // image: ['', [Validators.required, Validators.max(this.maxFileSize)]],
     });
 
     this.dtOptions = {
@@ -138,19 +78,16 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
         emptyTable: 'No records found',
       },
       ajax: (dataTablesParameters: any, callback: Function) => {
-        this._restApiService
-          .post('/Department/get-department', dataTablesParameters)
+        this._departmentService
+          .getAll('/Department/get-department', dataTablesParameters)
           .pipe(
             catchError((err) => {
               callback({
                 recordsTotal: 0,
                 recordsFiltered: 0,
-                data: null,
+                data: [],
               });
-              return throwError(() => {
-                this._toastService.error('Cannot connect to server!');
-                return err;
-              });
+              return throwError(() => err);
             })
           )
           .subscribe((res) => {
@@ -167,7 +104,61 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
           data: null,
           defaultContent: '',
         },
-        ...this.dataTableColumn,
+        {
+          title: 'ID',
+          data: 'id',
+        },
+        {
+          title: 'Department',
+          data: 'departmentName',
+        },
+        {
+          title: 'Create by',
+          data: 'createdBy',
+          render: (data: any) => {
+            return data ? data : 'admin';
+          },
+        },
+        {
+          title: 'Create date',
+          data: 'createdDate',
+          render: (data: any) =>
+            this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
+        },
+        {
+          title: 'Update by',
+          data: 'updatedBy',
+        },
+        {
+          title: 'Update date',
+          data: 'updatedDate',
+          render: (data: any) =>
+            this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss'),
+        },
+        {
+          title: 'Deleted',
+          data: 'isDeleted',
+          render: (data: any) => {
+            const bagdes = data
+              ? `<span class="badge bg-danger">${data}</span>`
+              : `<span class="badge bg-info">${data}</span>`;
+            return bagdes;
+          },
+        },
+        {
+          title: 'Action',
+          data: 'id',
+          render: (data: any, type: any, row: any, meta: any) => {
+            const editButton = `<button class="btn btn-soft-primary btn-sm edit-btn" data-bs-toggle="modal" data-department-name="${row.departmentName}" data-department-id="${data}" title="Edit">Edit</button>`;
+            const deleteButton = row.isDeleted
+              ? `<button class="btn btn-soft-danger btn-sm delete-btn border-0" data-bs-toggle="modal" data-department-name="${row.departmentName}" data-department-id="${data}" title="Resource has been deleted" disabled>Deleted</button>`
+              : `<button class="btn btn-soft-danger btn-sm delete-btn" data-bs-toggle="modal" data-department-name="${row.departmentName}" data-department-id="${data}" title="Delete">Delete</button>`;
+            const restoreButton = row.isDeleted
+              ? `<button class="btn btn-soft-success btn-sm restore-btn border-0" data-bs-toggle="modal" data-department-name="${row.departmentName}" data-department-id="${data}" title="Restore this resource">Restore</button>`
+              : ``;
+            return `${editButton} ${restoreButton} ${deleteButton}`;
+          },
+        },
       ],
     };
   }
@@ -205,14 +196,13 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
     this.submitted = true;
     if (this.formAddDepartment.valid) {
       const formData = this.formAddDepartment.value;
-      console.log(formData);
       if (this.editMode) {
         const data = {
           id: this.editId,
           departmentName: formData.departmentName,
         };
-        this._restApiService
-          .patch('/Department/update', data.id, data)
+        this._departmentService
+          .update('/Department/update', data.id, data)
           .pipe(
             catchError((err) => {
               return throwError(() => err);
@@ -225,8 +215,8 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
             }
           });
       } else {
-        this._restApiService
-          .post('/Department/create', formData)
+        this._departmentService
+          .create('/Department/create', formData)
           .pipe(
             catchError((err) => {
               return throwError(() => err);
@@ -274,7 +264,6 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
   openEditModal(id: any, departmentName: any) {
     this.editId = id;
     this.formAdd['departmentName'].setValue(departmentName);
-    console.log(departmentName);
     this._modalService
       .open(this.addOrEditModal, {
         ariaLabelledBy: 'modal-basic-title',
@@ -290,8 +279,8 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   deleteDepartment(id: any) {
-    this._restApiService
-      .delete('/Department/delete', `?id=${id}`)
+    this._departmentService
+      .delete('Department/delete', id)
       .pipe(
         catchError((err) => {
           return throwError(() => {
@@ -307,8 +296,8 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   restoreDepartment(id: any) {
-    this._restApiService
-      .get('/Department/restore', `?id=${id}`)
+    this._departmentService
+      .restore('Department/restore', id)
       .pipe(
         catchError((err) => {
           return throwError(() => {

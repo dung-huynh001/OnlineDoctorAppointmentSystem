@@ -22,6 +22,9 @@ export class ProfileComponent implements OnInit {
 
   avatarUrl: string = "Default";
 
+  recentlyDiagnosis: any;
+  allergies: any;
+
   constructor(
     private _authService: AuthService,
     private _profileService: ProfileService,
@@ -71,7 +74,7 @@ export class ProfileComponent implements OnInit {
       .subscribe((res) => {
         this.patientData = res;
         this._profileService.setPatientData(res);
-        this.avatarUrl = this.patientData.avatarUrl == null ? "Default" : this.hostName + `/` + this.patientData.avatarUrl;
+        this.avatarUrl = this.patientData.avatarUrl == null ? "https://localhost:7139/Uploads/Images/default-user.jpg" : this.hostName + `/` + this.patientData.avatarUrl;
       });
   }
 }

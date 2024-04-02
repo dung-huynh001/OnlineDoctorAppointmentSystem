@@ -67,7 +67,6 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
       { label: 'Home' },
       { label: 'Profile', active: true },
     ];
-
     this.currentUser = this._authService.currentUser();
     this.userId = this.currentUser.id;
     this.status = this.currentUser.status;
@@ -76,7 +75,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.status == STATUS_ENOUGH_INFO) {
+    if (this.status.toString() == STATUS_ENOUGH_INFO) {
       this._profileService.getPatientData().subscribe((data) => {
         this.sendActivateEmail(data.userId, data.email);
       });
@@ -190,12 +189,8 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
         .subscribe((res) => {
           if (res) {
             this._toastService.success('Updated your profile successfully');
-            
-            if (this.status == STATUS_NOT_ACTIVATE || this.currentUser.status == STATUS_ENOUGH_INFO) {
-
-              this._profileService.getPatientData().subscribe(res => {
-                this.sendActivateEmail(res.userId, res.email);
-              })
+            if (this._authService.status$.value == STATUS_NOT_ACTIVATE || this._authService.status$.value  == STATUS_ENOUGH_INFO) {
+              this.sendActivateEmail(this.currentUser.id, this.formControl['Email'].value)
               this.currentUser.status = STATUS_ENOUGH_INFO;
               this.openWarningModal(this.content);
             }
@@ -212,7 +207,6 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   onFileChange(event: any) {
     const file = event.target.files[0];
     this.form.get('Avatar')?.setValue(file);
-    console.log(file);
   }
 
   openWarningModal(content: TemplateRef<any>) {

@@ -116,6 +116,7 @@ export class PendingComponent {
         {
           data: 'id',
           title: 'ID',
+          className:'text-center',
         },
         {
           data: 'doctorName',
@@ -124,12 +125,14 @@ export class PendingComponent {
         {
           data: 'appointmentDate',
           title: 'Appointment date',
+          className:'text-end',
           render: (data: any) =>
             this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
         },
         {
           data: 'dateOfConsultation',
           title: 'Consultation date',
+          className:'text-end',
           render: (data: any) =>
             this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
         },
@@ -150,6 +153,7 @@ export class PendingComponent {
         {
           data: 'closedDate',
           title: 'Closed date',
+          className:'text-end',
           render: (data: any) => {
             return data !== null
               ? this.datePipe.transform(data, 'hh:mm dd/MM/yyyy ')
@@ -159,6 +163,7 @@ export class PendingComponent {
         {
           data: 'createdDate',
           title: 'Created date',
+          className:'text-end',
           render: (data: any) =>
             this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
         },

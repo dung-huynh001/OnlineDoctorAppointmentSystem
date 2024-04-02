@@ -321,16 +321,6 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.DepartmentController",
-    "Method": "GetAll",
-    "RelativePath": "api/Department/get-all",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebAPI.Controllers.DepartmentController",
     "Method": "Get",
     "RelativePath": "api/Department/get-department",
     "HttpMethod": "POST",

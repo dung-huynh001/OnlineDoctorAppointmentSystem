@@ -23,7 +23,6 @@ namespace WebAPI.Services
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly IPatientService _patientService;
-        private readonly IDoctorService _doctorService;
         private readonly ICurrentUserService _userService;
         private readonly IMapper _mapper;
 
@@ -42,7 +41,6 @@ namespace WebAPI.Services
             _roleManager = roleManager;
             _configuration = configuration;
             _patientService = patientService;
-            this._doctorService = doctorService;
             this._userService = userService;
             this._mapper = mapper;
         }
@@ -86,7 +84,7 @@ namespace WebAPI.Services
                     SecurityAlgorithms.HmacSha512Signature)
             );
 
-            var fullName = await _userService.GetFullName(user.Id);
+            var fullName = await _userService.GetFullName(user.Id, userType);
 
             return new AuthResponse
             {

@@ -168,7 +168,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   loadDataTable() {
     this.dtOptions = {
-      // serverSide: true,
       pagingType: 'full_numbers',
       processing: true,
       responsive: true,
@@ -198,11 +197,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         },
         {
           data: 'id',
-          title: 'ID',
+          title: 'ID',          
+          className:'text-center',
         },
         {
           data: 'doctorName',
           title: 'Doctor',
+          render: (data: any, type: any, row: any, meta: any) => {
+            return `<span class="text-center">${data}</span>`
+          }
         },
         {
           data: 'speciality',
@@ -211,10 +214,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         {
           data: 'appointmentDate',
           title: 'Appointment date',
+          className:'text-end',
         },
         {
           data: 'dateOfConsultation',
           title: 'Consultation date',
+          className:'text-end',
         },
         {
           data: 'status',
@@ -244,6 +249,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         {
           data: 'createdDate',
           title: 'Created date',
+          className:'text-end',
         },
         {
           title: 'Action',

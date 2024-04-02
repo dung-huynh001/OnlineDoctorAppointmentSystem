@@ -34,7 +34,6 @@ import { ComponentsModule } from '../../components/components.module';
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    DataTablesModule,
     NgbNavModule,
     CountUpModule,
     SharedModule, 
@@ -44,7 +43,8 @@ import { ComponentsModule } from '../../components/components.module';
     NgSelectModule,
     FullCalendarModule,
     NgxSpinnerModule,
-    ComponentsModule
+    ComponentsModule,
+    DataTablesModule,
   ],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

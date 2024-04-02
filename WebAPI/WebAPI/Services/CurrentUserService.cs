@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WebAPI.Domain.Entities;
 using WebAPI.Exceptions;
+using WebAPI.Infrastructure.Context;
 using WebAPI.Interfaces;
 using WebAPI.Interfaces.IService;
 
@@ -11,12 +12,10 @@ namespace WebAPI.Services
     public class CurrentUserService : ICurrentUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UserManager<AppUser> _userManager;
 
-        public CurrentUserService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager)
+        public CurrentUserService(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
-            _userManager = userManager;
         }
 
         public async Task<Doctor> GetDoctorInfo(string userId)
@@ -29,13 +28,8 @@ namespace WebAPI.Services
             return doctor!;
         }
 
-        public async Task<string> GetFullName(string id)
+        public async Task<string> GetFullName(string id, string userType)
         {
-            var user = await _userManager.FindByIdAsync(id);
-
-            if (user == null)
-                throw new NotFoundException("User", id);
-            var userType = user.UserType;
             switch(userType.ToLower().Trim())
             {
                 case "patient":

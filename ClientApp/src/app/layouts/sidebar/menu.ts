@@ -147,22 +147,59 @@ export const MENU_ADMIN: MenuItem[] = [
     id: 9,
     label: 'MENUITEMS.MANAGEAPPOINTMENT.TEXT',
     icon: 'las la-calendar',
-    link: ''
+    subItems: [
+      {
+        id: 10,
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.ALL',
+        link: '/admin/appointment/all',
+        parentId: 9
+      },
+      {
+        id: 11,
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.PENDING',
+        link: '/admin/appointment/pending',
+        parentId: 9
+      },
+      {
+        id: 12,
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.CONFIRMED',
+        link: '/admin/appointment/confirmed',
+        parentId: 9
+      },
+      {
+        id: 13,
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.COMPLETE',
+        link: '/admin/appointment/completed',
+        parentId: 9
+      },
+      {
+        id: 14,
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.OUTOFDATE',
+        link: '/admin/appointment/out-of-date',
+        parentId: 9
+      },
+      {
+        id: 15,
+        label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.CANCEL',
+        link: '/admin/appointment/cancelled',
+        parentId: 9
+      },
+    ]
   },
   {
-    id: 10,
+    id: 16,
     label: 'MENUITEMS.MEDICALPROCESS.TEXT',
     icon: 'las la-procedures',
     link: '/medical-process'
   },
   {
-    id: 11,
+    id: 17,
     label: 'MENUITEMS.ABOUTUS.TEXT',
     icon: 'las la-user-friends',
     link: '/about'
   },
   {
-    id: 12,
+    id: 18,
     label: 'MENUITEMS.LOGOFF.TEXT',
     icon: 'las la-file-export',
     link:''

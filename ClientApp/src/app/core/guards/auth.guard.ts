@@ -23,7 +23,7 @@ export class AuthGuard {
     const roleAccess = RoleAccess;
 
     // check token
-    if (!currentUser.token || this.jwtHelperService.isTokenExpired(currentUser.token)) {
+    if (!currentUser || !currentUser.token || this.jwtHelperService.isTokenExpired(currentUser.token)) {
       this.router.navigate(['/auth/login'], {
         queryParams: { returnUrl: state.url },
       });

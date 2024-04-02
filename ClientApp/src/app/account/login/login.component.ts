@@ -93,8 +93,6 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('token', res.data.token);
             this.authService.setLogin(res.data, res.data.token);
 
-            console.log(res);
-
             const role = res.data.userType;
             this.router.navigate([`/${role}/dashboard`]);
           }

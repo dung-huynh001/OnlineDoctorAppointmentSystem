@@ -48,31 +48,35 @@ namespace WebAPI.Services
             }
         }
 
-        public async Task<List<Department>> GetAll()
+        public async Task<DatatableResponse<GetDepartmentToDrawTableDto>> Get(DataTablesParameters parameters)
         {
-            var result = await _unitOfWork.Repository<Department>().GetAll.ToListAsync();
-            return result;
-        }
+            DatatableResponse<GetDepartmentToDrawTableDto> response = new DatatableResponse<GetDepartmentToDrawTableDto>();
 
-        public async Task<DatatableResponse<Department>> Get(DataTablesParameters parameters)
-        {
-            DatatableResponse<Department> response = new DatatableResponse<Department>();
-
-            var searchValue = parameters.Search.Value.IsNullOrEmpty() ? "" : parameters.Search.Value.ToLower().Trim();
+            var searchValue = parameters.Search.Value.IsNullOrEmpty() ? "" : parameters.Search.Value?.ToLower().Trim();
 
             // Filter with search value and pagination
-            var records = _unitOfWork.Repository<Department>().GetAll;
+            var records = _unitOfWork.Repository<Department>().GetAll
+                .Select(d => new GetDepartmentToDrawTableDto
+                {
+                    Id = d.Id,
+                    CreatedBy = "admin",
+                    CreatedDate = d.CreatedDate,
+                    DepartmentName = d.DepartmentName,
+                    IsDeleted = d.IsDeleted,
+                    UpdatedBy = "admin",
+                    UpdatedDate = d.UpdatedDate,
+                });
 
             var recordsTotal = records.Count();
 
             records = records.Where(d =>
-                    d.Id.ToString().Trim().Contains(searchValue)
-                    || d.DepartmentName.Trim().ToLower().Contains(searchValue)
-                    || d.CreatedBy.Trim().ToLower().Contains(searchValue)
-                    || d.CreatedDate.ToString().Trim().ToLower().Contains(searchValue)
-                    || d.UpdatedBy.Trim().ToLower().Contains(searchValue)
-                    || d.UpdatedDate.ToString().Trim().ToLower().Contains(searchValue)
-                    || d.IsDeleted.ToString().Trim().ToLower().Contains(searchValue));
+                    d.Id.ToString().Contains(searchValue!)
+                    || d.DepartmentName.ToLower().Contains(searchValue!)
+                    || d.CreatedBy.ToLower().Contains(searchValue!)
+                    || d.CreatedDate.ToString().ToLower().Contains(searchValue!)
+                    || d.UpdatedBy.ToLower().Contains(searchValue!)
+                    || d.UpdatedDate.ToString().Trim().ToLower().Contains(searchValue!)
+                    || d.IsDeleted.ToString().Trim().ToLower().Contains(searchValue!));
 
             // Filter with order column
             if (parameters.Order.Count() != 0)
