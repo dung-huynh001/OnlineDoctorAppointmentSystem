@@ -31,8 +31,6 @@ const STATUS_ACTIVATED = '2';
   styleUrl: './topbar.component.scss',
 })
 export class TopbarComponent implements OnInit, AfterViewInit {
-  // authSuccess: boolean = false;
-  messages: any;
   element: any;
   mode: string | undefined;
   @Output() mobileMenuButtonClicked = new EventEmitter();
@@ -48,8 +46,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   readNotify: number = 0;
   isDropdownOpen = false;
   isActivated: boolean = false;
-  currentUser: any;
-  status!: any;
+  currentUser!: User;
 
   hostName = environment.serverApi;
 
@@ -74,12 +71,12 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // this.userData = this.TokenStorageService.getUser();
     this.authService.currentUser$.subscribe(user => {
       this.userData = user;
     });
     this.element = document.documentElement;
     this.currentUser = this.authService.currentUser();
+
 
     if(this.authService.status$.value != STATUS_NOT_ACTIVATE 
       && this.authService.status$.value != STATUS_ENOUGH_INFO){

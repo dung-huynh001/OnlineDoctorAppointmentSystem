@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OutOfDateComponent implements OnInit {
   breadCrumbItems!: Array<{}>
+  title: string = "Out of date";
+  appointmentStatus: string = "out-of-date";
 
   constructor() {
 

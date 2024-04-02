@@ -227,37 +227,37 @@ export const MENU_DOCTOR: MenuItem[] = [
       {
         id: 4,
         label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.ALL',
-        link: '',
+        link: '/doctor/appointment/all',
         parentId: 3
       },
       {
         id: 5,
         label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.PENDING',
-        link: '',
+        link: '/doctor/appointment/pending',
         parentId: 3
       },
       {
         id: 6,
         label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.CONFIRMED',
-        link: '',
+        link: '/doctor/appointment/confirmed',
         parentId: 3
       },
       {
         id: 7,
         label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.COMPLETE',
-        link: '',
+        link: '/doctor/appointment/completed',
         parentId: 3
       },
       {
         id: 8,
         label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.OUTOFDATE',
-        link: '',
+        link: '/doctor/appointment/out-of-date',
         parentId: 3
       },
       {
         id: 9,
         label: 'MENUITEMS.MANAGEAPPOINTMENT.LIST.CANCEL',
-        link: '',
+        link: '/doctor/appointment/cancelled',
         parentId: 3
       },
     ]

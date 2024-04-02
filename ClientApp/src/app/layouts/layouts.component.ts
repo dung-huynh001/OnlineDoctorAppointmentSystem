@@ -27,8 +27,7 @@ export class LayoutsComponent {
       this.layoutType = layout;
     });
 
-    const currentUser = this._authService.currentUser();
-    this._authService.setStatus(currentUser.status);
+    this._authService.initStatus();
   }
 
   /**

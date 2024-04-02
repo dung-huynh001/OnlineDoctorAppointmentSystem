@@ -11,6 +11,8 @@ import { CountUpModule } from 'ngx-countup';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AppointmentDatatableComponent } from './appointment-datatable/appointment-datatable.component';
+import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     AppointmentFormComponent,
     AreaChartsComponent,
     DonutChartsComponent,
-    AppointmentStatisticComponent
+    AppointmentStatisticComponent,
+    AppointmentDatatableComponent
   ],
   imports: [
     CommonModule,
@@ -29,13 +32,15 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     FormsModule,
     ReactiveFormsModule,
     FlatpickrModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    DataTablesModule
   ],
   exports: [
     AppointmentFormComponent, 
     DonutChartsComponent, 
     AreaChartsComponent, 
-    AppointmentStatisticComponent
+    AppointmentStatisticComponent,
+    AppointmentDatatableComponent
   ]
 })
 export class ComponentsModule { }

@@ -267,7 +267,7 @@ namespace WebAPI.Services
 
         private string GetStatus(string type)
         {
-            string status = "";
+            string status = type;
             switch (type.ToLower())
             {
                 case "pending":
@@ -283,7 +283,10 @@ namespace WebAPI.Services
                     status = "cancelled";
                     break;
                 case "out-of-date":
-                    status = "cancelled";
+                    status = "out-of-date";
+                    break;
+                case "all":
+                    status = "";
                     break;
                 default:
                     break;

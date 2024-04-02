@@ -17,7 +17,7 @@ export class AuthService {
   );
   user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
-  status$: BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
+  status$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
   constructor(private http: HttpClient) {
   }
@@ -35,15 +35,15 @@ export class AuthService {
     );
   }
 
-  login( username: string, password: string): Observable<{ data: IUser }> {
-    return this.http.post( `${environment.serverApi}/api/Auth/login`,
-        {
-          username,
-          password,
-        },
-        httpOptions)
+  login(username: string, password: string): Observable<{ data: IUser }> {
+    return this.http.post(`${environment.serverApi}/api/Auth/login`,
+      {
+        username,
+        password,
+      },
+      httpOptions)
       .pipe(
-        map((res:any) => {
+        map((res: any) => {
           return {
             data: User.createFromData(res),
           };
@@ -57,7 +57,7 @@ export class AuthService {
     this.token$.next(token);
 
     localStorage.setItem('currentUser', JSON.stringify(user));
-    document.cookie=(`token=${token}`);
+    document.cookie = (`token=${token}`);
   }
 
   setCurrentUser(user: User) {
@@ -66,12 +66,17 @@ export class AuthService {
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
 
-  setStatus(status: string) {
-    this.status$.next(status);
-    const currentUser = this.currentUser();
-    currentUser.status = status;
+  // setStatus(status: string) {
+  //   this.status$.next(status);
+  //   const currentUser = this.currentUser();
+  //   currentUser.status = status;
 
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  //   localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  // }
+
+  initStatus() {
+    const currentUser = this.currentUser();
+    this.status$.next(currentUser.status);
   }
 
   getStatus() {
