@@ -1,0 +1,42 @@
+<div class="card">
+    <div class="card-header border-0">
+        <div class="row">
+            <div class="col-lg-4">
+                <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-pills justify-content-start">
+                    <li [ngbNavItem]="1">
+                        <button ngbNavLink (click)="initForDay()">Day</button>
+                        <ng-template ngbNavContent>
+                            <app-day></app-day>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <button ngbNavLink (click)="initForWeek()">Week</button>
+                        <ng-template ngbNavContent>
+                            <app-week></app-week>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                        <button ngbNavLink (click)="initForHalfMonth()">Half Month</button>
+                        <ng-template ngbNavContent>
+                            <app-half-month></app-half-month>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="4">
+                        <button ngbNavLink (click)="initForMonth()">Month</button>
+                        <ng-template ngbNavContent>
+                            <app-month></app-month>
+                        </ng-template>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-8">
+                <div class="w-50">
+                    <app-calendar-title [calendarTitle]="calendarTitle" [type]="type"></app-calendar-title>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
+</div>

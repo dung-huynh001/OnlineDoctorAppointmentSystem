@@ -54,8 +54,7 @@
               "RelativeToolTip": "WebAPI\\IServiceCollectionExtensions.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T08:19:37.632Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-02T08:19:37.632Z"
             },
             {
               "$type": "Document",
@@ -67,8 +66,7 @@
               "RelativeToolTip": "WebAPI\\Services\\CurrentUserService.cs",
               "ViewState": "AQIAAAkAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T08:17:37.738Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-02T08:17:37.738Z"
             },
             {
               "$type": "Document",
@@ -80,8 +78,7 @@
               "RelativeToolTip": "WebAPI\\Interfaces\\IService\\ICurrentUserService.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T08:17:34.194Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-02T08:17:34.194Z"
             },
             {
               "$type": "Document",
@@ -93,8 +90,7 @@
               "RelativeToolTip": "WebAPI\\DTOs\\GetDepartmentToDrawTableDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T08:15:06.916Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-02T08:15:06.916Z"
             },
             {
               "$type": "Document",
@@ -106,8 +102,7 @@
               "RelativeToolTip": "WebAPI\\Controllers\\DepartmentController.cs",
               "ViewState": "AQIAAB4AAAAAAAAAAAAswCwAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T08:11:00.899Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-02T08:11:00.899Z"
             },
             {
               "$type": "Document",
@@ -119,8 +114,7 @@
               "RelativeToolTip": "WebAPI\\Controllers\\AppointmentController.cs",
               "ViewState": "AQIAABEAAAAAAAAAAAAQwBgAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T06:37:08.72Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-02T06:37:08.72Z"
             },
             {
               "$type": "Document",
@@ -130,7 +124,7 @@
               "RelativeDocumentMoniker": "WebAPI\\Services\\DepartmentService.cs",
               "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\DepartmentService.cs",
               "RelativeToolTip": "WebAPI\\Services\\DepartmentService.cs",
-              "ViewState": "AQIAADIAAAAAAAAAAAA9wEcAAAAoAAAA",
+              "ViewState": "AQIAADMAAAAAAAAAAAAowEcAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-02T04:19:51.817Z",
               "EditorCaption": ""
@@ -145,8 +139,7 @@
               "RelativeToolTip": "WebAPI\\Services\\AppointmentService.cs",
               "ViewState": "AQIAAK0AAAAAAAAAAAAIwLQAAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T04:18:47.924Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-02T04:18:47.924Z"
             }
           ]
         }

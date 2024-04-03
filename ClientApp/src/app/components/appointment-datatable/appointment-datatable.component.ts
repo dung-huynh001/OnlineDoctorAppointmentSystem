@@ -29,7 +29,6 @@ export class AppointmentDatatableComponent implements OnInit, OnChanges, AfterVi
 
   ngOnInit(): void {
     this.currentUser = this._authService.currentUser();
-    // this.fetchData();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -81,7 +80,7 @@ export class AppointmentDatatableComponent implements OnInit, OnChanges, AfterVi
               return throwError(() => err);
             })
           )
-          .subscribe((res) => {
+          .subscribe((res: any) => {
             callback({
               recordsTotal: res.recordsTotal,
               recordsFiltered: res.recordsFiltered,
@@ -122,8 +121,15 @@ export class AppointmentDatatableComponent implements OnInit, OnChanges, AfterVi
           data: 'status',
           title: 'Status',
           render: (data: any) => {
+            let textColor = "";
+            if(this.appointmentStatus.toLowerCase() == 'out-of-date') {
+              data =  'out-of-date';
+              textColor = "text-muted";
+            }
+            
+
             let badgeType = this.setBadgeType(data);
-            return `<span class="badge bg-${badgeType}">${data}</span>`;
+            return  `<span class="badge ${textColor} bg-${badgeType}">${data}</span>`;
           },
         },
         {

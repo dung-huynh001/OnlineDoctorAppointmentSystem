@@ -1,0 +1,21 @@
+<!-- Bordered Tables -->
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="bg-light">
+                <th scope="col" class="bg-white"></th>
+                <th *ngFor="let hour of hours" colspan="2">{{ hour }}</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let doctor of doctors; let i = index">
+            <tr *ngFor="let shift of doctor.shifts; let j = index">
+                <td *ngIf="j==0" [rowSpan]="doctor.shifts.length">{{doctor.fullName}}</td>
+                <td *ngFor="let i of calculateSkipColumn(shift.start)" colspan="2"></td>
+                <td [colSpan]="calculateColspan(shift) * 2" class="position-relative"><a role="button"
+                        class="bg-info text-center w-100 rounded position-absolute top-50 start-50 translate-middle">{{shift.start}}
+                        - {{shift.end}}</a></td>
+                <td *ngFor="let i of calculateFill(shift.end)" colspan="2"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

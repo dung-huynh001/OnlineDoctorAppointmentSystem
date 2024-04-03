@@ -23,7 +23,6 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
-  // { path: 'landing', loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule) },
 ];
 
 @NgModule({

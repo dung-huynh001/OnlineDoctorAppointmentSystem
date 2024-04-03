@@ -1,0 +1,20 @@
+th:not(th:first-child),
+td:not(td:first-child) {
+    width: calc(5% + 2px) !important;
+    text-align: center;
+}
+
+thead>tr>th:not(th:first-child) {
+    border: none;
+}
+
+// tbody>tr:not(tr:first-child)>td {
+//     font-weight: normal !important;
+// }
+
+// tbody>tr:first-child>td {
+//     font-weight: bold !important;
+// }
+tbody>tr>td {
+    padding: 1.7rem 0;
+}
