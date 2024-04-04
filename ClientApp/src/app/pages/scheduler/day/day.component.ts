@@ -1,112 +1,129 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
+import { Doctors, Headers } from './data';
 
 const START_TIME_WORKING = 7;
 const END_TIME_WORKING = 22;
+
+interface iSchedule {
+  fullName: string;
+  shifts: Array<{
+    id: number;
+    shiftName: string;
+    start: string;
+    end: string;
+  }>;
+}
+
+class Schedule {
+  shiftName!: string;
+  fullName!: string;
+  appointmentDate!: string;
+  start!: string;
+  end!: string;
+  
+
+  _mapper(schedule: iSchedule, appointmentDate: string) {
+      this.shiftName = schedule.shifts[0].shiftName;
+      this.fullName = schedule.fullName;
+      this.appointmentDate = appointmentDate;
+      this.start = schedule.shifts[0].start;
+      this.end = schedule.shifts[0].end;
+  }
+}
 
 @Component({
   selector: 'app-day',
   templateUrl: './day.component.html',
   styleUrl: './day.component.scss',
 })
-export class DayComponent implements OnInit, AfterViewInit {
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
+export class DayComponent implements OnInit, AfterViewInit, OnChanges {
+  selectedSchedule: Schedule = new Schedule();
+
   columns!: Array<{}>;
-  doctors!: Array<{
-    fullName: string;
-    shifts: Array<{
-      start: number;
-      end: number;
-    }>;
-  }>;
+  doctors!: Array<iSchedule>;
 
-  hours: string[] = [
-    '7:00',
-    '8:00',
-    '9:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-    '18:00',
-    '19:00',
-    '20:00',
-    '21:00',
-    '22:00',
-  ];
+  headers = Headers;
 
-  constructor() {}
+  @Input() appointmentDate!: string;
+
+  @ViewChild('ViewModal') ViewModal!: TemplateRef<any>;
+
+  constructor(private _modalService: NgbModal) {}
 
   ngOnInit(): void {
-    this.doctors = [
-      {
-        fullName: 'Dung',
-        shifts: [
-          { start: 8, end: 12 },
-          { start: 13, end: 15 },
-          { start: 16, end: 17 }
-        ],
-      },
-      {
-        fullName: 'Dung',
-        shifts: [
-          { start: 8, end: 12 },
-          { start: 13, end: 15 },
-          { start: 17, end: 20 }
-        ],
-      },
-      {
-        fullName: 'Dung',
-        shifts: [
-          { start: 8, end: 12 },
-          { start: 13, end: 15 },
-          { start: 17, end: 20 }
-        ],
-      },
-      {
-        fullName: 'Dung',
-        shifts: [
-          { start: 8, end: 12 },
-          { start: 13, end: 15 },
-          { start: 17, end: 20 }
-        ],
-      },
-      {
-        fullName: 'Dung',
-        shifts: [
-          { start: 8, end: 12 },
-          { start: 13, end: 15 },
-          { start: 17, end: 20 }
-        ],
-      },
-    ];
+    this.doctors = Doctors;
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+  }
+
   ngAfterViewInit(): void {}
 
-  calculateColspan(shift: {
-    start: number;
-    end: number;
-  }): number {
-    return shift.end - shift.start + 1;
+  viewEventDetails(event: any) {
+    const id = event.target.id;
+    this.selectedSchedule._mapper(this.findDoctor(id), this.appointmentDate);
+    this._modalService.open(this.ViewModal, {
+      centered: true,
+    });
   }
 
-  calculateSkipColumn(start: number) {
-    const len = (start - START_TIME_WORKING);
-    let arr = [];
-    for(let i = 0; i < len; i++)
-      arr.push(i);
-    return arr;
+  findDoctor(id: number): iSchedule {
+    console.log(id)
+    for (const doctor of this.doctors) {
+      for (const shift of doctor.shifts) {
+        if (id == shift.id) return doctor;
+      }
+    }
+    return {
+      fullName: '',
+      shifts: [],
+    };
   }
-  calculateFill(end: number) {
-    const len = (END_TIME_WORKING - end);
-    let arr = [];
-    for(let i = 0; i < len; i++)
-      arr.push(i);
-    return arr;
+
+  calculateTimelineWidth(start: string, end: string) {
+    let sHours = parseInt(start.slice(0, 2));
+    let sMinute = parseInt(start.slice(3));
+
+    let eHours = parseInt(end.slice(0, 2));
+    let eMinute = parseInt(end.slice(3));
+
+    let len = (eHours - sHours) * 100;
+    if (sMinute != 0) {
+      len = len - 50;
+    }
+
+    if (eMinute != 0) {
+      len = len + 50;
+    }
+
+    return `calc(${len}% + 6px)`;
+  }
+
+  calculateStartingLine(start: string): {
+    startIndex: number;
+    half: boolean;
+  } {
+    let sHours = parseInt(start.slice(0, 2));
+    let sMinute = parseInt(start.slice(3));
+    let half = false;
+    if (sMinute != 0) {
+      half = true;
+    }
+    let startIndex = sHours - 7;
+    return {
+      startIndex: startIndex,
+      half: half,
+    };
   }
 }

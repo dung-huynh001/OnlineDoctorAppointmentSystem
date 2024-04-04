@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-scheduler',
@@ -10,6 +11,10 @@ export class SchedulerComponent implements OnInit {
   type!: string;
 
   constructor() {}
+
+  ChangeCalendarTitle(event: any) {
+    this.calendarTitle = event;
+  }
 
   ngOnInit(): void {
     this.calendarTitle = new Date().toDateString();

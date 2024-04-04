@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-calendar-title',
@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CalendarTitleComponent implements OnInit {
   @Input() type: string = 'day';
   @Input() calendarTitle!: string;
+  @Output() selectedDate = new EventEmitter();
 
   ngOnInit(): void {
     switch (this.type.toLowerCase()) {
@@ -22,6 +23,8 @@ export class CalendarTitleComponent implements OnInit {
       default:
         break;
     }
+
+    this.selectedDate.emit(this.calendarTitle);
   }
 
   next() {
@@ -42,6 +45,7 @@ export class CalendarTitleComponent implements OnInit {
         this.nextDay();
         break;
     }
+    this.selectedDate.emit(this.calendarTitle);
   }
   previous() {
     switch (this.type.toLowerCase()) {
@@ -61,6 +65,7 @@ export class CalendarTitleComponent implements OnInit {
         this.previousDay();
         break;
     }
+    this.selectedDate.emit(this.calendarTitle);
   }
 
   nextDay() {
@@ -129,7 +134,7 @@ export class CalendarTitleComponent implements OnInit {
     const endOfHalfMonth =
       date.getDate() > 15
         ? new Date(date.getFullYear(), date.getMonth() + 1, 0)
-        : new Date(date.getFullYear(), date.getMonth() + 1, 15);
+        : new Date(date.getFullYear(), date.getMonth(), 15);
     this.calendarTitle =
       date.toDateString().slice(3) +
       ' - ' +

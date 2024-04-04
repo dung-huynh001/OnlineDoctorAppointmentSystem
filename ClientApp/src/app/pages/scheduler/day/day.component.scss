@@ -1,20 +1,36 @@
-th:not(th:first-child),
-td:not(td:first-child) {
-    width: calc(5% + 2px) !important;
+table {
+    border-collapse: collapse;
+}
+
+th:first-child,
+td:first-child {
+    min-width: 120px !important;
+}
+
+th:not(:first-child),
+td:not(:first-child) {
+    min-width: 5.6% !important;
     text-align: center;
 }
 
-thead>tr>th:not(th:first-child) {
+thead>tr>th:not(:first-child):not(:last-child) {
     border: none;
 }
 
-// tbody>tr:not(tr:first-child)>td {
-//     font-weight: normal !important;
-// }
+thead>tr>th:last-child {
+    border-left: none;
+}
 
-// tbody>tr:first-child>td {
-//     font-weight: bold !important;
-// }
+td a,
+th a {
+    z-index: 99;
+}
+
 tbody>tr>td {
-    padding: 1.7rem 0;
+    padding: 1.1rem 0;
+}
+
+thead>tr>th .desc {
+    font-weight: 200;
+    font-size: 0.72rem;
 }

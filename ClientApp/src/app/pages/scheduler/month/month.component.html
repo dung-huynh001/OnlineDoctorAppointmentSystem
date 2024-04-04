@@ -1,1 +1,26 @@
-<p>month works!</p>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="bg-light">
+                <th scope="col" class="bg-white"></th>
+                <th *ngFor="let date of rangeDate" colspan="2">
+                    <span>{{date.date}}</span>
+                    <span class="desc"> ({{date.dayOfWeek}})</span>
+                </th>
+            </tr>
+        </thead>
+        <!-- <tbody *ngFor="let doctor of fakeData; let i = index">
+            <tr>
+                <td>{{doctor.fullName}}</td>
+                <td *ngFor="let date of rangeDate; let j = index" colspan="2" [ngClass]="{'position-relative': true}">
+                    <div *ngFor="let shift of doctor.shifts">
+                        <div class="d-flex flex-column my-2">
+                            <a *ngIf="j == calculateIndex(doctor.date)" class="btn btn-sm btn-primary">{{shift.start}} -
+                                {{shift.end}}</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody> -->
+    </table>
+</div>
