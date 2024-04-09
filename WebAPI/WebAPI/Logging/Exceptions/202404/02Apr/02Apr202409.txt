@@ -1,4 +1,0 @@
-4/2/2024 9:05:28 AM ==> AuthController.cs	Error in the application. Line:49	<Register>	POST	
-
-4/2/2024 9:55:54 AM ==> AuthService.cs	Email 'chidungpro1@gmail.com' is already taken. Line:124	<RegisterAsync>	POST	
-

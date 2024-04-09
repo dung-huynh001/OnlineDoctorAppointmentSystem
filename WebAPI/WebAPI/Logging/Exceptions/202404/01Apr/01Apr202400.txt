@@ -1,8 +1,0 @@
-4/1/2024 12:26:01 AM ==> 	The LINQ expression 'DbSet<Schedule>()
-    .Where(s => !(s.IsDeleted) && s.WorkingDay.Date.Equals(__date_Date_0) && s.DoctorId == __doctorId_1)
-    .OrderBy(s => s.ShiftTime.ToString("hh\:mm"))' could not be translated. Additional information: Translation of method 'System.TimeSpan.ToString' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		GET	
-
-4/1/2024 12:26:09 AM ==> 	The LINQ expression 'DbSet<Schedule>()
-    .Where(s => !(s.IsDeleted) && s.WorkingDay.Date.Equals(__date_Date_0) && s.DoctorId == __doctorId_1)
-    .OrderBy(s => s.ShiftTime.ToString("hh\:mm"))' could not be translated. Additional information: Translation of method 'System.TimeSpan.ToString' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		GET	
-
