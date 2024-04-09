@@ -1,0 +1,14 @@
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{chartTitle}}</h4>
+    </div><!-- end card header -->
+
+    <div class="card-body">
+      <apx-chart [series]="irregularTimeseriesChart.series" [chart]="irregularTimeseriesChart.chart"
+      [dataLabels]="irregularTimeseriesChart.dataLabels" [markers]="irregularTimeseriesChart.markers"
+      [fill]="irregularTimeseriesChart.fill" [yaxis]="irregularTimeseriesChart.yaxis"
+      [xaxis]="irregularTimeseriesChart.xaxis" [title]="irregularTimeseriesChart.title"
+      [tooltip]="irregularTimeseriesChart.tooltip" [legend]="irregularTimeseriesChart.legend"
+      [colors]="irregularTimeseriesChart.colors" dir="ltr"></apx-chart>
+    </div><!-- end card-body -->
+</div><!-- end card -->

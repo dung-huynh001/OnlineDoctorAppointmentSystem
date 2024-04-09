@@ -1,0 +1,22 @@
+4/1/2024 3:23:53 PM ==> 	The LINQ expression 'DbSet<Appointment>()
+    .Where(a => !(a.IsDeleted) && a.AppointmentStatus.ToLower().Contains(__status_0))
+    .Where(a => a.PatientId == __id_1)
+    .Join(
+        inner: DbSet<Doctor>(), 
+        outerKeySelector: a => EF.Property<int?>(a, "DoctorId"), 
+        innerKeySelector: d => EF.Property<int?>(d, "Id"), 
+        resultSelector: (o, i) => new TransparentIdentifier<Appointment, Doctor>(
+            Outer = o, 
+            Inner = i
+        ))
+    .Join(
+        inner: DbSet<Patient>(), 
+        outerKeySelector: a => EF.Property<int?>(a.Outer, "PatientId"), 
+        innerKeySelector: p => EF.Property<int?>(p, "Id"), 
+        resultSelector: (o, i) => new TransparentIdentifier<TransparentIdentifier<Appointment, Doctor>, Patient>(
+            Outer = o, 
+            Inner = i
+        ))
+    .Where(a => a.Outer.Outer.Id.ToString().Trim().Contains(__searchValue_3) || a.Outer.Inner.FullName.Trim().ToLower().Contains(__searchValue_3) || a.Outer.Outer.DateOfConsultation.ToString().ToLower().Contains(__searchValue_3) || a.Outer.Outer.AppointmentStatus.Trim().ToLower().Contains(__searchValue_3) || a.Inner.FullName.Trim().ToLower().Contains(__searchValue_3) || ___currentUserService_2.GetFullName(a.Outer.Outer.CreatedBy).Result.Trim().ToLower().Contains(__searchValue_3) || a.Outer.Outer.CreatedDate.ToString().Trim().ToLower().Contains(__searchValue_3) || a.Outer.Outer.AppointmentDate.Value.ToString().Trim().ToLower().Contains(__searchValue_3) || a.Outer.Outer.ClosedBy.Trim().ToLower().Contains(__searchValue_3) || a.Outer.Outer.ClosedDate.Value.ToString().Trim().ToLower().Contains(__searchValue_3))' could not be translated. Additional information: Translation of method 'WebAPI.Interfaces.IService.ICurrentUserService.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Interfaces.IService.ICurrentUserService.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		POST	f5e5740e-83b4-4943-851f-ac06ba8fdb4b
+

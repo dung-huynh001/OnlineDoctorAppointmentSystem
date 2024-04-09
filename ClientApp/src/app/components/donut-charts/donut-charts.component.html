@@ -1,0 +1,9 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title mb-0">{{ chartTitle }}</h4>
+  </div>
+  <div class="card-body">
+    <canvas baseChart [datasets]="donutChart.datasets" [type]="'doughnut'" [options]="donutChart.options"
+      [labels]="donutChart.labels" height="260"></canvas>
+  </div>
+</div>

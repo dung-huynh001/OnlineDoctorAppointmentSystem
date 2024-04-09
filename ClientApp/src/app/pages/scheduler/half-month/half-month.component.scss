@@ -1,0 +1,37 @@
+table {
+    border-collapse: collapse;
+}
+
+
+th:first-child,
+td:first-child {
+    min-width: 120px !important;
+}
+
+th:not(:first-child),
+td:not(:first-child) {
+    min-width: 5.6% !important;
+    text-align: center;
+}
+
+thead>tr>th:not(:first-child):not(:last-child) {
+    border: none;
+}
+
+thead>tr>th:last-child {
+    border-left: none;
+}
+
+td a,
+th a {
+    z-index: 99;
+}
+
+tbody>tr>td {
+    padding: 1.4rem 0;
+}
+
+thead>tr>th .desc {
+    font-weight: 200;
+    font-size: 0.72rem;
+}

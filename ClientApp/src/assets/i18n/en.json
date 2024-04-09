@@ -1,0 +1,68 @@
+{
+  "HEADER": {
+    "MORE": {
+      "TEXT": "More"
+    }
+  },
+  "MENUITEMS": {
+    "MENU": {
+      "TEXT": "MENU"
+    },
+    "DASHBOARD": {
+      "TEXT": "Dashboards"
+    },
+    "USERMANAGEMENT":{
+      "TEXT": "Manage Users",
+      "LIST": {
+        "PATIENT": "Patients",
+        "DOCTOR": "Doctors",
+        "ADMIN": "Admins"
+      }
+    },
+    "SCHEDULES": {
+      "TEXT": "Manage Schedules"
+    },
+
+    "MANAGEAPPOINTMENT": {
+      "TEXT": "Manage Appointments",
+      "LIST": {
+        "ALL": "All",
+        "CANCEL": "Cancelled",
+        "COMPLETE": "Completed",
+        "PENDING": "Pending",
+        "CONFIRMED": "Confirmed",
+        "OUTOFDATE": "Out of date"
+      }
+    },
+    "SCHEDULEONSITE": {
+      "TEXT": "Appointment on-site"
+    },
+    "MANAGEDEPARTMENT": {
+      "TEXT": "Manage Departments"
+    },
+    "ABOUTUS": {
+      "TEXT": "About Us"
+    },
+    "MEDICALPROCESS": {
+      "TEXT": "Medical Process"
+    },
+    "SITEMAP": {
+      "TEXT": "Site Map"
+    },
+    "REPORT": {
+      "TEXT": "Report"
+    },
+    "LOGOFF": {
+      "TEXT": "Log Off"
+    },
+    "HELP": {
+      "TEXT": "Help"
+    },
+    "SCHEDULEOFDOCTOR": {
+      "TEXT":"Schedule Of Doctors"
+    },
+    "MAKEAPPOINTMENT": {
+      "TEXT": "Make Appointment"
+    }
+  }
+}

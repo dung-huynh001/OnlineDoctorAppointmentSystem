@@ -1,0 +1,55 @@
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="bg-light">
+                <th scope="col" class="bg-white"></th>
+                <th *ngFor="let date of rangeDate" colspan="2">
+                    <span>{{date.date}}</span>
+                    <span class="desc"> ({{date.dayOfWeek}})</span>
+                </th>
+            </tr>
+        </thead>
+        <!-- <tbody *ngFor="let doctor of fakeData; let i = index">
+            <tr>
+                <td>{{doctor.fullName}}</td>
+                <td *ngFor="let date of rangeDate; let j = index" colspan="2" [ngClass]="{'position-relative': true}">
+                    <div *ngFor="let shift of doctor.shifts">
+                        <div class="d-flex flex-column my-2">
+                            <a *ngIf="j == calculateIndex(doctor.date)" class="btn btn-sm btn-primary">{{shift.start}} -
+                                {{shift.end}}</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody> -->
+    </table>
+</div>
+
+<!-- 
+<ng-template #ViewModal let-modal>
+    <div id="event-modal" *ngIf="this.selectedSchedule">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 bg-info-subtle">
+                <h5>{{this.selectedSchedule.shiftName}}</h5>
+                <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <div class="modal-body p-4">
+                <label for="fullName">Doctor</label>
+                <p id="fullName">{{this.selectedSchedule.fullName}}</p>
+                <label for="fullName">Speciality</label>
+                <p id="fullName">{{this.selectedSchedule.fullName}}</p>
+                <label for="appointmentDate">Date</label>
+                <p id="appointmentDate">{{this.selectedSchedule.appointmentDate}}</p>
+                <label for="time">Time</label>
+                <p id="time">{{this.selectedSchedule.start}} - {{this.selectedSchedule.end}}</p>
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-soft-danger" id="btn-delete-event"
+                        (click)="modal.dismiss('Close button')"><i class="ri-close-line align-bottom"></i>
+                        Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template> -->
