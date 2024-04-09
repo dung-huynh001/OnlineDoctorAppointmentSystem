@@ -41,10 +41,10 @@ namespace WebAPI.Controllers
             return Ok(await _scheduleService.GetScheduleEventsByDoctor(doctorId));
         }
 
-        [HttpGet("get-schedules-of-doctors")]
-        public async Task<ActionResult> GetSchedulesOfDoctors()
+        [HttpPost("get-schedules-of-doctors")]
+        public async Task<ActionResult> GetSchedulesOfDoctors(EJ2Params param)
         {
-            return Ok(await _scheduleService.GetSchedulesOfDoctors());
+            return Ok(await _scheduleService.GetSchedulesOfDoctors(param));
         }
 
         [HttpPost("get-doctor-list")]
@@ -57,6 +57,12 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetScheduleShiftByDate ([FromRoute]int doctorId, [FromQuery]DateTime date)
         {
             return Ok(await _scheduleService.GetScheduleShiftsByDate(doctorId, date));
+        }
+
+        [HttpGet("get-doctors")]
+        public async Task<IActionResult> GetDoctors()
+        {
+            return Ok(await _scheduleService.GetDoctors());
         }
 
     }

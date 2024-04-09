@@ -23,30 +23,20 @@ export class CalendarTitleComponent implements OnInit, OnChanges {
 
   @ViewChild('inputCalendar') inputCalendar!: ElementRef;
 
-  defaultValue!: string;
+  calendarValue!: string;
 
-  constructor(private datePipe: DatePipe) {} 
+  constructor(private datePipe: DatePipe) {}
 
   ngOnInit(): void {
-    this.defaultValue = new Date().toLocaleDateString('en-CA');
-
-    switch (this.type.toLowerCase()) {
-      case 'day':
-        break;
-      case 'week':
-        break;
-      case 'half-month':
-        break;
-      case 'month':
-        break;
-      default:
-        break;
-    }
-
+    this.calendarValue = new Date().toLocaleDateString('en-CA');
     this.selectedDate.emit(this.calendarTitle);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    this.calendarValue = new Date(
+      this.calendarTitle.split('-')[0]
+    ).toLocaleDateString('en-CA');
+  }
 
   triggerClickInputCalendar() {
     const input = this.inputCalendar.nativeElement as HTMLElement;
@@ -54,25 +44,75 @@ export class CalendarTitleComponent implements OnInit, OnChanges {
   }
 
   onChangeDate(event: any) {
-    const dateString = event.dateString;
+    const date = new Date(event.dateString);
     switch (this.type.toLowerCase()) {
       case 'day':
-        this.calendarTitle = new Date(dateString).toDateString();
+        this.initForDay(date);
         break;
       case 'week':
-        this.calendarTitle = new Date(dateString).toDateString();
+        this.initForWeek(date);
         break;
       case 'half-month':
-        this.calendarTitle = new Date(dateString).toDateString();
+        this.initForHalfMonth(date);
         break;
       default:
-        // this.calendarTitle = this.datePipe.transform(new Date(dateString), '') 
+        this.initForMonth(date);
         break;
     }
   }
 
-  formatCalendarTitle() {
+  initForDay(date: Date) {
+    this.calendarTitle = date.toDateString();
+    this.selectedDate.emit(this.calendarTitle);
+  }
 
+  initForWeek(date: Date) {
+    const weekday = date.getDay();
+
+    const firstDayOfWeek = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate() - weekday
+    );
+
+    const daysToAdd = 6 - weekday;
+    const endOfWeek = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate() + daysToAdd
+    );
+
+    this.calendarTitle =
+      firstDayOfWeek.toDateString().slice(3) +
+      ' - ' +
+      endOfWeek.toDateString().slice(3);
+    this.selectedDate.emit(this.calendarTitle);
+  }
+
+  initForMonth(date: Date) {
+    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    this.calendarTitle = firstDayOfMonth.toDateString().slice(3);
+    this.calendarTitle = this.calendarTitle.replace('01', '');
+    this.selectedDate.emit(this.calendarTitle);
+  }
+
+  initForHalfMonth(date: Date) {
+    const firstDayOfMonth = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate() <= 15 ? 1 : 16
+    );
+
+    const endOfHalfMonth =
+      date.getDate() <= 15
+        ? new Date(date.getFullYear(), date.getMonth(), 15)
+        : new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    this.calendarTitle =
+      firstDayOfMonth.toDateString().slice(3) +
+      ' - ' +
+      endOfHalfMonth.toDateString().slice(3);
+    this.selectedDate.emit(this.calendarTitle);
   }
 
   next() {
@@ -178,27 +218,39 @@ export class CalendarTitleComponent implements OnInit, OnChanges {
 
   nextHalfMonth() {
     const date = new Date(Date.parse(this.calendarTitle.slice(14)));
-    date.setDate(date.getDate() + 1);
-    const endOfHalfMonth =
-      date.getDate() > 15
-        ? new Date(date.getFullYear(), date.getMonth() + 1, 0)
-        : new Date(date.getFullYear(), date.getMonth(), 15);
+
+    const startOfHalfMonth = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate() + 1
+    );
+
+    const endOfHalfMonth = new Date(
+      startOfHalfMonth.getFullYear(),
+      startOfHalfMonth.getMonth(),
+      startOfHalfMonth.getDate() + 13
+    );
     this.calendarTitle =
-      date.toDateString().slice(3) +
+      startOfHalfMonth.toDateString().slice(3) +
       ' - ' +
       endOfHalfMonth.toDateString().slice(3);
   }
 
   previousHalfMonth() {
-    const endOfHalfMonth = new Date(
-      Date.parse(this.calendarTitle.slice(0, 13))
-    );
-    endOfHalfMonth.setDate(endOfHalfMonth.getDate() - 1);
+    const date = new Date(Date.parse(this.calendarTitle.slice(0, 13)));
 
-    const startOfHalfMonth =
-      endOfHalfMonth.getDate() <= 15
-        ? new Date(endOfHalfMonth.getFullYear(), endOfHalfMonth.getMonth(), 1)
-        : new Date(endOfHalfMonth.getFullYear(), endOfHalfMonth.getMonth(), 16);
+    const endOfHalfMonth = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate() - 1
+    );
+
+    const startOfHalfMonth = new Date(
+      endOfHalfMonth.getFullYear(),
+      endOfHalfMonth.getMonth(),
+      endOfHalfMonth.getDate() - 13
+    );
+
     this.calendarTitle =
       startOfHalfMonth.toDateString().slice(3) +
       ' - ' +

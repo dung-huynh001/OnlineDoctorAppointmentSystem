@@ -45,7 +45,7 @@ namespace WebAPI.Services
             return result;
         }
 
-        public Task<List<DoctorScheduleEventDto>> GetSchedulesOfDoctors()
+        /*public Task<List<DoctorScheduleEventDto>> GetSchedulesOfDoctors()
         {
             var schedules = _unitOfWork.Repository<Schedule>().GetAll
                 .Where(s => !s.IsDeleted)
@@ -58,9 +58,27 @@ namespace WebAPI.Services
                     WorkingDay = s.WorkingDay.ToString("yyyy-MM-dd"),
                 })
                 .AsEnumerable()
-                .DistinctBy(a => new {a.FullName, a.WorkingDay})
+                .DistinctBy(a => new { a.FullName, a.WorkingDay })
                 .ToList();
             return Task.FromResult(schedules);
+        }*/
+
+        public async Task<List<DoctorScheduleEventDto>> GetSchedulesOfDoctors(EJ2Params param)
+        {
+            var schedules = _unitOfWork.Repository<Schedule>().GetAll
+                .Where(s => !s.IsDeleted
+                 && s.WorkingDay.Date >= param.StartDate.Date 
+                 && s.WorkingDay <= param.EndDate.Date)
+                .Select(s => new DoctorScheduleEventDto
+                {
+                    Subject = s.Description,
+                    Id = s.Id,
+                    DoctorId = s.DoctorId,
+                    StartTime = s.WorkingDay.Add(s.ShiftTime),
+                    EndTime = s.WorkingDay.Add(s.BreakTime),
+                })
+                .ToListAsync();
+            return await schedules;
         }
 
         public async Task<List<ScheduleShiftDto>> GetScheduleShiftsByDate(int doctorId, DateTime date)
@@ -298,6 +316,22 @@ namespace WebAPI.Services
                 RecordsFiltered = recordsTotal,
                 RecordsTotal = recordsTotal,
             };
+        }
+
+        public async Task<List<DoctorResourceDto>> GetDoctors()
+        {
+            var result = await _unitOfWork.Repository<Doctor>().GetAll
+                .Where(d => !d.IsDeleted)
+                .Select(d => new DoctorResourceDto
+                {
+                    DepartmentId = d.DepartmentId,
+                    FullName = d.FullName,
+                    Id = d.Id,
+                    Speciality = d.Speciality,
+                    AvatarUrl = d.User.AvatarUrl,
+                })
+                .ToListAsync();
+            return result;
         }
     }
 }

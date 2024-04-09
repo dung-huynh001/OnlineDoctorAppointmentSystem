@@ -1,11 +1,7 @@
-import { TestLibComponent } from './test-lib/test-lib.component';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SchedulerRoutingModule } from './scheduler-routing.module';
-import { MonthComponent } from './month/month.component';
-import { WeekComponent } from './week/week.component';
-import { DayComponent } from './day/day.component';
-import { HalfMonthComponent } from './half-month/half-month.component';
+
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { SchedulerComponent } from './scheduler.component';
 import { CalendarTitleComponent } from './calendar-title/calendar-title.component';
@@ -25,17 +21,14 @@ import {
 } from "@syncfusion/ej2-angular-schedule";
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { FormsModule } from '@angular/forms';
+import { CalendarComponent } from './calendar/calendar.component';
 //End test lib
 
 @NgModule({
   declarations: [
-    MonthComponent,
-    WeekComponent,
-    DayComponent,
-    TestLibComponent,
-    HalfMonthComponent,
     SchedulerComponent,
-    CalendarTitleComponent
+    CalendarTitleComponent,
+    CalendarComponent
   ],
   imports: [
     CommonModule,
@@ -46,8 +39,6 @@ import { FormsModule } from '@angular/forms';
     FullCalendarModule,
     FlatpickrModule,
     FormsModule,
-
-    // ScheduleAllModule,
     ScheduleModule,
     RecurrenceEditorAllModule
   ],
@@ -59,10 +50,6 @@ import { FormsModule } from '@angular/forms';
     MonthAgendaService,
   ],
   exports: [
-    MonthComponent, 
-    WeekComponent, 
-    // DayComponent, 
-    HalfMonthComponent, 
     CalendarTitleComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

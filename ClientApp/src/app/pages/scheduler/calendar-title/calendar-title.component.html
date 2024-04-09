@@ -8,12 +8,12 @@
                 <button class="btn btn-ghost-primary fs-5 border-0" (click)="inputCalendar.click()"><i
                         class="las la-calendar"></i></button>
                 <div class="position-absolute" style="z-index: 999; ">
-                    <input class="p-0 m-0 border-0" mwlFlatpickr #inputCalendar [allowInput]="false" [(ngModel)]="defaultValue"
-                        style="width: 0; height: 0;" (flatpickrValueUpdate)="onChangeDate($event)">
+                    <input class="p-0 m-0 border-0" mwlFlatpickr #inputCalendar [allowInput]="false"
+                        [(ngModel)]="calendarValue" style="width: 0; height: 0;"
+                        (flatpickrValueUpdate)="onChangeDate($event)">
                 </div>
             </div>
         </div>
-
     </div>
     <button class="btn btn-sm btn-ghost-primary rounded-pill fs-4" (click)="next()"><i
             class="las la-angle-right"></i></button>
