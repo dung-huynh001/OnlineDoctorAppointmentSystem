@@ -1,16 +1,35 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 
 @Component({
   selector: 'app-calendar-title',
   templateUrl: './calendar-title.component.html',
   styleUrl: './calendar-title.component.scss',
 })
-export class CalendarTitleComponent implements OnInit {
+export class CalendarTitleComponent implements OnInit, OnChanges {
   @Input() type: string = 'day';
   @Input() calendarTitle!: string;
   @Output() selectedDate = new EventEmitter();
 
+  @ViewChild('inputCalendar') inputCalendar!: ElementRef;
+
+  defaultValue!: string;
+
+  constructor(private datePipe: DatePipe) {} 
+
   ngOnInit(): void {
+    this.defaultValue = new Date().toLocaleDateString('en-CA');
+
     switch (this.type.toLowerCase()) {
       case 'day':
         break;
@@ -25,6 +44,35 @@ export class CalendarTitleComponent implements OnInit {
     }
 
     this.selectedDate.emit(this.calendarTitle);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {}
+
+  triggerClickInputCalendar() {
+    const input = this.inputCalendar.nativeElement as HTMLElement;
+    input.click();
+  }
+
+  onChangeDate(event: any) {
+    const dateString = event.dateString;
+    switch (this.type.toLowerCase()) {
+      case 'day':
+        this.calendarTitle = new Date(dateString).toDateString();
+        break;
+      case 'week':
+        this.calendarTitle = new Date(dateString).toDateString();
+        break;
+      case 'half-month':
+        this.calendarTitle = new Date(dateString).toDateString();
+        break;
+      default:
+        // this.calendarTitle = this.datePipe.transform(new Date(dateString), '') 
+        break;
+    }
+  }
+
+  formatCalendarTitle() {
+
   }
 
   next() {
@@ -150,11 +198,7 @@ export class CalendarTitleComponent implements OnInit {
     const startOfHalfMonth =
       endOfHalfMonth.getDate() <= 15
         ? new Date(endOfHalfMonth.getFullYear(), endOfHalfMonth.getMonth(), 1)
-        : new Date(
-            endOfHalfMonth.getFullYear(),
-            endOfHalfMonth.getMonth(),
-            16
-          );
+        : new Date(endOfHalfMonth.getFullYear(), endOfHalfMonth.getMonth(), 16);
     this.calendarTitle =
       startOfHalfMonth.toDateString().slice(3) +
       ' - ' +

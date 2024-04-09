@@ -1,0 +1,68 @@
+<style>
+  .control-section {
+    margin-top: 100px;
+  }
+</style>
+
+<button class="btn btn-ghost-info" (click)="changeViewMode()">
+  change view mode
+</button>
+
+<button class="btn btn-ghost-primary" (click)="next()">
+  next
+</button>
+
+<button class="btn btn-ghost-danger" (click)="previous()">
+  previous
+</button>
+
+<button class="btn btn-ghost-warning" (click)="changeDate()">
+  change date
+</button>
+
+<div class="control-section">
+  <div class="drag-sample-wrapper">
+    <div class="schedule-container">
+      <ejs-schedule #scheduleObj cssClass='schedule-block-events' width='100%' height='100vh' [group]="group"
+        [currentView]="currentView" [selectedDate]="selectedDate" [eventSettings]="eventSettings"
+        (currentViewChange)="currentViewChange($event)">
+        <e-resources>
+          <e-resource field='EmployeeId' title='Employees' name='Employee' [dataSource]='employeeDataSource'
+            [allowMultiple]='allowMultiple' textField='Text' idField='Id' groupIDField="GroupId" colorField='Color'>
+          </e-resource>
+        </e-resources>
+        <ng-template #dateHeaderTemplate let-data>
+          <div [innerHTML]="formatDateHeader(data.date)"></div>
+        </ng-template>
+        <ng-template #resourceHeaderTemplate let-data>
+          <div class="template-wrap">
+            <div class="employee-category">
+              <div>
+                <img
+                  src="https://ej2.syncfusion.com/angular/demos/assets/schedule/images/{{getEmployeeImageName(data)}}.png"
+                  class="employee-image" />
+              </div>
+              <div class="employee-name">{{getEmployeeName(data)}}</div>
+              <div class="employee-designation">{{getEmployeeDesignation(data)}}</div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #eventSettingsTemplate let-data>
+          <div class='template-wrap'>
+            <div class="subject">{{data.Subject}}</div>
+          </div>
+        </ng-template>
+        <e-header-rows>
+          <e-header-row [option]="headerOption"></e-header-row>
+        </e-header-rows>
+        <e-views>
+          <e-view option="TimelineDay" displayName="Day" startHour="07:00" endHour="23:00"></e-view>
+          <e-view option="TimelineWeek" displayName="Week" startHour="07:00" endHour="23:00"
+            dateHeaderTemplate=""></e-view>
+          <e-view option="TimelineWeek" displayName="Half Month" interval="2"></e-view>
+          <e-view option="TimelineMonth" displayName="Month"></e-view>
+        </e-views>
+      </ejs-schedule>
+    </div>
+  </div>
+</div>

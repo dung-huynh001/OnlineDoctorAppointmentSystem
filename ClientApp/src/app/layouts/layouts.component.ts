@@ -1,5 +1,5 @@
 import { AuthService } from './../core/services/auth.service';
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { EventService } from '../core/services/event.service';
 import { LAYOUT } from './layouts.model';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './layouts.component.html',
   styleUrl: './layouts.component.scss',
 })
-export class LayoutsComponent {
+export class LayoutsComponent implements OnInit {
   layoutType!: string;
 
   constructor(
@@ -17,6 +17,8 @@ export class LayoutsComponent {
     private _authService: AuthService,
     private _router: Router
   ) {}
+
+ 
 
   ngOnInit(): void {
     this.layoutType = LAYOUT;

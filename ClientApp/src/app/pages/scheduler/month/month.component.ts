@@ -26,7 +26,7 @@ export class MonthComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.rangeDate = [];
-    if (!changes['month'].firstChange) {
+    // if (!changes['month'].firstChange) {
       const month = this.month.trim().slice(0, 3);
       const year = this.month.trim().slice(5);
       const startOfMonth = new Date(`${month} 01 ${year}`);
@@ -35,9 +35,6 @@ export class MonthComponent implements OnInit, OnChanges {
         startOfMonth.getMonth() + 1,
         0
       );
-
-      console.log(startOfMonth)
-      console.log(endOfMonth)
 
       for (
         let currentDate = startOfMonth;
@@ -56,6 +53,6 @@ export class MonthComponent implements OnInit, OnChanges {
         })
       }
 
-    }
+    // }
   }
 }

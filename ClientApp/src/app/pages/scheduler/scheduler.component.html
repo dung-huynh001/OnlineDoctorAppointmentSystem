@@ -2,8 +2,8 @@
     <div class="card-header border-0">
         <div class="row">
             <div class="col-lg-4">
-                <div>
-                    <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-pills justify-content-start">
+                <div class="d-flex">
+                    <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-pills justify-content-start bg-light p-1 rounded">
                         <li [ngbNavItem]="1">
                             <button ngbNavLink (click)="initForDay()">Day</button>
                             <ng-template ngbNavContent>
@@ -26,6 +26,12 @@
                             <button ngbNavLink (click)="initForMonth()">Month</button>
                             <ng-template ngbNavContent>
                                 <app-month [month]="this.calendarTitle"></app-month>
+                            </ng-template>
+                        </li>
+                        <li [ngbNavItem]="5">
+                            <button ngbNavLink (click)="initForMonth()">Test Lib</button>
+                            <ng-template ngbNavContent>
+                                <app-test-lib [month]="this.calendarTitle"></app-test-lib>
                             </ng-template>
                         </li>
                     </ul>

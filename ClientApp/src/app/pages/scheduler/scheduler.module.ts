@@ -1,4 +1,4 @@
-import { calendarEvent } from './../../core/models/calendarEvent.model';
+import { TestLibComponent } from './test-lib/test-lib.component';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SchedulerRoutingModule } from './scheduler-routing.module';
@@ -12,11 +12,27 @@ import { CalendarTitleComponent } from './calendar-title/calendar-title.componen
 import { DataTablesModule } from 'angular-datatables';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
+//Test Lib
+import {
+  // ScheduleAllModule,
+  ScheduleModule,
+  RecurrenceEditorAllModule,
+  DayService,
+  WeekService,
+  WorkWeekService,
+  MonthService,
+  MonthAgendaService,
+} from "@syncfusion/ej2-angular-schedule";
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { FormsModule } from '@angular/forms';
+//End test lib
+
 @NgModule({
   declarations: [
     MonthComponent,
     WeekComponent,
     DayComponent,
+    TestLibComponent,
     HalfMonthComponent,
     SchedulerComponent,
     CalendarTitleComponent
@@ -28,8 +44,27 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     NgbDropdownModule,
     DataTablesModule,
     FullCalendarModule,
+    FlatpickrModule,
+    FormsModule,
+
+    // ScheduleAllModule,
+    ScheduleModule,
+    RecurrenceEditorAllModule
   ],
-  exports: [MonthComponent, WeekComponent, DayComponent, HalfMonthComponent, CalendarTitleComponent],
+  providers: [ 
+    DayService,
+    WeekService,
+    WorkWeekService,
+    MonthService,
+    MonthAgendaService,
+  ],
+  exports: [
+    MonthComponent, 
+    WeekComponent, 
+    // DayComponent, 
+    HalfMonthComponent, 
+    CalendarTitleComponent
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SchedulerModule {}
