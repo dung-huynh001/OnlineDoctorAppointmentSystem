@@ -837,6 +837,16 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetDoctors",
+    "RelativePath": "api/Schedule/get-doctors",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
     "Method": "GetScheduleByDate",
     "RelativePath": "api/Schedule/get-schedule-by-date/{doctorId}",
     "HttpMethod": "GET",
@@ -897,10 +907,16 @@
     "ContainingType": "WebAPI.Controllers.ScheduleController",
     "Method": "GetSchedulesOfDoctors",
     "RelativePath": "api/Schedule/get-schedules-of-doctors",
-    "HttpMethod": "GET",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "param",
+        "Type": "WebAPI.Models.EJ2Params",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   }
 ]

@@ -1,0 +1,4 @@
+4/8/2024 10:50:49 AM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/8/2024 10:50:55 AM ==> PatientService.cs	patient 542d16f6-a287-418a-9bbd-54480f547566 was not found Line:69	<GetPatientDetails>	GET	542d16f6-a287-418a-9bbd-54480f547566
+

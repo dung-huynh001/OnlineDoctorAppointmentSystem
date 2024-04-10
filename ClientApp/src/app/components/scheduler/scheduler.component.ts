@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { View } from '@syncfusion/ej2-schedule';
 
 @Component({
   selector: 'app-scheduler',
@@ -43,7 +44,10 @@ export class SchedulerComponent implements OnInit {
       today.getDate() + daysToAdd
     );
 
-    this.calendarTitle = firstDayOfWeek.toDateString().slice(3) + ' - ' + endOfWeek.toDateString().slice(3) ;
+    this.calendarTitle =
+      firstDayOfWeek.toDateString().slice(3) +
+      ' - ' +
+      endOfWeek.toDateString().slice(3);
     this.type = 'week';
   }
 
@@ -57,19 +61,24 @@ export class SchedulerComponent implements OnInit {
 
   initForHalfMonth() {
     const today = new Date();
-    const firstDayOfMonth = new Date(
+    const weekday = today.getDay();
+
+    const firstDayOfWeek = new Date(
       today.getFullYear(),
       today.getMonth(),
-      today.getDate() <= 15 ? 1 : 16
+      today.getDate() - weekday
     );
 
-    const endOfHalfMonth = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() <= 15 ? 15 : 1, 0
+    const endOfWeek = new Date(
+      firstDayOfWeek.getFullYear(),
+      firstDayOfWeek.getMonth(),
+      firstDayOfWeek.getDate() + 13
     );
 
-    this.calendarTitle = firstDayOfMonth.toDateString().slice(3) + ' - ' + endOfHalfMonth.toDateString().slice(3);
+    this.calendarTitle =
+      firstDayOfWeek.toDateString().slice(3) +
+      ' - ' +
+      endOfWeek.toDateString().slice(3);
     this.type = 'half-month';
   }
 }

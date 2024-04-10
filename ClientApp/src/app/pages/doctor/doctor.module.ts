@@ -8,6 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CountUpModule } from 'ngx-countup';
 import { ComponentsModule } from '../../components/components.module';
+import { SchedulerModule } from '../../components/scheduler/scheduler.module';
+import { NgbDropdownModule, NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { DayService, MonthAgendaService, MonthService, RecurrenceEditorAllModule, ScheduleModule, WeekService, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 
 
@@ -24,11 +28,23 @@ import { ComponentsModule } from '../../components/components.module';
     FormsModule,
     SharedModule,
     CountUpModule,
-    ComponentsModule
+    ComponentsModule,
+    SchedulerModule,
+    NgbTooltip,
+    ScheduleModule,
+    RecurrenceEditorAllModule,
+    NgbNavModule,
+    NgbDropdownModule,
+    FlatpickrModule,
   ],
   providers: [
     DecimalPipe,
     DatePipe,
+    DayService,
+    WeekService,
+    WorkWeekService,
+    MonthService,
+    MonthAgendaService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

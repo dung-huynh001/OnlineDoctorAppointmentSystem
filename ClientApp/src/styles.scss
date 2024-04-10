@@ -1,3 +1,5 @@
+@import '../node_modules/@syncfusion/ej2-material-theme/styles/material.css';
+
 /* You can add global styles to this file, and also import other style files */
 // Swiper
 .coverflowslide .slide {
@@ -24,7 +26,10 @@
     margin: 10px;
 }
 
-table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, table.dataTable tfoot td {
+table.dataTable thead th,
+table.dataTable thead td,
+table.dataTable tfoot th,
+table.dataTable tfoot td {
     text-align: center !important;
 }
 
@@ -46,3 +51,7 @@ table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, ta
         }
     }
 }
+
+// body>div[style*="position: fixed"] {
+//     display: none;
+// }
