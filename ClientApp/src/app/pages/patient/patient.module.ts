@@ -16,6 +16,7 @@ import { CountUpModule } from 'ngx-countup';
 import { DataTablesModule } from 'angular-datatables';
 import { ScheduleOfDoctorComponent } from './schedule-of-doctor/schedule-of-doctor.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { SchedulerModule } from '../../components/scheduler/scheduler.module'
 
 
 
@@ -42,7 +43,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     NgbTooltip,
     CountUpModule,
     DataTablesModule,
-    FullCalendarModule
+    FullCalendarModule,
+    SchedulerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

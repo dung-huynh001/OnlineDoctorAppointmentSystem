@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Subject, catchError, throwError } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/models/auth.models';
@@ -8,30 +16,61 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-appointment-datatable',
   templateUrl: './appointment-datatable.component.html',
-  styleUrl: './appointment-datatable.component.scss'
+  styleUrl: './appointment-datatable.component.scss',
 })
-export class AppointmentDatatableComponent implements OnInit, OnChanges, AfterViewInit {
+export class AppointmentDatatableComponent
+  implements OnInit, OnChanges, AfterViewInit
+{
   @Input() title!: string;
   @Input() appointmentStatus!: string;
-  @Input() customColumns: any;
-
   @Output() selectedId!: number;
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   currentUser!: User;
 
+  customColumns!: Array<any>;
+
   constructor(
     private _authService: AuthService,
     private _appointmentService: AppointmentService,
     private datePipe: DatePipe
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.currentUser = this._authService.currentUser();
+    // this.currentUser = this._authService.currentUser();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (!this.currentUser && !this.customColumns) {
+      this.currentUser = this._authService.currentUser();
+      const userType = this.currentUser.userType.toLowerCase().trim();
+      this.customColumns =
+        userType == 'patient'
+          ? [
+              {
+                data: 'doctorName',
+                title: 'Doctor',
+              },
+            ]
+          : userType == 'doctor'
+          ? [
+              {
+                data: 'patientName',
+                title: 'Patient',
+              },
+            ]
+          : [
+              {
+                data: 'doctorName',
+                title: 'Doctor',
+              },
+              {
+                data: 'patientName',
+                title: 'Patient',
+              },
+            ];
+    }
     this.fetchData();
   }
 
@@ -97,12 +136,13 @@ export class AppointmentDatatableComponent implements OnInit, OnChanges, AfterVi
         {
           data: 'id',
           title: 'ID',
-          className: 'text-center'
+          className: 'text-center',
         },
-        {
-          data: 'doctorName',
-          title: 'Doctor',
-        },
+        // {
+        //   data: 'doctorName',
+        //   title: 'Doctor',
+        // },
+        ...this.customColumns,
         {
           data: 'appointmentDate',
           title: 'Appointment date',
@@ -121,15 +161,14 @@ export class AppointmentDatatableComponent implements OnInit, OnChanges, AfterVi
           data: 'status',
           title: 'Status',
           render: (data: any) => {
-            let textColor = "";
-            if(this.appointmentStatus.toLowerCase() == 'out-of-date') {
-              data =  'out-of-date';
-              textColor = "text-muted";
+            let textColor = '';
+            if (this.appointmentStatus.toLowerCase() == 'out-of-date') {
+              data = 'out-of-date';
+              textColor = 'text-muted';
             }
-            
 
             let badgeType = this.setBadgeType(data);
-            return  `<span class="badge ${textColor} bg-${badgeType}">${data}</span>`;
+            return `<span class="badge ${textColor} bg-${badgeType}">${data}</span>`;
           },
         },
         {
@@ -173,10 +212,11 @@ export class AppointmentDatatableComponent implements OnInit, OnChanges, AfterVi
 
   setActionColumn(data: any, row: any) {
     const viewButton = `<button class="btn btn-soft-info btn-sm edit-btn" title="View" onClick="location.assign('/patient/appointment/view/${data}')">View</button>`;
-    if (this.appointmentStatus.trim().toLowerCase() !== "cancelled") {
-      const cancelButton = row.status.toLowerCase() !== 'cancelled' ?
-        `<button class="btn btn-soft-danger btn-sm cancel-btn" data-appointment-id=${data} title="cancel">Cancel</button>`
-        : `<button class="btn btn-soft-light btn-sm cancel-btn text-dark" disabled data-appointment-id=${data} title="cancel">Cancelled</button>`;
+    if (this.appointmentStatus.trim().toLowerCase() !== 'cancelled') {
+      const cancelButton =
+        row.status.toLowerCase() !== 'cancelled'
+          ? `<button class="btn btn-soft-danger btn-sm cancel-btn" data-appointment-id=${data} title="cancel">Cancel</button>`
+          : `<button class="btn btn-soft-light btn-sm cancel-btn text-dark" disabled data-appointment-id=${data} title="cancel">Cancelled</button>`;
 
       return `<div class="d-flex gap-3">${viewButton} ${cancelButton}</div>`;
     }
@@ -184,7 +224,7 @@ export class AppointmentDatatableComponent implements OnInit, OnChanges, AfterVi
   }
 
   setBadgeType(status: string): string {
-    let badgeType = "";
+    let badgeType = '';
     switch (status.trim().toLowerCase()) {
       case 'pending':
         badgeType = 'warning';

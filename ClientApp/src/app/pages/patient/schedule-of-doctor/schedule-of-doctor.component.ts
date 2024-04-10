@@ -125,8 +125,7 @@ export class ScheduleOfDoctorComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Home' },
-      { label: 'Schedule Management' },
-      { label: 'Assign Schedule', active: true },
+      { label: 'Schedules Of Doctors', active: true },
     ];
 
     const currentUrl = this.router.url;

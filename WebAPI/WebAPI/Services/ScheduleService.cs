@@ -45,11 +45,11 @@ namespace WebAPI.Services
             return result;
         }
 
-        public Task<List<DoctorScheduleEventDto>> GetSchedulesOfDoctors()
+        /*public Task<List<EventDto>> GetSchedulesOfDoctors()
         {
             var schedules = _unitOfWork.Repository<Schedule>().GetAll
                 .Where(s => !s.IsDeleted)
-                .Select(s => new DoctorScheduleEventDto
+                .Select(s => new EventDto
                 {
                     FullName = s.Doctor.FullName,
                     Id = s.Doctor.Id,
@@ -58,9 +58,43 @@ namespace WebAPI.Services
                     WorkingDay = s.WorkingDay.ToString("yyyy-MM-dd"),
                 })
                 .AsEnumerable()
-                .DistinctBy(a => new {a.FullName, a.WorkingDay})
+                .DistinctBy(a => new { a.FullName, a.WorkingDay })
                 .ToList();
             return Task.FromResult(schedules);
+        }*/
+
+        public async Task<List<EventDto>> GetSchedulesOfDoctors(EJ2Params param)
+        {
+            var schedules = await _unitOfWork.Repository<Schedule>().GetAll
+                .Where(s => !s.IsDeleted
+                 && s.WorkingDay.Date >= param.StartDate.Date 
+                 && s.WorkingDay <= param.EndDate.Date)
+                .Select(s => new EventDto
+                {
+                    Subject = s.Description,
+                    Id = s.Id,
+                    DoctorId = s.DoctorId,
+                    StartTime = s.WorkingDay.Add(s.ShiftTime),
+                    EndTime = s.WorkingDay.Add(s.BreakTime),
+                })
+                .ToListAsync();
+
+            return schedules;
+        }
+
+        private string ConvertClassNameToHexCodeColor(string className)
+        {
+            string hexCode = className.Trim() switch
+            {
+                "bg-success-subtle" => "#6ada7d",
+                "bg-primary-subtle" => "#5ea3cb",
+                "bg-info-subtle" => "#58caea",
+                "bg-warning-subtle" => "#f7b84b",
+                "bg-dark-subtle" => "#212529",
+                "bg-danger-subtle" => "#fa896b",
+                _ => ""
+            };
+            return hexCode;
         }
 
         public async Task<List<ScheduleShiftDto>> GetScheduleShiftsByDate(int doctorId, DateTime date)
@@ -298,6 +332,22 @@ namespace WebAPI.Services
                 RecordsFiltered = recordsTotal,
                 RecordsTotal = recordsTotal,
             };
+        }
+
+        public async Task<List<DoctorResourceDto>> GetDoctors()
+        {
+            var result = await _unitOfWork.Repository<Doctor>().GetAll
+                .Where(d => !d.IsDeleted)
+                .Select(d => new DoctorResourceDto
+                {
+                    DepartmentId = d.DepartmentId,
+                    FullName = d.FullName,
+                    Id = d.Id,
+                    Speciality = d.Speciality,
+                    AvatarUrl = d.User.AvatarUrl,
+                })
+                .ToListAsync();
+            return result;
         }
     }
 }
