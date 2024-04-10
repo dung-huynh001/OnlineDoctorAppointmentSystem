@@ -266,7 +266,7 @@ export const MENU_DOCTOR: MenuItem[] = [
     id: 10,
     label: 'MENUITEMS.SCHEDULEONSITE.TEXT',
     icon: 'las la-calendar-plus',
-    link: ''
+    link: '/doctor/appointment-on-site'
   },
   {
     id: 11,

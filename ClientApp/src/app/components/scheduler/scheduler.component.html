@@ -1,0 +1,35 @@
+<div class="card">
+    <div class="card-header border-0">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="d-flex">
+                    <ul ngbNav #nav="ngbNav" [activeId]="1"
+                        class="nav-pills justify-content-start bg-light p-1 rounded">
+                        <li [ngbNavItem]="1">
+                            <button ngbNavLink (click)="initForDay()">Day</button>
+                        </li>
+                        <li [ngbNavItem]="2">
+                            <button ngbNavLink (click)="initForWeek()">Week</button>
+                        </li>
+                        <li [ngbNavItem]="3">
+                            <button ngbNavLink (click)="initForHalfMonth()">Half Month</button>
+                        </li>
+                        <li [ngbNavItem]="4">
+                            <button ngbNavLink (click)="initForMonth()">Month</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-4 mt-2">
+                <div>
+                    <app-calendar-title [calendarTitle]="calendarTitle" [type]="type"
+                        (selectedDate)="ChangeCalendarTitle($event)"></app-calendar-title>
+                </div>
+            </div>
+            <div class="col-xl-4"></div>
+        </div>
+    </div>
+    <div class="card-body">
+        <app-calendar [calendarTitle]="this.calendarTitle" [currentView]="this.type"></app-calendar>
+    </div>
+</div>

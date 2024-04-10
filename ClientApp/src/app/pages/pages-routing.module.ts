@@ -4,7 +4,7 @@ import { AuthGuard } from '../core/guards/auth.guard';
 import { MedicalProcessComponent } from './medical-process/medical-process.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
-import { SchedulerComponent } from './scheduler/scheduler.component';
+// import { SchedulerComponent } from './scheduler/scheduler.component';
 
 const currentUser: any = JSON.parse(
   localStorage.getItem('currentUser')!
@@ -79,13 +79,13 @@ const routes: Routes = [
       import('./doctor/doctor.module').then((m) => m.DoctorModule),
     canActivate: [AuthGuard],
   },
-  {
-    path: 'scheduler',
-    loadChildren: () =>
-      import('./scheduler/scheduler.module').then((m) => m.SchedulerModule),
-    component: SchedulerComponent,
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'scheduler',
+  //   loadChildren: () =>
+  //     import('./scheduler/scheduler.module').then((m) => m.SchedulerModule),
+  //   component: SchedulerComponent,
+  //   canActivate: [AuthGuard],
+  // },
 ];
 
 @NgModule({

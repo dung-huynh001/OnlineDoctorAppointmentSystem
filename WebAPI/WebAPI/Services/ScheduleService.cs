@@ -45,11 +45,11 @@ namespace WebAPI.Services
             return result;
         }
 
-        /*public Task<List<DoctorScheduleEventDto>> GetSchedulesOfDoctors()
+        /*public Task<List<EventDto>> GetSchedulesOfDoctors()
         {
             var schedules = _unitOfWork.Repository<Schedule>().GetAll
                 .Where(s => !s.IsDeleted)
-                .Select(s => new DoctorScheduleEventDto
+                .Select(s => new EventDto
                 {
                     FullName = s.Doctor.FullName,
                     Id = s.Doctor.Id,
@@ -63,13 +63,13 @@ namespace WebAPI.Services
             return Task.FromResult(schedules);
         }*/
 
-        public async Task<List<DoctorScheduleEventDto>> GetSchedulesOfDoctors(EJ2Params param)
+        public async Task<List<EventDto>> GetSchedulesOfDoctors(EJ2Params param)
         {
-            var schedules = _unitOfWork.Repository<Schedule>().GetAll
+            var schedules = await _unitOfWork.Repository<Schedule>().GetAll
                 .Where(s => !s.IsDeleted
                  && s.WorkingDay.Date >= param.StartDate.Date 
                  && s.WorkingDay <= param.EndDate.Date)
-                .Select(s => new DoctorScheduleEventDto
+                .Select(s => new EventDto
                 {
                     Subject = s.Description,
                     Id = s.Id,
@@ -78,7 +78,23 @@ namespace WebAPI.Services
                     EndTime = s.WorkingDay.Add(s.BreakTime),
                 })
                 .ToListAsync();
-            return await schedules;
+
+            return schedules;
+        }
+
+        private string ConvertClassNameToHexCodeColor(string className)
+        {
+            string hexCode = className.Trim() switch
+            {
+                "bg-success-subtle" => "#6ada7d",
+                "bg-primary-subtle" => "#5ea3cb",
+                "bg-info-subtle" => "#58caea",
+                "bg-warning-subtle" => "#f7b84b",
+                "bg-dark-subtle" => "#212529",
+                "bg-danger-subtle" => "#fa896b",
+                _ => ""
+            };
+            return hexCode;
         }
 
         public async Task<List<ScheduleShiftDto>> GetScheduleShiftsByDate(int doctorId, DateTime date)

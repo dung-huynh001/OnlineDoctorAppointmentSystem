@@ -44,7 +44,8 @@ namespace WebAPI.Controllers
         [HttpPost("get-schedules-of-doctors")]
         public async Task<ActionResult> GetSchedulesOfDoctors(EJ2Params param)
         {
-            return Ok(await _scheduleService.GetSchedulesOfDoctors(param));
+            var data = JsonSerializer.Serialize(await _scheduleService.GetSchedulesOfDoctors(param));
+            return Ok(data);
         }
 
         [HttpPost("get-doctor-list")]
