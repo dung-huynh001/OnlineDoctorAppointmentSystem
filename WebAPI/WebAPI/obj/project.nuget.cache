@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+KMekSvhutTcS1K3C/ThTEc/9cOqpjWTDroHRFlOCK+Lh0mV6zbD8hIv/mAZwzUUe6F6neXlsbrcUQJOS8wivA==",
+  "dgSpecHash": "//+GkEO2Tu2m8ra5KHbm0J7zOQlu9D5yIgom/qqYoRBbCvyZ8q8yIio/9A1jCR6bNM0kf5xDsyFi5dYZmvzpMQ==",
   "success": true,
-  "projectFilePath": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\WebAPI.csproj",
+  "projectFilePath": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\WebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\CUSCSOFT\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\CUSCSOFT\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

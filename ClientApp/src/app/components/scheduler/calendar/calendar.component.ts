@@ -107,23 +107,41 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['currentView']) {
-      switch (changes['currentView'].currentValue) {
-        case 'day':
-          this.selectedView = 'TimelineDay';
-          break;
-        case 'week':
-          this.selectedView = 'TimelineWeek';
-          break;
-        case 'half-month':
-          this.scheduleObj.changeView('TimelineWeek', undefined, undefined, 2);
-          break;
-        default:
-          this.selectedView = 'TimelineMonth';
-          break;
-      }
-    }
     this.selectedDate = new Date(this.calendarTitle.split('-')[0]);
+
+    if (changes['currentView']) {
+      this._spinnerService.show();
+      setTimeout(() => {
+        switch (changes['currentView'].currentValue) {
+          case 'day':
+            this.scheduleObj?.changeView('TimelineDay');
+            break;
+          case 'week':
+            this.scheduleObj?.changeView(
+              'TimelineWeek',
+              undefined,
+              undefined,
+              1
+            );
+            break;
+          case 'half-month':
+            this.scheduleObj?.changeView(
+              'TimelineWeek',
+              undefined,
+              undefined,
+              2
+            );
+            break;
+          case 'month':
+            this.scheduleObj?.changeView('TimelineMonth');
+            break;
+          default:
+            this.scheduleObj?.changeView('TimelineMonth');
+            break;
+        }
+        this._spinnerService.hide();
+      }, 100);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -167,7 +185,10 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   formatDateHeader(value: Date) {
-    return this.datePipe.transform(value, 'dd (EEE)');
+    return {
+      date: this.datePipe.transform(value, 'dd'),
+      dayOfWeek: this.datePipe.transform(value, '(EEE)'),
+    };
   }
 
   removeWarningLisenceEJ2() {
