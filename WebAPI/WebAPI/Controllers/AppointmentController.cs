@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Text.Json;
 using WebAPI.DTOs;
 using WebAPI.Interfaces.IService;
 using WebAPI.Models;
@@ -71,6 +73,20 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetPatients()
         {
             return Ok(await _appointmentService.GetPatients());
+        }
+
+        [HttpPost("get-appointment-event-by-doctor")]
+        public async Task<IActionResult> GetAppointmentEventByDoctor(EJ2Params param)
+        {
+            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var data = JsonSerializer.Serialize(await _appointmentService.GetAppointmentEventByDoctor(param, currentUserId));
+            return Ok(data);
+        }
+
+        [HttpPost("add-or-update-appointment-event")]
+        public async Task<IActionResult> AddOrUpdateAppointmentEvent(EJ2UpdateParams<AppointmentEventDto> param)
+        {
+            return Ok();
         }
     }
 }

@@ -18,5 +18,6 @@ namespace WebAPI.Interfaces.IService
         Task<List<RecentlyAppointmentDto>> GetRecentlyAppointment(string id);
         Task<List<UpcomingAppointmentDto>> GetUpcomingAppointment(string id);
         Task<List<PatientToFillDropdownDto>> GetPatients();
+        Task<List<AppointmentEventDto>> GetAppointmentEventByDoctor(EJ2Params param, string currentUserId);
     }
 }

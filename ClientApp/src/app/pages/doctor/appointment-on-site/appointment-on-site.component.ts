@@ -27,8 +27,15 @@ import {
   TimelineYearService,
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
-import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import {
+  DataManager,
+  Predicate,
+  Query,
+  UrlAdaptor,
+} from '@syncfusion/ej2-data';
+import {
+  CellClickEventArgs,
+  EventClickArgs,
   EventSettingsModel,
   GroupModel,
   PopupOpenEventArgs,
@@ -71,13 +78,35 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     text: 'fullName',
     value: 'id',
   };
-  patients!: Object[];
+  patients!: Array<{
+    id: number;
+    fullName: string;
+  }>;
   selectedPatient!: {
     id: number;
     fullName: string;
   };
 
-  startDateParser(data: string) {
+  // startDateParser(data: string) {
+  //   if (isNullOrUndefined(this.startDate) && !isNullOrUndefined(data)) {
+  //     return new Date(data);
+  //   } else if (!isNullOrUndefined(this.startDate)) {
+  //     return new Date(this.startDate);
+  //   }
+  //   return new Date();
+  // }
+
+  // endDateParser(data: string) {
+  //   if (isNullOrUndefined(this.endDate) && !isNullOrUndefined(data)) {
+  //     return new Date(data);
+  //   } else if (!isNullOrUndefined(this.endDate)) {
+  //     return new Date(this.endDate);
+  //   }
+  //   return new Date();
+  // }
+
+  
+  appointmentDateParser(data: string) {
     if (isNullOrUndefined(this.startDate) && !isNullOrUndefined(data)) {
       return new Date(data);
     } else if (!isNullOrUndefined(this.startDate)) {
@@ -86,14 +115,6 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     return new Date();
   }
 
-  endDateParser(data: string) {
-    if (isNullOrUndefined(this.endDate) && !isNullOrUndefined(data)) {
-      return new Date(data);
-    } else if (!isNullOrUndefined(this.endDate)) {
-      return new Date(this.endDate);
-    }
-    return new Date();
-  }
 
   onDateChange(args: any): void {
     if (!isNullOrUndefined(args.event as any)) {
@@ -106,7 +127,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   popupOpen(event: PopupOpenEventArgs) {
-    console.log(event)
+    console.log(event);
     this._appointmentService
       .getAllPatientToFillDropdown('Appointment/get-patients-to-fill-dropdown')
       .pipe(
@@ -117,11 +138,31 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
       )
       .subscribe((res: any) => {
         this.patients = res;
+        if (event.type == 'Editor') {
+          this.selectedPatient = this.patients.find(
+            (patient) => patient.id == event.data?.['PatientId']
+          )!;
+        }
       });
   }
 
   onFilteringPatient(event: FilteringEventArgs) {
+    const searchValue = event.text;
+    let query = new Query();
+    query =
+      searchValue != ''
+        ? query.where('fullName', 'contains', searchValue, true)
+        : query;
+    event.updateData(this.patients, query);
+  }
+
+  eventDoubleClick(event: EventClickArgs) {
+    console.log(event)
+  }
+
+  cellClick(event: CellClickEventArgs) {
     console.log(event);
+    const startTime = event.startTime;
   }
 
   // End Test Editor Customize
@@ -142,8 +183,10 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   currentUser = this._authService.currentUser();
 
   data: DataManager = new DataManager({
-    url: environment.serverApi + '/api/Schedule/get-schedules-of-doctors',
-    // crudUrl: environment.serverApi + '/api/Schedule/update-schedule',
+    url:
+      environment.serverApi +
+      '/api/Appointment/get-appointment-event-by-doctor',
+    crudUrl: environment.serverApi + '/api/Appointment/add-or-update-appointment-event',
     headers: [
       {
         Authorization: `Bearer ${this.currentUser.token}`,
@@ -153,10 +196,9 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     crossDomain: true,
   });
 
-  allowMultiple = true;
-
   eventSettings: EventSettingsModel = {
     dataSource: this.data,
+    fields: {},
   };
 
   constructor(

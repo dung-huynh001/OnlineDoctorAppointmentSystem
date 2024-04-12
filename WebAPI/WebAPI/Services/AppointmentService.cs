@@ -483,5 +483,29 @@ namespace WebAPI.Services
 
             return patients;
         }
+
+        public async Task<List<AppointmentEventDto>> GetAppointmentEventByDoctor(EJ2Params param, string currentUserId)
+        {
+            var appointmentEvents = await _unitOfWork.Repository<Appointment>().GetAll
+                .Where(a => a.Doctor.UserId == currentUserId
+                    && !a.IsDeleted
+                    && a.AppointmentDate <= param.EndDate 
+                    && a.AppointmentDate >= param.StartDate)
+                .Select(a => new AppointmentEventDto {
+                    Id = a.Id,
+                    Allergies = a.DrugAllergies,
+                    DoctorId = a.DoctorId,
+                    AppointmentDate = a.AppointmentDate.Value,
+                    EndTime = a.AppointmentDate.Value.AddMinutes(a.Schedule.ConsultantTime),
+                    StartTime = a.AppointmentDate.Value,
+                    ExistingIllness = a.ExistingIllness,
+                    Notes = a.Note,
+                    Subject = a.Patient.FullName,
+                    PatientId = a.PatientId
+                })
+                .ToListAsync();
+
+            return appointmentEvents;
+        }
     }
 }
