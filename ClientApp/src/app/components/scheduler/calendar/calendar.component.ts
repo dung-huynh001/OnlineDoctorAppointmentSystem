@@ -24,6 +24,7 @@ import {
   MonthService,
   WeekService,
   TimelineYearService,
+  RenderCellEventArgs,
 } from '@syncfusion/ej2-angular-schedule';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 
@@ -50,13 +51,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
   ],
 })
 export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
-  headerOption = 'Date';
+  displayHour: boolean = true;
 
   @Input() calendarTitle!: string;
   selectedDate: Date = new Date();
 
   @Input() currentView!: string;
-  selectedView: View = 'TimelineDay';
+  selectedView!: View;
 
   @ViewChild('scheduleObj') public scheduleObj!: ScheduleComponent;
 
@@ -64,7 +65,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
 
   public data: DataManager = new DataManager({
     url: environment.serverApi + '/api/Schedule/get-schedules-of-doctors',
-    // crudUrl: environment.serverApi + '/api/Schedule/update-schedule',
+    crudUrl: environment.serverApi + '/api/Schedule/update-schedule',
     headers: [
       {
         Authorization: `Bearer ${this.currentUser.token}`,
@@ -103,6 +104,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
+    this.selectedView = 'TimelineDay';
     this.fetchDoctors();
   }
 
@@ -111,41 +113,39 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
 
     if (changes['currentView']) {
       this._spinnerService.show();
-      setTimeout(() => {
-        switch (changes['currentView'].currentValue) {
-          case 'day':
-            this.scheduleObj?.changeView('TimelineDay');
-            break;
-          case 'week':
-            this.scheduleObj?.changeView(
-              'TimelineWeek',
-              undefined,
-              undefined,
-              1
-            );
-            break;
-          case 'half-month':
-            this.scheduleObj?.changeView(
-              'TimelineWeek',
-              undefined,
-              undefined,
-              2
-            );
-            break;
-          case 'month':
-            this.scheduleObj?.changeView('TimelineMonth');
-            break;
-          default:
-            this.scheduleObj?.changeView('TimelineMonth');
-            break;
-        }
-        this._spinnerService.hide();
-      }, 100);
+      switch (changes['currentView'].currentValue) {
+        case 'day':
+          this.scheduleObj?.changeView('TimelineDay');
+          break;
+        case 'week':
+          this.scheduleObj?.changeView('TimelineWeek', undefined, undefined, 1);
+          break;
+        case 'half-month':
+          this.scheduleObj?.changeView('TimelineWeek', undefined, undefined, 2);
+          break;
+        default:
+          this.scheduleObj?.changeView('TimelineMonth');
+          break;
+      }
+      this._spinnerService.hide();
     }
   }
 
   ngAfterViewInit(): void {
     this.removeWarningLisenceEJ2();
+  }
+
+  renderCell(event: RenderCellEventArgs) {
+    const eventDateStr = event.date?.toDateString();
+    if (event.elementType == 'monthCells' && event.date) {
+      event.element.classList.add(
+        eventDateStr?.includes('Sun')
+          ? 'sun'
+          : eventDateStr?.includes('Sat')
+          ? 'sat'
+          : 'nor'
+      );
+    }
   }
 
   fetchDoctors() {
@@ -178,10 +178,26 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
 
   currentViewChange(event: any) {
     if (event == 'TimelineDay') {
-      this.headerOption = 'Hour';
+      this.displayHour = true;
     } else {
-      this.headerOption = 'Date';
+      this.displayHour = false;
     }
+
+    setTimeout(() => {
+      const headerCells = document.querySelectorAll(
+        '.e-schedule .e-timeline-month-view .e-header-cells'
+      );
+      headerCells.forEach((cell) => {
+        const innerText = cell.textContent;
+        cell.classList.add(
+          innerText?.includes('Sun')
+            ? 'sun'
+            : innerText?.includes('Sat')
+            ? 'sat'
+            : 'nor'
+        );
+      });
+    }, 100);
   }
 
   formatDateHeader(value: Date) {
@@ -215,15 +231,15 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
     );
   }
 
-  public getEmployeeName(value: ResourceDetails) {
+  public getDoctorName(value: ResourceDetails) {
     return value.resourceData[`${value.resource.textField}`] as string;
   }
 
-  public getEmployeeDesignation(value: ResourceDetails) {
+  public getDoctorDesignation(value: ResourceDetails) {
     return value.resourceData['Designation'];
   }
 
-  public getEmployeeImageName(value: ResourceDetails) {
+  public getDoctorImageName(value: ResourceDetails) {
     return value.resourceData['AvatarUrl'];
   }
 }

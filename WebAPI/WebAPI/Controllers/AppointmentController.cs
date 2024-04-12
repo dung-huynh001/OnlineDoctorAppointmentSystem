@@ -66,5 +66,11 @@ namespace WebAPI.Controllers
         {
             return Ok(await _appointmentService.GetUpcomingAppointment(id));
         }
+
+        [HttpGet("get-patients-to-fill-dropdown")]
+        public async Task<IActionResult> GetPatients()
+        {
+            return Ok(await _appointmentService.GetPatients());
+        }
     }
 }

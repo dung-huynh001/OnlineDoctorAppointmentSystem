@@ -9,17 +9,31 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CountUpModule } from 'ngx-countup';
 import { ComponentsModule } from '../../components/components.module';
 import { SchedulerModule } from '../../components/scheduler/scheduler.module';
-import { NgbDropdownModule, NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { DayService, MonthAgendaService, MonthService, RecurrenceEditorAllModule, ScheduleModule, WeekService, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
+import {
+  NgbDropdownModule,
+  NgbNavModule,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
+import {
+  DayService,
+  MonthAgendaService,
+  MonthService,
+  RecurrenceEditorAllModule,
+  ScheduleModule,
+  WeekService,
+  WorkWeekService,
+} from '@syncfusion/ej2-angular-schedule';
 import { FlatpickrModule } from 'angularx-flatpickr';
 
-
+import { TimePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 @NgModule({
   declarations: [
     AppointmentOnSiteComponent,
     PrescriptionsComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +50,9 @@ import { FlatpickrModule } from 'angularx-flatpickr';
     NgbNavModule,
     NgbDropdownModule,
     FlatpickrModule,
+    TimePickerModule,
+    DropDownListModule,
+    DateTimePickerModule,
   ],
   providers: [
     DecimalPipe,
@@ -46,6 +63,6 @@ import { FlatpickrModule } from 'angularx-flatpickr';
     MonthService,
     MonthAgendaService,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class DoctorModule { }
+export class DoctorModule {}
