@@ -31,6 +31,8 @@ import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import {
   EventSettingsModel,
   GroupModel,
+  PopupOpenEventArgs,
+  RenderCellEventArgs,
   ResourceDetails,
   View,
 } from '@syncfusion/ej2-schedule';
@@ -40,6 +42,10 @@ import { DatePipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { catchError, finalize, throwError } from 'rxjs';
+import { isNullOrUndefined } from '@syncfusion/ej2-base';
+import { ChangeEventArgs } from '@syncfusion/ej2-calendars';
+import { AppointmentService } from '../../../core/services/appointment.service';
+import { FilteringEventArgs } from '@syncfusion/ej2-dropdowns';
 
 @Component({
   selector: 'app-appointment-on-site',
@@ -58,6 +64,68 @@ import { catchError, finalize, throwError } from 'rxjs';
   ],
 })
 export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
+  // Test Editor Customize
+  startDate!: Date;
+  endDate!: Date;
+  fields = {
+    text: 'fullName',
+    value: 'id',
+  };
+  patients!: Object[];
+  selectedPatient!: {
+    id: number;
+    fullName: string;
+  };
+
+  startDateParser(data: string) {
+    if (isNullOrUndefined(this.startDate) && !isNullOrUndefined(data)) {
+      return new Date(data);
+    } else if (!isNullOrUndefined(this.startDate)) {
+      return new Date(this.startDate);
+    }
+    return new Date();
+  }
+
+  endDateParser(data: string) {
+    if (isNullOrUndefined(this.endDate) && !isNullOrUndefined(data)) {
+      return new Date(data);
+    } else if (!isNullOrUndefined(this.endDate)) {
+      return new Date(this.endDate);
+    }
+    return new Date();
+  }
+
+  onDateChange(args: any): void {
+    if (!isNullOrUndefined(args.event as any)) {
+      if (args.element.id === 'StartTime') {
+        this.startDate = args.value as Date;
+      } else if (args.element.id === 'EndTime') {
+        this.endDate = args.value as Date;
+      }
+    }
+  }
+
+  popupOpen(event: PopupOpenEventArgs) {
+    console.log(event)
+    this._appointmentService
+      .getAllPatientToFillDropdown('Appointment/get-patients-to-fill-dropdown')
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      )
+      .subscribe((res: any) => {
+        this.patients = res;
+      });
+  }
+
+  onFilteringPatient(event: FilteringEventArgs) {
+    console.log(event);
+  }
+
+  // End Test Editor Customize
+
   breadCrumbItems!: Array<{}>;
 
   headerOption = 'Date';
@@ -69,11 +137,11 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
 
   selectedView: View = 'TimelineDay';
 
-  @ViewChild('scheduleObj') public scheduleObj!: ScheduleComponent;
+  @ViewChild('scheduleObj') scheduleObj!: ScheduleComponent;
 
   currentUser = this._authService.currentUser();
 
-  public data: DataManager = new DataManager({
+  data: DataManager = new DataManager({
     url: environment.serverApi + '/api/Schedule/get-schedules-of-doctors',
     // crudUrl: environment.serverApi + '/api/Schedule/update-schedule',
     headers: [
@@ -85,32 +153,18 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     crossDomain: true,
   });
 
-  public doctorResources!: Record<string, any>[];
+  allowMultiple = true;
 
-  public group: GroupModel = {
-    enableCompactView: false,
-    resources: ['Doctor'],
-  };
-
-  public allowMultiple = false;
-
-  public eventSettings: EventSettingsModel = {
+  eventSettings: EventSettingsModel = {
     dataSource: this.data,
-    fields: {
-      id: 'Id',
-      subject: { name: 'Subject', title: 'Event Name' },
-      location: { name: 'Location', title: 'Event Location' },
-      description: { name: 'Description', title: 'Event Description' },
-      startTime: { name: 'StartTime', title: 'Start Duration' },
-      endTime: { name: 'EndTime', title: 'End Duration' },
-    },
   };
 
   constructor(
     private datePipe: DatePipe,
     private _scheduleService: ScheduleService,
     private _authService: AuthService,
-    private _spinnerService: NgxSpinnerService
+    private _spinnerService: NgxSpinnerService,
+    private _appointmentService: AppointmentService
   ) {}
 
   ngOnInit(): void {
@@ -118,40 +172,12 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
       { label: 'Home' },
       { label: 'Appointment On Site', active: true },
     ];
-    this.fetchDoctors();
     this.calendarTitle = new Date().toDateString();
+    this.type = 'day';
   }
 
   ngAfterViewInit(): void {
     this.removeWarningLisenceEJ2();
-  }
-
-  fetchDoctors() {
-    this._spinnerService.show();
-    this._scheduleService
-      .getDoctors('Schedule/get-doctors')
-      .pipe(
-        catchError((err) => {
-          console.log(err);
-          return throwError(() => err);
-        }),
-        finalize(() => {
-          setTimeout(() => {
-            this._spinnerService.hide();
-          }, 300);
-        })
-      )
-      .subscribe((res) => {
-        this.doctorResources = res.map((doctor: any) => {
-          return {
-            FullName: doctor.fullName,
-            Id: doctor.id,
-            DepartmentId: doctor.departmentId,
-            Designation: doctor.speciality,
-            AvatarUrl: doctor.avatarUrl,
-          };
-        });
-      });
   }
 
   currentViewChange(event: any) {
@@ -160,15 +186,50 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     } else {
       this.headerOption = 'Date';
     }
+
+    setTimeout(() => {
+      const headerCells = document.querySelectorAll(
+        '.e-schedule .e-timeline-month-view .e-header-cells'
+      );
+
+      headerCells.forEach((cell) => {
+        const innerText = cell.textContent;
+        cell.classList.add(
+          innerText?.includes('Sun')
+            ? 'sun'
+            : innerText?.includes('Sat')
+            ? 'sat'
+            : 'nor'
+        );
+      });
+    }, 100);
+  }
+
+  renderCell(event: RenderCellEventArgs) {
+    const eventDateStr = event.date?.toDateString();
+    if (this.type != 'day') {
+      event.element.classList.add(
+        eventDateStr?.includes('Sun')
+          ? 'sun'
+          : eventDateStr?.includes('Sat')
+          ? 'sat'
+          : 'nor'
+      );
+    }
   }
 
   formatDateHeader(value: Date) {
-    return this.datePipe.transform(value, 'dd (EEE)');
+    return {
+      date: this.datePipe.transform(value, 'dd'),
+      dayOfWeek: this.datePipe.transform(value, '(EEE)'),
+    };
   }
 
   removeWarningLisenceEJ2() {
     const timeOutId = setTimeout(() => {
-      const afterDivs = document.querySelectorAll('.e-dlg-container');
+      const afterDivs = document.querySelectorAll(
+        '.flatpickr-calendar.animate'
+      );
 
       afterDivs?.forEach((element) => {
         const targetDiv = element.previousElementSibling;
@@ -206,6 +267,8 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
         this.initForMonth(date);
         break;
     }
+
+    this.selectedDate = new Date(this.calendarTitle.split('-')[0]);
   }
 
   next() {
@@ -418,17 +481,5 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
       ' - ' +
       endOfWeek.toDateString().slice(3);
     this.type = 'half-month';
-  }
-
-  public getEmployeeName(value: ResourceDetails) {
-    return value.resourceData[`${value.resource.textField}`] as string;
-  }
-
-  public getEmployeeDesignation(value: ResourceDetails) {
-    return value.resourceData['Designation'];
-  }
-
-  public getEmployeeImageName(value: ResourceDetails) {
-    return value.resourceData['AvatarUrl'];
   }
 }

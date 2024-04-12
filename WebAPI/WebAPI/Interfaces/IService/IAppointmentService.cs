@@ -17,5 +17,6 @@ namespace WebAPI.Interfaces.IService
         Task<List<int>> LoadWidgets(string id, string userType);
         Task<List<RecentlyAppointmentDto>> GetRecentlyAppointment(string id);
         Task<List<UpcomingAppointmentDto>> GetUpcomingAppointment(string id);
+        Task<List<PatientToFillDropdownDto>> GetPatients();
     }
 }

@@ -3,15 +3,16 @@
     <div class="schedule-container" *ngIf="selectedDate && currentView && doctorResources">
       <ejs-schedule #scheduleObj cssClass='schedule-block-events' width='100%' height='100vh' [group]="group"
         [currentView]="selectedView" [selectedDate]="selectedDate" [eventSettings]="eventSettings"
-        (currentViewChange)="currentViewChange($event)">
+        (currentViewChange)="currentViewChange($event)" (renderCell)="renderCell($event)">
         <e-resources>
           <e-resource field='DoctorId' title='Doctors' name='Doctor' [dataSource]='doctorResources'
-            [allowMultiple]='allowMultiple' textField='FullName' idField='Id' groupIDField="DepartmentId" colorField='Color'>
+            [allowMultiple]='allowMultiple' textField='FullName' idField='Id' groupIDField="DepartmentId"
+            colorField='Color'>
           </e-resource>
         </e-resources>
-        <ng-template #dateHeaderTemplate let-data>  
+        <ng-template #dateHeaderTemplate let-data>
           <div>
-            <p class="text-center m-0">{{formatDateHeader(data.date).date}}</p>
+            <p class="text-center m-0 fw-semibold">{{formatDateHeader(data.date).date}}</p>
             <p class="text-center m-0">{{formatDateHeader(data.date).dayOfWeek}}</p>
           </div>
         </ng-template>
@@ -19,11 +20,11 @@
           <div class="template-wrap">
             <div class="employee-category">
               <div>
-                <img class="resource-image" *ngIf="getEmployeeImageName(data)"
-                  src="https://localhost:7139/{{getEmployeeImageName(data)}}" />
+                <img class="resource-image" *ngIf="getDoctorImageName(data)"
+                  src="https://localhost:7139/{{getDoctorImageName(data)}}" />
               </div>
-              <div class="resource-name">{{getEmployeeName(data)}}</div>
-              <div class="designation">{{getEmployeeDesignation(data)}}</div>
+              <div class="resource-name">{{getDoctorName(data)}}</div>
+              <div class="designation">{{getDoctorDesignation(data)}}</div>
             </div>
           </div>
         </ng-template>
@@ -33,7 +34,8 @@
           </div>
         </ng-template> -->
         <e-header-rows>
-          <e-header-row [option]="headerOption"></e-header-row>
+          <e-header-row option="Date"></e-header-row>
+          <e-header-row option="Hour" *ngIf="displayHour"></e-header-row>
         </e-header-rows>
         <e-views>
           <e-view option="TimelineDay" [readonly]="true" displayName="Day" startHour="07:00" endHour="23:00"></e-view>

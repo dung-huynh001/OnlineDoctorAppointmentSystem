@@ -48,6 +48,16 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "GetPatients",
+    "RelativePath": "api/Appointment/get-patients-to-fill-dropdown",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "GetRecentlyAppointments",
     "RelativePath": "api/Appointment/get-recently-appointments/{id}",
     "HttpMethod": "GET",

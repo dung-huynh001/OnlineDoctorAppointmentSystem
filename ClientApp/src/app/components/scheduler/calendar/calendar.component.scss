@@ -58,29 +58,34 @@
   font-size: 13px;
 }
 
-.e-schedule .e-timeline-week-view .e-date-header-wrap table td:nth-child(8n),
-.e-schedule .e-timeline-week-view .e-content-wrap table td:nth-child(8n),
-.e-schedule .e-timeline-month-view .e-date-header-wrap table td:nth-child(8n),
-.e-schedule .e-timeline-month-view .e-content-wrap table td:nth-child(8n),
+.e-schedule .e-timeline-week-view .e-date-header-wrap table td:nth-child(8),
+.e-schedule .e-timeline-week-view .e-content-wrap table td:nth-child(8),
 .e-schedule .e-timeline-week-view .e-date-header-wrap table td:first-child,
-.e-schedule .e-timeline-week-view .e-content-wrap table td:first-child,
-.e-schedule .e-timeline-month-view .e-date-header-wrap table td:first-child,
-.e-schedule .e-timeline-month-view .e-content-wrap table td:first-child
+.e-schedule .e-timeline-week-view .e-content-wrap table td:first-child
 {
   background: #ffdbc8;
 }
 
-.e-schedule .e-timeline-week-view .e-date-header-wrap table td:nth-child(7n),
-.e-schedule .e-timeline-week-view .e-content-wrap table td:nth-child(7n),
-.e-schedule .e-timeline-month-view .e-date-header-wrap table td:nth-child(7n),
-.e-schedule .e-timeline-month-view .e-content-wrap table td:nth-child(7n),
+.e-schedule .e-timeline-week-view .e-date-header-wrap table td:nth-child(7),
+.e-schedule .e-timeline-week-view .e-content-wrap table td:nth-child(7),
 .e-schedule .e-timeline-week-view .e-date-header-wrap table td:last-child,
-.e-schedule .e-timeline-week-view .e-content-wrap table td:last-child,
-.e-schedule .e-timeline-month-view .e-date-header-wrap table td:last-child,
-.e-schedule .e-timeline-month-view .e-content-wrap table td:last-child {
+.e-schedule .e-timeline-week-view .e-content-wrap table td:last-child
+{
   background: #bde0f5;
 }
 
-// .e-schedule-toolbar-container {
-//   display: none;
-// }
+.e-schedule .e-timeline-view.e-timeline-day-view .e-date-header-wrap .e-header-row:first-child {
+  display: none;
+}
+
+.e-schedule-toolbar-container {
+  display: none;
+}
+
+.sun {
+  background: #ffdbc8 !important;
+}
+
+.sat {
+  background: #bde0f5 !important;
+}
