@@ -1,70 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\",
+  "WorkspaceRootPath": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\dtos\\eventdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\dtos\\eventdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\services\\scheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\scheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\domain\\enums\\eventbgcolor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\domain\\enums\\eventbgcolor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\controllers\\schedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\controllers\\schedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\interfaces\\iservice\\ischeduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\interfaces\\iservice\\ischeduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\models\\ej2params.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\models\\ej2params.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\dtos\\scheduleeventdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\dtos\\scheduleeventdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\dtos\\doctorresourcedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\dtos\\doctorresourcedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\services\\departmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\departmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\iservicecollectionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\iservicecollectionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\services\\currentuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\currentuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\interfaces\\iservice\\icurrentuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\interfaces\\iservice\\icurrentuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\dtos\\getdepartmenttodrawtabledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\dtos\\getdepartmenttodrawtabledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\controllers\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\controllers\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|d:\\src\\asp.net core with angular\\onlinedoctorappointmentsystem\\webapi\\webapi\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\interfaces\\iservice\\iappointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\interfaces\\iservice\\iappointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -74,204 +22,46 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EventBgColor.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Domain\\Enums\\EventBgColor.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Domain\\Enums\\EventBgColor.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Domain\\Enums\\EventBgColor.cs",
-              "RelativeToolTip": "WebAPI\\Domain\\Enums\\EventBgColor.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-10T03:19:45.712Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "EJ2Params.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Models\\EJ2Params.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Models\\EJ2Params.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Models\\EJ2Params.cs",
-              "RelativeToolTip": "WebAPI\\Models\\EJ2Params.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAaAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-09T09:19:31.99Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ScheduleEventDto.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\ScheduleEventDto.cs",
-              "RelativeDocumentMoniker": "WebAPI\\DTOs\\ScheduleEventDto.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\ScheduleEventDto.cs",
-              "RelativeToolTip": "WebAPI\\DTOs\\ScheduleEventDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-09T08:52:45.27Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "EventDto.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\EventDto.cs",
-              "RelativeDocumentMoniker": "WebAPI\\DTOs\\EventDto.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\EventDto.cs",
-              "RelativeToolTip": "WebAPI\\DTOs\\EventDto.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAxwAsAAAAZAAAA",
+              "Title": "AppointmentController.cs",
+              "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\AppointmentController.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Controllers\\AppointmentController.cs",
+              "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\AppointmentController.cs",
+              "RelativeToolTip": "WebAPI\\Controllers\\AppointmentController.cs",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAQwEwAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-09T08:50:44.895Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ScheduleController.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\ScheduleController.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Controllers\\ScheduleController.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\ScheduleController.cs",
-              "RelativeToolTip": "WebAPI\\Controllers\\ScheduleController.cs",
-              "ViewState": "AQIAADgAAAAAAAAAAAAAADgAAAA6AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-09T07:53:06.456Z",
+              "WhenOpened": "2024-04-12T04:17:06.287Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ScheduleService.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\ScheduleService.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Services\\ScheduleService.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\ScheduleService.cs",
-              "RelativeToolTip": "WebAPI\\Services\\ScheduleService.cs",
-              "ViewState": "AQIAAEEAAAAAAAAAAAAiwE4AAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-09T07:50:28.668Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "DoctorResourceDto.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\DoctorResourceDto.cs",
-              "RelativeDocumentMoniker": "WebAPI\\DTOs\\DoctorResourceDto.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\DoctorResourceDto.cs",
-              "RelativeToolTip": "WebAPI\\DTOs\\DoctorResourceDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-09T07:48:39.539Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IScheduleService.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\IScheduleService.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Interfaces\\IService\\IScheduleService.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\IScheduleService.cs",
-              "RelativeToolTip": "WebAPI\\Interfaces\\IService\\IScheduleService.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAQwA0AAABQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-04T09:21:36.546Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "IServiceCollectionExtensions.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\IServiceCollectionExtensions.cs",
-              "RelativeDocumentMoniker": "WebAPI\\IServiceCollectionExtensions.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\IServiceCollectionExtensions.cs",
-              "RelativeToolTip": "WebAPI\\IServiceCollectionExtensions.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T08:19:37.632Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CurrentUserService.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\CurrentUserService.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Services\\CurrentUserService.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\CurrentUserService.cs",
-              "RelativeToolTip": "WebAPI\\Services\\CurrentUserService.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T08:17:37.738Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ICurrentUserService.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\ICurrentUserService.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Interfaces\\IService\\ICurrentUserService.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\ICurrentUserService.cs",
-              "RelativeToolTip": "WebAPI\\Interfaces\\IService\\ICurrentUserService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T08:17:34.194Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "GetDepartmentToDrawTableDto.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\GetDepartmentToDrawTableDto.cs",
-              "RelativeDocumentMoniker": "WebAPI\\DTOs\\GetDepartmentToDrawTableDto.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\GetDepartmentToDrawTableDto.cs",
-              "RelativeToolTip": "WebAPI\\DTOs\\GetDepartmentToDrawTableDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T08:15:06.916Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "DepartmentController.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\DepartmentController.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Controllers\\DepartmentController.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\DepartmentController.cs",
-              "RelativeToolTip": "WebAPI\\Controllers\\DepartmentController.cs",
-              "ViewState": "AQIAAB4AAAAAAAAAAAAswCwAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T08:11:00.899Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "AppointmentController.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\AppointmentController.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Controllers\\AppointmentController.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\AppointmentController.cs",
-              "RelativeToolTip": "WebAPI\\Controllers\\AppointmentController.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAQwBgAAAAVAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T06:37:08.72Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "DepartmentService.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\DepartmentService.cs",
-              "RelativeDocumentMoniker": "WebAPI\\Services\\DepartmentService.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\DepartmentService.cs",
-              "RelativeToolTip": "WebAPI\\Services\\DepartmentService.cs",
-              "ViewState": "AQIAADMAAAAAAAAAAAAowEcAAAAoAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T04:19:51.817Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
               "Title": "AppointmentService.cs",
-              "DocumentMoniker": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\AppointmentService.cs",
+              "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\AppointmentService.cs",
               "RelativeDocumentMoniker": "WebAPI\\Services\\AppointmentService.cs",
-              "ToolTip": "D:\\src\\ASP.NET Core with Angular\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\AppointmentService.cs",
+              "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\AppointmentService.cs",
               "RelativeToolTip": "WebAPI\\Services\\AppointmentService.cs",
-              "ViewState": "AQIAAK0AAAAAAAAAAAAIwLQAAABMAAAA",
+              "ViewState": "AQIAANYBAAAAAAAAAADwv+MBAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T04:18:47.924Z"
+              "WhenOpened": "2024-04-12T04:14:53.674Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IAppointmentService.cs",
+              "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\IAppointmentService.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Interfaces\\IService\\IAppointmentService.cs",
+              "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\IAppointmentService.cs",
+              "RelativeToolTip": "WebAPI\\Interfaces\\IService\\IAppointmentService.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAgwBMAAAA7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-12T04:12:11.152Z",
+              "EditorCaption": ""
             }
           ]
         }

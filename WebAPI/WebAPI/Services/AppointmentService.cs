@@ -469,5 +469,19 @@ namespace WebAPI.Services
                 .ToListAsync();
             return result;
         }
+
+        public async Task<List<PatientToFillDropdownDto>> GetPatients()
+        {
+            var patients = await _unitOfWork.Repository<Patient>().GetAll
+                .Where(p => !p.IsDeleted)
+                .Select(p => new PatientToFillDropdownDto
+                {
+                    Id = p.Id,
+                    FullName = p.FullName
+                })
+                .ToListAsync();
+
+            return patients;
+        }
     }
 }

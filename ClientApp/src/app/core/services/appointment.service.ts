@@ -121,4 +121,8 @@ export class AppointmentService {
   getUpcomingAppointment(url: string, id: any): Observable<any> {
     return this.http.get(HOSTNAME + `/api/${url}/${id}`);
   }
+
+  getAllPatientToFillDropdown(url: string) {
+    return this.http.get(HOSTNAME + `/api/${url}`);
+  }
 }
