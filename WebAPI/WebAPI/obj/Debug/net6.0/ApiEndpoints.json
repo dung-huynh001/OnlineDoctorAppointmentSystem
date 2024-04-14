@@ -1,6 +1,22 @@
 [
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "AddOrUpdateAppointmentEvent",
+    "RelativePath": "api/Appointment/add-or-update-appointment-event",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "param",
+        "Type": "WebAPI.Models.EJ2UpdateParams\u00601[[WebAPI.DTOs.AppointmentEventDto, WebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "CancelAppointment",
     "RelativePath": "api/Appointment/cancel-appointment/{id}",
     "HttpMethod": "GET",
@@ -10,6 +26,22 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "GetAppointmentEventByDoctor",
+    "RelativePath": "api/Appointment/get-appointment-event-by-doctor",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "param",
+        "Type": "WebAPI.Models.EJ2Params",
         "IsRequired": true
       }
     ],
