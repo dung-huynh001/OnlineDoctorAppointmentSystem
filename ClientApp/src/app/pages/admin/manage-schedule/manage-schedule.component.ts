@@ -81,7 +81,7 @@ export class ManageScheduleComponent implements OnInit {
 
   filterData(filter: any) {
     this._scheduleService
-      .getDoctorList('/Schedule/get-doctor-list', filter)
+      .getDoctorList(filter)
       .pipe(
         catchError((err) => {
           console.log('cannot load doctor list: ' + err);

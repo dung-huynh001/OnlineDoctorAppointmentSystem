@@ -43,7 +43,7 @@ export class ProfileComponent implements OnInit {
   fetchData() {
     this._spinnerService.show();
     this._profileService
-      .getPatientInfo('/Patient/get-patient-details', this.userData.id)
+      .getPatientInfo(this.userData.id)
       .pipe(
         map((data) => {
           return {
@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit {
       )
       .subscribe((res) => {
         this.patientData = res;
-        this._profileService.setPatientData(res);
+        this._profileService.setPatient(res);
         this.avatarUrl = this.patientData.avatarUrl == null ? "https://localhost:7139/Uploads/Images/default-user.jpg" : this.hostName + `/` + this.patientData.avatarUrl;
       });
   }

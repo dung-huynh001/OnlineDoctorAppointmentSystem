@@ -151,7 +151,7 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
     const date = this.getScheduleDateTime();
     this._spinnerService.show();
     this._appointmentService
-      .getDoctorOnDuty('/Doctor/get-doctor-on-duty', date)
+      .getDoctorOnDuty(date)
       .pipe(
         map((res): Array<iDoctorOnDuty> => {
           return res.map((data: any) => ({

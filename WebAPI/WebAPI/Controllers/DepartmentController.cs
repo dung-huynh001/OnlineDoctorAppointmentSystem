@@ -59,9 +59,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("get-department-to-select")]
-        public async Task<ActionResult>GetDepartmentToSelect()
+        public async Task<ActionResult> GetDepartmentsForSelect()
         {
-            return Ok(await _departmentService.GetDepartmentToSelect());
+            return Ok(await _departmentService.GetDepartmentsForSelect());
         }
     }
 }

@@ -26,23 +26,23 @@ namespace WebAPI.Services
             this._mailService = mailService;
             this._currentUserService = currentUserService;
         }
-        public async Task<GetAppointmentDetailDto> GetAppointmentDetail(int id)
+        public async Task<AppointmentDetailDto> GetAppointmentDetail(int id)
         {
             var result = await _unitOfWork.Repository<Appointment>().GetAll
                 .Where(a => a.Id == id)
                 .Include(a => a.Schedule.Doctor)
                 .Include(a => a.Patient)
-                .Select(a => _mapper.Map<GetAppointmentDetailDto>(a))
+                .Select(a => _mapper.Map<AppointmentDetailDto>(a))
                 .FirstOrDefaultAsync();
             if (result == null) throw new Exception();
             return result;
         }
 
-        public async Task<PatientDataToAppointment> GetPatientDataToAppointment(string currentUserId)
+        public async Task<AppointmentPatientDto> GetPatientDetailToAppointment(string currentUserId)
         {
             var patient = await _unitOfWork.Repository<Patient>().GetAll
                 .Where(p => p.UserId.Equals(currentUserId))
-                .Select(p => new PatientDataToAppointment
+                .Select(p => new AppointmentPatientDto
                 {
                     PatientId = p.Id,
                     Address = p.Address!,
@@ -115,9 +115,9 @@ namespace WebAPI.Services
             });
         }
 
-        public Task<DatatableResponse<GetAppointmentToDrawTableDto>> GetAppointments(string userId, string userType, string type, DataTablesParameters parameters)
+        public Task<DatatableResponse<AppointmentTableDto>> GetAppointments(string userId, string userType, string type, DataTablesParameters parameters)
         {
-            var response = new DatatableResponse<GetAppointmentToDrawTableDto>();
+            var response = new DatatableResponse<AppointmentTableDto>();
 
             string status = GetStatus(type);
             int id = GetActorId(userId, userType);
@@ -156,7 +156,7 @@ namespace WebAPI.Services
                     break;
             }
 
-            var records = appointments.Select(a => new GetAppointmentToDrawTableDto
+            var records = appointments.Select(a => new AppointmentTableDto
             {
                 AppointmentDate = a.AppointmentDate,
                 ClosedBy = a.ClosedBy,
@@ -484,7 +484,7 @@ namespace WebAPI.Services
             return patients;
         }
 
-        public async Task<List<AppointmentEventDto>> GetAppointmentEventByDoctor(EJ2Params param, string currentUserId)
+        public async Task<List<AppointmentEventDto>> GetAppointmentEventsByDoctor(EJ2Params param, string currentUserId)
         {
             var appointmentEvents = await _unitOfWork.Repository<Appointment>().GetAll
                 .Where(a => a.Doctor.UserId == currentUserId

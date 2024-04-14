@@ -24,7 +24,7 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
     private _toastService: ToastService,
     private _spinnerService: NgxSpinnerService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.breadcrumbItems = [
       { label: 'Home' },
@@ -67,7 +67,6 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
 
     this._appointmentService
       .viewAppointmentDetails(
-        'Appointment/view-appointment-details',
         this.appointmentId
       )
       .pipe(

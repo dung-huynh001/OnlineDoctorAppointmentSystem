@@ -50,7 +50,7 @@ export class ManageDoctorComponent implements OnInit {
       },
       ajax: (dataTablesParameters: any, callback: Function) => {
         this._doctorService
-          .getAll(`/Doctor/get-all`, dataTablesParameters)
+          .getAll(dataTablesParameters)
           .pipe(
             catchError((err) => {
               callback({

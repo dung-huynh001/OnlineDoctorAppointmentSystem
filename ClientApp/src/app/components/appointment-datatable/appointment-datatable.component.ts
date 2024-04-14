@@ -102,8 +102,7 @@ export class AppointmentDatatableComponent
       },
       ajax: (dataTablesParameters: any, callback: Function) => {
         this._appointmentService
-          .getAllAppointments(
-            `Appointment/get-appointments`,
+          .getAppointments(
             this.currentUser.id,
             this.currentUser.userType,
             this.appointmentStatus,

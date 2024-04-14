@@ -129,7 +129,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   popupOpen(event: PopupOpenEventArgs) {
     console.log(event);
     this._appointmentService
-      .getAllPatientToFillDropdown('Appointment/get-patients-to-fill-dropdown')
+      .getPatientsToFillDropdown()
       .pipe(
         catchError((err) => {
           console.log(err);

@@ -7,7 +7,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RestApiService } from '../../core/services/rest-api.service';
 import { catchError, finalize, map, throwError } from 'rxjs';
 import { ToastService } from '../../core/services/toast.service';
 import { ProfileService } from '../../core/services/profile.service';
@@ -94,7 +93,7 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     const currentUser: User = this._authService.currentUser();
     this._patientService
-      .getPatientInfo('/Patient/get-patient-details', currentUser.id)
+      .getPatientInfo(currentUser.id)
       .pipe(
         catchError((err) => {
           console.log(err);
@@ -144,7 +143,6 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
       this._spinnerService.show();
       this._appointmentService
         .makeAppoinntment(
-          `/Appointment/make-appointment`,
           this.appointmentForm.value
         )
         .pipe(
@@ -168,6 +166,7 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   }
 
   resetForm() {
+    this.appointmentForm.reset();
     this.f['doctorId'].setValue(null);
     this.f['doctorName'].setValue(null);
     this.f['speciality'].setValue(null);

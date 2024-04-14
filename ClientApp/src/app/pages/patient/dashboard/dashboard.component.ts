@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     doctorName: string;
     speciality: string;
     dateOfConsultation: string;
-  }> =  [];
+  }> = [];
 
   constructor(
     private _toastService: ToastService,
@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private _authService: AuthService,
     private _spinnerService: NgxSpinnerService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.breadCrumbItems = [
@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.fetchData();
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void { }
 
   fetchData() {
     this._spinnerService.show();
@@ -97,7 +97,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   getRecentlyAppointments() {
     this._appointmentService
       .getRecentlyAppointment(
-        'Appointment/get-recently-appointments',
         this.currentUser.id
       )
       .pipe(
@@ -143,7 +142,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   getUpcomningAppointments() {
     this._appointmentService
       .getUpcomingAppointment(
-        `Appointment/get-upcoming-appointments`,
         this.currentUser.id
       )
       .pipe(
@@ -197,8 +195,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         },
         {
           data: 'id',
-          title: 'ID',          
-          className:'text-center',
+          title: 'ID',
+          className: 'text-center',
         },
         {
           data: 'doctorName',
@@ -214,12 +212,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         {
           data: 'appointmentDate',
           title: 'Appointment date',
-          className:'text-end',
+          className: 'text-end',
         },
         {
           data: 'dateOfConsultation',
           title: 'Consultation date',
-          className:'text-end',
+          className: 'text-end',
         },
         {
           data: 'status',
@@ -249,7 +247,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         {
           data: 'createdDate',
           title: 'Created date',
-          className:'text-end',
+          className: 'text-end',
         },
         {
           title: 'Action',

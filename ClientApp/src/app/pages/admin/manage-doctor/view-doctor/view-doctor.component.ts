@@ -188,7 +188,7 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
   fetchData() {
     this._spinnerService.show();
     this._doctorService
-      .getDoctorDetails('Doctor/get-doctor-details', this.selectedId)
+      .getDoctorDetails(this.selectedId)
       .pipe(
         map((res): iDoctorDetails => {
           return {
@@ -233,7 +233,6 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
   getScheduleByDate() {
     this._doctorService
       .getScheduleByDate(
-        'Schedule/get-schedule-by-date',
         this.selectedId,
         this.selectedDate.toLocaleDateString('en-CA')
       )

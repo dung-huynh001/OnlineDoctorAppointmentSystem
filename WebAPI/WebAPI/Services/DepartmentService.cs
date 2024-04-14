@@ -48,15 +48,15 @@ namespace WebAPI.Services
             }
         }
 
-        public async Task<DatatableResponse<GetDepartmentToDrawTableDto>> Get(DataTablesParameters parameters)
+        public async Task<DatatableResponse<DepartmentTableDto>> Get(DataTablesParameters parameters)
         {
-            DatatableResponse<GetDepartmentToDrawTableDto> response = new DatatableResponse<GetDepartmentToDrawTableDto>();
+            DatatableResponse<DepartmentTableDto> response = new DatatableResponse<DepartmentTableDto>();
 
             var searchValue = parameters.Search.Value.IsNullOrEmpty() ? "" : parameters.Search.Value?.ToLower().Trim();
 
             // Filter with search value and pagination
             var records = _unitOfWork.Repository<Department>().GetAll
-                .Select(d => new GetDepartmentToDrawTableDto
+                .Select(d => new DepartmentTableDto
                 {
                     Id = d.Id,
                     CreatedBy = "admin",
@@ -191,7 +191,7 @@ namespace WebAPI.Services
             }
         }
 
-        public async Task<List<DepartmentToOptiontDto>> GetDepartmentToSelect()
+        public async Task<List<DepartmentToOptiontDto>> GetDepartmentsForSelect()
         {
             var result = _unitOfWork.Repository<Department>().GetAll
                 .Select(d => new DepartmentToOptiontDto

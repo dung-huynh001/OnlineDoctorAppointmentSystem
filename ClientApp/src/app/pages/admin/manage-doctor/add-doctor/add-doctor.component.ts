@@ -1,10 +1,13 @@
 // import { CdkStepper } from '@angular/cdk/stepper';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RestApiService } from '../../../../core/services/rest-api.service';
-import { catchError, throwError } from 'rxjs';
+import { catchError, finalize, throwError } from 'rxjs';
 import { ToastService } from '../../../../core/services/toast.service';
 import { DoctorService } from '../../../../core/services/doctor.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { CdkStepper, StepperSelectionEvent } from '@angular/cdk/stepper';
+import { NgStepperComponent } from 'angular-ng-stepper';
 
 @Component({
   selector: 'app-add-doctor',
@@ -25,6 +28,9 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
 
   selectedIndex: number = 0;
 
+  @ViewChild('cdkStepper') public cdkStepperObj!: NgStepperComponent;
+
+
   // Config department select
   departmentData = [{}];
   selectedAccount = 1;
@@ -33,8 +39,9 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private _restApiService: RestApiService,
     private _toastService: ToastService,
-    private _doctorService: DoctorService
-  ) {}
+    private _doctorService: DoctorService,
+    private _spinnerService: NgxSpinnerService
+  ) { }
   ngOnInit(): void {
     this.currUser = JSON.parse(localStorage.getItem('currentUser')!);
     this.accountForm = this.formBuilder.group({
@@ -95,6 +102,34 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
     return this.doctorInfoForm.controls;
   }
 
+  selectedIndexChange(event: any) {
+    console.log(event);
+  }
+
+  selectionChange(event: StepperSelectionEvent) {
+    const previousIndex = event.previouslySelectedIndex;
+
+    switch (previousIndex) {
+      case 0:
+        this.accountForm_submitted = true;
+        this.accountForm.markAllAsTouched();
+        if (this.accountForm.invalid) {
+          this.cdkStepperObj.previous();
+        }
+        break;
+      case 1:
+        this.doctorInfoForm_submitted = true;
+        this.doctorInfoForm.markAllAsTouched();
+        if (this.doctorInfoForm.invalid) {
+          this.cdkStepperObj.previous();
+        }
+        break;
+      default:
+        break;
+    }
+
+  }
+
   accountFormSubmit() {
     this.accountForm_submitted = true;
     if (this.accountFormControl['ConfirmPassword'].value && this.accountFormControl['Password'].value !== this.accountFormControl['ConfirmPassword'].value) {
@@ -119,20 +154,47 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
         ...this.doctorInfoForm.value,
         ...this.workInfoForm.value,
       };
+
+      this._spinnerService.show();
+
       this._doctorService
-        .create('/Doctor/create', data)
+        .create(data)
         .pipe(
           catchError((err) => {
             this._toastService.error(err.Message);
             return throwError(() => err);
+          }),
+          finalize(() => {
+            this._spinnerService.hide();
           })
         )
         .subscribe((res) => {
           if (res.isSuccess) {
             this._toastService.success(res.message);
+            this.resetForms();
           }
         });
     }
+  }
+
+  resetForms() {
+    this.accountForm.reset();
+    this.accountForm.markAsUntouched();
+    this.accountForm.markAsPristine();
+
+    this.workInfoForm.reset();
+    this.workInfoForm.markAsUntouched();
+    this.workInfoForm.markAsPristine();
+
+    this.doctorInfoForm.reset();
+    this.doctorInfoForm.markAsUntouched();
+    this.doctorInfoForm.markAsPristine();
+
+    this.accountForm_submitted = false;
+    this.doctorInfoForm_submitted = false;
+    this.workInfoForm_submitted = false;
+
+    this.selectedIndex = 0;
   }
 
   onFileChange(event: any) {

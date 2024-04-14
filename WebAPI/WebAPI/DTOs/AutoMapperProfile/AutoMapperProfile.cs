@@ -12,16 +12,16 @@ namespace WebAPI.DTOs.AutoMapperProfile
             CreateMap<CreateDepartmentDto, Department>().ReverseMap();
             CreateMap<CreateDoctorDto, Doctor>().ReverseMap();
             CreateMap<UpdateScheduleDto, Schedule>().ReverseMap();
-            CreateMap<GetAppointmentDetailDto, Appointment>().ReverseMap();
-            CreateMap<GetAppointmentDetailDto, Patient>().ReverseMap();
-            CreateMap<GetAppointmentDetailDto, Doctor>().ReverseMap();
+            CreateMap<AppointmentDetailDto, Appointment>().ReverseMap();
+            CreateMap<AppointmentDetailDto, Patient>().ReverseMap();
+            CreateMap<AppointmentDetailDto, Doctor>().ReverseMap();
             CreateMap<SchedulesOfDoctor, Schedule>().ReverseMap();
-            CreateMap<GetAppointmentDetailDto, Appointment>().ReverseMap();
+            CreateMap<AppointmentDetailDto, Appointment>().ReverseMap();
             CreateMap<UpdateDepartmentDto, Department>().ReverseMap();
             CreateMap<DepartmentToOptiontDto, Department>().ReverseMap();
             CreateMap<DepartmentToOptiontDto, Department>().ReverseMap();
             CreateMap<CreateDoctorDto, RegisterModel>().ReverseMap();
-            CreateMap<GetDepartmentToDrawTableDto, Department>().ReverseMap();
+            CreateMap<DepartmentTableDto, Department>().ReverseMap();
 
             CreateMap<MakeAppointmentDto, Appointment>().ReverseMap();
 
@@ -38,7 +38,7 @@ namespace WebAPI.DTOs.AutoMapperProfile
                 .ForMember(des => des.DoctorEmail, opt => opt.MapFrom(src => src.Doctor.User.Email))
                 .ForMember(des => des.DoctorAvatarUrl, opt => opt.MapFrom(src => src.Doctor.User.AvatarUrl));
 
-            CreateMap<GetDoctorToDrawTableDto, Doctor>().ReverseMap()
+            CreateMap<DoctorTableDto, Doctor>().ReverseMap()
                 .ForMember(des => des.Department, opt => opt.MapFrom(src => src.Department.DepartmentName))
                 .ForMember(des => des.Email, opt => opt.MapFrom(src => src.User.Email))
                 .ForMember(des => des.Gender, opt => opt.MapFrom((src, des) =>

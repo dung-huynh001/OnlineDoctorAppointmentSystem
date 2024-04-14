@@ -6,7 +6,9 @@
                 <img src="assets/images/logo-dark.png" class="card-logo card-logo-dark" alt="logo dark" height="17">
                 <img src="assets/images/logo-light.png" class="card-logo card-logo-light" alt="logo light" height="17">
             </div>
-            <ng-stepper #cdkStepper [linear]="true" [(selectedIndex)]="selectedIndex" class="step-arrow-nav wizard">
+            <ng-stepper #cdkStepper (selectedIndexChange)="selectedIndexChange($event)"
+                (selectionChange)="selectionChange($event)" [(selectedIndex)]="selectedIndex" 
+                class="step-arrow-nav wizard">
                 <cdk-step [optional]="false" #step1 cdkStepHeader>
                     <ng-template cdkStepLabel>
                         <li class="nav-item" role="presentation">
@@ -19,22 +21,23 @@
                         <div class="container px-0">
                             <div class="row justify-content-center mb-3">
                                 <div class="col-lg-6">
-                                    <label class="form-label " for="email">Email <span class="text-danger">*</span></label>
+                                    <label class="form-label " for="email">Email <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="email" formControlName="Email"
                                         pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" autocomplete="off"
                                         placeholder="Enter email"
                                         [ngClass]="{'is-invalid': accountForm_submitted && this.accountFormControl['Email'].errors }">
                                     <div class="invalid-feedback"
                                         *ngIf="this.accountFormControl['Email'].errors?.['required']">
-                                        Please enter email
+                                        Email is required
                                     </div>
                                     <div class="invalid-feedback"
                                         *ngIf="this.accountFormControl['Email'].errors?.['email'] || this.accountFormControl['Email'].errors?.['pattern']">
-                                        Please enter the correct email format
+                                        Incorrect email address format
                                     </div>
                                 </div>
                             </div>
-    
+
                             <div class="row justify-content-center mb-3">
                                 <div class="col-lg-6">
                                     <label class="form-label" for="username">Username <span
@@ -43,9 +46,9 @@
                                         autocomplete="off" placeholder="Enter username"
                                         [ngClass]="{'is-invalid': accountForm_submitted && this.accountFormControl['Username'].errors }">
                                     <div class="invalid-feedback">
-                                        Please enter username
+                                        Username is required
                                     </div>
-    
+
                                 </div>
                             </div>
                             <div class="row justify-content-center mb-3">
@@ -56,7 +59,7 @@
                                         placeholder="Enter password"
                                         [ngClass]="{'is-invalid': accountForm_submitted && this.accountFormControl['Password'].errors }">
                                     <div class="invalid-feedback">
-                                        Please enter password
+                                        Password is required
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +72,7 @@
                                         [ngClass]="{'is-invalid': accountForm_submitted && this.accountFormControl['ConfirmPassword'].errors }">
                                     <div class="invalid-feedback"
                                         *ngIf="this.accountFormControl['ConfirmPassword'].errors?.['required']">
-                                        Please enter confirm password
+                                        Confirm password is required
                                     </div>
                                     <div class="invalid-feedback"
                                         *ngIf="this.accountFormControl['ConfirmPassword'].errors?.['compare']">
@@ -86,7 +89,7 @@
                         </div>
                     </form>
                 </cdk-step>
-    
+
                 <cdk-step [optional]="false" #step2>
                     <ng-template cdkStepLabel>
                         <li class="nav-item" role="presentation">
@@ -105,7 +108,7 @@
                                         autocomplete="off" placeholder="Enter doctor's name"
                                         [ngClass]="{'is-invalid': doctorInfoForm_submitted && this.doctorInfoFormControl['FullName'].errors }">
                                     <div class="invalid-feedback">
-                                        Please enter doctor's name
+                                        Full Nam is required
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
@@ -115,21 +118,23 @@
                                         autocomplete="off" placeholder="Enter doctor's national id" maxlength="10"
                                         [ngClass]="{'is-invalid': doctorInfoForm_submitted && this.doctorInfoFormControl['NationalId'].errors }">
                                     <div class="invalid-feedback">
-                                        Please enter doctor's national id
+                                        National ID is required
                                     </div>
                                 </div>
-    
+
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label" for="dateOfBirth">Date Of
                                         Birth <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="dateOfBirth" formControlName="DateOfBirth"
+                                    <input type="date" class="form-control" id="dateOfBirth"
+                                        formControlName="DateOfBirth"
                                         [ngClass]="{'is-invalid': doctorInfoForm_submitted && this.doctorInfoFormControl['DateOfBirth'].errors }">
                                     <div class="invalid-feedback">
-                                        Please select birth date of doctor
+                                        Date Of Birth is required
                                     </div>
                                 </div>
                                 <div class="col-lg-4 mb-3">
-                                    <label class="form-label" for="gender">Gender <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="gender">Gender <span
+                                            class="text-danger">*</span></label>
                                     <select class="form-select" formControlName="Gender" id="Gender"
                                         [ngClass]="{'is-invalid': doctorInfoForm_submitted && this.doctorInfoFormControl['Gender'].errors }">
                                         <option value="0">Male</option>
@@ -145,7 +150,7 @@
                                         maxlength="10"
                                         [ngClass]="{'is-invalid': doctorInfoForm_submitted && this.doctorInfoFormControl['PhoneNumber'].errors }">
                                     <div class="invalid-feedback">
-                                        Please enter doctor's phone number
+                                        Phone number is required
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
@@ -155,17 +160,17 @@
                                         formControlName="Address" id="address" rows="3"
                                         [ngClass]="{'is-invalid': doctorInfoForm_submitted && this.doctorInfoFormControl['Address'].errors }"></textarea>
                                     <div class="invalid-feedback">
-                                        Please enter doctor's address
+                                        Address is required
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
                                     <label for="formFile" class="form-label">Upload Image <span
                                             class="text-danger">*</span></label>
-                                    <input class="form-control" type="file" id="formFile" (change)="onFileChange($event)"
-                                        accept="image/*"
+                                    <input class="form-control" type="file" id="formFile"
+                                        (change)="onFileChange($event)" accept="image/*"
                                         [ngClass]="{'is-invalid': doctorInfoForm_submitted && this.doctorInfoFormControl['Avatar'].errors }">
                                     <div class="invalid-feedback">
-                                        Please select doctor's avatar
+                                        Avatar is required
                                     </div>
                                 </div>
                             </div>
@@ -183,13 +188,13 @@
                         </div>
                     </form>
                 </cdk-step>
-    
+
                 <cdk-step [optional]="false" #step3>
                     <ng-template cdkStepLabel>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="pills-experience-tab" data-bs-toggle="pill"
-                                data-bs-target="#pills-experience" type="button" role="tab" aria-controls="pills-experience"
-                                aria-selected="false">Contract</button>
+                                data-bs-target="#pills-experience" type="button" role="tab"
+                                aria-controls="pills-experience" aria-selected="false">Contract</button>
                         </li>
                     </ng-template>
                     <form [formGroup]="workInfoForm" (ngSubmit)="workInfoFormSubmit()">
@@ -199,11 +204,12 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="speciality">Speciality <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="speciality" formControlName="Speciality"
-                                            autocomplete="off" placeholder="Enter doctor's speciality"
+                                        <input type="text" class="form-control" id="speciality"
+                                            formControlName="Speciality" autocomplete="off"
+                                            placeholder="Enter doctor's speciality"
                                             [ngClass]="{'is-invalid': workInfoForm_submitted && this.workInfoFormControl['Speciality'].errors }">
                                         <div class="invalid-feedback">
-                                            Please enter doctor's speciality
+                                            Speciality is required
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +228,7 @@
                                             </ng-template>
                                         </ng-select>
                                         <div class="invalid-feedback">
-                                            Please select department
+                                            Department is required
                                         </div>
                                     </div>
                                 </div>
@@ -236,7 +242,7 @@
                                             formControlName="WorkingStartDate"
                                             [ngClass]="{'is-invalid': workInfoForm_submitted && this.workInfoFormControl['WorkingStartDate'].errors }">
                                         <div class="invalid-feedback">
-                                            Please select working start date
+                                            Working start date is required
                                         </div>
                                     </div>
                                 </div>
@@ -250,7 +256,7 @@
                                             formControlName="WorkingEndDate"
                                             [ngClass]="{'is-invalid': workInfoForm_submitted && this.workInfoFormControl['WorkingEndDate'].errors }">
                                         <div class="invalid-feedback">
-                                            Please select working start date
+                                            Working start date is required
                                         </div>
                                     </div>
                                 </div>
@@ -259,10 +265,11 @@
                         <div class="d-flex align-items-start gap-3 mt-5 justify-content-between">
                             <button type="button" class="btn btn-light btn-label previestab"
                                 data-previous="steparrow-description-info-tab" cdkStepperPrevious><i
-                                    class="ri-arrow-left-line label-icon align-middle fs-16 me-2 previestab"></i> Back <span
-                                    class="d-none d-lg-inline">to Doctor information</span></button>
-    
-                            <button type="button" class="btn btn-success btn-label right ms-auto nexttab" type="submit"><i
+                                    class="ri-arrow-left-line label-icon align-middle fs-16 me-2 previestab"></i> Back
+                                <span class="d-none d-lg-inline">to Doctor information</span></button>
+
+                            <button type="button" class="btn btn-success btn-label right ms-auto nexttab"
+                                type="submit"><i
                                     class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
                         </div>
                     </form>
@@ -274,3 +281,4 @@
 </div>
 
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

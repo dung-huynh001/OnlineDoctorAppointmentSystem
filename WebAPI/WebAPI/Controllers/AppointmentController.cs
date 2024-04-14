@@ -76,10 +76,10 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("get-appointment-event-by-doctor")]
-        public async Task<IActionResult> GetAppointmentEventByDoctor(EJ2Params param)
+        public async Task<IActionResult> GetAppointmentEventsByDoctor(EJ2Params param)
         {
             string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var data = JsonSerializer.Serialize(await _appointmentService.GetAppointmentEventByDoctor(param, currentUserId));
+            var data = JsonSerializer.Serialize(await _appointmentService.GetAppointmentEventsByDoctor(param, currentUserId));
             return Ok(data);
         }
 

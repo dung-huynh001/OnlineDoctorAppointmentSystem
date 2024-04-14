@@ -7,7 +7,7 @@ namespace WebAPI.Interfaces.IService
 {
     public interface IDoctorService
     {
-        Task<DatatableResponse<GetDoctorToDrawTableDto>> GetAll(DataTablesParameters parameters);
+        Task<DatatableResponse<DoctorTableDto>> GetAll(DataTablesParameters parameters);
         Task<List<DoctorOnDutyDto>> GetDoctorsOnDuty(DateTime dateTime);
         Task<bool> Create(CreateDoctorDto doctor);
         Task<DoctorDetailsDto> GetDoctorDetails(int id);

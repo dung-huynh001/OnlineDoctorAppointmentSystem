@@ -45,25 +45,8 @@ namespace WebAPI.Services
             return result;
         }
 
-        /*public Task<List<EventDto>> GetSchedulesOfDoctors()
-        {
-            var schedules = _unitOfWork.Repository<Schedule>().GetAll
-                .Where(s => !s.IsDeleted)
-                .Select(s => new EventDto
-                {
-                    FullName = s.Doctor.FullName,
-                    Id = s.Doctor.Id,
-                    AvatarUrl = s.Doctor.User.AvatarUrl,
-                    Speciality = s.Doctor.Speciality,
-                    WorkingDay = s.WorkingDay.ToString("yyyy-MM-dd"),
-                })
-                .AsEnumerable()
-                .DistinctBy(a => new { a.FullName, a.WorkingDay })
-                .ToList();
-            return Task.FromResult(schedules);
-        }*/
 
-        public async Task<List<EventDto>> GetSchedulesOfDoctors(EJ2Params param)
+        public async Task<List<EventDto>> GetAllDoctorSchedules(EJ2Params param)
         {
             var schedules = await _unitOfWork.Repository<Schedule>().GetAll
                 .Where(s => !s.IsDeleted
@@ -82,20 +65,6 @@ namespace WebAPI.Services
             return schedules;
         }
 
-        private string ConvertClassNameToHexCodeColor(string className)
-        {
-            string hexCode = className.Trim() switch
-            {
-                "bg-success-subtle" => "#6ada7d",
-                "bg-primary-subtle" => "#5ea3cb",
-                "bg-info-subtle" => "#58caea",
-                "bg-warning-subtle" => "#f7b84b",
-                "bg-dark-subtle" => "#212529",
-                "bg-danger-subtle" => "#fa896b",
-                _ => ""
-            };
-            return hexCode;
-        }
 
         public async Task<List<ScheduleShiftDto>> GetScheduleShiftsByDate(int doctorId, DateTime date)
         {
@@ -297,7 +266,7 @@ namespace WebAPI.Services
             return schedules;
         }
 
-        public async Task<DatatableResponse<DoctorCardDto>> GetDoctorList(ScheduleFilter filter)
+        public async Task<DatatableResponse<DoctorCardDto>> GetDoctors(ScheduleFilter filter)
         {
             var records = _unitOfWork.Repository<Doctor>().GetAll
                 .Select(d => new DoctorCardDto

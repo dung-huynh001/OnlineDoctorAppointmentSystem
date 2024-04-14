@@ -41,8 +41,8 @@ namespace WebAPI.Controllers
             return Ok(await _doctorService.GetAll(parameters));
         }
 
-        [HttpPost("get-doctor-on-duty")]
-        public async Task<IActionResult> GetDoctorListOnDuty(string date)
+        [HttpGet("get-doctor-on-duty")]
+        public async Task<IActionResult> GetDoctorsOnDuty(string date)
         {
             string formatString = "M/d/yyyy, h:mm:ss tt";
 

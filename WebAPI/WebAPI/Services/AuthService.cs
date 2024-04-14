@@ -106,13 +106,15 @@ namespace WebAPI.Services
                 throw new Exception("Username already taken");
             }
 
+            var userType = request.UserType!.Trim().ToLower();
+
             var user = new AppUser
             {
                 UserName = request.Username,
                 Email = request.Email,
-                UserType = request.UserType!.Trim().ToLower(),
+                UserType = userType,
                 AvatarUrl = request.AvatarUrl,
-                Status = StatusAccount.NotActivate
+                Status = userType == "patient" ? StatusAccount.NotActivate : StatusAccount.Activated
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);

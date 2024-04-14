@@ -4,25 +4,27 @@ import { environment } from '../../../environments/environment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { iPatientInfo } from '../models/patientInfo.model';
 
+const HOSTNAME = environment.serverApi;
+
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
-  private patientData$: Subject<iPatientInfo> = new Subject<iPatientInfo>();
+  private patient$: Subject<iPatientInfo> = new Subject<iPatientInfo>();
   
   constructor(private http: HttpClient) {
   }
 
-  getPatientData() {
-    return this.patientData$.asObservable();
+  getPatient() {
+    return this.patient$.asObservable();
   }
 
-  setPatientData(data: iPatientInfo) {
-    this.patientData$.next(data);
+  setPatient(data: iPatientInfo) {
+    this.patient$.next(data);
   }
 
-  getPatientInfo(url: string, id: any): Observable<any> {
-    return this.http.get(environment.serverApi + `/api` + url + `?id=${id}`);
+  getPatientInfo(id: any): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Patient/get-patient-details?id=${id}`);
   }
 
   updatePatientInfo(url: string, id: any, data: any): Observable<any> {
