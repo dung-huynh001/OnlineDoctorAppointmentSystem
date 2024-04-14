@@ -1,0 +1,2 @@
+4/12/2024 3:18:55 PM ==> PatientService.cs	patient 6033aeac-d5a3-4449-9f8d-84408f1bf08e was not found Line:69	<GetPatientDetails>	GET	6033aeac-d5a3-4449-9f8d-84408f1bf08e
+
