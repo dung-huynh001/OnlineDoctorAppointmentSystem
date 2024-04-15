@@ -54,8 +54,7 @@
               "RelativeToolTip": "WebAPI\\Models\\EJ2UpdateParams.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T08:51:45.463Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T08:51:45.463Z"
             },
             {
               "$type": "Document",
@@ -67,8 +66,7 @@
               "RelativeToolTip": "WebAPI\\Controllers\\ScheduleController.cs",
               "ViewState": "AQIAACYAAAAAAAAAAAAwwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T08:23:12.81Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T08:23:12.81Z"
             },
             {
               "$type": "Document",
@@ -80,8 +78,7 @@
               "RelativeToolTip": "WebAPI\\DTOs\\EventDto.cs",
               "ViewState": "AQIAAAYAAAAAAAAAAAAAABEAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T08:00:42.128Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T08:00:42.128Z"
             },
             {
               "$type": "Document",
@@ -106,8 +103,7 @@
               "RelativeToolTip": "WebAPI\\DTOs\\PatientToFillDropdownDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T07:41:38.179Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T07:41:38.179Z"
             },
             {
               "$type": "Document",
@@ -119,8 +115,7 @@
               "RelativeToolTip": "WebAPI\\Controllers\\AppointmentController.cs",
               "ViewState": "AQIAAEgAAAAAAAAAAAAAAFUAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T04:17:06.287Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T04:17:06.287Z"
             },
             {
               "$type": "Document",
@@ -132,8 +127,7 @@
               "RelativeToolTip": "WebAPI\\Services\\AppointmentService.cs",
               "ViewState": "AQIAAOYBAAAAAAAAAIA2wO8BAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T04:14:53.674Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T04:14:53.674Z"
             },
             {
               "$type": "Document",
@@ -145,8 +139,7 @@
               "RelativeToolTip": "WebAPI\\Interfaces\\IService\\IAppointmentService.cs",
               "ViewState": "AQIAAAoAAAAAAAAAAAA1wBQAAABnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T04:12:11.152Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T04:12:11.152Z"
             }
           ]
         }

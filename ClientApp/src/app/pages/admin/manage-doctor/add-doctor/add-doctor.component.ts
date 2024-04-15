@@ -6,6 +6,8 @@ import { catchError, throwError } from 'rxjs';
 import { ToastService } from '../../../../core/services/toast.service';
 import { DoctorService } from '../../../../core/services/doctor.service';
 
+const MAX_FILE_SIZE = 272025;
+
 @Component({
   selector: 'app-add-doctor',
   templateUrl: './add-doctor.component.html',
@@ -16,7 +18,7 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
   accountForm!: FormGroup;
   doctorInfoForm!: FormGroup;
   workInfoForm!: FormGroup;
-  maxFileSize: number = 272025;
+  maxFileSize: number = MAX_FILE_SIZE;
   accountForm_submitted: boolean = false;
   doctorInfoForm_submitted: boolean = false;
   workInfoForm_submitted: boolean = false;
@@ -133,6 +135,23 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
           }
         });
     }
+  }
+
+  resetForms() {
+    this.accountForm_submitted = false;
+    this.accountForm.reset();
+    this.accountForm.markAsUntouched();
+    this.accountForm.markAsPristine();
+
+    this.doctorInfoForm_submitted = false;
+    this.doctorInfoForm.reset();
+    this.doctorInfoForm.markAsUntouched();
+    this.doctorInfoForm.markAsPristine();
+
+    this.workInfoForm_submitted = false;
+    this.workInfoForm.reset();
+    this.workInfoForm.markAsUntouched();
+    this.workInfoForm.markAsPristine();
   }
 
   onFileChange(event: any) {
