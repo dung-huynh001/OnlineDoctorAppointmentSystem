@@ -1,8 +1,69 @@
 [
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
-    "Method": "AddOrUpdateAppointmentEvent",
-    "RelativePath": "api/Appointment/add-or-update-appointment-event",
+    "Method": "AddNewPatient",
+    "RelativePath": "api/Appointment/add-new-patient",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Password",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PhoneNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NationalId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FullName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Address",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Gender",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "DateOfBirth",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "AppointmentOnSite",
+    "RelativePath": "api/Appointment/appointment-on-site",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -33,7 +94,7 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
-    "Method": "GetAppointmentEventByDoctor",
+    "Method": "GetAppointmentEventsByDoctor",
     "RelativePath": "api/Appointment/get-appointment-event-by-doctor",
     "HttpMethod": "POST",
     "IsController": true,
@@ -379,7 +440,7 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.DepartmentController",
-    "Method": "GetDepartmentToSelect",
+    "Method": "GetDepartmentsForSelect",
     "RelativePath": "api/Department/get-department-to-select",
     "HttpMethod": "GET",
     "IsController": true,
@@ -549,9 +610,9 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.DoctorController",
-    "Method": "GetDoctorListOnDuty",
+    "Method": "GetDoctorsOnDuty",
     "RelativePath": "api/Doctor/get-doctor-on-duty",
-    "HttpMethod": "POST",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -745,7 +806,7 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.PatientController",
-    "Method": "UpdatePatientInfo",
+    "Method": "UpdatePatient",
     "RelativePath": "api/Patient/update-patient-info/{id}",
     "HttpMethod": "PATCH",
     "IsController": true,
@@ -863,7 +924,23 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.ScheduleController",
-    "Method": "GetDoctorList",
+    "Method": "GetAllDoctorSchedules",
+    "RelativePath": "api/Schedule/get-all-doctor-schedules",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "param",
+        "Type": "WebAPI.Models.EJ2Params",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetDoctors",
     "RelativePath": "api/Schedule/get-doctor-list",
     "HttpMethod": "POST",
     "IsController": true,
@@ -910,7 +987,23 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.ScheduleController",
-    "Method": "GetScheduleShiftByDate",
+    "Method": "GetScheduleEventsByDoctor",
+    "RelativePath": "api/Schedule/get-schedule-events-of-doctor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "doctorId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetScheduleShiftsByDate",
     "RelativePath": "api/Schedule/get-schedule-shift-by-date/{doctorId}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -925,38 +1018,6 @@
         "Name": "date",
         "Type": "System.DateTime",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebAPI.Controllers.ScheduleController",
-    "Method": "GetSchedulesByDoctorId",
-    "RelativePath": "api/Schedule/get-schedules-of-doctor",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "doctorId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebAPI.Controllers.ScheduleController",
-    "Method": "GetSchedulesOfDoctors",
-    "RelativePath": "api/Schedule/get-schedules-of-doctors",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "param",
-        "Type": "WebAPI.Models.EJ2Params",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []

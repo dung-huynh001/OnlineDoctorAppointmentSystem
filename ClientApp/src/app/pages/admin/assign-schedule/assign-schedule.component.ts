@@ -158,7 +158,7 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
 
   fetchEvent() {
     this.fetchEvent$ = this._scheduleService
-      .getScheduleEvents('/Schedule/get-schedules-of-doctor', this.doctorId)
+      .getScheduleEvents(this.doctorId)
       .pipe(
         first(),
         catchError((err) => {
@@ -267,7 +267,7 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
   addEvent(data: any) {
     this.showSpinner();
     this.addEvent$ = this._scheduleService
-      .addSchedule('/Schedule/add-schedule', data)
+      .addSchedule(data)
       .pipe(
         first(),
         catchError((err) => {

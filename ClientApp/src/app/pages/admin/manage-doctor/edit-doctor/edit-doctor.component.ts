@@ -114,7 +114,7 @@ export class EditDoctorComponent implements OnInit {
     const currentUrl = this.router.url;
     this.doctorId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
     this._doctorService
-      .getDoctorDetails('Doctor/get-doctor-details', this.doctorId)
+      .getDoctorDetails(this.doctorId)
       .pipe(
         catchError((err) => {
           this.router.navigate(['pages/page-not-found']);

@@ -7,9 +7,9 @@ namespace WebAPI.Interfaces.IService
     public interface IAppointmentService
     {
 
-        Task<GetAppointmentDetailDto> GetAppointmentDetail(int appointmentId);
-        Task<DatatableResponse<GetAppointmentToDrawTableDto>> GetAppointments(string id, string userType, string type, DataTablesParameters parameters);
-        Task<PatientDataToAppointment> GetPatientDataToAppointment(string currentUserId);
+        Task<AppointmentDetailDto> GetAppointmentDetail(int appointmentId);
+        Task<DatatableResponse<AppointmentTableDto>> GetAppointments(string id, string userType, string type, DataTablesParameters parameters);
+        Task<AppointmentPatientDto> GetPatientDetailToAppointment(string currentUserId);
         Task<ApiResponse> MakeAppointment(MakeAppointmentDto model);
         Task SendAppointmentConfirmMail(int doctorId, int patientId, string appointmentDate);
         Task<ApiResponse> CancelAppointment(int id);
@@ -18,6 +18,8 @@ namespace WebAPI.Interfaces.IService
         Task<List<RecentlyAppointmentDto>> GetRecentlyAppointment(string id);
         Task<List<UpcomingAppointmentDto>> GetUpcomingAppointment(string id);
         Task<List<PatientToFillDropdownDto>> GetPatients();
-        Task<List<AppointmentEventDto>> GetAppointmentEventByDoctor(EJ2Params param, string currentUserId);
+        Task<List<AppointmentEventDto>> GetAppointmentEventsByDoctor(EJ2Params param, string currentUserId);
+        Task<ApiResponse> AddNewPatient(AddNewPatientDto model);
+        Task<ApiResponse> AppointmentOnSite(EJ2UpdateParams<AppointmentEventDto> param, string currrentUserId);
     }
 }

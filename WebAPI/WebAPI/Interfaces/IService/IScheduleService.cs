@@ -10,8 +10,8 @@ namespace WebAPI.Interfaces.IService
         Task<ApiResponse> AddSchedule(CreateScheduleDto model);
         Task<ApiResponse> UpdateSchedule(UpdateScheduleDto model);
         Task<List<ScheduleEventDto>> GetScheduleEventsByDoctor(int doctorId);
-        Task<DatatableResponse<DoctorCardDto>> GetDoctorList(ScheduleFilter filter);
-        Task<List<EventDto>> GetSchedulesOfDoctors(EJ2Params param);
+        Task<DatatableResponse<DoctorCardDto>> GetDoctors(ScheduleFilter filter);
+        Task<List<EventDto>> GetAllDoctorSchedules(EJ2Params param);
         Task<List<ScheduleShiftDto>> GetScheduleShiftsByDate(int doctorId, DateTime date);
 
         Task<List<DoctorResourceDto>> GetDoctors();

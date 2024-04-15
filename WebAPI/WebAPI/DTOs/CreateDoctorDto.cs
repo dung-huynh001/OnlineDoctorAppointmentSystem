@@ -1,4 +1,6 @@
-﻿namespace WebAPI.DTOs
+﻿using WebAPI.Domain.Enums;
+
+namespace WebAPI.DTOs
 {
     public class CreateDoctorDto
     {

@@ -4,30 +4,30 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { DataTableResponse } from '../models/dataTableResponse.model';
 
-const hostName = environment.serverApi;
+const HOSTNAME = environment.serverApi;
 @Injectable({
   providedIn: 'root',
 })
 export class DepartmentService {
   constructor(private http: HttpClient) { }
 
-  getAll(url: string, dataTablesParameters: any) {
-    return this.http.post<DataTableResponse>(environment.serverApi + `/api` + url, dataTablesParameters);
+  getDepartments(dataTablesParameters: any) {
+    return this.http.post<DataTableResponse>(`${HOSTNAME}/api/Department/get-department`, dataTablesParameters);
   }
 
-  create(url: string, data: any): Observable<any>  {
-    return this.http.post(hostName + `/api` + url, data);
+  create(data: any): Observable<any>  {
+    return this.http.post(`${HOSTNAME}/api/Department/create`, data);
   }
 
-  update(url: string, id: number, data: any): Observable<any>  {
-    return this.http.patch(hostName + `/api/${url}/${id}`, data);
+  update(id: number, data: any): Observable<any>  {
+    return this.http.patch(`${HOSTNAME}/api//Department/update/${id}`, data);
   }
 
-  delete(url: string, id: number): Observable<any>  {
-    return this.http.delete(hostName + `/api/${url}?id=${id}`);
+  delete(id: number): Observable<any>  {
+    return this.http.delete(`${HOSTNAME}/api/Department/delete?id=${id}`);
   }
 
-  restore(url: string, id: number): Observable<any>  {
-    return this.http.get(hostName + `/api/${url}?id=${id}`);
+  restore(id: number): Observable<any>  {
+    return this.http.get(`${HOSTNAME}/api/'Department/restore?id=${id}`);
   }
 }

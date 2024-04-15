@@ -82,8 +82,7 @@ export class PendingComponent {
       },
       ajax: (dataTablesParameters: any, callback: Function) => {
         this._appointmentService
-          .getAllAppointments(
-            `Appointment/get-appointments`,
+          .getAppointments(
             this.currentUser.id,
             'patient',
             'pending',
@@ -191,7 +190,7 @@ export class PendingComponent {
   cancelAppointment(id: number) {
     this._spinnerService.show();
     this._appointmentService
-      .cancelAppointment('Appointment/cancel-appointment', id)
+      .cancelAppointment(id)
       .pipe(
         catchError((err) => {
           console.log(err);

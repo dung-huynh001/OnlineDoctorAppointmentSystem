@@ -70,9 +70,9 @@ namespace WebAPI.Services
             }
         }
 
-        public Task<DatatableResponse<GetDoctorToDrawTableDto>> GetAll(DataTablesParameters parameters)
+        public Task<DatatableResponse<DoctorTableDto>> GetAll(DataTablesParameters parameters)
         {
-            var response = new DatatableResponse<GetDoctorToDrawTableDto>();
+            var response = new DatatableResponse<DoctorTableDto>();
 
             var searchValue = parameters.Search.Value.IsNullOrEmpty() ? "" : parameters.Search.Value?.ToLower().Trim();
 
@@ -80,7 +80,7 @@ namespace WebAPI.Services
             var records = _unitOfWork.Repository<Doctor>().GetAll
                 .Include(d => d.User)
                 .Include(d => d.Department)
-                .Select(d => new GetDoctorToDrawTableDto
+                .Select(d => new DoctorTableDto
                 {
                     Id = d.Id,
                     FullName = d.FullName,

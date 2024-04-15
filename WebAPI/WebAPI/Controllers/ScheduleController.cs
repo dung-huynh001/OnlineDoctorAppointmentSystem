@@ -35,27 +35,27 @@ namespace WebAPI.Controllers
             return Ok(await _scheduleService.AddSchedule(model));
         }
 
-        [HttpGet("get-schedules-of-doctor")]
-        public async Task<ActionResult> GetSchedulesByDoctorId(int doctorId)
+        [HttpGet("get-schedule-events-of-doctor")]
+        public async Task<ActionResult> GetScheduleEventsByDoctor(int doctorId)
         {
             return Ok(await _scheduleService.GetScheduleEventsByDoctor(doctorId));
         }
 
-        [HttpPost("get-schedules-of-doctors")]
-        public async Task<ActionResult> GetSchedulesOfDoctors(EJ2Params param)
+        [HttpPost("get-all-doctor-schedules")]
+        public async Task<ActionResult> GetAllDoctorSchedules(EJ2Params param)
         {
-            var data = JsonSerializer.Serialize(await _scheduleService.GetSchedulesOfDoctors(param));
+            var data = JsonSerializer.Serialize(await _scheduleService.GetAllDoctorSchedules(param));
             return Ok(data);
         }
 
         [HttpPost("get-doctor-list")]
-        public async Task<IActionResult> GetDoctorList(ScheduleFilter filter)
+        public async Task<IActionResult> GetDoctors(ScheduleFilter filter)
         {
-            return Ok(await _scheduleService.GetDoctorList(filter));
+            return Ok(await _scheduleService.GetDoctors(filter));
         }
 
         [HttpGet("get-schedule-shift-by-date/{doctorId}")]
-        public async Task<IActionResult> GetScheduleShiftByDate ([FromRoute]int doctorId, [FromQuery]DateTime date)
+        public async Task<IActionResult> GetScheduleShiftsByDate ([FromRoute]int doctorId, [FromQuery]DateTime date)
         {
             return Ok(await _scheduleService.GetScheduleShiftsByDate(doctorId, date));
         }

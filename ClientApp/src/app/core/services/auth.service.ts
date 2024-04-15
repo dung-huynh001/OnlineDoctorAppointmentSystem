@@ -65,15 +65,7 @@ export class AuthService {
     this.status$.next(user.status);
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
-
-  // setStatus(status: string) {
-  //   this.status$.next(status);
-  //   const currentUser = this.currentUser();
-  //   currentUser.status = status;
-
-  //   localStorage.setItem('currentUser', JSON.stringify(currentUser));
-  // }
-
+  
   initStatus() {
     const currentUser = this.currentUser();
     this.status$.next(currentUser.status);

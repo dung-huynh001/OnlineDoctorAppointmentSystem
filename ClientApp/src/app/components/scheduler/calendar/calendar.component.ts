@@ -64,7 +64,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
   currentUser = this._authService.currentUser();
 
   public data: DataManager = new DataManager({
-    url: environment.serverApi + '/api/Schedule/get-schedules-of-doctors',
+    url: environment.serverApi + '/api/Schedule/get-all-doctor-schedules',
     crudUrl: environment.serverApi + '/api/Schedule/update-schedule',
     headers: [
       {
@@ -151,7 +151,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
   fetchDoctors() {
     this._spinnerService.show();
     this._scheduleService
-      .getDoctors('Schedule/get-doctors')
+      .getDoctors()
       .pipe(
         catchError((err) => {
           console.log(err);

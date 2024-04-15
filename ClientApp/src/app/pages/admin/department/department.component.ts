@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, catchError, throwError } from 'rxjs';
 import { DatePipe } from '@angular/common';
@@ -79,7 +87,7 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       ajax: (dataTablesParameters: any, callback: Function) => {
         this._departmentService
-          .getAll('/Department/get-department', dataTablesParameters)
+          .getDepartments(dataTablesParameters)
           .pipe(
             catchError((err) => {
               callback({
@@ -202,7 +210,7 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
           departmentName: formData.departmentName,
         };
         this._departmentService
-          .update('/Department/update', data.id, data)
+          .update(data.id, data)
           .pipe(
             catchError((err) => {
               return throwError(() => err);
@@ -216,7 +224,7 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
           });
       } else {
         this._departmentService
-          .create('/Department/create', formData)
+          .create(formData)
           .pipe(
             catchError((err) => {
               return throwError(() => err);
@@ -280,7 +288,7 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
 
   deleteDepartment(id: any) {
     this._departmentService
-      .delete('Department/delete', id)
+      .delete(id)
       .pipe(
         catchError((err) => {
           return throwError(() => {
@@ -297,7 +305,7 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
 
   restoreDepartment(id: any) {
     this._departmentService
-      .restore('Department/restore', id)
+      .restore(id)
       .pipe(
         catchError((err) => {
           return throwError(() => {

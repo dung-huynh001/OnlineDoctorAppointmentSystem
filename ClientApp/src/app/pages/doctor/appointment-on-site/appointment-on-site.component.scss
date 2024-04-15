@@ -76,6 +76,10 @@
   background: #bde0f5;
 }
 
+.e-schedule .e-timeline-view.e-timeline-day-view .e-date-header-wrap .e-header-row:first-child {
+  display: none;
+}
+
 .e-schedule-toolbar-container {
   display: none;
 }

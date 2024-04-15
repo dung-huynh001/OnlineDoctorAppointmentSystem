@@ -1,6 +1,6 @@
 ﻿namespace WebAPI.DTOs
 {
-    public class GetDoctorToDrawTableDto
+    public class DoctorTableDto
     {
         public int Id { get; set; }
         public string FullName { get; set; }

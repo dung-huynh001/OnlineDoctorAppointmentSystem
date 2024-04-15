@@ -72,57 +72,60 @@ export class AppointmentService {
 
   constructor(private http: HttpClient) {}
 
-  getDoctorOnDuty(url: string, dateTime: any): Observable<any> {
-    return this.http.post(
-      HOSTNAME + `/api` + url + `?date=${dateTime}`,
-      dateTime
-    );
+  getDoctorOnDuty(dateTime: any): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Doctor/get-doctor-on-duty?date=${dateTime}`)
   }
 
-  makeAppoinntment(url: string, data: any): Observable<any> {
+  makeAppoinntment(data: any): Observable<any> {
     const formData = new FormData();
 
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
 
-    return this.http.post(HOSTNAME + `/api` + url, formData);
+    return this.http.post(`${HOSTNAME}/api/Appointment/make-appointment`, formData);
   }
 
-  getAllAppointments(
-    url: string,
+  getAppointments(
     id: any,
     userType: string,
     type: string,
     dataTablesParameters: any
   ): Observable<any> {
-    return this.http.post(
-      HOSTNAME + `/api/${url}/${id}?type=${type}&userType=${userType}`,
+    return this.http.post(`${HOSTNAME}/api/Appointment/get-appointments/${id}?type=${type}&userType=${userType}`,
       dataTablesParameters
     );
   }
 
-  cancelAppointment(url: string, id: any): Observable<any> {
-    return this.http.get(HOSTNAME + `/api/${url}/${id}`);
+  cancelAppointment(id: any): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Appointment/cancel-appointment/${id}`);
   }
 
-  viewAppointmentDetails(url: string, id: any): Observable<any> {
-    return this.http.get(HOSTNAME + `/api/${url}/${id}`);
+  viewAppointmentDetails(id: any): Observable<any> {
+        return this.http.get(`${HOSTNAME}/api/Appointment/view-appointment-details/${id}`);
   }
 
   loadWidgets(url: string, id: any, userType: any): Observable<any> {
     return this.http.get(HOSTNAME + `/api/${url}/${id}?userType=${userType}`);
   }
 
-  getRecentlyAppointment(url: string, id: any): Observable<any> {
-    return this.http.get(HOSTNAME + `/api/${url}/${id}`);
+  getRecentlyAppointment(id: any): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Appointment/Appointment/get-recently-appointments/${id}`);
   }
 
-  getUpcomingAppointment(url: string, id: any): Observable<any> {
-    return this.http.get(HOSTNAME + `/api/${url}/${id}`);
+  getUpcomingAppointment(id: any): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Appointment/get-upcoming-appointments/${id}`);
   }
 
-  getAllPatientToFillDropdown(url: string) {
-    return this.http.get(HOSTNAME + `/api/${url}`);
+  getPatientsToFillDropdown(): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Appointment/get-patients-to-fill-dropdown`);
+  }
+
+  addNewPatient(data: any): Observable<any> {
+    const formData = new FormData();
+    Object.keys(data).forEach(key => {
+      formData.append(key, data[key]);
+    });
+    return this.http.post(`${HOSTNAME}/api/Appointment/add-new-patient`, formData);
   }
 }

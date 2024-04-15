@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Castle.Core.Internal;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -17,11 +19,22 @@ namespace WebAPI.Controllers
     {
         private readonly IAppointmentService _appointmentService;
         private readonly ICurrentUserService _userService;
+        private readonly IMapper _mapper;
+        private readonly IAuthService _authService;
+        private readonly IPatientService _patientService;
 
-        public AppointmentController(IAppointmentService appointmentService, ICurrentUserService userService)
+        public AppointmentController(
+            IAppointmentService appointmentService, 
+            ICurrentUserService userService, 
+            IMapper mapper, 
+            IAuthService authService,
+            IPatientService patientService)
         {
             this._appointmentService = appointmentService;
             this._userService = userService;
+            this._mapper = mapper;
+            this._authService = authService;
+            this._patientService = patientService;
         }
 
         [HttpPost("get-appointments/{id}")]
@@ -76,17 +89,35 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("get-appointment-event-by-doctor")]
-        public async Task<IActionResult> GetAppointmentEventByDoctor(EJ2Params param)
+        public async Task<IActionResult> GetAppointmentEventsByDoctor(EJ2Params param)
         {
             string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var data = JsonSerializer.Serialize(await _appointmentService.GetAppointmentEventByDoctor(param, currentUserId));
+            var data = JsonSerializer.Serialize(await _appointmentService.GetAppointmentEventsByDoctor(param, currentUserId));
             return Ok(data);
         }
 
-        [HttpPost("add-or-update-appointment-event")]
-        public async Task<IActionResult> AddOrUpdateAppointmentEvent(EJ2UpdateParams<AppointmentEventDto> param)
+        [HttpPost("appointment-on-site")]
+        public async Task<IActionResult> AppointmentOnSite(EJ2UpdateParams<AppointmentEventDto> param)
         {
-            return Ok();
+            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return Ok(await _appointmentService.AppointmentOnSite(param, currentUserId));
         }
+
+        [HttpPost("add-new-patient")]
+        public async Task<IActionResult> AddNewPatient([FromForm]AddNewPatientDto model)
+        {
+            var registerModel = _mapper.Map<RegisterModel>(model);
+            registerModel.UserType = "patient";
+            var createAccountResponse = await _authService.RegisterAsync(registerModel);
+            model.UserId = createAccountResponse.UserId;
+            var addPatientResponse = await _appointmentService.AddNewPatient(model);
+            if(!addPatientResponse.IsSuccess)
+            {
+                await _authService.DeleteUserAsync(createAccountResponse.UserId);
+            }
+            
+            return Ok(addPatientResponse);
+        }
+
     }
 }

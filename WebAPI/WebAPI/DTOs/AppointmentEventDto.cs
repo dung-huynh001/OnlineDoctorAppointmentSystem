@@ -12,5 +12,13 @@
         public string? ExistingIllness { get; set; }
         public string? Allergies { get; set; }
         public string? Notes { get; set; }
+        public EventType? EventType { get; set; }
+        public int ScheduleId { get; set; }
     }
+}
+
+public class EventType
+{
+    public int Id { get; set; }
+    public string FullName { get; set; }
 }

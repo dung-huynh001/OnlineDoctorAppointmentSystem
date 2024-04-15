@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using WebAPI.Domain.Entities;
 using WebAPI.Domain.Enums;
 using WebAPI.DTOs;
@@ -26,23 +27,23 @@ namespace WebAPI.Services
             this._mailService = mailService;
             this._currentUserService = currentUserService;
         }
-        public async Task<GetAppointmentDetailDto> GetAppointmentDetail(int id)
+        public async Task<AppointmentDetailDto> GetAppointmentDetail(int id)
         {
             var result = await _unitOfWork.Repository<Appointment>().GetAll
                 .Where(a => a.Id == id)
                 .Include(a => a.Schedule.Doctor)
                 .Include(a => a.Patient)
-                .Select(a => _mapper.Map<GetAppointmentDetailDto>(a))
+                .Select(a => _mapper.Map<AppointmentDetailDto>(a))
                 .FirstOrDefaultAsync();
             if (result == null) throw new Exception();
             return result;
         }
 
-        public async Task<PatientDataToAppointment> GetPatientDataToAppointment(string currentUserId)
+        public async Task<AppointmentPatientDto> GetPatientDetailToAppointment(string currentUserId)
         {
             var patient = await _unitOfWork.Repository<Patient>().GetAll
                 .Where(p => p.UserId.Equals(currentUserId))
-                .Select(p => new PatientDataToAppointment
+                .Select(p => new AppointmentPatientDto
                 {
                     PatientId = p.Id,
                     Address = p.Address!,
@@ -115,9 +116,9 @@ namespace WebAPI.Services
             });
         }
 
-        public Task<DatatableResponse<GetAppointmentToDrawTableDto>> GetAppointments(string userId, string userType, string type, DataTablesParameters parameters)
+        public Task<DatatableResponse<AppointmentTableDto>> GetAppointments(string userId, string userType, string type, DataTablesParameters parameters)
         {
-            var response = new DatatableResponse<GetAppointmentToDrawTableDto>();
+            var response = new DatatableResponse<AppointmentTableDto>();
 
             string status = GetStatus(type);
             int id = GetActorId(userId, userType);
@@ -156,7 +157,7 @@ namespace WebAPI.Services
                     break;
             }
 
-            var records = appointments.Select(a => new GetAppointmentToDrawTableDto
+            var records = appointments.Select(a => new AppointmentTableDto
             {
                 AppointmentDate = a.AppointmentDate,
                 ClosedBy = a.ClosedBy,
@@ -484,7 +485,7 @@ namespace WebAPI.Services
             return patients;
         }
 
-        public async Task<List<AppointmentEventDto>> GetAppointmentEventByDoctor(EJ2Params param, string currentUserId)
+        public async Task<List<AppointmentEventDto>> GetAppointmentEventsByDoctor(EJ2Params param, string currentUserId)
         {
             var appointmentEvents = await _unitOfWork.Repository<Appointment>().GetAll
                 .Where(a => a.Doctor.UserId == currentUserId
@@ -495,17 +496,176 @@ namespace WebAPI.Services
                     Id = a.Id,
                     Allergies = a.DrugAllergies,
                     DoctorId = a.DoctorId,
-                    AppointmentDate = a.AppointmentDate.Value,
+                    AppointmentDate = a.AppointmentDate!.Value,
                     EndTime = a.AppointmentDate.Value.AddMinutes(a.Schedule.ConsultantTime),
                     StartTime = a.AppointmentDate.Value,
                     ExistingIllness = a.ExistingIllness,
                     Notes = a.Note,
                     Subject = a.Patient.FullName,
-                    PatientId = a.PatientId
+                    PatientId = a.PatientId,
+                    ScheduleId = a.ScheduleId
                 })
                 .ToListAsync();
 
             return appointmentEvents;
+        }
+
+        public async Task<ApiResponse> AddNewPatient(AddNewPatientDto model)
+        {
+            _unitOfWork.BeginTransaction();
+            try
+            {
+                Patient patient = _mapper.Map<Patient>(model);
+                await _unitOfWork.Repository<Patient>().AddAsync(patient);
+                _unitOfWork.Commit();
+                return new ApiResponse 
+                {
+                    IsSuccess = true,
+                    Message = "Add new patient successfully"
+                };
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = "Add new patient failed"
+                };
+            }
+        }
+
+        public async Task<ApiResponse> AppointmentOnSite(EJ2UpdateParams<AppointmentEventDto> param, string currrentUserId)
+        {
+            if (param.added.Count > 0)
+            {
+                return await AddNewAppointmentEvent(param, currrentUserId);
+            }
+            else if(param.changed.Count > 0)
+            {
+                return await UpdateAppointmentEvent(param, currrentUserId);
+            }
+            else
+            {
+                return await DeleteAppointmentEvent(param.deleted![0].Id);
+            }
+        }
+
+        private async Task<ApiResponse> DeleteAppointmentEvent(int id)
+        {
+            _unitOfWork.BeginTransaction();
+
+            var appointmentId = _unitOfWork.Repository<Appointment>().DeleteByIdAsync(id).Result;
+            _unitOfWork.Commit();
+            if(appointmentId != 0)
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Message = "Delete appointment successfully"
+                };
+            }
+            return new ApiResponse
+            {
+                IsSuccess = false,
+                Message = "Delete appointment failed"
+            };
+        }
+
+        private async Task<ApiResponse> UpdateAppointmentEvent(EJ2UpdateParams<AppointmentEventDto> param, string currrentUserId)
+        {
+            _unitOfWork.BeginTransaction();
+            var appointmentEventDto = param.changed![0];
+            var appointmentDate = appointmentEventDto!.AppointmentDate.ToLocalTime();
+            var appointmentId = appointmentEventDto.Id;
+
+
+            if (appointmentEventDto.EventType == null)
+            {
+                throw new Exception("Please choose patient to make appointment");
+            }
+
+            var existSchedule = _unitOfWork.Repository<Schedule>().GetAll
+                .Where(s =>
+                s.Doctor.UserId == currrentUserId
+                && s.WorkingDay.Date == appointmentDate.Date
+                && s.BreakTime >= appointmentDate.TimeOfDay
+                && s.ShiftTime <= appointmentDate.TimeOfDay)
+                .FirstOrDefault();
+
+            if (existSchedule == null)
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = $"There are no scheduled dates for {appointmentDate.ToString("dd MMM yyyy")}"
+                };
+            }
+
+            var appointment = _unitOfWork.Repository<Appointment>().GetByIdAsync(appointmentId).Result;
+
+            if (appointment == null) throw new NotFoundException("appointment", appointmentId);
+
+            appointment.ExistingIllness = appointmentEventDto.ExistingIllness;
+            appointment.Note = appointmentEventDto.Notes;
+            appointment.DrugAllergies = appointmentEventDto.Allergies;
+            appointment.AppointmentDate = appointmentEventDto.AppointmentDate;
+
+            await _unitOfWork.Repository<Appointment>().UpdateAsync(appointment);
+            _unitOfWork.Commit();
+            return new ApiResponse
+            {
+                IsSuccess = true,
+                Message = "Update appointment successfully"
+            };
+        }
+
+        private async Task<ApiResponse> AddNewAppointmentEvent(EJ2UpdateParams<AppointmentEventDto> param, string currrentUserId)
+        {
+            _unitOfWork.BeginTransaction();
+            var appointmentEventDto = param.added![0];
+            if (appointmentEventDto.EventType == null)
+            {
+                throw new Exception("Please choose patient to make appointment");
+            }
+
+            var appointmentDate = appointmentEventDto.AppointmentDate.ToLocalTime();
+
+            var existSchedule = _unitOfWork.Repository<Schedule>().GetAll
+                .Where(s =>
+                s.Doctor.UserId == currrentUserId
+                && s.WorkingDay.Date.Equals(appointmentDate.Date)
+                && s.BreakTime >= appointmentDate.TimeOfDay
+                && s.ShiftTime <= appointmentDate.TimeOfDay)
+                .FirstOrDefault();
+
+            if (existSchedule == null)
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = $"There are no scheduled dates for {appointmentDate.ToString("dd MMM yyyy")}"
+                };
+            }
+
+            var appointment = new Appointment();
+            appointment.AppointmentDate = appointmentDate;
+            appointment.DateOfConsultation = appointmentDate;
+            appointment.DoctorId = existSchedule.DoctorId;
+            appointment.PatientId = appointmentEventDto!.EventType!.Id;
+            appointment.Note = appointmentEventDto.Notes;
+            appointment.ExistingIllness = appointmentEventDto.ExistingIllness;
+            appointment.ScheduleId = existSchedule.Id;
+            appointment.DrugAllergies = appointmentEventDto.Allergies;
+            appointment.AppointmentStatus = "pending";
+
+            await _unitOfWork.Repository<Appointment>().AddAsync(appointment);
+            _unitOfWork.Commit();
+            return new ApiResponse
+            {
+                IsSuccess = true,
+                Message = "Make appointment successfully"
+            };
         }
     }
 }

@@ -4,19 +4,21 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { DataTableResponse } from '../models/dataTableResponse.model';
 
+const HOSTNAME = environment.serverApi;
+
 @Injectable({
   providedIn: 'root',
 })
 export class DoctorService {
   constructor(private http: HttpClient) { }
 
-  create(url: string, data: any): Observable<any> {
+  create(data: any): Observable<any> {
     const formData = new FormData();
     Object.keys(data).forEach((key) => {
       if (key != 'ConfirmPassword') formData.append(key, data[key]);
     });
 
-    return this.http.post(environment.serverApi + `/api` + url, formData);
+    return this.http.post(`${HOSTNAME}/api/Doctor/create`, formData);
   }
 
   update(url: string, id: any, data: any): Observable<any> {
@@ -26,22 +28,22 @@ export class DoctorService {
     });
     formData.append('id', id.toString());
     
-    return this.http.patch(environment.serverApi + `/api/${url}/${id}`, formData);
+    return this.http.patch(`${HOSTNAME}/api/${url}/${id}`, formData);
   }
 
-  getAll(url: string, dataTablesParameters: any) {
-    return this.http.post<DataTableResponse>(environment.serverApi + `/api` + url, dataTablesParameters);
+  getAll(dataTablesParameters: any) {
+    return this.http.post<DataTableResponse>(`${HOSTNAME}/api/Doctor/get-all`, dataTablesParameters);
   }
 
-  getScheduleByDate(url: string, id: any, dateTime: any): Observable<any> {
-    return this.http.get(environment.serverApi + `/api/${url}/${id}/?date=${dateTime}`);
+  getScheduleByDate(id: any, dateTime: any): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Schedule/get-schedule-by-date/${id}/?date=${dateTime}`);
   }
 
-  getDoctorDetails(url: string, id: any): Observable<any> {
-    return this.http.get(environment.serverApi + `/api/${url}/${id}`);
+  getDoctorDetails(id: any): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Doctor/get-doctor-details/${id}`);
   }
 
   getDepartments(): Observable<any>{
-    return this.http.get(environment.serverApi + `/api/Department/get-department-to-select`);
+    return this.http.get(`${HOSTNAME}/api/Department/get-department-to-select`);
   }
 }

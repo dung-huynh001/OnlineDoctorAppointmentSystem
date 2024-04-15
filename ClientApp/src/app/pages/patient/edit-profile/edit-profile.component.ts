@@ -76,7 +76,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.status.toString() == STATUS_ENOUGH_INFO) {
-      this._profileService.getPatientData().subscribe((data) => {
+      this._profileService.getPatient().subscribe((data) => {
         this.sendActivateEmail(data.userId, data.email);
       });
       this.openWarningModal(this.content);
@@ -101,7 +101,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
 
   reSendActivateEmail() {
     this.countDown();
-    this._profileService.getPatientData().subscribe((data) => {
+    this._profileService.getPatient().subscribe((data) => {
       this.sendActivateEmail(data.userId, data.email);
     });
   }
@@ -230,7 +230,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   fetchData() {
     this._spinnerService.show();
     this.subscription$ = this._profileService
-      .getPatientInfo('/Patient/get-patient-details', this.userId)
+      .getPatientInfo(this.userId)
       .pipe(
         map((data) => {
           return {
@@ -259,7 +259,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe((res) => {
-        this._profileService.setPatientData(res);
+        this._profileService.setPatient(res);
         this.loaded = true;
         this.form = this.formBuilder.group({
           Id: [res.id, Validators.required],

@@ -4,7 +4,7 @@ import { DoctorRoutingModule } from './doctor-routing.module';
 import { AppointmentOnSiteComponent } from './appointment-on-site/appointment-on-site.component';
 import { PrescriptionsComponent } from './prescriptions/prescriptions.component';
 import { SharedModule } from '../../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CountUpModule } from 'ngx-countup';
 import { ComponentsModule } from '../../components/components.module';
@@ -40,6 +40,7 @@ import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
     DoctorRoutingModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     CountUpModule,
     ComponentsModule,

@@ -1,6 +1,6 @@
 ﻿namespace WebAPI.DTOs
 {
-    public class PatientDataToAppointment
+    public class AppointmentPatientDto
     {
         public int PatientId { get; set; }
         public string PatientName { get; set;}

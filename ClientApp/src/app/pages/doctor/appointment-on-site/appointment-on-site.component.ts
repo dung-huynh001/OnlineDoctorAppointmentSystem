@@ -12,6 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import {
+  NgbModal,
   NgbOffcanvas,
   NgbOffcanvasConfig,
   OffcanvasDismissReasons,
@@ -52,7 +53,9 @@ import { catchError, finalize, throwError } from 'rxjs';
 import { isNullOrUndefined } from '@syncfusion/ej2-base';
 import { ChangeEventArgs } from '@syncfusion/ej2-calendars';
 import { AppointmentService } from '../../../core/services/appointment.service';
-import { FilteringEventArgs } from '@syncfusion/ej2-dropdowns';
+import { ActionCompleteEventArgs, FilteringEventArgs } from '@syncfusion/ej2-dropdowns';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-appointment-on-site',
@@ -87,6 +90,8 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     fullName: string;
   };
 
+  editMode: boolean = false;
+
   // startDateParser(data: string) {
   //   if (isNullOrUndefined(this.startDate) && !isNullOrUndefined(data)) {
   //     return new Date(data);
@@ -105,7 +110,6 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   //   return new Date();
   // }
 
-  
   appointmentDateParser(data: string) {
     if (isNullOrUndefined(this.startDate) && !isNullOrUndefined(data)) {
       return new Date(data);
@@ -114,7 +118,6 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     }
     return new Date();
   }
-
 
   onDateChange(args: any): void {
     if (!isNullOrUndefined(args.event as any)) {
@@ -129,7 +132,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   popupOpen(event: PopupOpenEventArgs) {
     console.log(event);
     this._appointmentService
-      .getAllPatientToFillDropdown('Appointment/get-patients-to-fill-dropdown')
+      .getPatientsToFillDropdown()
       .pipe(
         catchError((err) => {
           console.log(err);
@@ -157,12 +160,23 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   eventDoubleClick(event: EventClickArgs) {
-    console.log(event)
+    console.log(event);
+    this.editMode = true;
   }
 
   cellClick(event: CellClickEventArgs) {
+    this.editMode = false;
+
     console.log(event);
     const startTime = event.startTime;
+  }
+
+  actionComplete(event: ActionCompleteEventArgs) {
+    console.log(event)
+  }
+
+  actionFailure(event: ActionCompleteEventArgs) {
+    console.log(event)
   }
 
   // End Test Editor Customize
@@ -173,12 +187,17 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   type!: string;
   calendarValue!: string;
   calendarTitle: string = new Date().toDateString();
+  displayHour: boolean = true;
 
   selectedDate: Date = new Date();
 
   selectedView: View = 'TimelineDay';
 
+  addPatientFormGroup!: FormGroup;
+  addPatientForm_submitted: boolean = false;
+
   @ViewChild('scheduleObj') scheduleObj!: ScheduleComponent;
+  @ViewChild('addNewPatientModal') addNewPatientModal!: TemplateRef<any>;
 
   currentUser = this._authService.currentUser();
 
@@ -186,7 +205,9 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     url:
       environment.serverApi +
       '/api/Appointment/get-appointment-event-by-doctor',
-    crudUrl: environment.serverApi + '/api/Appointment/add-or-update-appointment-event',
+    crudUrl:
+      environment.serverApi +
+      '/api/Appointment/appointment-on-site',
     headers: [
       {
         Authorization: `Bearer ${this.currentUser.token}`,
@@ -195,6 +216,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     adaptor: new UrlAdaptor(),
     crossDomain: true,
   });
+  
 
   eventSettings: EventSettingsModel = {
     dataSource: this.data,
@@ -206,7 +228,10 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     private _scheduleService: ScheduleService,
     private _authService: AuthService,
     private _spinnerService: NgxSpinnerService,
-    private _appointmentService: AppointmentService
+    private _appointmentService: AppointmentService,
+    private _modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private _toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -216,6 +241,26 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     ];
     this.calendarTitle = new Date().toDateString();
     this.type = 'day';
+
+    this.addPatientFormGroup = this.formBuilder.group({
+      username: ['p1', Validators.required],
+      password: ['adcd1234', Validators.required],
+      email: [
+        'p1@gmail.com',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$'),
+        ],
+      ],
+      fullName: ['p1', Validators.required],
+      nationalId: ['1234567891', Validators.required],
+      gender: ['0', Validators.required],
+      phoneNumber: ['0946565832', Validators.required],
+      dateOfBirth: ['2024-01-12', Validators.required],
+      address: ['can tho', Validators.required],
+    });
+
   }
 
   ngAfterViewInit(): void {
@@ -245,6 +290,52 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
         );
       });
     }, 100);
+  }
+
+  showAddPatientModal() {
+    this._modalService.open(this.addNewPatientModal, {
+      centered: true,
+      size: 'lg',
+    });
+  }
+
+  closeModal() {
+    this.resetForm();
+    this._modalService.dismissAll();
+  }
+
+  addNewPatient() {
+    this._spinnerService.show();
+    this.addPatientForm_submitted = true;
+    if (this.addPatientFormGroup.valid) {
+      this._appointmentService
+        .addNewPatient(this.addPatientFormGroup.value)
+        .pipe(
+          catchError((err) => {
+            this._toastService.error(err.Message);
+            return throwError(() => err);
+          }),
+          finalize(() => {
+            setTimeout(() => {
+              this._spinnerService.hide();
+            }, 300)
+          })
+        )
+        .subscribe((res) => {
+          if (res.isSuccess) {
+            this._toastService.success(res.message);
+          } else {
+            this._toastService.error(res.message);
+          }
+        });
+    }
+  }
+
+  resetForm() {
+    this.addPatientFormGroup.reset();
+    this.addPatientFormGroup.markAsUntouched();
+    this.addPatientFormGroup.markAsPristine();
+    this.addPatientFormGroup.controls['gender'].setValue('');
   }
 
   renderCell(event: RenderCellEventArgs) {
@@ -456,7 +547,9 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   initForDay(date?: Date | undefined) {
-    this.selectedView = 'TimelineDay';
+    this.displayHour = true;
+    this.scheduleObj.changeView('TimelineDay');
+
     date = date ? date : new Date();
 
     this.calendarTitle = date.toDateString();
@@ -464,7 +557,9 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   initForWeek(date?: Date | undefined) {
-    this.selectedView = 'TimelineWeek';
+    this.displayHour = false;
+
+    this.scheduleObj.changeView('TimelineWeek', undefined, undefined, 1);
 
     date = date ? date : new Date();
 
@@ -490,7 +585,8 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   initForMonth(date?: Date | undefined) {
-    this.selectedView = 'TimelineMonth';
+    this.displayHour = false;
+    this.scheduleObj.changeView('TimelineMonth');
 
     date = date ? date : new Date();
     const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -500,6 +596,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   initForHalfMonth(date?: Date | undefined) {
+    this.displayHour = false;
     this.scheduleObj.changeView('TimelineWeek', undefined, undefined, 2);
 
     date = date ? date : new Date();
