@@ -57,11 +57,12 @@
                 </div>
 
                 <div class="schedule-container">
-                    <ejs-schedule #scheduleObj cssClass='schedule-block-events' width='100%' height="68vh" enableAllDayScroll="true"
-                        [currentView]="selectedView" [selectedDate]="selectedDate" [eventSettings]="eventSettings" (actionComplete)="actionComplete($event)"
-                        (actionFailure)="actionFailure($event)"
-                        (currentViewChange)="currentViewChange($event)" (renderCell)="renderCell($event)"
-                        (popupOpen)="popupOpen($event)" [showQuickInfo]="false" 
+                    <ejs-schedule #scheduleObj cssClass='schedule-block-events' width='100%' height="70vh"
+                        [enableAllDayScroll]="true" [currentView]="selectedView" [selectedDate]="selectedDate"
+                        [eventSettings]="eventSettings" (actionBegin)="actionBegin($event)"
+                        (actionFailure)="actionFailure($event)" (currentViewChange)="currentViewChange($event)"
+                        (eventRendered)="eventRendered($event)" (renderCell)="renderCell($event)"
+                        (popupOpen)="popupOpen($event)" [showQuickInfo]="false" [allowDragAndDrop]="false"
                         (eventDoubleClick)="eventDoubleClick($event)" (cellClick)="cellClick($event)">
                         <ng-template #dateHeaderTemplate let-data>
                             <div>
@@ -75,8 +76,11 @@
                         </e-header-rows>
                         <ng-template #editorHeaderTemplate let-data>
                             <div *ngIf="data.Subject; else createNewEvent">
-                                <div class="border-bottom">
-                                    <p class="fs-5 fw-semibold">{{data.PatientName}}</p>
+                                <div class="border-bottom pb-3 d-flex align-items-center gap-3">
+                                    <span class="fs-5 fw-semibold">Appointment Details </span>
+                                    <span
+                                        class="badge bg-{{setColor(data.AppointmentStatus)}}-subtle text-{{setColor(data.AppointmentStatus)}} text-capitalize fw-bold"
+                                        style="font-size: small;">{{data.AppointmentStatus}}</span>
                                 </div>
                             </div>
                             <ng-template #createNewEvent>
@@ -89,35 +93,41 @@
                             <table class="custom-event-editor" width="100%" cellpadding="5">
                                 <tbody>
                                     <tr>
-                                        <td class="e-textlabel">Patient</td>
+                                        <td class="e-textlabel text-nowrap">Patient <span class="text-danger">*</span>
+                                        </td>
                                         <td colspan="4">
-                                            <ejs-dropdownlist id='EventType' class="e-field" data-name="EventType"
+                                            <ejs-dropdownlist id='Patient' class="e-field"
+                                                [ngClass]="{ 'is-invalid': isInvalid }" data-name="Patient"
                                                 placeholder='Choose Patient' [dataSource]='patients' [fields]="fields"
                                                 [allowFiltering]="true" (filtering)="onFilteringPatient($event)"
                                                 filterBarPlaceholder="Search Name or National Id/Passport"
-                                                [value]="selectedPatient" [allowObjectBinding]="true" [readonly]="editMode">
+                                                [(value)]="selectedPatient" [allowObjectBinding]="true"
+                                                [readonly]="editMode">
                                             </ejs-dropdownlist>
+                                            <!-- <div class="is-invalid"></div> -->
+                                            <div class="invalid-feedback">This field is required</div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="e-textlabel">Appointment Date</td>
+                                        <td class="e-textlabel text-nowrap">Appointment Date <span
+                                                class="text-danger">*</span></td>
                                         <td colspan="4">
                                             <ejs-datetimepicker id="EndTime" class="e-field" data-name="AppointmentDate"
-                                                format="M/dd/yy h:mm a" (change)="onDateChange($event)"
-                                                [value]="data.StartTime">
+                                                format="M/dd/yy h:mm a" [value]="data.StartTime">
                                             </ejs-datetimepicker>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="e-textlabel">Existing Illness</td>
+                                        <td class="e-textlabel text-nowrap">Existing Illness</td>
                                         <td colspan="4">
-                                            <textarea id="ExistingIllness" class="e-field e-input" name="ExistingIllness"
-                                                rows="3" cols="50" value="{{data.ExistingIllness}}"
+                                            <textarea id="ExistingIllness" class="e-field e-input"
+                                                name="ExistingIllness" rows="3" cols="50"
+                                                value="{{data.ExistingIllness}}"
                                                 style="width: 100%; resize: vertical"></textarea>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="e-textlabel">Allergies</td>
+                                        <td class="e-textlabel text-nowrap">Allergies</td>
                                         <td colspan="4">
                                             <textarea id="Allergies" class="e-field e-input" name="Allergies" rows="3"
                                                 cols="50" value="{{data.Allergies}}"
@@ -125,11 +135,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="e-textlabel">Notes</td>
+                                        <td class="e-textlabel text-nowrap">Notes</td>
                                         <td colspan="4">
-                                            <textarea id="Notes" class="e-field e-input" name="Notes" rows="3"
-                                                cols="50" value="{{data.Notes}}"
-                                                style="width: 100%; resize: vertical"></textarea>
+                                            <textarea id="Notes" class="e-field e-input" name="Notes" rows="3" cols="50"
+                                                value="{{data.Notes}}" style="width: 100%; resize: vertical"></textarea>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -156,6 +165,7 @@
     <div class="modal-body">
         <form [formGroup]="addPatientFormGroup" (ngSubmit)="addNewPatient()">
             <div class="container px-0">
+                <!-- <h5>Account</h5> -->
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3">
                         <label class="form-label" for="username">Username <span class="text-danger">*</span></label>
@@ -175,22 +185,9 @@
                             Password is required
                         </div>
                     </div>
-                    <div class="col-lg-12 mb-3">
-                        <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="email" formControlName="email"
-                            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" autocomplete="off"
-                            placeholder="Enter email"
-                            [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['email'].errors }">
-                        <div class="invalid-feedback"
-                            *ngIf="this.addPatientFormGroup.controls['email'].errors?.['required']">
-                            Email is required
-                        </div>
-                        <div class="invalid-feedback"
-                            *ngIf="this.addPatientFormGroup.controls['email'].errors?.['email'] || this.addPatientFormGroup.controls['email'].errors?.['pattern']">
-                            Incorrect email address format
-                        </div>
-                    </div>
                 </div>
+                <hr>
+                <!-- <h5>Patient Information</h5> -->
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3">
                         <label class="form-label" for="fullName">Full Name <span class="text-danger">*</span></label>
@@ -211,7 +208,21 @@
                             National ID is required
                         </div>
                     </div>
-
+                    <div class="col-lg-12 mb-3">
+                        <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="email" formControlName="email"
+                            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" autocomplete="off"
+                            placeholder="Enter email"
+                            [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['email'].errors }">
+                        <div class="invalid-feedback"
+                            *ngIf="this.addPatientFormGroup.controls['email'].errors?.['required']">
+                            Email is required
+                        </div>
+                        <div class="invalid-feedback"
+                            *ngIf="this.addPatientFormGroup.controls['email'].errors?.['email'] || this.addPatientFormGroup.controls['email'].errors?.['pattern']">
+                            Incorrect email address format
+                        </div>
+                    </div>
                     <div class="col-lg-4 mb-3">
                         <label class="form-label" for="dateOfBirth">Date Of
                             Birth <span class="text-danger">*</span></label>
@@ -234,6 +245,7 @@
                             Gender is required
                         </div>
                     </div>
+
                     <div class="col-lg-4 mb-3">
                         <label class="form-label" for="phoneNumber">Mobile <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="phoneNumber" autocomplete="off"

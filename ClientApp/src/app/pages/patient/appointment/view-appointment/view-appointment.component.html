@@ -5,10 +5,10 @@
             <div class="card">
                 <div class="card-header border-0">
                     <h5 class="card-title mb-0 flex-grow-1"><i class="las la-pen-nib me-1 lh-1"></i> Medical
-                        appointment form</h5>
+                        Appointment Form</h5>
                 </div>
                 <div class="card-body border border-dashed border-end-0 border-start-0 border-bottom-0">
-                    <div class="container border border-primary p-3">
+                    <div class="container border border-{{setBgColor(appointmentDetails.appointmentStatus)}} p-3">
                         <div class="d-flex">
                             <img class="pe-3 d-none d-lg-flex" src="../../../assets/images/logo-dark.png"
                                 alt="hospital-logo" height="50" />
@@ -25,6 +25,9 @@
                                     <strong>Email: </strong>info&#64;hospital.com -
                                     <strong> Website: </strong>www.facebook.com
                                 </div>
+                            </div>
+                            <div class="ms-auto fs-5">
+                                <span class="badge bg-{{setBgColor(appointmentDetails.appointmentStatus)}} text-capitalize">{{appointmentDetails.appointmentStatus}}</span>
                             </div>
                         </div>
                         <hr />

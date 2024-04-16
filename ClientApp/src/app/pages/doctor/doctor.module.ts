@@ -28,6 +28,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { TimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
     TimePickerModule,
     DropDownListModule,
     DateTimePickerModule,
+    DataTablesModule
   ],
   providers: [
     DecimalPipe,

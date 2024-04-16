@@ -35,10 +35,14 @@ import {
   UrlAdaptor,
 } from '@syncfusion/ej2-data';
 import {
+  ActionEventArgs,
   CellClickEventArgs,
+  CrudAction,
   EventClickArgs,
+  EventRenderedArgs,
   EventSettingsModel,
   GroupModel,
+  PopupCloseEventArgs,
   PopupOpenEventArgs,
   RenderCellEventArgs,
   ResourceDetails,
@@ -53,7 +57,11 @@ import { catchError, finalize, throwError } from 'rxjs';
 import { isNullOrUndefined } from '@syncfusion/ej2-base';
 import { ChangeEventArgs } from '@syncfusion/ej2-calendars';
 import { AppointmentService } from '../../../core/services/appointment.service';
-import { ActionCompleteEventArgs, FilteringEventArgs } from '@syncfusion/ej2-dropdowns';
+import {
+  ActionCompleteEventArgs,
+  FilteringEventArgs,
+  ItemCreatedArgs,
+} from '@syncfusion/ej2-dropdowns';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '../../../core/services/toast.service';
 
@@ -74,9 +82,20 @@ import { ToastService } from '../../../core/services/toast.service';
   ],
 })
 export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
-  // Test Editor Customize
-  startDate!: Date;
-  endDate!: Date;
+  breadCrumbItems!: Array<{}>;
+
+  type!: string;
+  calendarValue!: string;
+  calendarTitle: string = new Date().toDateString();
+  displayHour: boolean = true;
+
+  selectedDate: Date = new Date();
+
+  selectedView: View = 'TimelineDay';
+
+  addPatientFormGroup!: FormGroup;
+  addPatientForm_submitted: boolean = false;
+
   fields = {
     text: 'fullName',
     value: 'id',
@@ -90,111 +109,9 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     fullName: string;
   };
 
+  isInvalid: boolean = false;
+
   editMode: boolean = false;
-
-  // startDateParser(data: string) {
-  //   if (isNullOrUndefined(this.startDate) && !isNullOrUndefined(data)) {
-  //     return new Date(data);
-  //   } else if (!isNullOrUndefined(this.startDate)) {
-  //     return new Date(this.startDate);
-  //   }
-  //   return new Date();
-  // }
-
-  // endDateParser(data: string) {
-  //   if (isNullOrUndefined(this.endDate) && !isNullOrUndefined(data)) {
-  //     return new Date(data);
-  //   } else if (!isNullOrUndefined(this.endDate)) {
-  //     return new Date(this.endDate);
-  //   }
-  //   return new Date();
-  // }
-
-  appointmentDateParser(data: string) {
-    if (isNullOrUndefined(this.startDate) && !isNullOrUndefined(data)) {
-      return new Date(data);
-    } else if (!isNullOrUndefined(this.startDate)) {
-      return new Date(this.startDate);
-    }
-    return new Date();
-  }
-
-  onDateChange(args: any): void {
-    if (!isNullOrUndefined(args.event as any)) {
-      if (args.element.id === 'StartTime') {
-        this.startDate = args.value as Date;
-      } else if (args.element.id === 'EndTime') {
-        this.endDate = args.value as Date;
-      }
-    }
-  }
-
-  popupOpen(event: PopupOpenEventArgs) {
-    console.log(event);
-    this._appointmentService
-      .getPatientsToFillDropdown()
-      .pipe(
-        catchError((err) => {
-          console.log(err);
-          return throwError(() => err);
-        })
-      )
-      .subscribe((res: any) => {
-        this.patients = res;
-        if (event.type == 'Editor') {
-          this.selectedPatient = this.patients.find(
-            (patient) => patient.id == event.data?.['PatientId']
-          )!;
-        }
-      });
-  }
-
-  onFilteringPatient(event: FilteringEventArgs) {
-    const searchValue = event.text;
-    let query = new Query();
-    query =
-      searchValue != ''
-        ? query.where('fullName', 'contains', searchValue, true)
-        : query;
-    event.updateData(this.patients, query);
-  }
-
-  eventDoubleClick(event: EventClickArgs) {
-    console.log(event);
-    this.editMode = true;
-  }
-
-  cellClick(event: CellClickEventArgs) {
-    this.editMode = false;
-
-    console.log(event);
-    const startTime = event.startTime;
-  }
-
-  actionComplete(event: ActionCompleteEventArgs) {
-    console.log(event)
-  }
-
-  actionFailure(event: ActionCompleteEventArgs) {
-    console.log(event)
-  }
-
-  // End Test Editor Customize
-
-  breadCrumbItems!: Array<{}>;
-
-  headerOption = 'Date';
-  type!: string;
-  calendarValue!: string;
-  calendarTitle: string = new Date().toDateString();
-  displayHour: boolean = true;
-
-  selectedDate: Date = new Date();
-
-  selectedView: View = 'TimelineDay';
-
-  addPatientFormGroup!: FormGroup;
-  addPatientForm_submitted: boolean = false;
 
   @ViewChild('scheduleObj') scheduleObj!: ScheduleComponent;
   @ViewChild('addNewPatientModal') addNewPatientModal!: TemplateRef<any>;
@@ -205,9 +122,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     url:
       environment.serverApi +
       '/api/Appointment/get-appointment-event-by-doctor',
-    crudUrl:
-      environment.serverApi +
-      '/api/Appointment/appointment-on-site',
+    crudUrl: environment.serverApi + '/api/Appointment/appointment-on-site',
     headers: [
       {
         Authorization: `Bearer ${this.currentUser.token}`,
@@ -216,7 +131,6 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     adaptor: new UrlAdaptor(),
     crossDomain: true,
   });
-  
 
   eventSettings: EventSettingsModel = {
     dataSource: this.data,
@@ -225,7 +139,6 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
 
   constructor(
     private datePipe: DatePipe,
-    private _scheduleService: ScheduleService,
     private _authService: AuthService,
     private _spinnerService: NgxSpinnerService,
     private _appointmentService: AppointmentService,
@@ -243,24 +156,23 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     this.type = 'day';
 
     this.addPatientFormGroup = this.formBuilder.group({
-      username: ['p1', Validators.required],
-      password: ['adcd1234', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
       email: [
-        'p1@gmail.com',
+        '',
         [
           Validators.required,
           Validators.email,
           Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$'),
         ],
       ],
-      fullName: ['p1', Validators.required],
-      nationalId: ['1234567891', Validators.required],
-      gender: ['0', Validators.required],
-      phoneNumber: ['0946565832', Validators.required],
-      dateOfBirth: ['2024-01-12', Validators.required],
-      address: ['can tho', Validators.required],
+      fullName: ['', Validators.required],
+      nationalId: ['', Validators.required],
+      gender: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      address: ['', Validators.required],
     });
-
   }
 
   ngAfterViewInit(): void {
@@ -268,12 +180,6 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   currentViewChange(event: any) {
-    if (event == 'TimelineDay') {
-      this.headerOption = 'Hour';
-    } else {
-      this.headerOption = 'Date';
-    }
-
     setTimeout(() => {
       const headerCells = document.querySelectorAll(
         '.e-schedule .e-timeline-month-view .e-header-cells'
@@ -318,7 +224,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
           finalize(() => {
             setTimeout(() => {
               this._spinnerService.hide();
-            }, 300)
+            }, 300);
           })
         )
         .subscribe((res) => {
@@ -336,6 +242,104 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     this.addPatientFormGroup.markAsUntouched();
     this.addPatientFormGroup.markAsPristine();
     this.addPatientFormGroup.controls['gender'].setValue('');
+  }
+
+  setColor(eventType: string): string {
+    let bgColor: string = '';
+    switch (eventType.toLowerCase()) {
+      case 'pending':
+        bgColor = 'warning';
+        break;
+      case 'confirmed':
+        bgColor = 'primary';
+        break;
+      case 'completed':
+        bgColor = 'success';
+        break;
+      case 'cancelled':
+        bgColor = 'danger';
+        break;
+      default:
+        bgColor = 'light'
+        break;
+    }
+    return bgColor;
+  }
+
+  popupOpen(event: PopupOpenEventArgs) {
+    this._appointmentService
+      .getPatientsToFillDropdown()
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      )
+      .subscribe((res: any) => {
+        this.patients = res;
+        if (event.type == 'Editor') {
+          this.selectedPatient = this.patients.find(
+            (patient) => patient.id == event.data?.['PatientId']
+          )!;
+        }
+      });
+  }
+
+  onFilteringPatient(event: FilteringEventArgs) {
+    const searchValue = event.text;
+    let query = new Query();
+    query =
+      searchValue != ''
+        ? query.where('fullName', 'contains', searchValue, true)
+        : query;
+    event.updateData(this.patients, query);
+  }
+
+  eventDoubleClick(event: EventClickArgs) {
+    this.editMode = true;
+  }
+
+  cellClick(event: CellClickEventArgs) {
+    this.editMode = false;
+  }
+
+  actionFailure(event: ActionEventArgs) {
+    this._toastService.error('There are no scheduled on the selected date time');
+  }
+
+  actionBegin(args: ActionEventArgs) {
+    const requestType = args.requestType;
+    if(requestType == 'eventCreate' || requestType == 'eventChange') {
+      if(!this.selectedPatient) {
+        this.isInvalid = true;
+        args.cancel = true;
+        this._toastService.error('Please choose patient before make appointment')
+      } else {
+        this.isInvalid = false;
+      }
+    }
+  }
+
+  eventRendered(args: EventRenderedArgs) {
+    let status = args.data['AppointmentStatus'].toLowerCase();
+    let el = args.element;
+    switch (status) {
+      case 'pending':
+        el.classList.add('bg-warning');
+        break;
+      case 'confirmed':
+        el.classList.add('bg-primary');
+        break;
+      case 'completed':
+        el.classList.add('bg-success');
+        break;
+      case 'cancelled':
+        el.classList.add('bg-danger');
+        break;
+      default:
+        el.classList.add('bg-light');
+        break;
+    }
   }
 
   renderCell(event: RenderCellEventArgs) {

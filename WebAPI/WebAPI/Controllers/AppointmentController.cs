@@ -77,9 +77,15 @@ namespace WebAPI.Controllers
             return Ok(await _appointmentService.GetRecentlyAppointment(id));
         }
         [HttpGet("get-upcoming-appointments/{id}")]
-        public async Task<IActionResult> GetUpcomingAppointment([FromRoute]string id)
+        public async Task<IActionResult> GetUpcomingAppointment([FromRoute]string id, string userType)
         {
-            return Ok(await _appointmentService.GetUpcomingAppointment(id));
+            return Ok(await _appointmentService.GetUpcomingAppointment(id, userType));
+        }
+
+        [HttpGet("get-new-booking/{id}")]
+        public async Task<IActionResult> GetNewBooking([FromRoute] string id)
+        {
+            return Ok(await _appointmentService.GetNewBooking(id));
         }
 
         [HttpGet("get-patients-to-fill-dropdown")]
@@ -117,6 +123,18 @@ namespace WebAPI.Controllers
             }
             
             return Ok(addPatientResponse);
+        }
+
+        [HttpGet("mark-as-confirmed/{id}")]
+        public async Task<IActionResult> MarkAsConfirmed([FromRoute]int id)
+        {
+            return Ok(await _appointmentService.MarkAsConfirmed(id));
+        }
+
+        [HttpGet("mark-as-cancel/{id}")]
+        public async Task<IActionResult> MarkAsCancel([FromRoute] int id)
+        {
+            return Ok(await _appointmentService.MarkAsCancel(id));
         }
 
     }

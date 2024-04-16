@@ -57,10 +57,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       { label: 'Dashboard', active: true },
     ];
 
-    if (localStorage.getItem('toast')) {
-      this._toastService.success('Logged in Successfully.');
-      localStorage.removeItem('toast');
-    }
+    // if (localStorage.getItem('toast')) {
+    //   this._toastService.success('Logged in Successfully.');
+    //   localStorage.removeItem('toast');
+    // }
 
     this.currentUser = this._authService.currentUser();
 
@@ -142,7 +142,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   getUpcomningAppointments() {
     this._appointmentService
       .getUpcomingAppointment(
-        this.currentUser.id
+        this.currentUser.id,
+        this.currentUser.userType
       )
       .pipe(
         catchError((err) => {
