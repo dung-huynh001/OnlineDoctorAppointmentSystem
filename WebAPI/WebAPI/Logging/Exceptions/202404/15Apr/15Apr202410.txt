@@ -1,0 +1,4 @@
+4/15/2024 10:54:40 AM ==> AuthService.cs	Username already taken Line:106	<RegisterAsync>	POST	4f5d4097-256a-4cd0-b323-699b581b9382
+
+4/15/2024 10:55:34 AM ==> AuthService.cs	Object reference not set to an instance of an object. Line:109	<RegisterAsync>	POST	4f5d4097-256a-4cd0-b323-699b581b9382
+

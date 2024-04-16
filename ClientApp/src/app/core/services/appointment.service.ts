@@ -110,14 +110,35 @@ export class AppointmentService {
   }
 
   getRecentlyAppointment(id: any): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Appointment/Appointment/get-recently-appointments/${id}`);
+    return this.http.get(`${HOSTNAME}/api/Appointment/get-recently-appointments/${id}`);
   }
 
-  getUpcomingAppointment(id: any): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Appointment/get-upcoming-appointments/${id}`);
+  getNewBooking(id: any): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Appointment/get-new-booking/${id}`);
   }
 
-  getPatientsToFillDropdown() {
-    return this.http.get(`${HOSTNAME}/api/'Appointment/get-patients-to-fill-dropdown'`);
+  getUpcomingAppointment(id: any, userType: string): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Appointment/get-upcoming-appointments/${id}?userType=${userType}`);
+  }
+
+  getPatientsToFillDropdown(): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Appointment/get-patients-to-fill-dropdown`);
+  }
+
+  addNewPatient(data: any): Observable<any> {
+    const formData = new FormData();
+    Object.keys(data).forEach(key => {
+      formData.append(key, data[key]);
+    });
+    return this.http.post(`${HOSTNAME}/api/Appointment/add-new-patient`, formData);
+  }
+
+  markAsConfirmed(id: number): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Appointment/mark-as-confirmed/${id}`);
+
+  }
+
+  markAsCancel(id: number): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Appointment/mark-as-cancel/${id}`);
   }
 }

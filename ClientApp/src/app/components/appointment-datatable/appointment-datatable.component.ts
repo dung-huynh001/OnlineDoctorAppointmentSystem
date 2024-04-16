@@ -167,7 +167,7 @@ export class AppointmentDatatableComponent
             }
 
             let badgeType = this.setBadgeType(data);
-            return `<span class="badge ${textColor} bg-${badgeType}">${data}</span>`;
+            return `<span class="badge ${textColor} bg-${badgeType} text-capitalize">${data}</span>`;
           },
         },
         {

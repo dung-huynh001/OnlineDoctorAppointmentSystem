@@ -76,6 +76,13 @@
   background: #bde0f5;
 }
 
+.e-schedule
+  .e-timeline-view.e-timeline-day-view
+  .e-date-header-wrap
+  .e-header-row:first-child {
+  display: none;
+}
+
 .e-schedule-toolbar-container {
   display: none;
 }
@@ -88,3 +95,57 @@
   background: #bde0f5 !important;
 }
 
+.e-event-delete,
+.e-event-save,
+.e-event-cancel,
+.e-quick-dialog-delete,
+.e-quick-dialog-cancel {
+  padding: .5rem .9rem;
+  border-radius: 0.25rem;
+  font-weight: normal;
+  color: #fff !important;
+  text-transform: capitalize;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  font-family: "IBM Plex Sans", sans-serif;
+  vertical-align: middle;
+  font-size: .875rem;
+  line-height: 1.5;
+  font-weight: 500;
+  text-align: center;
+}
+
+.e-event-delete,
+.e-quick-dialog-delete {
+  background: #fa896b !important;
+}
+
+.e-event-delete:hover,
+.e-quick-dialog-delete:hover {
+  background: #d5745b !important;
+}
+
+.e-event-save {
+  background: #6ada7d !important;
+}
+
+.e-event-save:hover {
+  background: #55ae64 !important;
+}
+
+.e-event-cancel,
+.e-quick-dialog-cancel {
+  color: #222 !important;
+  background: #f3f6f9 !important;
+}
+
+.e-event-cancel:hover,
+.e-quick-dialog-cancel:hover {
+  background: #ced4da !important;
+}
+
+.e-time-slots>span{
+  text-align: center;
+  position: relative;
+  left: 55%;
+}

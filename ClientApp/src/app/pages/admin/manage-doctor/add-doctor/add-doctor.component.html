@@ -1,4 +1,5 @@
 <app-breadcrumbs title="Create New Doctor" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<button class="btn btn-primary" (click)="resetForms()">Reset Forms</button>
 <div class="container">
     <div class="card">
         <div class="card-body form-steps">
@@ -7,7 +8,7 @@
                 <img src="assets/images/logo-light.png" class="card-logo card-logo-light" alt="logo light" height="17">
             </div>
             <ng-stepper #cdkStepper (selectedIndexChange)="selectedIndexChange($event)"
-                (selectionChange)="selectionChange($event)" [(selectedIndex)]="selectedIndex" 
+                (selectionChange)="selectionChange($event)" [(selectedIndex)]="selectedIndex"
                 class="step-arrow-nav wizard">
                 <cdk-step [optional]="false" #step1 cdkStepHeader>
                     <ng-template cdkStepLabel>
@@ -108,7 +109,7 @@
                                         autocomplete="off" placeholder="Enter doctor's name"
                                         [ngClass]="{'is-invalid': doctorInfoForm_submitted && this.doctorInfoFormControl['FullName'].errors }">
                                     <div class="invalid-feedback">
-                                        Full Nam is required
+                                        Full Name is required
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-3">
@@ -141,6 +142,9 @@
                                         <option value="1">Female</option>
                                         <option value="2">Other</option>
                                     </select>
+                                    <div class="invalid-feedback">
+                                        Gender is required
+                                    </div>
                                 </div>
                                 <div class="col-lg-4 mb-3">
                                     <label class="form-label" for="phoneNumber">Mobile <span
@@ -220,9 +224,9 @@
                                         <label class="form-label" for="department">Department <span
                                                 class="text-danger">*</span></label>
                                         <ng-select [items]="departmentData" bindValue="id" bindLabel="departmentName"
-                                            formControlName="DepartmentId" [(ngModel)]="selectedAccount"
+                                            formControlName="DepartmentId" [(ngModel)]="selectedDepartment"
                                             [ngClass]="{'is-invalid': workInfoForm_submitted && this.workInfoFormControl['DepartmentId'].errors }"
-                                            placeholder="Department">
+                                            placeholder="Select department">
                                             <ng-template ng-optgroup-tmp let-item="item">
                                                 {{item.country || 'Unnamed group'}}
                                             </ng-template>
@@ -251,7 +255,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label" for="workingEndDate">Working End
-                                            Date</label>
+                                            Date <span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="workingEndDate"
                                             formControlName="WorkingEndDate"
                                             [ngClass]="{'is-invalid': workInfoForm_submitted && this.workInfoFormControl['WorkingEndDate'].errors }">

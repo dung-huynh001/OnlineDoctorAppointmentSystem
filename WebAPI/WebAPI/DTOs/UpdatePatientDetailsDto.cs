@@ -12,6 +12,6 @@
         public string NationalId { get; set; }
         public string DateOfBirth { get; set; }
         public IFormFile? Avatar { get; set; }
-        public string? AvatarUrl { get; set; }
+        public string? AvatarUrl { get; set; } = "Uploads/Images/default-user.jpg";
     }
 }

@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ViewAppointmentComponent implements OnInit, AfterViewInit {
   breadcrumbItems!: Array<{}>;
-  appointmentForm!: FormGroup
+  appointmentForm!: FormGroup;
 
   appointmentId: any;
   appointmentDetails: any;
@@ -24,7 +24,7 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
     private _toastService: ToastService,
     private _spinnerService: NgxSpinnerService,
     private formBuilder: FormBuilder
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.breadcrumbItems = [
       { label: 'Home' },
@@ -48,27 +48,41 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
       Notes: [],
     });
 
-    // this.fetchData();
+    this.fetchData();
   }
 
   ngAfterViewInit(): void {
-    this.fetchData();
+    // this.fetchData();
   }
 
   get appointmentFormControl() {
     return this.appointmentForm.controls;
   }
 
+  setBgColor(status: string) {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return 'warning';
+      case 'confirmed':
+        return 'primary';
+      case 'completed':
+        return 'success';
+      case 'cancelled':
+        return 'danger';
+      default:
+        return 'light';
+    }
+  }
+
   fetchData() {
     this._spinnerService.show();
 
     const currentUrl = this.router.url;
-    this.appointmentId = currentUrl.slice(currentUrl.length - 1);
+    const currentUrlArr = currentUrl.split('/');
+    this.appointmentId = currentUrlArr.at(currentUrlArr.length - 1);
 
     this._appointmentService
-      .viewAppointmentDetails(
-        this.appointmentId
-      )
+      .viewAppointmentDetails(this.appointmentId)
       .pipe(
         catchError((err) => {
           return throwError(() => err);
