@@ -1,57 +1,110 @@
-@import '../node_modules/@syncfusion/ej2-material-theme/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-material-theme/styles/material.css";
 
 /* You can add global styles to this file, and also import other style files */
 // Swiper
 .coverflowslide .slide {
-    position: relative;
-    transition: transform 0.3s;
+  position: relative;
+  transition: transform 0.3s;
 }
 
 .coverflowslide .slick-list {
-    overflow: hidden !important;
+  overflow: hidden !important;
 }
 
 .coverflowslide .slick-center {
-    transform: scale(1.2); // Adjust the scale factor for the "Coverflow" effect
-    z-index: 1;
+  transform: scale(1.2); // Adjust the scale factor for the "Coverflow" effect
+  z-index: 1;
 }
 
 .coverflowslide .carousel {
-    width: 100%;
-    max-width: 600px; // Adjust the carousel width as needed
-    margin: 0 auto;
+  width: 100%;
+  max-width: 600px; // Adjust the carousel width as needed
+  margin: 0 auto;
 }
 
 .space .slick-slide {
-    margin: 10px;
+  margin: 10px;
 }
 
 table.dataTable thead th,
 table.dataTable thead td,
 table.dataTable tfoot th,
 table.dataTable tfoot td {
-    text-align: center !important;
+  text-align: center !important;
 }
-
-
 
 [data-bs-theme="dark"] {
-    .fc {
-        .fc-multimonth-daygrid {
-            background: #212529 !important;
-
-        }
-
-        .fc-day-disabled {
-            background: #282b2e !important;
-        }
-
-        .fc-multimonth {
-            border-color: #32383e !important;
-        }
+  .fc {
+    .fc-multimonth-daygrid {
+      background: #212529 !important;
     }
+
+    .fc-day-disabled {
+      background: #282b2e !important;
+    }
+
+    .fc-multimonth {
+      border-color: #32383e !important;
+    }
+  }
 }
 
-// body>div[style*="position: fixed"] {
-//     display: none;
-// }
+.logo-sm .logo-light-text {
+  font-family: "Concert One", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  color: #fff;
+  font-size: 1.5rem;
+  letter-spacing: 0.3rem;
+}
+
+.logo-lg .logo-light-text {
+  font-family: "Concert One", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  color: #fff;
+  font-size: 2.6rem;
+  letter-spacing: 0.5rem;
+}
+
+.logo-sm .logo-dark-text {
+  font-family: "Concert One", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  color: #2e3230;
+  font-size: 1.5rem;
+  letter-spacing: 0.3rem;
+}
+
+.logo-lg .logo-dark-text {
+  font-family: "Concert One", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  color: #2e3230;
+  font-size: 2.6rem;
+  letter-spacing: 0.5rem;
+}
+
+.form-logo .logo-sm .logo-dark-text {
+  font-size: 2.5rem;
+  color: #41454b;
+  margin: 0 1rem;
+}
+
+.form-logo .logo-lg .logo-dark-text {
+  font-size: 3.8rem;
+  color: #41454b;
+  margin: 0 1.8rem;
+}
+
+.form-logo .logo-sm .logo-light-text {
+  font-size: 2.5rem;
+  color: #fff;
+  margin: 0 1rem;
+}
+
+.form-logo .logo-lg .logo-light-text {
+  font-size: 3.8rem;
+  color: #fff;
+  margin: 0 1.8rem;
+}

@@ -18,6 +18,25 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
   appointmentId: any;
   appointmentDetails: any;
 
+  numberOrder: number = 0;
+  pres_submitted: boolean = false;
+  prescriptions: Array<{
+    drug: any,
+    freq: any,
+    medicalDays: any,
+    quantity: any,
+    unit: any,
+    note: any,
+  }> = [];
+  prescriptionsFromDB: Array<{
+    drug: any,
+    freq: any,
+    medicalDays: any,
+    quantity: any,
+    unit: any,
+    note: any,
+  }> = [];
+
   constructor(
     private _appointmentService: AppointmentService,
     private router: Router,
@@ -52,7 +71,6 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.fetchData();
   }
 
   get appointmentFormControl() {
@@ -113,5 +131,56 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
           Notes: [res.note],
         });
       });
+  }
+  markAsConfirmed(id: number) {
+
+  }
+
+  markAsCompleted(id: number) {
+
+  }
+
+  markAsCancel(id: number){
+
+  }
+
+  deleteRow(index: number) {
+    this.pres_submitted = false;
+    this.prescriptions.splice(index, 1);
+  }
+
+  addRow() {
+    this.pres_submitted = false;
+    this.prescriptions.push({
+      drug: '',
+      freq: '',
+      medicalDays: '',
+      note: '',
+      quantity: '',
+      unit: ''
+    })
+  }
+
+  savePrescriptions() {
+    this.pres_submitted = true;
+    const checkInvalid= this.prescriptions.find(pres => {
+      return !pres.drug || !pres.freq  || !pres.medicalDays || !pres.quantity || !pres.unit;
+    })
+
+    if(!checkInvalid && this.prescriptions.length != 0) {
+      console.log('valid');
+    } else {
+      console.log('invalid');
+    }
+  }
+
+  resetPrescriptions() {
+    this.pres_submitted = false;
+    this.prescriptions = this.prescriptionsFromDB;
+  }
+
+  toggleMenu() {
+    const menu = document.querySelector('.appt-menu');
+    menu?.classList.toggle('cs-close');
   }
 }

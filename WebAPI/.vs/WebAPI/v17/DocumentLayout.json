@@ -135,8 +135,7 @@
               "RelativeToolTip": "WebAPI\\Domain\\Enums\\AppointmentStatus.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-16T09:52:33.871Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-16T09:52:33.871Z"
             },
             {
               "$type": "Document",
@@ -148,8 +147,7 @@
               "RelativeToolTip": "WebAPI\\DTOs\\RecentlyAppointmentDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-16T08:07:32.338Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-16T08:07:32.338Z"
             },
             {
               "$type": "Document",
@@ -161,8 +159,7 @@
               "RelativeToolTip": "WebAPI\\DTOs\\NewBookingDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAqwAcAAABSAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-16T08:07:26.978Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-16T08:07:26.978Z"
             },
             {
               "$type": "Document",
@@ -282,8 +279,7 @@
               "RelativeToolTip": "WebAPI\\DTOs\\CreatePatientDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-15T03:30:08.941Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-15T03:30:08.941Z"
             },
             {
               "$type": "Document",
@@ -331,8 +327,7 @@
               "RelativeToolTip": "WebAPI\\Models\\EJ2UpdateParams.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAqwAQAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T08:51:45.463Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T08:51:45.463Z"
             },
             {
               "$type": "Document",
@@ -368,8 +363,7 @@
               "RelativeToolTip": "WebAPI\\DTOs\\AppointmentEventDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T08:00:26.8Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T08:00:26.8Z"
             },
             {
               "$type": "Document",
@@ -393,8 +387,7 @@
               "RelativeToolTip": "WebAPI\\Controllers\\AppointmentController.cs",
               "ViewState": "AQIAAHoAAAAAAAAAAAAEwIEAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T04:17:06.287Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T04:17:06.287Z"
             },
             {
               "$type": "Document",
@@ -404,7 +397,7 @@
               "RelativeDocumentMoniker": "WebAPI\\Services\\AppointmentService.cs",
               "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\AppointmentService.cs",
               "RelativeToolTip": "WebAPI\\Services\\AppointmentService.cs",
-              "ViewState": "AQIAAJACAAAAAAAAAAAjwKICAABTAAAA",
+              "ViewState": "AQIAAJACAAAAAAAAAAAjwKoCAAAOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-12T04:14:53.674Z",
               "EditorCaption": ""
@@ -419,8 +412,7 @@
               "RelativeToolTip": "WebAPI\\Interfaces\\IService\\IAppointmentService.cs",
               "ViewState": "AQIAAAwAAAAAAAAAAIA6wBAAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T04:12:11.152Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T04:12:11.152Z"
             }
           ]
         }
