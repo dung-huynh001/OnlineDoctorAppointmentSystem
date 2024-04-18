@@ -20,14 +20,14 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
 
   numberOrder: number = 0;
   pres_submitted: boolean = false;
-  prescriptions: Array<{
+  prescriptions!: Array<{
     drug: any,
     freq: any,
     medicalDays: any,
     quantity: any,
     unit: any,
     note: any,
-  }> = [];
+  }>;
   prescriptionsFromDB: Array<{
     drug: any,
     freq: any,
@@ -35,7 +35,16 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
     quantity: any,
     unit: any,
     note: any,
-  }> = [];
+  }> = [
+      {
+        drug: 'any',
+        freq: 'any',
+        medicalDays: 'any',
+        quantity: 'any',
+        unit: 'any',
+        note: 'any',
+      }
+    ];
 
   constructor(
     private _appointmentService: AppointmentService,
@@ -43,7 +52,7 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
     private _toastService: ToastService,
     private _spinnerService: NgxSpinnerService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.breadcrumbItems = [
       { label: 'Home' },
@@ -68,6 +77,7 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
     });
 
     this.fetchData();
+    this.prescriptions = JSON.parse(JSON.stringify(this.prescriptionsFromDB));
   }
 
   ngAfterViewInit(): void {
@@ -140,7 +150,7 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
 
   }
 
-  markAsCancel(id: number){
+  markAsCancel(id: number) {
 
   }
 
@@ -163,11 +173,11 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
 
   savePrescriptions() {
     this.pres_submitted = true;
-    const checkInvalid= this.prescriptions.find(pres => {
-      return !pres.drug || !pres.freq  || !pres.medicalDays || !pres.quantity || !pres.unit;
+    const isInvalid = this.prescriptions.find(pres => {
+      return !pres.drug || !pres.freq || !pres.medicalDays || !pres.quantity || !pres.unit;
     })
 
-    if(!checkInvalid && this.prescriptions.length != 0) {
+    if (!isInvalid && this.prescriptions.length != 0) {
       console.log('valid');
     } else {
       console.log('invalid');
@@ -176,7 +186,7 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
 
   resetPrescriptions() {
     this.pres_submitted = false;
-    this.prescriptions = this.prescriptionsFromDB;
+    this.prescriptions = JSON.parse(JSON.stringify(this.prescriptionsFromDB));
   }
 
   toggleMenu() {

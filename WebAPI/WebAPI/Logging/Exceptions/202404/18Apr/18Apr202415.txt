@@ -1,0 +1,14 @@
+4/18/2024 3:34:39 PM ==> 	A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SNI_PN11, error: 26 - Error Locating Server/Instance Specified) Line:0		POST	
+
+4/18/2024 3:34:59 PM ==> 	A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SNI_PN11, error: 26 - Error Locating Server/Instance Specified) Line:0		POST	
+
+4/18/2024 3:35:03 PM ==> 	A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SNI_PN11, error: 26 - Error Locating Server/Instance Specified) Line:0		POST	
+
+4/18/2024 3:56:56 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/18/2024 3:56:59 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/18/2024 3:57:02 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/18/2024 3:57:07 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+

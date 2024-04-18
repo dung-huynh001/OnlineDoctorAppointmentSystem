@@ -1,0 +1,8 @@
+4/18/2024 8:53:54 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/18/2024 8:54:07 PM ==> AppointmentService.cs	There are no scheduled dates for 18 Apr 2024 Line:663	<AddNewAppointmentEvent>	POST	c602040a-1835-47cf-a85a-5966869f6272
+
+4/18/2024 8:54:29 PM ==> AppointmentService.cs	There are no scheduled dates for 18 Apr 2024 Line:663	<AddNewAppointmentEvent>	POST	c602040a-1835-47cf-a85a-5966869f6272
+
+4/18/2024 8:55:44 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
