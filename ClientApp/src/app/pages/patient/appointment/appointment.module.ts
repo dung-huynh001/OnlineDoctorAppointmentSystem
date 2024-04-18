@@ -16,6 +16,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmedComponent } from './confirmed/confirmed.component';
+import { NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -38,7 +39,9 @@ import { ConfirmedComponent } from './confirmed/confirmed.component';
     NgxSpinnerModule,
     FlatpickrModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbNavModule,
+    NgbTooltipModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

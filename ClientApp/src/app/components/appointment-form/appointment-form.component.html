@@ -1,6 +1,11 @@
 <div class="container border border-primary p-3">
-  <div class="d-flex">
-    <img class="pe-3 d-none d-lg-flex" src="../../../assets/images/logo-dark.png" alt="hospital-logo" height="50" />
+  <div class="d-flex gap-3">
+    <!-- <img class="pe-3 d-none d-lg-flex" src="../../../assets/images/logo-dark.png" alt="hospital-logo" height="50" /> -->
+    <div class="form-logo">
+      <span class="logo-lg">
+        <span class="logo-dark-text">MA</span>
+      </span>
+    </div>
     <div>
       <div>
         <h5>Can Tho City Central General Hospital</h5>
@@ -146,9 +151,9 @@
                 <span class="text-danger">*</span></label>
               <div class="w-100">
                 <input class="form-control flatpickr-input" type="text" id="time" formControlName="time" mwlFlatpickr
-                  [defaultValue]="'07:00'" [noCalendar]="true" [enableTime]="true" [dateFormat]="'H:i'" [time24hr]="true"
-                  [ngClass]="{'is-invalid': submitted && this.f['time'].errors}" placeholder="hh:mm" id="cleave-time"
-                  autocomplete="off" />
+                  [defaultValue]="'07:00'" [noCalendar]="true" [enableTime]="true" [dateFormat]="'H:i'"
+                  [time24hr]="true" [ngClass]="{'is-invalid': submitted && this.f['time'].errors}" placeholder="hh:mm"
+                  id="cleave-time" autocomplete="off" />
                 <div class="invalid-feedback">
                   Please select time
                 </div>
@@ -261,7 +266,8 @@
     </div>
     <hr>
     <div class="d-flex justify-content-end gap-3">
-      <button class="btn btn-soft-light text-dark" type="button" (click)="resetForm()"><i class="las la-undo-alt ms-0 me-1"></i>Reset</button>
+      <button class="btn btn-soft-light text-dark" type="button" (click)="resetForm()"><i
+          class="las la-undo-alt ms-0 me-1"></i>Reset</button>
       <button class="btn btn-soft-primary" type="submit"><i class="las la-edit ms-0 me-1"></i>Appointment</button>
     </div>
   </form>
