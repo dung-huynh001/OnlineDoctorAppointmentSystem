@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPatch("update-patient-info/{id}")]
-        public async Task<IActionResult> UpdatePatientInfo([FromForm]UpdatePatientDetailsDto model)
+        public async Task<IActionResult> UpdatePatient([FromForm]UpdatePatientDetailsDto model)
         {
             var img = model.Avatar;
             if (img != null && img.Length != 0)
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
                 }
                 await _uploadService.UploadImageToFolderAsync(model.Avatar!, filePath);
             }
-            return Ok(await _patientService.UpdatePatientInfo(model));
+            return Ok(await _patientService.UpdatePatient(model));
         }
 
         [HttpGet("send-activate-email/{id}")]

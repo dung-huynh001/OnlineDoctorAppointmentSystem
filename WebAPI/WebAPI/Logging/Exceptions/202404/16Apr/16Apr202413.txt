@@ -1,0 +1,10 @@
+4/16/2024 1:05:55 PM ==> 	The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters. Line:0		POST	6033aeac-d5a3-4449-9f8d-84408f1bf08e
+
+4/16/2024 1:20:25 PM ==> AppointmentService.cs	There are no scheduled dates for 16 Apr 2024 Line:649	<AddNewAppointmentEvent>	POST	6033aeac-d5a3-4449-9f8d-84408f1bf08e
+
+4/16/2024 1:30:47 PM ==> AppointmentService.cs	There are no scheduled dates for 19 Apr 2024 Line:649	<AddNewAppointmentEvent>	POST	6033aeac-d5a3-4449-9f8d-84408f1bf08e
+
+4/16/2024 1:30:51 PM ==> AppointmentService.cs	There are no scheduled dates for 17 Apr 2024 Line:649	<AddNewAppointmentEvent>	POST	6033aeac-d5a3-4449-9f8d-84408f1bf08e
+
+4/16/2024 1:30:55 PM ==> AppointmentService.cs	There are no scheduled dates for 16 Apr 2024 Line:649	<AddNewAppointmentEvent>	POST	6033aeac-d5a3-4449-9f8d-84408f1bf08e
+

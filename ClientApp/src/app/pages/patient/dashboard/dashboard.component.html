@@ -117,46 +117,6 @@
                         <input type="text" class="form-control" mwlFlatpickr [altInput]="true"
                             [convertModelValue]="true" [inline]="true">
                     </div>
-
-                    <!-- <h6 class="text-uppercase fw-semibold mt-4 mb-3 text-muted">Events:</h6>
-                    <div
-                        *ngIf="this.schedulesInfo && this.schedulesInfo.length !== 0, then haveSchedules else noSchedules">
-                    </div>
-                    <ng-template #haveSchedules>
-                        <div class="mini-stats-wid d-flex align-items-center mt-3">
-                            <div class="flex-shrink-0 avatar-sm">
-                                <span
-                                    class="mini-stat-icon avatar-title rounded-circle text-success bg-success-subtle fs-4">
-                                    {{getDate()}}
-                                </span>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <div class="mb-2" *ngFor="let schedule of this.schedulesInfo">
-                                    <div><span class="fw-semibold">{{schedule.shiftName}}:</span> {{schedule.shiftTime}}
-                                        - {{schedule.breakTime}}</div>
-                                    <p class="text-muted mb-0">{{schedule.description}}</p>
-                                </div>
-                            </div>
-                            <div class="flex-shrink-0">
-                                <a href="javascript:void(0);" class="text-muted mb-0 text-decoration-underline">have
-                                    <span class="text-success fw-bold fs-6">{{this.totalApptOnDate}}</span>
-                                    appts
-                                </a>
-                            </div>
-                        </div>
-                    </ng-template>
-                    <ng-template #noSchedules>
-                        <div class="mini-stats-wid d-flex align-items-center mt-3" style="min-height: 150px">
-                            <div class="flex-shrink-0 avatar-sm">
-                                <span
-                                    class="mini-stat-icon avatar-title rounded-circle text-success bg-success-subtle fs-4">
-                                    {{getDate()}}
-                                </span>
-                            </div>
-                            <h5 class="flex-grow-1 ms-3">No schedules on this day</h5>
-                        </div>
-                    </ng-template> -->
-
                 </div>
             </div>
             <div class="card card-animate" *ngIf="this.upcomingAppointments">

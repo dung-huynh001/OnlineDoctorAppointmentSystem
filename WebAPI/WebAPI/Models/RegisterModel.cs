@@ -11,6 +11,6 @@ namespace WebAPI.Models
         [Required]
         public string Email { get; set; }
         public string? UserType { get; set; }
-        public string? AvatarUrl { get; set; }
+        public string? AvatarUrl { get; set; } = "Uploads/Images/default-user.jpg";
     }
 }

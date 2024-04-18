@@ -134,7 +134,7 @@ namespace WebAPI.Services
             }
         }
 
-        public async Task<UpdatePatientDetailsDto?> UpdatePatientInfo(UpdatePatientDetailsDto model)
+        public async Task<UpdatePatientDetailsDto?> UpdatePatient(UpdatePatientDetailsDto model)
         {
             _unitOfWork.BeginTransaction();
             try

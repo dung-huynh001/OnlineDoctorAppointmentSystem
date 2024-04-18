@@ -16,8 +16,13 @@ namespace WebAPI.Interfaces.IService
         Task<ViewAppointmentDto> ViewAppointmentDetails(int id);
         Task<List<int>> LoadWidgets(string id, string userType);
         Task<List<RecentlyAppointmentDto>> GetRecentlyAppointment(string id);
-        Task<List<UpcomingAppointmentDto>> GetUpcomingAppointment(string id);
+        Task<List<UpcomingAppointmentDto>> GetUpcomingAppointment(string id, string userType);
+        Task<List<NewBookingDto>> GetNewBooking(string id);
         Task<List<PatientToFillDropdownDto>> GetPatients();
         Task<List<AppointmentEventDto>> GetAppointmentEventsByDoctor(EJ2Params param, string currentUserId);
+        Task<ApiResponse> AddNewPatient(AddNewPatientDto model);
+        Task<ApiResponse> AppointmentOnSite(EJ2UpdateParams<AppointmentEventDto> param, string currrentUserId);
+        Task<ApiResponse> MarkAsConfirmed(int id);
+        Task<ApiResponse> MarkAsCancel(int id);
     }
 }

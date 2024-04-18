@@ -4,7 +4,7 @@ import { DoctorRoutingModule } from './doctor-routing.module';
 import { AppointmentOnSiteComponent } from './appointment-on-site/appointment-on-site.component';
 import { PrescriptionsComponent } from './prescriptions/prescriptions.component';
 import { SharedModule } from '../../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CountUpModule } from 'ngx-countup';
 import { ComponentsModule } from '../../components/components.module';
@@ -28,6 +28,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { TimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
     DoctorRoutingModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     CountUpModule,
     ComponentsModule,
@@ -53,6 +55,7 @@ import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
     TimePickerModule,
     DropDownListModule,
     DateTimePickerModule,
+    DataTablesModule
   ],
   providers: [
     DecimalPipe,

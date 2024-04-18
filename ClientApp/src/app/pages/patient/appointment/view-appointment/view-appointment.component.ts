@@ -13,10 +13,29 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ViewAppointmentComponent implements OnInit, AfterViewInit {
   breadcrumbItems!: Array<{}>;
-  appointmentForm!: FormGroup
+  appointmentForm!: FormGroup;
 
   appointmentId: any;
   appointmentDetails: any;
+
+  numberOrder: number = 0;
+  pres_submitted: boolean = false;
+  prescriptions: Array<{
+    drug: any,
+    freq: any,
+    medicalDays: any,
+    quantity: any,
+    unit: any,
+    note: any,
+  }> = [];
+  prescriptionsFromDB: Array<{
+    drug: any,
+    freq: any,
+    medicalDays: any,
+    quantity: any,
+    unit: any,
+    note: any,
+  }> = [];
 
   constructor(
     private _appointmentService: AppointmentService,
@@ -24,7 +43,7 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
     private _toastService: ToastService,
     private _spinnerService: NgxSpinnerService,
     private formBuilder: FormBuilder
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.breadcrumbItems = [
       { label: 'Home' },
@@ -48,27 +67,40 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
       Notes: [],
     });
 
-    // this.fetchData();
+    this.fetchData();
   }
 
   ngAfterViewInit(): void {
-    this.fetchData();
   }
 
   get appointmentFormControl() {
     return this.appointmentForm.controls;
   }
 
+  setBgColor(status: string) {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return 'warning';
+      case 'confirmed':
+        return 'primary';
+      case 'completed':
+        return 'success';
+      case 'cancelled':
+        return 'danger';
+      default:
+        return 'light';
+    }
+  }
+
   fetchData() {
     this._spinnerService.show();
 
     const currentUrl = this.router.url;
-    this.appointmentId = currentUrl.slice(currentUrl.length - 1);
+    const currentUrlArr = currentUrl.split('/');
+    this.appointmentId = currentUrlArr.at(currentUrlArr.length - 1);
 
     this._appointmentService
-      .viewAppointmentDetails(
-        this.appointmentId
-      )
+      .viewAppointmentDetails(this.appointmentId)
       .pipe(
         catchError((err) => {
           return throwError(() => err);
@@ -99,5 +131,56 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
           Notes: [res.note],
         });
       });
+  }
+  markAsConfirmed(id: number) {
+
+  }
+
+  markAsCompleted(id: number) {
+
+  }
+
+  markAsCancel(id: number){
+
+  }
+
+  deleteRow(index: number) {
+    this.pres_submitted = false;
+    this.prescriptions.splice(index, 1);
+  }
+
+  addRow() {
+    this.pres_submitted = false;
+    this.prescriptions.push({
+      drug: '',
+      freq: '',
+      medicalDays: '',
+      note: '',
+      quantity: '',
+      unit: ''
+    })
+  }
+
+  savePrescriptions() {
+    this.pres_submitted = true;
+    const checkInvalid= this.prescriptions.find(pres => {
+      return !pres.drug || !pres.freq  || !pres.medicalDays || !pres.quantity || !pres.unit;
+    })
+
+    if(!checkInvalid && this.prescriptions.length != 0) {
+      console.log('valid');
+    } else {
+      console.log('invalid');
+    }
+  }
+
+  resetPrescriptions() {
+    this.pres_submitted = false;
+    this.prescriptions = this.prescriptionsFromDB;
+  }
+
+  toggleMenu() {
+    const menu = document.querySelector('.appt-menu');
+    menu?.classList.toggle('cs-close');
   }
 }

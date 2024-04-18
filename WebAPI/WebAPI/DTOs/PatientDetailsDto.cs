@@ -13,6 +13,6 @@
         public string DateOfBirth { get; set; }
         public string CreatedDate { get; set; }
         public string UpdatedDate { get; set; }
-        public string? AvatarUrl { get; set; }
+        public string? AvatarUrl { get; set; } = "Uploads/Images/default-user.jpg";
     }
 }

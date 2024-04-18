@@ -33,7 +33,7 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
 
   // Config department select
   departmentData = [{}];
-  selectedAccount = 1;
+  selectedDepartment: number = 1;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -56,7 +56,7 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
       FullName: ['', Validators.required],
       NationalId: ['', Validators.required],
       DateOfBirth: ['', Validators.required],
-      Gender: ['1', Validators.required],
+      Gender: ['0', Validators.required],
       PhoneNumber: ['', Validators.required],
       Address: ['', Validators.required],
       Avatar: [null, [Validators.required, Validators.max(this.maxFileSize)]],
@@ -103,7 +103,7 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
   }
 
   selectedIndexChange(event: any) {
-    console.log(event);
+    // console.log(event);
   }
 
   selectionChange(event: StepperSelectionEvent) {
@@ -114,17 +114,25 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
         this.accountForm_submitted = true;
         this.accountForm.markAllAsTouched();
         if (this.accountForm.invalid) {
-          this.cdkStepperObj.previous();
+          // this.cdkStepperObj.previous();
         }
         break;
       case 1:
         this.doctorInfoForm_submitted = true;
         this.doctorInfoForm.markAllAsTouched();
         if (this.doctorInfoForm.invalid) {
-          this.cdkStepperObj.previous();
+          // this.cdkStepperObj.previous();
         }
         break;
       default:
+        this.workInfoForm_submitted = true;
+        this.workInfoForm.markAllAsTouched();
+        if (this.workInfoForm.invalid) {
+          const ngSelectContainer = document.querySelectorAll('ng-select');
+          console.log(ngSelectContainer)
+          
+          // this.cdkStepperObj.previous();
+        }
         break;
     }
 
@@ -195,6 +203,9 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
     this.workInfoForm_submitted = false;
 
     this.selectedIndex = 0;
+    this.workInfoFormControl['DepartmentId'].setValue(1);
+    this.doctorInfoFormControl['Gender'].setValue(0);
+
   }
 
   onFileChange(event: any) {
