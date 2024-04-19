@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { apiResponse } from '../models/apiResponse.model';
 
 const HOSTNAME = environment.serverApi;
 
@@ -26,7 +27,7 @@ export class AppointmentService {
       appointmentDate: string;
       doctorName: string;
       speciality: string;
-      dateOfConsultation: string
+      dateOfConsultation: string;
     }>
   > = new Subject();
 
@@ -52,7 +53,7 @@ export class AppointmentService {
       appointmentDate: string;
       doctorName: string;
       speciality: string;
-      dateOfConsultation: string
+      dateOfConsultation: string;
     }>
   ) {
     this.upcomingAppointments$.next(upcomingApptData);
@@ -73,17 +74,34 @@ export class AppointmentService {
   constructor(private http: HttpClient) {}
 
   getDoctorOnDuty(dateTime: any): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Doctor/get-doctor-on-duty?date=${dateTime}`)
+    return this.http
+      .get(`${HOSTNAME}/api/Doctor/get-doctor-on-duty?date=${dateTime}`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
-  makeAppoinntment(data: any): Observable<any> {
+  makeAppointment(data: any): Observable<apiResponse> {
     const formData = new FormData();
 
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
 
-    return this.http.post(`${HOSTNAME}/api/Appointment/make-appointment`, formData);
+    return this.http
+      .post<apiResponse>(
+        `${HOSTNAME}/api/Appointment/make-appointment`,
+        formData
+      )
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getAppointments(
@@ -92,53 +110,250 @@ export class AppointmentService {
     type: string,
     dataTablesParameters: any
   ): Observable<any> {
-    return this.http.post(`${HOSTNAME}/api/Appointment/get-appointments/${id}?type=${type}&userType=${userType}`,
-      dataTablesParameters
-    );
+    return this.http
+      .post(
+        `${HOSTNAME}/api/Appointment/get-appointments/${id}?type=${type}&userType=${userType}`,
+        dataTablesParameters
+      )
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   cancelAppointment(id: any): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Appointment/cancel-appointment/${id}`);
+    return this.http
+      .get(`${HOSTNAME}/api/Appointment/cancel-appointment/${id}`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   viewAppointmentDetails(id: any): Observable<any> {
-        return this.http.get(`${HOSTNAME}/api/Appointment/view-appointment-details/${id}`);
+    return this.http
+      .get(`${HOSTNAME}/api/Appointment/view-appointment-details/${id}`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   loadWidgets(url: string, id: any, userType: any): Observable<any> {
-    return this.http.get(HOSTNAME + `/api/${url}/${id}?userType=${userType}`);
+    return this.http
+      .get(HOSTNAME + `/api/${url}/${id}?userType=${userType}`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getRecentlyAppointment(id: any): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Appointment/get-recently-appointments/${id}`);
+    return this.http
+      .get(`${HOSTNAME}/api/Appointment/get-recently-appointments/${id}`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getNewBooking(id: any): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Appointment/get-new-booking/${id}`);
+    return this.http
+      .get(`${HOSTNAME}/api/Appointment/get-new-booking/${id}`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getUpcomingAppointment(id: any, userType: string): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Appointment/get-upcoming-appointments/${id}?userType=${userType}`);
+    return this.http
+      .get(
+        `${HOSTNAME}/api/Appointment/get-upcoming-appointments/${id}?userType=${userType}`
+      )
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getPatientsToFillDropdown(): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Appointment/get-patients-to-fill-dropdown`);
+    return this.http
+      .get(`${HOSTNAME}/api/Appointment/get-patients-to-fill-dropdown`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   addNewPatient(data: any): Observable<any> {
     const formData = new FormData();
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
-    return this.http.post(`${HOSTNAME}/api/Appointment/add-new-patient`, formData);
+    return this.http
+      .post(`${HOSTNAME}/api/Appointment/add-new-patient`, formData)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
-  markAsConfirmed(id: number): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Appointment/mark-as-confirmed/${id}`);
-
+  updateAppointmentStatus(
+    id: number,
+    appointmentStatus: string
+  ): Observable<apiResponse> {
+    return this.http
+      .get<apiResponse>(
+        `${HOSTNAME}/api/Appointment/update-appointment-status/${id}?appointmentStatus=${appointmentStatus}`
+      )
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
-  markAsCancel(id: number): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Appointment/mark-as-cancel/${id}`);
+  getFreq(): Observable<
+    {
+      value: number;
+      text: string;
+    }[]
+  > {
+    return this.http
+      .get<
+        {
+          value: number;
+          text: string;
+        }[]
+      >(`${HOSTNAME}/api/Appointment/get-frequency`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  getUnit(): Observable<
+    {
+      value: number;
+      text: string;
+    }[]
+  > {
+    return this.http
+      .get<
+        {
+          value: number;
+          text: string;
+        }[]
+      >(`${HOSTNAME}/api/Appointment/get-unit`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  getDiagnosis(id: number): Observable<{
+    diagnosis: string;
+    caseNote: string;
+    adviceToPatient: string;
+  }> {
+    return this.http
+      .get<{
+        diagnosis: string;
+        caseNote: string;
+        adviceToPatient: string;
+      }>(`${HOSTNAME}/api/Appointment/get-diagnosis/${id}`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  getPrescription(id: number): Observable<
+    {
+      id: number;
+      drug: string;
+      frequency: number;
+      medicationDays: string;
+      quantity: string;
+      unit: number;
+      appointmentId: number;
+      note: string;
+      isDeleted: boolean;
+    }[]
+  > {
+    return this.http
+      .get<
+        {
+          id: number;
+          drug: string;
+          frequency: number;
+          medicationDays: string;
+          quantity: string;
+          unit: number;
+          appointmentId: number;
+          note: string;
+          isDeleted: boolean;
+        }[]
+      >(`${HOSTNAME}/api/Appointment/get-prescriptions/${id}`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  updatePrescriptions(id: number, prescriptions: any): Observable<apiResponse> {
+    return this.http
+      .patch<apiResponse>(
+        `${HOSTNAME}/api/Appointment/update-prescriptions/${id}`,
+        prescriptions
+      )
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  updateDiagnosis(id: number, diagnosis: any): Observable<apiResponse> {
+    return this.http
+      .patch<apiResponse>(
+        `${HOSTNAME}/api/Appointment/update-diagnosis/${id}`,
+        diagnosis
+      )
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 }

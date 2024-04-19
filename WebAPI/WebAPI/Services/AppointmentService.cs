@@ -69,7 +69,7 @@ namespace WebAPI.Services
 
                 await _unitOfWork.Repository<Appointment>().AddAsync(appointment);
 
-                
+
 
                 _unitOfWork.Commit();
 
@@ -222,7 +222,7 @@ namespace WebAPI.Services
                 .Take(parameters.Length);
 
             var data = records.ToList();
-            foreach(var item in data)
+            foreach (var item in data)
             {
                 if (!item.CreatedBy.IsNullOrEmpty())
                 {
@@ -504,9 +504,10 @@ namespace WebAPI.Services
             var appointmentEvents = await _unitOfWork.Repository<Appointment>().GetAll
                 .Where(a => a.Doctor.UserId == currentUserId
                     && !a.IsDeleted
-                    && a.AppointmentDate <= param.EndDate 
+                    && a.AppointmentDate <= param.EndDate
                     && a.AppointmentDate >= param.StartDate)
-                .Select(a => new AppointmentEventDto {
+                .Select(a => new AppointmentEventDto
+                {
                     Id = a.Id,
                     Allergies = a.DrugAllergies,
                     DoctorId = a.DoctorId,
@@ -533,7 +534,7 @@ namespace WebAPI.Services
                 Patient patient = _mapper.Map<Patient>(model);
                 await _unitOfWork.Repository<Patient>().AddAsync(patient);
                 _unitOfWork.Commit();
-                return new ApiResponse 
+                return new ApiResponse
                 {
                     IsSuccess = true,
                     Message = "Add new patient successfully"
@@ -556,7 +557,7 @@ namespace WebAPI.Services
             {
                 return await AddNewAppointmentEvent(param, currrentUserId);
             }
-            else if(param.changed.Count > 0)
+            else if (param.changed.Count > 0)
             {
                 return await UpdateAppointmentEvent(param, currrentUserId);
             }
@@ -572,7 +573,7 @@ namespace WebAPI.Services
 
             var appointmentId = _unitOfWork.Repository<Appointment>().DeleteByIdAsync(id).Result;
             _unitOfWork.Commit();
-            if(appointmentId != 0)
+            if (appointmentId != 0)
             {
                 return new ApiResponse
                 {
@@ -704,7 +705,7 @@ namespace WebAPI.Services
             return result;
         }
 
-        public async Task<ApiResponse> MarkAsConfirmed(int id)
+        public async Task<ApiResponse> UpdateAppointmentStatus(int id, string appointmentStatus)
         {
             _unitOfWork.BeginTransaction();
 
@@ -715,18 +716,18 @@ namespace WebAPI.Services
                     IsSuccess = false,
                     Message = $"Not found appointment with id {id}"
                 };
-            appointment.AppointmentStatus = AppointmentStatus.Confirmed.ToString();
+            appointment.AppointmentStatus = appointmentStatus;
             await _unitOfWork.Repository<Appointment>().UpdateAsync(appointment);
             _unitOfWork.Commit();
 
             return new ApiResponse
             {
                 IsSuccess = true,
-                Message = "Updated the appointment's status to confirmed"
+                Message = $"Updated the appointment's status to {appointmentStatus}"
             };
         }
 
-        public async Task<ApiResponse> MarkAsCancel(int id)
+        public async Task<ApiResponse> ChangeAppointmentDate(int id, DateTime appointmentDate)
         {
             _unitOfWork.BeginTransaction();
 
@@ -737,15 +738,130 @@ namespace WebAPI.Services
                     IsSuccess = false,
                     Message = $"Not found appointment with id {id}"
                 };
-            appointment.AppointmentStatus = AppointmentStatus.Cancelled.ToString();
+            appointment.AppointmentDate = appointmentDate;
             await _unitOfWork.Repository<Appointment>().UpdateAsync(appointment);
             _unitOfWork.Commit();
 
             return new ApiResponse
             {
                 IsSuccess = true,
-                Message = "Updated the appointment's status to cancelled"
+                Message = $"Updated the appointment date to {appointmentDate.ToString("ddd dd/MM/yyyy hh:mm")}"
             };
+        }
+
+        public async Task<ApiResponse> UpdateDiagnosis(int id, DiagnosisDto diagnosis)
+        {
+            _unitOfWork.BeginTransaction();
+
+            var appointment = await _unitOfWork.Repository<Appointment>().GetByIdAsync(id);
+            if (appointment == null)
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = $"Not found appointment with id {id}"
+                };
+            appointment.Diagnosis = diagnosis.Diagnosis;
+            appointment.AdviceToPatient = diagnosis.AdviceToPatient;
+            appointment.CaseNote = diagnosis.CaseNote;
+
+            await _unitOfWork.Repository<Appointment>().UpdateAsync(appointment);
+            _unitOfWork.Commit();
+
+            return new ApiResponse
+            {
+                IsSuccess = true,
+                Message = $"Updated the diagnosis successfully"
+            };
+        }
+
+        public async Task<List<PrescriptionDto>> GetPrescriptions(int id)
+        {
+            _unitOfWork.BeginTransaction();
+
+            var prescriptions = await _unitOfWork.Repository<Prescription>().GetAll
+                .Where(
+                    p => !p.IsDeleted
+                    && p.AppointmentId == id)
+                .Select(p => new PrescriptionDto
+                {
+                    Drug = p.Drug,
+                    Frequency = p.Frequency,
+                    Id = p.Id,
+                    MedicationDays = p.MedicationDays,
+                    Note = p.Note,
+                    Quantity = p.Quantity,
+                    Unit = p.Unit,
+                    AppointmentId = p.AppointmentId,
+                    IsDeleted = p.IsDeleted
+                })
+                .ToListAsync();
+
+            return prescriptions;
+        }
+
+        public async Task<ApiResponse> UpdatePrescriptions(int id, List<PrescriptionDto> prescriptions)
+        {
+            _unitOfWork.BeginTransaction();
+            foreach(var presDto in prescriptions)
+            {
+                var prescription = _mapper.Map<Prescription>(presDto);
+
+                if (presDto.Id != 0 && presDto.Id != null)
+                {
+                    await _unitOfWork.Repository<Prescription>().UpdateAsync(prescription);
+                }
+                else
+                {
+                    await _unitOfWork.Repository<Prescription>().AddAsync(prescription);
+                }
+            }
+            _unitOfWork.Commit();
+
+            return new ApiResponse
+            {
+                IsSuccess = true,
+                Message = "Update prescriptions successfully"
+            };
+        }
+
+        public async Task<DiagnosisDto> GetDiagnosis(int id)
+        {
+            var appointment = await _unitOfWork.Repository<Appointment>().GetByIdAsync(id);
+            if (appointment == null)
+                throw new NotFoundException("appointment", id.ToString());
+
+            return new DiagnosisDto
+            {
+                AdviceToPatient = appointment.AdviceToPatient,
+                CaseNote = appointment.CaseNote,
+                Diagnosis = appointment.Diagnosis
+            };
+        }
+
+        public async Task<List<FrequencyDto>> GetFreq()
+        {
+            var freqs = await _unitOfWork.Repository<SystemPara>().GetAll
+                .Where(s => s.Groupid.ToLower().Contains("frequency"))
+                .Select(s => new FrequencyDto
+                {
+                    Value = s.Id,
+                    Text = s.Paraval
+                })
+                .ToListAsync();
+            return freqs;
+        }
+
+        public async Task<List<UnitDto>> GetUnit()
+        {
+            var unit = await _unitOfWork.Repository<SystemPara>().GetAll
+                .Where(s => s.Groupid.ToLower().Contains("unit"))
+                .Select(s => new UnitDto
+                {
+                    Value = s.Id,
+                    Text = s.Paraval
+                })
+                .ToListAsync();
+            return unit;
         }
     }
 }

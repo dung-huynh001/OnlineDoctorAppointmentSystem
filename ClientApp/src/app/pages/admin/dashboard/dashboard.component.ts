@@ -98,10 +98,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this._appointmentService
       .getRecentlyAppointment(this.currentUser.id)
       .pipe(
-        catchError((err) => {
-          this._appointmentService.setRecentlyApptData([]);
-          return throwError(() => err);
-        }),
         map(
           (
             res: Array<{
@@ -126,12 +122,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.currentUser.id,
         this.currentUser.userType
       )
-      .pipe(
-        catchError((err) => {
-          this._appointmentService.setWidgetsData([]);
-          return throwError(() => err);
-        })
-      )
       .subscribe((res: Array<number>) => {
         this._appointmentService.setWidgetsData(res);
       });
@@ -140,11 +130,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   getUpcomningAppointments() {
     this._appointmentService
       .getUpcomingAppointment(this.currentUser.id, this.currentUser.userType)
-      .pipe(
-        catchError((err) => {
-          return throwError(() => err);
-        })
-      )
       .subscribe(
         (
           res: Array<{

@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private _authService: AuthService,
     private _spinnerService: NgxSpinnerService,
     private datePipe: DatePipe
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.breadCrumbItems = [
@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.fetchData();
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {}
 
   fetchData() {
     this._spinnerService.show();
@@ -96,14 +96,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   getRecentlyAppointments() {
     this._appointmentService
-      .getRecentlyAppointment(
-        this.currentUser.id
-      )
+      .getRecentlyAppointment(this.currentUser.id)
       .pipe(
-        catchError((err) => {
-          this._appointmentService.setRecentlyApptData([]);
-          return throwError(() => err);
-        }),
         map(
           (
             res: Array<{
@@ -128,12 +122,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.currentUser.id,
         this.currentUser.userType
       )
-      .pipe(
-        catchError((err) => {
-          this._appointmentService.setWidgetsData([]);
-          return throwError(() => err);
-        })
-      )
       .subscribe((res: Array<number>) => {
         this._appointmentService.setWidgetsData(res);
       });
@@ -141,15 +129,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   getUpcomningAppointments() {
     this._appointmentService
-      .getUpcomingAppointment(
-        this.currentUser.id,
-        this.currentUser.userType
-      )
-      .pipe(
-        catchError((err) => {
-          return throwError(() => err);
-        })
-      )
+      .getUpcomingAppointment(this.currentUser.id, this.currentUser.userType)
       .subscribe(
         (
           res: Array<{
@@ -203,8 +183,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           data: 'doctorName',
           title: 'Doctor',
           render: (data: any, type: any, row: any, meta: any) => {
-            return `<span class="text-center">${data}</span>`
-          }
+            return `<span class="text-center">${data}</span>`;
+          },
         },
         {
           data: 'speciality',

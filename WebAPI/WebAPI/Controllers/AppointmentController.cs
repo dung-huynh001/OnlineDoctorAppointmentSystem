@@ -125,17 +125,52 @@ namespace WebAPI.Controllers
             return Ok(addPatientResponse);
         }
 
-        [HttpGet("mark-as-confirmed/{id}")]
-        public async Task<IActionResult> MarkAsConfirmed([FromRoute]int id)
+        [HttpGet("update-appointment-status/{id}")]
+        public async Task<IActionResult> UpdateAppointmentStatus([FromRoute] int id, string appointmentStatus)
         {
-            return Ok(await _appointmentService.MarkAsConfirmed(id));
+            return Ok(await _appointmentService.UpdateAppointmentStatus(id, appointmentStatus));
         }
 
-        [HttpGet("mark-as-cancel/{id}")]
-        public async Task<IActionResult> MarkAsCancel([FromRoute] int id)
+        [HttpPatch("change-appointment-date")]
+        public async Task<IActionResult> ChangeAppointmentDate([FromRoute]int id, DateTime appointmentDate)
         {
-            return Ok(await _appointmentService.MarkAsCancel(id));
+            return Ok(await _appointmentService.ChangeAppointmentDate(id, appointmentDate));
         }
 
+        [HttpGet("get-diagnosis/{id}")]
+        public async Task<IActionResult> GetDiagnosis([FromRoute]int id)
+        {
+            return Ok(await _appointmentService.GetDiagnosis(id));
+        }
+
+        [HttpGet("get-prescriptions/{id}")]
+        public async Task<IActionResult> GetPrescriptions([FromRoute]int id)
+        {
+            return Ok(await _appointmentService.GetPrescriptions(id));
+        }
+
+        [HttpPatch("update-diagnosis/{id}")]
+        public async Task<IActionResult> UpdateDiagnosis([FromRoute]int id, DiagnosisDto diagnosis)
+        {
+            return Ok(await _appointmentService.UpdateDiagnosis(id, diagnosis));
+        }
+
+        [HttpPost("update-prescriptions/{id}")]
+        public async Task<IActionResult> UpdatePrescriptions([FromRoute]int id, List<PrescriptionDto> prescriptions)
+        {
+            return Ok(await _appointmentService.UpdatePrescriptions(id, prescriptions));
+        }
+
+        [HttpGet("get-frequency")]
+        public async Task<IActionResult> GetFreq()
+        {
+            return Ok(await _appointmentService.GetFreq());
+        }
+
+        [HttpGet("get-unit")]
+        public async Task<IActionResult> GetUnit()
+        {
+            return Ok(await _appointmentService.GetUnit());
+        }
     }
 }

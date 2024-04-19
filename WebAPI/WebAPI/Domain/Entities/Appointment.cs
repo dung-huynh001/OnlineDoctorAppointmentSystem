@@ -6,9 +6,14 @@ namespace WebAPI.Domain.Entities
 {
     public partial class Appointment : BaseEntity
     {
-        public Appointment()
+        /*public Appointment()
         {
             AppointmentPrescriptions = new HashSet<AppointmentPrescription>();
+        }*/
+
+        public Appointment()
+        {
+            Prescriptions = new HashSet<Prescription>();
         }
 
         public int PatientId { get; set; }
@@ -33,6 +38,7 @@ namespace WebAPI.Domain.Entities
         public virtual Patient Patient { get; set; } = null!;
         public virtual Doctor Doctor { get; set; } = null!;
         public virtual Schedule Schedule { get; set; } = null!;
-        public virtual ICollection<AppointmentPrescription> AppointmentPrescriptions { get; set; }
+        /*public virtual ICollection<AppointmentPrescription> AppointmentPrescriptions { get; set; }*/
+        public virtual ICollection<Prescription> Prescriptions { get; set; }
     }
 }
