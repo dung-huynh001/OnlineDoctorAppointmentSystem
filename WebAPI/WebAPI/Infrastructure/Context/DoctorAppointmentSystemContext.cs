@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -20,7 +21,6 @@ namespace WebAPI.Infrastructure.Context
         }
 
         public virtual DbSet<Appointment> Appointments { get; set; } = null!;
-        public virtual DbSet<AppointmentPrescription> AppointmentPrescriptions { get; set; } = null!;
         public virtual DbSet<Department> Departments { get; set; } = null!;
         public virtual DbSet<Doctor> Doctors { get; set; } = null!;
         public virtual DbSet<Log> Logs { get; set; } = null!;
@@ -110,45 +110,19 @@ namespace WebAPI.Infrastructure.Context
                 entity.Property(e => e.UpdatedDate)
                     .HasColumnType("datetime");
 
-                entity.HasOne(d => d.Patient)
+                entity.HasOne(a => a.Patient)
                     .WithMany(p => p.Appointments)
-                    .HasForeignKey(d => d.PatientId)
+                    .HasForeignKey(a => a.PatientId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-                entity.HasOne(d => d.Doctor)
-                    .WithMany(p => p.Appointments)
-                    .HasForeignKey(d => d.DoctorId)
+                entity.HasOne(a => a.Doctor)
+                    .WithMany(d => d.Appointments)
+                    .HasForeignKey(a => a.DoctorId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(d => d.Schedule)
                     .WithMany(p => p.Appointments)
                     .HasForeignKey(d => d.ScheduleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-            });
-
-            modelBuilder.Entity<AppointmentPrescription>(entity =>
-            {
-                entity.HasKey(e => new { e.PrecriptionId, e.AppointmentId });
-
-                entity.HasIndex(e => e.PrecriptionId, "RELATIONSHIP_12_FK");
-
-                entity.HasIndex(e => e.AppointmentId, "RELATIONSHIP_15_FK");
-
-                entity.Property(e => e.PrecriptionId);
-
-                entity.Property(e => e.AppointmentId);
-
-                entity.Property(e => e.Note)
-                    .HasMaxLength(256);
-
-                entity.HasOne(d => d.Appointment)
-                    .WithMany(p => p.AppointmentPrescriptions)
-                    .HasForeignKey(d => d.AppointmentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-
-                entity.HasOne(d => d.Precription)
-                    .WithMany(p => p.AppointmentPrescriptions)
-                    .HasForeignKey(d => d.PrecriptionId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
@@ -355,6 +329,10 @@ namespace WebAPI.Infrastructure.Context
 
                 entity.Property(e => e.Id);
 
+                entity.HasIndex(e => e.AppointmentId, "RELATIONSHIP_8_FK");
+
+                entity.Property(e => e.AppointmentId);
+
                 entity.Property(e => e.CreatedBy)
                     .HasMaxLength(50);
 
@@ -379,10 +357,6 @@ namespace WebAPI.Infrastructure.Context
                     .HasMaxLength(256);
 
 
-                entity.Property(e => e.PatientName)
-                    .HasMaxLength(50);
-
-
                 entity.Property(e => e.Quantity)
                     .HasMaxLength(50);
 
@@ -395,6 +369,11 @@ namespace WebAPI.Infrastructure.Context
 
                 entity.Property(e => e.UpdatedDate)
                     .HasColumnType("datetime");
+
+                entity.HasOne(p => p.Appointment)
+                    .WithMany(a => a.Prescriptions)
+                    .HasForeignKey(p => p.AppointmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
             });
 
@@ -511,6 +490,57 @@ namespace WebAPI.Infrastructure.Context
                 entity.Property(e => e.UpdatedDate)
                     .HasColumnType("datetime");
 
+                var freqs = new List<string> {
+                    "2 times a day", "Daily", "4 Hourly", "Only Morning", "Only Night"
+                };
+
+                var units = new List<string>
+                {
+                    "pills", "mg", "ml", "grains", "capsules"
+                };
+
+                var @params = new List<SystemPara>();
+
+                int id = 1;
+
+                freqs.ForEach(f => {
+                    @params.Add(new SystemPara
+                    {
+                        Id = id,
+                        Groupid = "Frequency",
+                        Paraid = $"freq_{id}",
+                        Paraval = f,
+                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now,
+                        CreatedBy = "system",
+                        UpdatedBy = "system",
+                        Note = "",
+                        IsDeleted = false,
+                    });
+
+                    id++;
+                });
+
+                units.ForEach(u =>
+                {
+                    @params.Add(new SystemPara
+                    {
+                        Id = id,
+                        Groupid = "Unit",
+                        Paraid = $"unit_{id}",
+                        Paraval = u,
+                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now,
+                        CreatedBy = "system",
+                        UpdatedBy = "system",
+                        Note = "",
+                        IsDeleted = false,
+                    });
+
+                    id++;
+                });
+
+                entity.HasData(@params);
             });
 
             modelBuilder.Entity<AppUser>(entity =>
@@ -556,9 +586,8 @@ namespace WebAPI.Infrastructure.Context
 
                 entity.Property(e => e.UserType)
                     .HasMaxLength(100);
-
-
             });
+
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

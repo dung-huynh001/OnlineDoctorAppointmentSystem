@@ -37,6 +37,5 @@ namespace WebAPI.DTOs
         public string PatientGender { get; set; }
         public string PatientEmail { get; set; }
         public string PatientAddress { get; set; }
-        public virtual ICollection<AppointmentPrescription> AppointmentPrescriptions { get; set; }
     }
 }

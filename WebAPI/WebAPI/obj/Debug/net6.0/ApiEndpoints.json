@@ -94,6 +94,27 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "ChangeAppointmentDate",
+    "RelativePath": "api/Appointment/change-appointment-date",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "appointmentDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "GetAppointmentEventsByDoctor",
     "RelativePath": "api/Appointment/get-appointment-event-by-doctor",
     "HttpMethod": "POST",
@@ -141,6 +162,32 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "GetDiagnosis",
+    "RelativePath": "api/Appointment/get-diagnosis/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "GetFreq",
+    "RelativePath": "api/Appointment/get-frequency",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "GetNewBooking",
     "RelativePath": "api/Appointment/get-new-booking/{id}",
     "HttpMethod": "GET",
@@ -167,6 +214,22 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "GetPrescriptions",
+    "RelativePath": "api/Appointment/get-prescriptions/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "GetRecentlyAppointments",
     "RelativePath": "api/Appointment/get-recently-appointments/{id}",
     "HttpMethod": "GET",
@@ -179,6 +242,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "GetUnit",
+    "RelativePath": "api/Appointment/get-unit",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -336,8 +409,8 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
-    "Method": "MarkAsCancel",
-    "RelativePath": "api/Appointment/mark-as-cancel/{id}",
+    "Method": "UpdateAppointmentStatus",
+    "RelativePath": "api/Appointment/update-appointment-status/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -346,21 +419,52 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "appointmentStatus",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
-    "Method": "MarkAsConfirmed",
-    "RelativePath": "api/Appointment/mark-as-confirmed/{id}",
-    "HttpMethod": "GET",
+    "Method": "UpdateDiagnosis",
+    "RelativePath": "api/Appointment/update-diagnosis/{id}",
+    "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "diagnosis",
+        "Type": "WebAPI.DTOs.DiagnosisDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AppointmentController",
+    "Method": "UpdatePrescriptions",
+    "RelativePath": "api/Appointment/update-prescriptions/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "prescriptions",
+        "Type": "System.Collections.Generic.List\u00601[[WebAPI.DTOs.PrescriptionDto, WebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],

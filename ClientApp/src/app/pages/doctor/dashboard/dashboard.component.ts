@@ -133,12 +133,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.currentUser.id,
         this.currentUser.userType
       )
-      .pipe(
-        catchError((err) => {
-          this._appointmentService.setWidgetsData([]);
-          return throwError(() => err);
-        })
-      )
       .subscribe((res: Array<number>) => {
         this._appointmentService.setWidgetsData(res);
       });
@@ -147,11 +141,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   getUpcomningAppointments() {
     this._appointmentService
       .getUpcomingAppointment(this.currentUser.id, this.currentUser.userType)
-      .pipe(
-        catchError((err) => {
-          return throwError(() => err);
-        })
-      )
       .subscribe(
         (
           res: Array<{
@@ -272,12 +261,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   markAsCancel(id: number) {
     this._spinnerService.show();
     this._appointmentService
-      .markAsCancel(id)
+      .updateAppointmentStatus(id, 'Cancelled')
       .pipe(
-        catchError((err) => {
-          console.log(err);
-          return throwError(() => err);
-        }),
         finalize(() => {
           setTimeout(() => {
             this._spinnerService.hide();
@@ -294,12 +279,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   markAsConfirmed(id: number) {
     this._spinnerService.show();
     this._appointmentService
-      .markAsConfirmed(id)
+      .updateAppointmentStatus(id, 'Confirmed')
       .pipe(
-        catchError((err) => {
-          console.log(err);
-          return throwError(() => err);
-        }),
         finalize(() => {
           this.dtTrigger.next(this.dtOptions);
           setTimeout(() => {

@@ -6,19 +6,20 @@ namespace WebAPI.Domain.Entities
 {
     public partial class Prescription : BaseEntity
     {
-        public Prescription()
+/*        public Prescription()
         {
             AppointmentPrescriptions = new HashSet<AppointmentPrescription>();
-        }
+        }*/
 
-        public string? Drug { get; set; } 
+        public string Drug { get; set; } 
         public string? Note { get; set; }
-        public string PatientName { get; set; } 
-        public string? MedicationDays { get; set; } 
-        public string? Quantity { get; set; } 
-        public int Frequency { get; set; }
-        public int? Unit { get; set; }
+        public int MedicationDays { get; set; } 
+        public int Quantity { get; set; } 
+        public string Frequency { get; set; }
+        public string Unit { get; set; }
+        public int AppointmentId { get; set; }
+        public virtual Appointment Appointment { get; set; }
 
-        public virtual ICollection<AppointmentPrescription> AppointmentPrescriptions { get; set; }
+        /*public virtual ICollection<AppointmentPrescription> AppointmentPrescriptions { get; set; }*/
     }
 }

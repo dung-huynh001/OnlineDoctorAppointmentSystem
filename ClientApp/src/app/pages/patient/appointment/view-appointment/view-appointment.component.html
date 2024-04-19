@@ -66,8 +66,8 @@
                                                                     style="min-width: 130px;">Patient
                                                                     <span class="text-danger">*</span></label>
                                                                 <div class="w-100">
-                                                                    <input type="text" readonly autocomplete="off"
-                                                                        placeholder="Enter your name"
+                                                                    <input type="text" autocomplete="off"
+                                                                        placeholder="Enter your name" readonly
                                                                         class="form-control" id="patientName"
                                                                         formControlName="PatientName">
                                                                 </div>
@@ -188,7 +188,7 @@
                                                                     <input class="form-control flatpickr-input"
                                                                         type="text" id="time" formControlName="Time"
                                                                         mwlFlatpickr [defaultValue]="'07:00'"
-                                                                        [noCalendar]="true" [enableTime]="true"
+                                                                        [noCalendar]="true" [enableTime]="false"
                                                                         [dateFormat]="'H:i'" [time24hr]="true"
                                                                         placeholder="hh:mm" id="cleave-time"
                                                                         autocomplete="off" readonly />
@@ -208,7 +208,7 @@
                                                                         class="text-danger">*</span></label>
                                                                 <div class="w-100">
                                                                     <input type="text" readonly autocomplete="off"
-                                                                        placeholder="Choose a doctor" readonly
+                                                                        placeholder="Choose a doctor"
                                                                         class="form-control flex-grow-1 bg-primary-subtle"
                                                                         id="doctorName" formControlName="DoctorName">
                                                                 </div>
@@ -223,7 +223,7 @@
                                                                         class="text-danger">*</span></label>
                                                                 <div class="w-100">
                                                                     <input type="text" readonly autocomplete="off"
-                                                                        placeholder="Speciality of doctor" readonly
+                                                                        placeholder="Speciality of doctor"
                                                                         class="form-control flex-grow-1 bg-primary-subtle"
                                                                         id="speciality" formControlName="Speciality">
                                                                 </div>
@@ -275,7 +275,7 @@
                                                                     class="form-label float-lg-end float-start text-lg-end text-nowrap mb-0 pt-1"
                                                                     style="min-width: 130px;">Existing
                                                                     illness</label>
-                                                                <textarea class="form-control"
+                                                                <textarea [spellcheck]="false" class="form-control"
                                                                     placeholder="Enter your medical history if any"
                                                                     id="existingIllness" readonly style="height: 100px"
                                                                     formControlName="ExistingIllness"></textarea>
@@ -291,7 +291,7 @@
                                                                     class="form-label float-lg-end float-start text-lg-end text-nowrap mb-0"
                                                                     style="min-width: 130px;">Allergies
                                                                 </label>
-                                                                <textarea class="form-control"
+                                                                <textarea [spellcheck]="false" class="form-control"
                                                                     placeholder="Enter your allergy medications if any"
                                                                     id="drugAllergies" readonly style="height: 100px"
                                                                     formControlName="Allergies"></textarea>
@@ -306,7 +306,7 @@
                                                                 <label for="note"
                                                                     class="form-label float-lg-end float-start text-lg-end text-nowrap mb-0"
                                                                     style="min-width: 130px;">Notes</label>
-                                                                <textarea class="form-control"
+                                                                <textarea [spellcheck]="false" class="form-control"
                                                                     placeholder="Enter notes if any" id="note" readonly
                                                                     style="height: 100px"
                                                                     formControlName="Notes"></textarea>
@@ -321,8 +321,7 @@
                             </div>
                         </ng-template>
                     </li>
-                    <li [ngbNavItem]="2"
-                        [disabled]="appointmentDetails.appointmentStatus == 'Cancelled' || appointmentDetails.appointmentStatus == 'Completed'">
+                    <li [ngbNavItem]="2">
                         <a ngbNavLink>
                             <p class="d-flex align-items-center m-0 py-2 gap-2" placement="right"
                                 ngbTooltip="Change Appointment Date">
@@ -344,16 +343,17 @@
                                             <label for="form-label" for="appointmentDate">Appointment Date</label>
                                             <input type="text" id="appointmentDate" class="form-control" mwlFlatpickr
                                                 [altInput]="true" [convertModelValue]="true"
-                                                [defaultValue]="appointmentDetails.appointmentDate">
+                                                [(ngModel)]="appointmentDate">
                                         </div>
                                         <div class="col">
                                             <label for="form-label" for="appointmentDate">Time</label>
                                             <input type="text" id="appointmentDate" class="form-control" mwlFlatpickr
                                                 [noCalendar]="true" [enableTime]="true" [dateFormat]="'H:i'"
-                                                [defaultValue]="appointmentDetails.appointmentDate.slice(0, 10)">
+                                                [(ngModel)]="appointmentTime">
                                         </div>
                                         <div class="d-flex gap-3">
-                                            <button class="btn btn-light ms-auto">Reset</button>
+                                            <button class="btn btn-light ms-auto"
+                                                (click)="resetAppointmentDate()">Reset</button>
                                             <button class="btn btn-success">Save changes</button>
                                         </div>
                                     </div>
@@ -362,9 +362,8 @@
                             </div>
                         </ng-template>
                     </li>
-                    <li [ngbNavItem]="3"
-                        [disabled]="appointmentDetails.appointmentStatus == 'Cancelled' || appointmentDetails.appointmentStatus == 'Completed'">
-                        <a ngbNavLink>
+                    <li [ngbNavItem]="3">
+                        <a ngbNavLink (click)="fetchDiagnosis()">
                             <p class="d-flex align-items-center m-0 py-2 gap-2" placement="right"
                                 ngbTooltip="Diagnosis">
                                 <span>
@@ -374,7 +373,7 @@
                             </p>
                         </a>
                         <ng-template ngbNavContent>
-                            <div class="card">
+                            <div class="card" *ngIf="diagnosisDetails">
                                 <div class="card-header border-0">
                                     <h5 class="card-title mb-0 flex-grow-1"><i class="las la-stethoscope me-1 lh-1"></i>
                                         Diagnosis</h5>
@@ -384,12 +383,13 @@
                                         <div class="row">
                                             <div class="col-lg-12 mb-sm-3">
                                                 <div class="d-flex flex-lg-row flex-column gap-2">
-                                                    <label for="existingIllness"
+                                                    <label for="diagnosis"
                                                         class="form-label float-lg-end float-start text-lg-end text-nowrap mb-0 pt-1"
                                                         style="min-width: 130px;">Diagnosis</label>
-                                                    <textarea class="form-control"
-                                                        placeholder="Enter diagnosis if any"
-                                                        id="existingIllness" readonly style="height: 100px"></textarea>
+                                                    <textarea [spellcheck]="false" class="form-control"
+                                                        placeholder="Enter diagnosis if any" id="diagnosis"
+                                                        style="height: 100px"
+                                                        [(ngModel)]="this.diagnosisDetails.diagnosis"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -398,12 +398,13 @@
                                         <div class="row">
                                             <div class="col-lg-12 mb-sm-3">
                                                 <div class="d-flex flex-lg-row flex-column gap-2">
-                                                    <label for="drugAllergies"
+                                                    <label for="caseNote"
                                                         class="form-label float-lg-end float-start text-lg-end text-nowrap mb-0"
                                                         style="min-width: 130px;">Case Note</label>
-                                                    <textarea class="form-control"
-                                                        placeholder="Enter case note if any"
-                                                        id="drugAllergies" readonly style="height: 100px"></textarea>
+                                                    <textarea [spellcheck]="false" class="form-control"
+                                                        placeholder="Enter case note if any" id="caseNote"
+                                                        style="height: 100px"
+                                                        [(ngModel)]="this.diagnosisDetails.caseNote"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -412,26 +413,29 @@
                                         <div class="row">
                                             <div class="col-lg-12 mb-sm-3">
                                                 <div class="d-flex flex-lg-row flex-column gap-2">
-                                                    <label for="note"
+                                                    <label for="adviceToPatient"
                                                         class="form-label float-lg-end float-start text-lg-end text-nowrap mb-0"
-                                                        style="min-width: 130px;">Advice to patient</label>
-                                                    <textarea class="form-control" placeholder="Enter advice to patient if any"
-                                                        id="note" readonly style="height: 100px"></textarea>
+                                                        style="min-width: 130px;">Advice To Patient</label>
+                                                    <textarea [spellcheck]="false" class="form-control"
+                                                        placeholder="Enter advice to patient if any"
+                                                        id="adviceToPatient" style="height: 100px"
+                                                        [(ngModel)]="this.diagnosisDetails.adviceToPatient"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="d-flex gap-3">
-                                        <button class="btn btn-light ms-auto">Reset</button>
-                                        <button class="btn btn-success">Save changes</button>
+                                        <button class="btn btn-light ms-auto" (click)="resetDiagnosis()">Reset</button>
+                                        <button class="btn btn-success"
+                                            (click)="updateDiagnosis(appointmentDetails.id, diagnosisDetails)">Save
+                                            changes</button>
                                     </div>
                                 </div>
                             </div>
                         </ng-template>
                     </li>
-                    <li [ngbNavItem]="4"
-                        [disabled]="appointmentDetails.appointmentStatus == 'Cancelled' || appointmentDetails.appointmentStatus == 'Completed'">
-                        <a ngbNavLink>
+                    <li [ngbNavItem]="4">
+                        <a ngbNavLink (click)="fetchPrescription()">
                             <p class="d-flex align-items-center m-0 py-2 gap-2" placement="right"
                                 ngbTooltip="Prescription">
                                 <span>
@@ -477,17 +481,19 @@
                                                                 required</span>
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control"
-                                                                [ngClass]="{'is-invalid': pres_submitted && !pres.freq}"
-                                                                [(ngModel)]="pres.freq">
+                                                            <select type="text" class="form-select"
+                                                                [ngClass]="{'is-invalid': pres_submitted && !pres.frequency}"
+                                                                [(ngModel)]="pres.frequency">
+                                                                <option *ngFor="let item of frequencyDropdownItems" [value]="item.value">{{item.text}}</option>
+                                                            </select>
                                                             <span class="invalid-feedback">This field is
                                                                 required</span>
 
                                                         </td>
                                                         <td>
                                                             <input type="text" class="form-control"
-                                                                [ngClass]="{'is-invalid': pres_submitted && !pres.medicalDays}"
-                                                                [(ngModel)]="pres.medicalDays">
+                                                                [ngClass]="{'is-invalid': pres_submitted && !pres.medicationDays}"
+                                                                [(ngModel)]="pres.medicationDays">
                                                             <span class="invalid-feedback">This field is
                                                                 required</span>
 
@@ -501,9 +507,11 @@
 
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control"
+                                                            <select type="text" class="form-select"
                                                                 [ngClass]="{'is-invalid': pres_submitted && !pres.unit}"
                                                                 [(ngModel)]="pres.unit">
+                                                                <option *ngFor="let item of unitDropdownItems" [value]="item.value" >{{item.text}}</option>
+                                                            </select>
                                                             <span class="invalid-feedback">This field is
                                                                 required</span>
 
@@ -518,16 +526,18 @@
                                                         </td>
                                                     </tr>
                                                     <tr *ngIf="prescriptions.length == 0">
-                                                        <td colspan="8" class="text-center">No found any prescription</td>
+                                                        <td colspan="8" class="text-center">No found any prescription
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
 
                                         </div>
                                         <div class="d-flex gap-3">
-                                            <button class="btn btn-light ms-auto" (click)="resetPrescriptions()">Reset</button>
+                                            <button class="btn btn-light ms-auto"
+                                                (click)="resetPrescriptions()">Reset</button>
                                             <button class="btn btn-success" type="submit"
-                                                (click)="savePrescriptions()">Save
+                                                (click)="savePrescriptions(appointmentDetails.id, prescriptions)">Save
                                                 changes</button>
                                         </div>
                                     </div>
@@ -550,15 +560,18 @@
                         </button>
                     </li>
                     <li class="list-group-item border-0 p-0">
-                        <button class="btn btn-sm btn-outline-primary" (click)="markAsConfirmed(appointmentDetails.id)"
+                        <button class="btn btn-sm btn-outline-primary"
+                            (click)="updateAppointmentStatus(appointmentDetails.id, 'Confirmed')"
                             [disabled]="appointmentDetails.appointmentStatus == 'Cancelled' || appointmentDetails.appointmentStatus == 'Confirmed'">Confirmed</button>
                     </li>
                     <li class="list-group-item border-0 p-0">
-                        <button class="btn btn-sm btn-outline-success" (click)="markAsCompleted(appointmentDetails.id)"
+                        <button class="btn btn-sm btn-outline-success"
+                            (click)="updateAppointmentStatus(appointmentDetails.id, 'Completed')"
                             [disabled]="appointmentDetails.appointmentStatus == 'Cancelled' || appointmentDetails.appointmentStatus !== 'Confirmed'">Completed</button>
                     </li>
                     <li class="list-group-item border-0 p-0">
-                        <button class="btn btn-sm btn-outline-danger" (click)="markAsCancel(appointmentDetails.id)"
+                        <button class="btn btn-sm btn-outline-danger"
+                            (click)="updateAppointmentStatus(appointmentDetails.id, 'Cancelled')"
                             [disabled]="appointmentDetails.appointmentStatus == 'Cancelled'">Cancel</button>
                     </li>
                 </ul>

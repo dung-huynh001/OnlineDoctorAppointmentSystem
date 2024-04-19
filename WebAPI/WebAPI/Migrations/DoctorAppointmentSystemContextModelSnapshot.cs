@@ -231,27 +231,6 @@ namespace WebAPI.Migrations
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("WebAPI.Domain.Entities.AppointmentPrescription", b =>
-                {
-                    b.Property<int>("PrecriptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Note")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("PrecriptionId", "AppointmentId");
-
-                    b.HasIndex(new[] { "PrecriptionId" }, "RELATIONSHIP_12_FK");
-
-                    b.HasIndex(new[] { "AppointmentId" }, "RELATIONSHIP_15_FK");
-
-                    b.ToTable("AppointmentPrescriptions");
-                });
-
             modelBuilder.Entity("WebAPI.Domain.Entities.AppRole", b =>
                 {
                     b.Property<string>("Id")
@@ -649,6 +628,9 @@ namespace WebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -657,34 +639,32 @@ namespace WebAPI.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("Drug")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("Frequency")
-                        .HasColumnType("int");
+                    b.Property<string>("Frequency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MedicationDays")
+                    b.Property<int>("MedicationDays")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Note")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("PatientName")
-                        .IsRequired()
+                    b.Property<int>("Quantity")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Quantity")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("Unit")
                         .HasColumnType("int");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(50)
@@ -696,6 +676,8 @@ namespace WebAPI.Migrations
                     b.HasKey("Id");
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex(new[] { "AppointmentId" }, "RELATIONSHIP_8_FK");
 
                     b.ToTable("Prescriptions");
                 });
@@ -806,6 +788,138 @@ namespace WebAPI.Migrations
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
                     b.ToTable("SystemParas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "system",
+                            CreatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(429),
+                            Groupid = "Frequency",
+                            IsDeleted = false,
+                            Note = "",
+                            Paraid = "freq_1",
+                            Paraval = "2 times a day",
+                            UpdatedBy = "system",
+                            UpdatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(442)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "system",
+                            CreatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(452),
+                            Groupid = "Frequency",
+                            IsDeleted = false,
+                            Note = "",
+                            Paraid = "freq_2",
+                            Paraval = "Daily",
+                            UpdatedBy = "system",
+                            UpdatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(453)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = "system",
+                            CreatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(457),
+                            Groupid = "Frequency",
+                            IsDeleted = false,
+                            Note = "",
+                            Paraid = "freq_3",
+                            Paraval = "4 Hourly",
+                            UpdatedBy = "system",
+                            UpdatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(458)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedBy = "system",
+                            CreatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(462),
+                            Groupid = "Frequency",
+                            IsDeleted = false,
+                            Note = "",
+                            Paraid = "freq_4",
+                            Paraval = "Only Morning",
+                            UpdatedBy = "system",
+                            UpdatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(463)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedBy = "system",
+                            CreatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(466),
+                            Groupid = "Frequency",
+                            IsDeleted = false,
+                            Note = "",
+                            Paraid = "freq_5",
+                            Paraval = "Only Night",
+                            UpdatedBy = "system",
+                            UpdatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(467)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedBy = "system",
+                            CreatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(476),
+                            Groupid = "Unit",
+                            IsDeleted = false,
+                            Note = "",
+                            Paraid = "unit_6",
+                            Paraval = "pills",
+                            UpdatedBy = "system",
+                            UpdatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(476)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedBy = "system",
+                            CreatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(482),
+                            Groupid = "Unit",
+                            IsDeleted = false,
+                            Note = "",
+                            Paraid = "unit_7",
+                            Paraval = "mg",
+                            UpdatedBy = "system",
+                            UpdatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(482)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedBy = "system",
+                            CreatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(487),
+                            Groupid = "Unit",
+                            IsDeleted = false,
+                            Note = "",
+                            Paraid = "unit_8",
+                            Paraval = "ml",
+                            UpdatedBy = "system",
+                            UpdatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(488)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedBy = "system",
+                            CreatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(603),
+                            Groupid = "Unit",
+                            IsDeleted = false,
+                            Note = "",
+                            Paraid = "unit_9",
+                            Paraval = "grains",
+                            UpdatedBy = "system",
+                            UpdatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(603)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedBy = "system",
+                            CreatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(607),
+                            Groupid = "Unit",
+                            IsDeleted = false,
+                            Note = "",
+                            Paraid = "unit_10",
+                            Paraval = "capsules",
+                            UpdatedBy = "system",
+                            UpdatedDate = new DateTime(2024, 4, 19, 16, 57, 11, 180, DateTimeKind.Local).AddTicks(609)
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -883,23 +997,6 @@ namespace WebAPI.Migrations
                     b.Navigation("Schedule");
                 });
 
-            modelBuilder.Entity("WebAPI.Domain.Entities.AppointmentPrescription", b =>
-                {
-                    b.HasOne("WebAPI.Domain.Entities.Appointment", "Appointment")
-                        .WithMany("AppointmentPrescriptions")
-                        .HasForeignKey("AppointmentId")
-                        .IsRequired();
-
-                    b.HasOne("WebAPI.Domain.Entities.Prescription", "Precription")
-                        .WithMany("AppointmentPrescriptions")
-                        .HasForeignKey("PrecriptionId")
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("Precription");
-                });
-
             modelBuilder.Entity("WebAPI.Domain.Entities.Doctor", b =>
                 {
                     b.HasOne("WebAPI.Domain.Entities.Department", "Department")
@@ -928,6 +1025,16 @@ namespace WebAPI.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WebAPI.Domain.Entities.Prescription", b =>
+                {
+                    b.HasOne("WebAPI.Domain.Entities.Appointment", "Appointment")
+                        .WithMany("Prescriptions")
+                        .HasForeignKey("AppointmentId")
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+                });
+
             modelBuilder.Entity("WebAPI.Domain.Entities.Schedule", b =>
                 {
                     b.HasOne("WebAPI.Domain.Entities.Doctor", "Doctor")
@@ -941,7 +1048,7 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Domain.Entities.Appointment", b =>
                 {
-                    b.Navigation("AppointmentPrescriptions");
+                    b.Navigation("Prescriptions");
                 });
 
             modelBuilder.Entity("WebAPI.Domain.Entities.AppUser", b =>
@@ -966,11 +1073,6 @@ namespace WebAPI.Migrations
             modelBuilder.Entity("WebAPI.Domain.Entities.Patient", b =>
                 {
                     b.Navigation("Appointments");
-                });
-
-            modelBuilder.Entity("WebAPI.Domain.Entities.Prescription", b =>
-                {
-                    b.Navigation("AppointmentPrescriptions");
                 });
 
             modelBuilder.Entity("WebAPI.Domain.Entities.Schedule", b =>

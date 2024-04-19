@@ -142,14 +142,10 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
     if (this.appointmentForm.valid) {
       this._spinnerService.show();
       this._appointmentService
-        .makeAppoinntment(
+        .makeAppointment(
           this.appointmentForm.value
         )
         .pipe(
-          catchError((err) => {
-            console.log(err);
-            return throwError(() => err);
-          }),
           finalize(() => {
             setTimeout(() => {
               this._spinnerService.hide();

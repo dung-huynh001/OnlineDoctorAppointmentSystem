@@ -209,33 +209,19 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
           id: this.editId,
           departmentName: formData.departmentName,
         };
-        this._departmentService
-          .update(data.id, data)
-          .pipe(
-            catchError((err) => {
-              return throwError(() => err);
-            })
-          )
-          .subscribe((res) => {
-            if (res.isSuccess) {
-              this._toastService.success(res.message);
-              this.rerender();
-            }
-          });
+        this._departmentService.update(data.id, data).subscribe((res) => {
+          if (res.isSuccess) {
+            this._toastService.success(res.message);
+            this.rerender();
+          }
+        });
       } else {
-        this._departmentService
-          .create(formData)
-          .pipe(
-            catchError((err) => {
-              return throwError(() => err);
-            })
-          )
-          .subscribe((res) => {
-            if (res.isSuccess) {
-              this._toastService.success(res.message);
-              this.rerender();
-            }
-          });
+        this._departmentService.create(formData).subscribe((res) => {
+          if (res.isSuccess) {
+            this._toastService.success(res.message);
+            this.rerender();
+          }
+        });
       }
       this.resetForm();
     }
@@ -291,8 +277,8 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
       .delete(id)
       .pipe(
         catchError((err) => {
+          this._toastService.error(err?.Message);
           return throwError(() => {
-            this._toastService.error(err?.Message);
             return err;
           });
         })
@@ -308,8 +294,8 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
       .restore(id)
       .pipe(
         catchError((err) => {
+          this._toastService.error(err?.Message);
           return throwError(() => {
-            this._toastService.error(err?.Message);
             return err;
           });
         })
