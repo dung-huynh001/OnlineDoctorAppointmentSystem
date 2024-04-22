@@ -11,6 +11,7 @@ namespace WebAPI.Interfaces.IService
         Task<List<DoctorOnDutyDto>> GetDoctorsOnDuty(DateTime dateTime);
         Task<bool> Create(CreateDoctorDto doctor);
         Task<DoctorDetailsDto> GetDoctorDetails(int id);
+        Task<DoctorDetailsDto> GetDoctorDetailsByUserId(string id);
         Task<bool> UpdatePersonalInfo(DoctorPersonalInfo data);
         Task<ApiResponse> UpdateWorkInfo(WorkInfoDto data);
     }

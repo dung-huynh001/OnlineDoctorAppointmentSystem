@@ -1,5 +1,5 @@
 import { AppointmentService } from './../../../core/services/appointment.service';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { ToastService } from '../../../core/services/toast.service';
 import { User } from '../../../core/models/auth.models';
 import { Subject, catchError, finalize, map, throwError } from 'rxjs';
@@ -26,6 +26,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   hostName = HOSTNAME;
 
+  selectedAppointmentId!: number;
+
   widgetsData: Array<number> = [0, 0, 0, 0];
 
   upcomingAppointments: Array<{
@@ -50,7 +52,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private _appointmentService: AppointmentService,
     private _authService: AuthService,
     private _spinnerService: NgxSpinnerService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private render: Renderer2
   ) {}
 
   ngOnInit() {
@@ -62,12 +65,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.currentUser = this._authService.currentUser();
 
     this.loadWidgets();
-    this.getUpcomningAppointments();
+    this.getUpcomingAppointments();
     this.fetchData();
     this.getNewBooking();
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.render.listen('document', 'click', (event) => {
+      if(event.target.hasAttribute('data-appointment-id') && event.target.classList.contains('cancel-btn')) {
+        this.selectedAppointmentId = event.target.getAttribute('data-appointment-id');
+        this.markAsCancel(this.selectedAppointmentId);
+        this.fetchData();
+      }
+    })
+  }
 
   fetchData() {
     this._spinnerService.show();
@@ -138,7 +149,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       });
   }
 
-  getUpcomningAppointments() {
+  getUpcomingAppointments() {
     this._appointmentService
       .getUpcomingAppointment(this.currentUser.id, this.currentUser.userType)
       .subscribe(
@@ -264,6 +275,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       .updateAppointmentStatus(id, 'Cancelled')
       .pipe(
         finalize(() => {
+          this.getNewBooking();
           setTimeout(() => {
             this._spinnerService.hide();
           }, 200);
@@ -282,6 +294,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       .updateAppointmentStatus(id, 'Confirmed')
       .pipe(
         finalize(() => {
+          this.getNewBooking();
           this.dtTrigger.next(this.dtOptions);
           setTimeout(() => {
             this._spinnerService.hide();
@@ -291,6 +304,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       .subscribe((res) => {
         if (res.isSuccess) {
           this._toastService.success(res.message);
+          this.getUpcomingAppointments();
+          this.fetchData();
         }
       });
   }

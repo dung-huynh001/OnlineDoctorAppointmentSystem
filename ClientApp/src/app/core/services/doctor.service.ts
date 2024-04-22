@@ -35,12 +35,20 @@ export class DoctorService {
     return this.http.post<DataTableResponse>(`${HOSTNAME}/api/Doctor/get-all`, dataTablesParameters);
   }
 
-  getScheduleByDate(id: any, dateTime: any): Observable<any> {
+  getScheduleByDate(id: number, dateTime: any): Observable<any> {
     return this.http.get(`${HOSTNAME}/api/Schedule/get-schedule-by-date/${id}/?date=${dateTime}`);
   }
 
-  getDoctorDetails(id: any): Observable<any> {
+  getScheduleByDateAndUserId(id: string, dateTime: any): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Schedule/get-schedule-by-date-and-user-id/${id}/?date=${dateTime}`);
+  }
+
+  getDoctorDetails(id: number): Observable<any> {
     return this.http.get(`${HOSTNAME}/api/Doctor/get-doctor-details/${id}`);
+  }
+
+  getDoctorDetailsByUserId(id: string): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Doctor/get-doctor-details-by-user-id/${id}`);
   }
 
   getDepartments(): Observable<any>{

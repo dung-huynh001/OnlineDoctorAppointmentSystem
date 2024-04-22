@@ -45,6 +45,24 @@ namespace WebAPI.Services
             return result;
         }
 
+        public async Task<List<ScheduleShiftDto>> GetScheduleByDateAndUserId(string userId, DateTime date)
+        {
+            var result = await _unitOfWork.Repository<Schedule>().GetAll
+                .Where(s => !s.IsDeleted &&
+                s.Doctor.UserId == userId &&
+                s.WorkingDay.Date.Equals(date.Date))
+                .Select(s => new ScheduleShiftDto
+                {
+                    ShiftName = s.ShiftTime.Hours.CompareTo(12) <= 0 ? "Morning" :
+                    (s.ShiftTime.Hours.CompareTo(17) <= 0 ? "Afternoon" : "Night"),
+                    Description = s.Description,
+                    End = s.BreakTime.ToString(@"hh\:mm"),
+                    Start = s.ShiftTime.ToString(@"hh\:mm"),
+                    Appt = s.Appointments.Count
+                })
+                .ToListAsync();
+            return result;
+        }
 
         public async Task<List<EventDto>> GetAllDoctorSchedules(EJ2Params param)
         {

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { apiResponse } from '../models/apiResponse.model';
+import { iPrescription } from '../models/prescription.model';
+import { iAppointment } from '../models/appointment.model';
 
 const HOSTNAME = environment.serverApi;
 
@@ -73,6 +75,10 @@ export class AppointmentService {
 
   constructor(private http: HttpClient) {}
 
+  getHospitalInfo(): Observable<any> {
+    return this.http.get(environment.hospitalConfigPath);
+  }
+
   getDoctorOnDuty(dateTime: any): Observable<any> {
     return this.http
       .get(`${HOSTNAME}/api/Doctor/get-doctor-on-duty?date=${dateTime}`)
@@ -134,9 +140,11 @@ export class AppointmentService {
       );
   }
 
-  viewAppointmentDetails(id: any): Observable<any> {
+  viewAppointmentDetails(id: any): Observable<iAppointment> {
     return this.http
-      .get(`${HOSTNAME}/api/Appointment/view-appointment-details/${id}`)
+      .get<iAppointment>(
+        `${HOSTNAME}/api/Appointment/view-appointment-details/${id}`
+      )
       .pipe(
         catchError((err) => {
           console.log(err);
@@ -294,33 +302,11 @@ export class AppointmentService {
       );
   }
 
-  getPrescription(id: number): Observable<
-    {
-      id: number;
-      drug: string;
-      frequency: number;
-      medicationDays: string;
-      quantity: string;
-      unit: number;
-      appointmentId: number;
-      note: string;
-      isDeleted: boolean;
-    }[]
-  > {
+  getPrescription(id: number): Observable<Array<iPrescription>> {
     return this.http
-      .get<
-        {
-          id: number;
-          drug: string;
-          frequency: number;
-          medicationDays: string;
-          quantity: string;
-          unit: number;
-          appointmentId: number;
-          note: string;
-          isDeleted: boolean;
-        }[]
-      >(`${HOSTNAME}/api/Appointment/get-prescriptions/${id}`)
+      .get<Array<iPrescription>>(
+        `${HOSTNAME}/api/Appointment/get-prescriptions/${id}`
+      )
       .pipe(
         catchError((err) => {
           console.log(err);
@@ -331,7 +317,7 @@ export class AppointmentService {
 
   updatePrescriptions(id: number, prescriptions: any): Observable<apiResponse> {
     return this.http
-      .patch<apiResponse>(
+      .post<apiResponse>(
         `${HOSTNAME}/api/Appointment/update-prescriptions/${id}`,
         prescriptions
       )
@@ -348,6 +334,20 @@ export class AppointmentService {
       .patch<apiResponse>(
         `${HOSTNAME}/api/Appointment/update-diagnosis/${id}`,
         diagnosis
+      )
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  changeAppointmentDate(id: number, appointmentDate: Date) {
+    return this.http
+      .patch<apiResponse>(
+        `${HOSTNAME}/api/Appointment/change-appointment-date/${id}`,
+        appointmentDate
       )
       .pipe(
         catchError((err) => {

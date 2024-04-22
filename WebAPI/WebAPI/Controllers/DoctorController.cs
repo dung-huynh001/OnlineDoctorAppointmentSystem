@@ -94,6 +94,12 @@ namespace WebAPI.Controllers
             return Ok(await _doctorService.GetDoctorDetails(id));
         }
 
+        [HttpGet("get-doctor-details-by-user-id/{id}")]
+        public async Task<IActionResult> GetDoctorDetailByUserId([FromRoute] string id)
+        {
+            return Ok(await _doctorService.GetDoctorDetailsByUserId(id));
+        }
+
         [HttpPatch("update-personal-info/{id}")]
         public async Task<IActionResult> UpdatePersonalInfo([FromRoute] int id, [FromForm] DoctorPersonalInfo data)
         {

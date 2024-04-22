@@ -128,7 +128,7 @@ namespace WebAPI.Services
                 appointments = _unitOfWork.Repository<Appointment>().GetAll
                         .Where(a => !a.IsDeleted
                         && a.AppointmentStatus.ToLower().Contains("confirmed")
-                        && a.AppointmentDate!.Value.CompareTo(DateTime.Now) > 0);
+                        && a.AppointmentDate!.Value.CompareTo(DateTime.Now) < 0);
 
             }
             else if (status == "confirmed")
@@ -136,7 +136,7 @@ namespace WebAPI.Services
                 appointments = _unitOfWork.Repository<Appointment>().GetAll
                         .Where(a => !a.IsDeleted
                         && a.AppointmentStatus.ToLower().Contains("confirmed")
-                        && a.AppointmentDate!.Value.CompareTo(DateTime.Now) <= 0);
+                        && a.AppointmentDate!.Value.CompareTo(DateTime.Now) >= 0);
             }
             else
             {
@@ -738,14 +738,14 @@ namespace WebAPI.Services
                     IsSuccess = false,
                     Message = $"Not found appointment with id {id}"
                 };
-            appointment.AppointmentDate = appointmentDate;
+            appointment.AppointmentDate = appointmentDate.ToLocalTime();
             await _unitOfWork.Repository<Appointment>().UpdateAsync(appointment);
             _unitOfWork.Commit();
 
             return new ApiResponse
             {
                 IsSuccess = true,
-                Message = $"Updated the appointment date to {appointmentDate.ToString("ddd dd/MM/yyyy hh:mm")}"
+                Message = $"Updated the appointment date to {appointmentDate.ToLocalTime().ToString("ddd dd/MM/yyyy hh:mm")}"
             };
         }
 
@@ -804,15 +804,22 @@ namespace WebAPI.Services
             _unitOfWork.BeginTransaction();
             foreach(var presDto in prescriptions)
             {
-                var prescription = _mapper.Map<Prescription>(presDto);
-
                 if (presDto.Id != 0 && presDto.Id != null)
                 {
+                    var prescription = await _unitOfWork.Repository<Prescription>().GetByIdAsync(presDto.Id.Value);
+                    prescription.Quantity = presDto.Quantity;
+                    prescription.Drug = presDto.Drug;
+                    prescription.Frequency = presDto.Frequency;
+                    prescription.IsDeleted = presDto.IsDeleted;
+                    prescription.Unit = presDto.Unit;
+                    prescription.MedicationDays = presDto.MedicationDays;
+
                     await _unitOfWork.Repository<Prescription>().UpdateAsync(prescription);
                 }
                 else
                 {
-                    await _unitOfWork.Repository<Prescription>().AddAsync(prescription);
+                    var newPrescription = _mapper.Map<Prescription>(presDto);
+                    await _unitOfWork.Repository<Prescription>().AddAsync(newPrescription);
                 }
             }
             _unitOfWork.Commit();

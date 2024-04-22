@@ -4,7 +4,9 @@ import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { catchError, finalize, interval, map, throwError } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 
+const HOSTNAME = environment.serverApi;
 @Component({
   selector: 'app-view-doctor',
   templateUrl: './view-doctor.component.html',
@@ -200,7 +202,7 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
             departmentName: res.departmentName,
             email: res.email,
             fullName: res.fullName,
-            avatarUrl: res.avatarUrl,
+            avatarUrl: HOSTNAME + '/' + res.avatarUrl,
             gender:
               res.gender === 0 ? 'Male' : res.gender === 1 ? 'Female' : 'Other',
             nationalId: res.nationalId,

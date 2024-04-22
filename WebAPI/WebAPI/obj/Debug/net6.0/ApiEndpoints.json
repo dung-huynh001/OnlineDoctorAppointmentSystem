@@ -95,7 +95,7 @@
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "ChangeAppointmentDate",
-    "RelativePath": "api/Appointment/change-appointment-date",
+    "RelativePath": "api/Appointment/change-appointment-date/{id}",
     "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
@@ -103,12 +103,12 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       },
       {
         "Name": "appointmentDate",
         "Type": "System.DateTime",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -751,6 +751,22 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.DoctorController",
+    "Method": "GetDoctorDetailByUserId",
+    "RelativePath": "api/Doctor/get-doctor-details-by-user-id/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DoctorController",
     "Method": "GetDoctorDetail",
     "RelativePath": "api/Doctor/get-doctor-details/{id}",
     "HttpMethod": "GET",
@@ -1119,6 +1135,27 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetScheduleByDateAndUserId",
+    "RelativePath": "api/Schedule/get-schedule-by-date-and-user-id/{doctorId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "doctorId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "date",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {

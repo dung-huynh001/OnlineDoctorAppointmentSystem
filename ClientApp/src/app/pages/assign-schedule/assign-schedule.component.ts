@@ -6,7 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RestApiService } from '../../core/services/rest-api.service';
 import Swal from 'sweetalert2';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -52,8 +51,7 @@ export class AssignScheduleComponent {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private datePipe: DatePipe,
-    private modalService: NgbModal,
-    private restApiService: RestApiService
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -156,7 +154,7 @@ export class AssignScheduleComponent {
   }
 
   openModal(events?: any) {
-    console.log(events)
+    console.log(events);
     this.modalService.open(this.modalShow, { centered: true });
     // cons
     this.submitted = false;

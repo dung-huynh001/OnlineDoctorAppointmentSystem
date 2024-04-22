@@ -1,16 +1,26 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MenuItem } from './menu.model';
 import { MENU_ADMIN, MENU_DOCTOR, MENU_PATIENT } from './menu';
 import { TranslateService } from '@ngx-translate/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { AppointmentService } from '../../core/services/appointment.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
+  hospitalInfo: any;
   role: any;
   menu: any;
   toggle: any = true;
@@ -18,14 +28,25 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   @Output() mobileMenuButtonClicked = new EventEmitter();
 
-  constructor(private router: Router, public translate: TranslateService, private _authService: AuthService) {
+  constructor(
+    private router: Router,
+    public translate: TranslateService,
+    private _authService: AuthService,
+    private _appointmentService: AppointmentService
+  ) {
     translate.setDefaultLang('en');
   }
 
   ngOnInit(): void {
+    this._appointmentService
+      .getHospitalInfo()
+      .subscribe((res) => (this.hospitalInfo = res));
+
     // Menu Items
-    const currentUser:any = JSON.parse(localStorage.getItem('currentUser')!) as Object;
-    currentUser ? this.role = currentUser.userType : this.role = null;
+    const currentUser: any = JSON.parse(
+      localStorage.getItem('currentUser')!
+    ) as Object;
+    currentUser ? (this.role = currentUser.userType) : (this.role = null);
     switch (this.role) {
       case 'admin':
         this.menuItems = MENU_ADMIN;
@@ -42,7 +63,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     }
 
     this.router.events.subscribe((event) => {
-      if (document.documentElement.getAttribute('data-layout') != "twocolumn") {
+      if (document.documentElement.getAttribute('data-layout') != 'twocolumn') {
         if (event instanceof NavigationEnd) {
           this.initActiveMenu();
         }
@@ -58,80 +79,87 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.initActiveMenu();
     }, 0);
 
-    const sideNavElement = document.getElementsByClassName('side-nav-link-ref nav-link menu-link');
+    const sideNavElement = document.getElementsByClassName(
+      'side-nav-link-ref nav-link menu-link'
+    );
     const btnLogOff = sideNavElement[sideNavElement.length - 1];
     btnLogOff.setAttribute('id', 'btn-logout');
     btnLogOff.addEventListener('click', () => {
-      this.logOut()
+      this.logOut();
     });
   }
 
-
   removeActivation(items: any) {
     items.forEach((item: any) => {
-      if (item.classList.contains("menu-link")) {
-        if (!item.classList.contains("active")) {
-          item.setAttribute("aria-expanded", false);
+      if (item.classList.contains('menu-link')) {
+        if (!item.classList.contains('active')) {
+          item.setAttribute('aria-expanded', false);
         }
-        (item.nextElementSibling) ? item.nextElementSibling.classList.remove("show") : null;
+        item.nextElementSibling
+          ? item.nextElementSibling.classList.remove('show')
+          : null;
       }
-      if (item.classList.contains("nav-link")) {
+      if (item.classList.contains('nav-link')) {
         if (item.nextElementSibling) {
-          item.nextElementSibling.classList.remove("show");
+          item.nextElementSibling.classList.remove('show');
         }
-        item.setAttribute("aria-expanded", false);
+        item.setAttribute('aria-expanded', false);
       }
-      item.classList.remove("active");
+      item.classList.remove('active');
     });
   }
 
   toggleSubItem(event: any) {
     let isCurrentMenuId = event.target.closest('a.nav-link');
     let isMenu = isCurrentMenuId.nextElementSibling as any;
-    if (isMenu.classList.contains("show")) {
-      isMenu.classList.remove("show");
-      isCurrentMenuId.setAttribute("aria-expanded", "false");
+    if (isMenu.classList.contains('show')) {
+      isMenu.classList.remove('show');
+      isCurrentMenuId.setAttribute('aria-expanded', 'false');
     } else {
       let dropDowns = Array.from(document.querySelectorAll('.sub-menu'));
       dropDowns.forEach((node: any) => {
         node.classList.remove('show');
       });
 
-      let subDropDowns = Array.from(document.querySelectorAll('.menu-dropdown .nav-link'));
+      let subDropDowns = Array.from(
+        document.querySelectorAll('.menu-dropdown .nav-link')
+      );
       subDropDowns.forEach((submenu: any) => {
-        submenu.setAttribute('aria-expanded', "false");
+        submenu.setAttribute('aria-expanded', 'false');
       });
 
       if (event.target && event.target.nextElementSibling) {
-        isCurrentMenuId.setAttribute("aria-expanded", "true");
-        event.target.nextElementSibling.classList.toggle("show");
+        isCurrentMenuId.setAttribute('aria-expanded', 'true');
+        event.target.nextElementSibling.classList.toggle('show');
       }
     }
-  };
+  }
 
   toggleExtraSubItem(event: any) {
     let isCurrentMenuId = event.target.closest('a.nav-link');
     let isMenu = isCurrentMenuId.nextElementSibling as any;
-    if (isMenu.classList.contains("show")) {
-      isMenu.classList.remove("show");
-      isCurrentMenuId.setAttribute("aria-expanded", "false");
+    if (isMenu.classList.contains('show')) {
+      isMenu.classList.remove('show');
+      isCurrentMenuId.setAttribute('aria-expanded', 'false');
     } else {
       let dropDowns = Array.from(document.querySelectorAll('.extra-sub-menu'));
       dropDowns.forEach((node: any) => {
         node.classList.remove('show');
       });
 
-      let subDropDowns = Array.from(document.querySelectorAll('.menu-dropdown .nav-link'));
+      let subDropDowns = Array.from(
+        document.querySelectorAll('.menu-dropdown .nav-link')
+      );
       subDropDowns.forEach((submenu: any) => {
-        submenu.setAttribute('aria-expanded', "false");
+        submenu.setAttribute('aria-expanded', 'false');
       });
 
       if (event.target && event.target.nextElementSibling) {
-        isCurrentMenuId.setAttribute("aria-expanded", "true");
-        event.target.nextElementSibling.classList.toggle("show");
+        isCurrentMenuId.setAttribute('aria-expanded', 'true');
+        event.target.nextElementSibling.classList.toggle('show');
       }
     }
-  };
+  }
 
   // Click wise Parent active class add
   toggleParentItem(event: any) {
@@ -140,16 +168,18 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     dropDowns.forEach((node: any) => {
       node.classList.remove('show');
     });
-    const ul = document.getElementById("navbar-nav");
+    const ul = document.getElementById('navbar-nav');
     if (ul) {
-      const iconItems = Array.from(ul.getElementsByTagName("a"));
-      let activeIconItems = iconItems.filter((x: any) => x.classList.contains("active"));
+      const iconItems = Array.from(ul.getElementsByTagName('a'));
+      let activeIconItems = iconItems.filter((x: any) =>
+        x.classList.contains('active')
+      );
       activeIconItems.forEach((item: any) => {
-        item.setAttribute('aria-expanded', "false")
-        item.classList.remove("active");
+        item.setAttribute('aria-expanded', 'false');
+        item.classList.remove('active');
       });
     }
-    isCurrentMenuId.setAttribute("aria-expanded", "true");
+    isCurrentMenuId.setAttribute('aria-expanded', 'true');
     if (isCurrentMenuId) {
       this.activateParentDropdown(isCurrentMenuId);
     }
@@ -158,25 +188,29 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   toggleItem(event: any) {
     let isCurrentMenuId = event.target.closest('a.nav-link');
     let isMenu = isCurrentMenuId.nextElementSibling as any;
-    if (isMenu.classList.contains("show")) {
-      isMenu.classList.remove("show");
-      isCurrentMenuId.setAttribute("aria-expanded", "false");
+    if (isMenu.classList.contains('show')) {
+      isMenu.classList.remove('show');
+      isCurrentMenuId.setAttribute('aria-expanded', 'false');
     } else {
-      let dropDowns = Array.from(document.querySelectorAll('#navbar-nav .show'));
+      let dropDowns = Array.from(
+        document.querySelectorAll('#navbar-nav .show')
+      );
       dropDowns.forEach((node: any) => {
         node.classList.remove('show');
       });
-      (isMenu) ? isMenu.classList.add('show') : null;
-      const ul = document.getElementById("navbar-nav");
+      isMenu ? isMenu.classList.add('show') : null;
+      const ul = document.getElementById('navbar-nav');
       if (ul) {
-        const iconItems = Array.from(ul.getElementsByTagName("a"));
-        let activeIconItems = iconItems.filter((x: any) => x.classList.contains("active"));
+        const iconItems = Array.from(ul.getElementsByTagName('a'));
+        let activeIconItems = iconItems.filter((x: any) =>
+          x.classList.contains('active')
+        );
         activeIconItems.forEach((item: any) => {
-          item.setAttribute('aria-expanded', "false")
-          item.classList.remove("active");
+          item.setAttribute('aria-expanded', 'false');
+          item.classList.remove('active');
         });
       }
-      isCurrentMenuId.setAttribute("aria-expanded", "true");
+      isCurrentMenuId.setAttribute('aria-expanded', 'true');
       if (isCurrentMenuId) {
         this.activateParentDropdown(isCurrentMenuId);
       }
@@ -185,21 +219,41 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   // remove active items of two-column-menu
   activateParentDropdown(item: any) {
-    item.classList.add("active");
-    let parentCollapseDiv = item.closest(".collapse.menu-dropdown");
+    item.classList.add('active');
+    let parentCollapseDiv = item.closest('.collapse.menu-dropdown');
 
     if (parentCollapseDiv) {
       // to set aria expand true remaining
-      parentCollapseDiv.classList.add("show");
-      parentCollapseDiv.parentElement.children[0].classList.add("active");
-      parentCollapseDiv.parentElement.children[0].setAttribute("aria-expanded", "true");
-      if (parentCollapseDiv.parentElement.closest(".collapse.menu-dropdown")) {
-        parentCollapseDiv.parentElement.closest(".collapse").classList.add("show");
-        if (parentCollapseDiv.parentElement.closest(".collapse").previousElementSibling)
-          parentCollapseDiv.parentElement.closest(".collapse").previousElementSibling.classList.add("active");
-        if (parentCollapseDiv.parentElement.closest(".collapse").previousElementSibling.closest(".collapse")) {
-          parentCollapseDiv.parentElement.closest(".collapse").previousElementSibling.closest(".collapse").classList.add("show");
-          parentCollapseDiv.parentElement.closest(".collapse").previousElementSibling.closest(".collapse").previousElementSibling.classList.add("active");
+      parentCollapseDiv.classList.add('show');
+      parentCollapseDiv.parentElement.children[0].classList.add('active');
+      parentCollapseDiv.parentElement.children[0].setAttribute(
+        'aria-expanded',
+        'true'
+      );
+      if (parentCollapseDiv.parentElement.closest('.collapse.menu-dropdown')) {
+        parentCollapseDiv.parentElement
+          .closest('.collapse')
+          .classList.add('show');
+        if (
+          parentCollapseDiv.parentElement.closest('.collapse')
+            .previousElementSibling
+        )
+          parentCollapseDiv.parentElement
+            .closest('.collapse')
+            .previousElementSibling.classList.add('active');
+        if (
+          parentCollapseDiv.parentElement
+            .closest('.collapse')
+            .previousElementSibling.closest('.collapse')
+        ) {
+          parentCollapseDiv.parentElement
+            .closest('.collapse')
+            .previousElementSibling.closest('.collapse')
+            .classList.add('show');
+          parentCollapseDiv.parentElement
+            .closest('.collapse')
+            .previousElementSibling.closest('.collapse')
+            .previousElementSibling.classList.add('active');
         }
       }
       return false;
@@ -208,9 +262,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   updateActive(event: any) {
-    const ul = document.getElementById("navbar-nav");
+    const ul = document.getElementById('navbar-nav');
     if (ul) {
-      const items = Array.from(ul.querySelectorAll("a.nav-link"));
+      const items = Array.from(ul.querySelectorAll('a.nav-link'));
       this.removeActivation(items);
     }
     this.activateParentDropdown(event.target);
@@ -218,10 +272,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   initActiveMenu() {
     const pathName = window.location.pathname;
-    const ul = document.getElementById("navbar-nav");
+    const ul = document.getElementById('navbar-nav');
     if (ul) {
-      const items = Array.from(ul.querySelectorAll("a.nav-link"));
-      let activeItems = items.filter((x: any) => x.classList.contains("active"));
+      const items = Array.from(ul.querySelectorAll('a.nav-link'));
+      let activeItems = items.filter((x: any) =>
+        x.classList.contains('active')
+      );
       this.removeActivation(activeItems);
 
       let matchingMenuItem = items.find((x: any) => {
@@ -244,11 +300,15 @@ export class SidebarComponent implements OnInit, AfterViewInit {
    * Toggle the menu bar when having mobile screen
    */
   toggleMobileMenu(event: any) {
-    var sidebarsize = document.documentElement.getAttribute("data-sidebar-size");
+    var sidebarsize =
+      document.documentElement.getAttribute('data-sidebar-size');
     if (sidebarsize == 'sm-hover-active') {
-      document.documentElement.setAttribute("data-sidebar-size", 'sm-hover')
+      document.documentElement.setAttribute('data-sidebar-size', 'sm-hover');
     } else {
-      document.documentElement.setAttribute("data-sidebar-size", 'sm-hover-active')
+      document.documentElement.setAttribute(
+        'data-sidebar-size',
+        'sm-hover-active'
+      );
     }
   }
 
@@ -260,11 +320,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     document.body.classList.remove('vertical-sidebar-enable');
   }
 
-
   logOut() {
     this._authService.logout();
     this.router.navigate(['/auth/login']);
   }
-
-
 }

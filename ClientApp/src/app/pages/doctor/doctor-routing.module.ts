@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppointmentOnSiteComponent } from './appointment-on-site/appointment-on-site.component';
-import { PrescriptionsComponent } from './prescriptions/prescriptions.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
   { path: 'appointment-on-site', component: AppointmentOnSiteComponent },
-  { path: 'prescriptions', component: PrescriptionsComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'profile/:id', component: ProfileComponent },
+  { path: 'edit-profile/:id', component: EditProfileComponent },
   {
     path: 'appointment',
     loadChildren: () =>

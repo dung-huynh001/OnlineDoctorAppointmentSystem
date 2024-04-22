@@ -12,7 +12,7 @@ export class ToastService {
     this.toasts.push({ 
       textOrTpl,
       classname: 'bg-danger text-white',
-      delay: 5000,
+      delay: 3000,
     });
   }
 
@@ -20,7 +20,7 @@ export class ToastService {
     this.toasts.push({ 
       textOrTpl,
       classname: 'bg-success text-white',
-      delay: 5000,
+      delay: 3000,
     });
   }
 
@@ -28,7 +28,7 @@ export class ToastService {
     this.toasts.push({ 
       textOrTpl,
       classname: 'bg-warning text-white',
-      delay: 5000,
+      delay: 3000,
     });
   }
 
