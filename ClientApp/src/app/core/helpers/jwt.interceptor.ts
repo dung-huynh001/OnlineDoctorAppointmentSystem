@@ -19,17 +19,24 @@ export class JwtInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    
+
+    request = request.clone({
+      setHeaders: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    });
 
     const currentUser = this.authService.currentUser();
     if (currentUser && currentUser.token) {
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${currentUser.token}`,
+          "ngrok-skip-browser-warning" : 'true'
         },
       });
     }
 
+    
     return next.handle(request);
   }
 }

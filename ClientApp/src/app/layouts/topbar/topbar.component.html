@@ -3,7 +3,7 @@
     <div class="navbar-header">
       <div class="d-flex">
         <!-- LOGO -->
-        <div class="navbar-brand-box horizontal-logo">
+        <!-- <div class="navbar-brand-box horizontal-logo">
           <a href="javascript:void(0);" class="logo logo-dark">
             <span class="logo-sm">
               <img src="assets/images/logo-sm.png" alt="" height="22" />
@@ -21,7 +21,7 @@
               <img src="assets/images/logo-light.png" alt="" height="17" />
             </span>
           </a>
-        </div>
+        </div> -->
 
         <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
           id="topnav-hamburger-icon" (click)="toggleMobileMenu($event)">
@@ -102,7 +102,7 @@
             aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
             <span class="d-flex align-items-center">
               <img class="rounded-circle header-profile-user"
-                [src]="userData?.avatarUrl ? hostName + '/' + userData?.avatarUrl : 'https://localhost:7139/Uploads/Images/default-user.jpg'" alt="Header Avatar" />
+                [src]="userData?.avatarUrl" alt="Header Avatar" />
               <span class="text-start ms-xl-2">
                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ userData?.fullName }}</span>
                 <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ userData?.userType}}</span>

@@ -21,6 +21,8 @@ import { User } from '../../core/models/auth.models';
 import { environment } from '../../../environments/environment';
 import { Subscription } from 'rxjs';
 
+const HOSTNAME = environment.serverApi;
+
 const STATUS_ENOUGH_INFO = '1';
 const STATUS_NOT_ACTIVATE = '0';
 const STATUS_ACTIVATED = '2';
@@ -38,7 +40,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   valueset: any;
   countryName: any;
   cookieValue: any;
-  userData!: User|null;
+  userData!: User | null;
   total = 0;
   cart_length: any = 0;
   totalNotify: number = 0;
@@ -48,7 +50,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   isActivated: boolean = false;
   currentUser!: User;
 
-  hostName = environment.serverApi;
+  HOSTNAME: string = HOSTNAME;
 
   @ViewChild('removenotification') removenotification!: TemplateRef<any>;
   notifyId: any;
@@ -61,40 +63,46 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     public _cookiesService: CookieService,
     public translate: TranslateService,
     private authService: AuthService,
-    private router: Router,
+    private router: Router
   ) {}
   ngAfterViewInit(): void {
-    if(this.authService.status$.value != STATUS_NOT_ACTIVATE 
-      && this.authService.status$.value != STATUS_ENOUGH_INFO){
-        this.isActivated = true;
+    if (
+      this.authService.status$.value != STATUS_NOT_ACTIVATE &&
+      this.authService.status$.value != STATUS_ENOUGH_INFO
+    ) {
+      this.isActivated = true;
     }
   }
 
   ngOnInit(): void {
-    this.authService.currentUser$.subscribe(user => {
+    this.authService.currentUser$.subscribe((user) => {
       this.userData = user;
     });
     this.element = document.documentElement;
     this.currentUser = this.authService.currentUser();
 
+    this.userData!.avatarUrl = this.userData?.avatarUrl
+      ? HOSTNAME + '/' + this.userData!.avatarUrl
+      : HOSTNAME + `/Uploads/Images/default-user.jpg`;
 
-    if(this.authService.status$.value != STATUS_NOT_ACTIVATE 
-      && this.authService.status$.value != STATUS_ENOUGH_INFO){
-        this.isActivated = true;
+    if (
+      this.authService.status$.value != STATUS_NOT_ACTIVATE &&
+      this.authService.status$.value != STATUS_ENOUGH_INFO
+    ) {
+      this.isActivated = true;
     }
 
     // Cookies wise Language set
-    this.cookieValue = this._cookiesService.get('lang');
-    const val = this.listLang.filter((x) => x.lang === this.cookieValue);
-    this.countryName = val.map((element) => element.text);
-    if (val.length === 0) {
-      if (this.flagvalue === undefined) {
-        this.valueset = 'assets/images/flags/us.svg';
-      }
-    } else {
-      this.flagvalue = val.map((element) => element.flag);
-    }
-
+    // this.cookieValue = this._cookiesService.get('lang');
+    // const val = this.listLang.filter((x) => x.lang === this.cookieValue);
+    // this.countryName = val.map((element) => element.text);
+    // if (val.length === 0) {
+    //   if (this.flagvalue === undefined) {
+    //     this.valueset = 'assets/images/flags/us.svg';
+    //   }
+    // } else {
+    //   this.flagvalue = val.map((element) => element.flag);
+    // }
   }
 
   /**
@@ -175,16 +183,16 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   /***
    * Language Listing
    */
-  listLang = [
-    { text: 'English', flag: 'assets/images/flags/us.svg', lang: 'en' },
-    { text: 'Española', flag: 'assets/images/flags/spain.svg', lang: 'es' },
-    { text: 'Deutsche', flag: 'assets/images/flags/germany.svg', lang: 'de' },
-    { text: 'Italiana', flag: 'assets/images/flags/italy.svg', lang: 'it' },
-    { text: 'русский', flag: 'assets/images/flags/russia.svg', lang: 'ru' },
-    { text: '中国人', flag: 'assets/images/flags/china.svg', lang: 'ch' },
-    { text: 'français', flag: 'assets/images/flags/french.svg', lang: 'fr' },
-    { text: 'Arabic', flag: 'assets/images/flags/ar.svg', lang: 'ar' },
-  ];
+  // listLang = [
+  //   { text: 'English', flag: 'assets/images/flags/us.svg', lang: 'en' },
+  //   { text: 'Española', flag: 'assets/images/flags/spain.svg', lang: 'es' },
+  //   { text: 'Deutsche', flag: 'assets/images/flags/germany.svg', lang: 'de' },
+  //   { text: 'Italiana', flag: 'assets/images/flags/italy.svg', lang: 'it' },
+  //   { text: 'русский', flag: 'assets/images/flags/russia.svg', lang: 'ru' },
+  //   { text: '中国人', flag: 'assets/images/flags/china.svg', lang: 'ch' },
+  //   { text: 'français', flag: 'assets/images/flags/french.svg', lang: 'fr' },
+  //   { text: 'Arabic', flag: 'assets/images/flags/ar.svg', lang: 'ar' },
+  // ];
 
   /***
    * Language Value Set

@@ -53,7 +53,39 @@
                                     class="las la-angle-right"></i></button>
                         </div>
                     </div>
+                </div>
 
+                <div class="row pb-4">
+                    <div class="d-flex gap-5">
+                        <div class="ms-auto d-flex gap-3 align-items-center">
+                            <div class="bg-warning text-white explain-event">
+                                <span class="fw-semibold overflow-hidden event-subject">Patient</span>
+                                <span class="overflow-hidden p-0 event-time">8:00 AM - 8:30 AM</span>
+                            </div>
+                            <div class="fs-6 fw-semibold text-muted text-uppercase"> Pending Appointment</div>
+                        </div>
+                        <div class="d-flex gap-3 align-items-center">
+                            <div class="bg-primary text-white explain-event">
+                                <div class="fw-semibold overflow-hidden event-subject">Patient</div>
+                                <div class="overflow-hidden p-0 event-time">8:00 AM - 8:30 AM</div>
+                            </div>
+                            <div class="fs-6 fw-semibold text-muted text-uppercase">Confirmed Appointment</div>
+                        </div>
+                        <div class="d-flex gap-3 align-items-center">
+                            <div class="bg-success text-white explain-event">
+                                <span class="fw-semibold overflow-hidden event-subject">Patient</span>
+                                <span class="overflow-hidden p-0 event-time">8:00 AM - 8:30 AM</span>
+                            </div>
+                            <div class="fs-6 fw-semibold text-muted text-uppercase"> Completed Appointment</div>
+                        </div>
+                        <div class="d-flex gap-3 align-items-center">
+                            <div class="bg-danger text-white explain-event">
+                                <div class="fw-semibold overflow-hidden event-subject">Patient</div>
+                                <div class="overflow-hidden p-0 event-time">8:00 AM - 8:30 AM</div>
+                            </div>
+                            <div class="fs-6 fw-semibold text-muted text-uppercase">Cancelled Appointment</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="schedule-container">
@@ -64,12 +96,29 @@
                         (eventRendered)="eventRendered($event)" (renderCell)="renderCell($event)"
                         (popupOpen)="popupOpen($event)" [showQuickInfo]="false" [allowDragAndDrop]="false"
                         (eventDoubleClick)="eventDoubleClick($event)" (cellClick)="cellClick($event)">
+                        <e-resources>
+                            <e-resource field='PatientId' title='Patients' name='Patient' [dataSource]='patientResouces'
+                              [allowMultiple]='false' textField='FullName' idField='Id' groupIDField="PatientId">
+                            </e-resource>
+                          </e-resources>
                         <ng-template #dateHeaderTemplate let-data>
                             <div>
                                 <p class="m-0 text-center fw-semibold">{{formatDateHeader(data.date).date}}</p>
                                 <p class="m-0 text-center">{{formatDateHeader(data.date).dayOfWeek}}</p>
                             </div>
                         </ng-template>
+                        <ng-template #resourceHeaderTemplate let-data>
+                            <div class="template-wrap">
+                              <div class="employee-category">
+                                <div>
+                                  <img class="resource-image" *ngIf="getPatientImg(data)"
+                                    src="{{getPatientImg(data)}}" />
+                                </div>
+                                <div class="resource-name">{{getPatientName(data)}}</div>
+                                <div class="designation">{{getPatientInfo(data)}}</div>
+                              </div>
+                            </div>
+                          </ng-template>
                         <e-header-rows>
                             <e-header-row [option]="'Date'"></e-header-row>
                             <e-header-row option="Hour" *ngIf="displayHour"></e-header-row>

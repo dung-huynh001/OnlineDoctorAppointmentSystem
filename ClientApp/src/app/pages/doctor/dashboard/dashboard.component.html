@@ -22,7 +22,7 @@
                                     <p class="mb-0 text-muted">till today</p>
                                 </div>
                             </div>
-                        </div><!-- end card body -->
+                        </div>
                     </div>
                 </div>
                 <div class="col-xxl-3 col-sm-6">
@@ -43,7 +43,7 @@
                                     <p class="mb-0 text-muted">{{today}}</p>
                                 </div>
                             </div>
-                        </div><!-- end card body -->
+                        </div>
                     </div>
                 </div>
                 <div class="col-xxl-3 col-sm-6">
@@ -64,7 +64,7 @@
                                     <p class="mb-0 text-muted">appointments</p>
                                 </div>
                             </div>
-                        </div><!-- end card body -->
+                        </div>
                     </div>
                 </div>
                 <div class="col-xxl-3 col-sm-6">
@@ -85,7 +85,7 @@
                                     <p class="mb-0 text-muted">are awaiting approval</p>
                                 </div>
                             </div>
-                        </div><!-- end card body -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -96,24 +96,15 @@
                             <h4>Upcoming Appointment</h4>
                         </div>
                         <div class="card-body">
-                            <!-- Nav tabs -->
                             <div class="table-responsive">
                                 <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
                                     class="table table-bordered dt-responsive display nowrap" cellspacing="0"
                                     width="100%">
                                 </table>
                             </div>
-                        </div><!-- end card-body -->
+                        </div>
                     </div>
-                </div><!--end col-->
-            </div>
-            <div class="row">
-                <!-- <div class="col-xxl-6 col-sm-12">
-                    <app-donut-charts chartTitle="Gender Statistics"></app-donut-charts>
                 </div>
-                <div class="col-xxl-6 col-sm-12">
-                    <app-area-charts chartTitle="Appointment Statistics"></app-area-charts>
-                </div> -->
             </div>
         </div>
         <div class="col-lg-3 col-sm-12">
@@ -154,9 +145,12 @@
                                         </a>
 
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink3" ngbDropdownMenu>
-                                            <li><a class="dropdown-item" href="javascript:void(0);">View</a></li>
-                                            <li><a class="dropdown-item" href="javascript:void(0);">Accepted</a></li>
-                                            <li><a class="dropdown-item" href="javascript:void(0);">Reject</a></li>
+                                            <li><a class="dropdown-item"
+                                                    routerLink="/patient/appointment/view/{{booking.id}}">View</a></li>
+                                            <li><a class="dropdown-item"
+                                                    (click)="markAsConfirmed(booking.id)">Accepted</a></li>
+                                            <li><a class="dropdown-item" (click)="markAsCancel(booking.id)">Reject</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>

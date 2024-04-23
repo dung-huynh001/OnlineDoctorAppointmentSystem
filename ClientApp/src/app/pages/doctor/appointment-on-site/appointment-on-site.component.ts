@@ -1,21 +1,13 @@
 import {
   AfterViewInit,
   Component,
-  DoCheck,
-  ElementRef,
-  Input,
   OnInit,
-  SimpleChanges,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
-  inject,
 } from '@angular/core';
 import {
   NgbModal,
-  NgbOffcanvas,
-  NgbOffcanvasConfig,
-  OffcanvasDismissReasons,
 } from '@ng-bootstrap/ng-bootstrap';
 import {
   DayService,
@@ -30,40 +22,33 @@ import {
 } from '@syncfusion/ej2-angular-schedule';
 import {
   DataManager,
-  Predicate,
   Query,
   UrlAdaptor,
 } from '@syncfusion/ej2-data';
 import {
   ActionEventArgs,
   CellClickEventArgs,
-  CrudAction,
   EventClickArgs,
   EventRenderedArgs,
   EventSettingsModel,
-  GroupModel,
-  PopupCloseEventArgs,
   PopupOpenEventArgs,
   RenderCellEventArgs,
   ResourceDetails,
   View,
 } from '@syncfusion/ej2-schedule';
 import { environment } from '../../../../environments/environment';
-import { ScheduleService } from '../../../core/services/schedule.service';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { catchError, finalize, throwError } from 'rxjs';
-import { isNullOrUndefined } from '@syncfusion/ej2-base';
-import { ChangeEventArgs } from '@syncfusion/ej2-calendars';
 import { AppointmentService } from '../../../core/services/appointment.service';
 import {
-  ActionCompleteEventArgs,
   FilteringEventArgs,
-  ItemCreatedArgs,
 } from '@syncfusion/ej2-dropdowns';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '../../../core/services/toast.service';
+
+const HOSTNAME = environment.serverApi;
 
 @Component({
   selector: 'app-appointment-on-site',
@@ -95,6 +80,8 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
 
   addPatientFormGroup!: FormGroup;
   addPatientForm_submitted: boolean = false;
+
+  patientResouces!: Record<string, any>[];
 
   fields = {
     text: 'fullName',
@@ -177,6 +164,19 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.removeWarningLisenceEJ2();
+  }
+
+  getPatientImg(value: ResourceDetails) {
+    return HOSTNAME + '/' + value.resourceData['AvatarUrl'];
+  }
+
+  getPatientInfo(value: ResourceDetails) {
+    return value.resourceData['DateOfBirth'];
+  }
+
+  getPatientName(value: ResourceDetails) {
+    return value.resourceData[`${value.resource.textField}`] as string;
+   
   }
 
   currentViewChange(event: any) {

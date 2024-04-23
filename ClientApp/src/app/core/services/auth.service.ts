@@ -17,12 +17,18 @@ export class AuthService {
   );
   user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
-  status$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  status$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(
+    null
+  );
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
-  register(email: string, username: string, password: string, userType: string) {
+  register(
+    email: string,
+    username: string,
+    password: string,
+    userType: string
+  ) {
     return this.http.post(
       `${environment.serverApi}/api/Auth/register`,
       {
@@ -36,19 +42,24 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<{ data: IUser }> {
-    return this.http.post(`${environment.serverApi}/api/Auth/login`,
-      {
-        username,
-        password,
-      },
-      httpOptions)
+    return this.http
+      .post(
+        `${environment.serverApi}/api/Auth/login`,
+        {
+          username,
+          password,
+        },
+        httpOptions
+      )
       .pipe(
         map((res: any) => {
           return {
             data: User.createFromData(res),
           };
         }),
-        catchError(err => { return throwError(() => err) })
+        catchError((err) => {
+          return throwError(() => err);
+        })
       );
   }
 
@@ -57,7 +68,7 @@ export class AuthService {
     this.token$.next(token);
 
     localStorage.setItem('currentUser', JSON.stringify(user));
-    document.cookie = (`token=${token}`);
+    document.cookie = `token=${token}`;
   }
 
   setCurrentUser(user: User) {
@@ -65,7 +76,7 @@ export class AuthService {
     this.status$.next(user.status);
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
-  
+
   initStatus() {
     const currentUser = this.currentUser();
     this.status$.next(currentUser.status);

@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
+import { NgrokInterceptor } from './core/helpers/ngrok.interceptor';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { AccountRoutingModule } from './account/account-routing.module';
@@ -52,6 +53,7 @@ export function tokenGetter() {
     }),
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: NgrokInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     provideCharts(withDefaultRegisterables())

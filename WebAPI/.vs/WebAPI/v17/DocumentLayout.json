@@ -3,6 +3,34 @@
   "WorkspaceRootPath": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\middleware\\ngrokmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\middleware\\ngrokmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\services\\currentuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\currentuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\interfaces\\iservice\\icurrentuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\interfaces\\iservice\\icurrentuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\services\\scheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\scheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -31,10 +59,6 @@
       "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\interfaces\\iservice\\idoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\dtos\\diagnosisdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\dtos\\diagnosisdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -44,10 +68,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\CUSCSOFT\\AppData\\Local\\SourceServer\\f7fc82b0d73df252800d2cd73658f16392013bb7d51060f0b04b8292402d5b47\\WebAPI\\WebAPI\\Services\\AppointmentService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0A42D170-7077-4847-BAA5-6B338F99BF8A}|WebAPI\\WebAPI.csproj|f:\\onlinedoctorappointmentsystem\\webapi\\webapi\\infrastructure\\context\\doctorappointmentsystemcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -89,24 +109,89 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NgrokMiddleware.cs",
+              "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Middleware\\NgrokMiddleware.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Middleware\\NgrokMiddleware.cs",
+              "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Middleware\\NgrokMiddleware.cs",
+              "RelativeToolTip": "WebAPI\\Middleware\\NgrokMiddleware.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAxwBoAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-23T06:11:09.542Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Program.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Program.cs",
+              "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Program.cs",
+              "RelativeToolTip": "WebAPI\\Program.cs",
+              "ViewState": "AQIAAHUAAAAAAAAAAAAAAI8AAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-23T03:06:01.35Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "WebAPI\\Properties\\launchSettings.json",
+              "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Properties\\launchSettings.json",
+              "RelativeToolTip": "WebAPI\\Properties\\launchSettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-04-23T03:00:23.851Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ICurrentUserService.cs",
+              "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\ICurrentUserService.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Interfaces\\IService\\ICurrentUserService.cs",
+              "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\ICurrentUserService.cs",
+              "RelativeToolTip": "WebAPI\\Interfaces\\IService\\ICurrentUserService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-23T02:33:23.226Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CurrentUserService.cs",
+              "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\CurrentUserService.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Services\\CurrentUserService.cs",
+              "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\CurrentUserService.cs",
+              "RelativeToolTip": "WebAPI\\Services\\CurrentUserService.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAAABkAAABgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-23T02:32:37.473Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "ScheduleService.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\ScheduleService.cs",
               "RelativeDocumentMoniker": "WebAPI\\Services\\ScheduleService.cs",
               "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\ScheduleService.cs",
               "RelativeToolTip": "WebAPI\\Services\\ScheduleService.cs",
-              "ViewState": "AQIAACMAAAAAAAAAAAAcwDIAAAArAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADIAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-22T09:13:44.567Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 9,
               "Title": "IScheduleService.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\IScheduleService.cs",
               "RelativeDocumentMoniker": "WebAPI\\Interfaces\\IService\\IScheduleService.cs",
@@ -114,12 +199,11 @@
               "RelativeToolTip": "WebAPI\\Interfaces\\IService\\IScheduleService.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-22T09:13:37.04Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T09:13:37.04Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 8,
               "Title": "ScheduleController.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\ScheduleController.cs",
               "RelativeDocumentMoniker": "WebAPI\\Controllers\\ScheduleController.cs",
@@ -127,12 +211,11 @@
               "RelativeToolTip": "WebAPI\\Controllers\\ScheduleController.cs",
               "ViewState": "AQIAAAYAAAAAAAAAAAAAAB8AAABDAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-22T09:12:54.986Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T09:12:54.986Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 12,
               "Title": "DoctorService.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\DoctorService.cs",
               "RelativeDocumentMoniker": "WebAPI\\Services\\DoctorService.cs",
@@ -140,12 +223,11 @@
               "RelativeToolTip": "WebAPI\\Services\\DoctorService.cs",
               "ViewState": "AQIAAK8AAAAAAAAAAAAAABcBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-22T09:09:38.343Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T09:09:38.343Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "IDoctorService.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\IDoctorService.cs",
               "RelativeDocumentMoniker": "WebAPI\\Interfaces\\IService\\IDoctorService.cs",
@@ -153,12 +235,11 @@
               "RelativeToolTip": "WebAPI\\Interfaces\\IService\\IDoctorService.cs",
               "ViewState": "AQIAAAEAAAAAAAAAAAAMwAwAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-22T09:08:01.096Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T09:08:01.096Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "DoctorController.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\DoctorController.cs",
               "RelativeDocumentMoniker": "WebAPI\\Controllers\\DoctorController.cs",
@@ -166,12 +247,11 @@
               "RelativeToolTip": "WebAPI\\Controllers\\DoctorController.cs",
               "ViewState": "AQIAAFYAAAAAAAAAAAAIwGMAAAA7AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-22T09:07:28.233Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T09:07:28.233Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 14,
               "Title": "DiagnosisDto.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\DiagnosisDto.cs",
               "RelativeDocumentMoniker": "WebAPI\\DTOs\\DiagnosisDto.cs",
@@ -179,12 +259,11 @@
               "RelativeToolTip": "WebAPI\\DTOs\\DiagnosisDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-22T06:54:59.179Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T06:54:59.179Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 15,
               "Title": "GenericRepository.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Implementations\\GenericRepository.cs",
               "RelativeDocumentMoniker": "WebAPI\\Implementations\\GenericRepository.cs",
@@ -192,12 +271,11 @@
               "RelativeToolTip": "WebAPI\\Implementations\\GenericRepository.cs",
               "ViewState": "AQIAADEAAAAAAAAAAAAvwEYAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-22T03:59:47.802Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T03:59:47.802Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 16,
               "Title": "AppointmentService.cs",
               "DocumentMoniker": "C:\\Users\\CUSCSOFT\\AppData\\Local\\SourceServer\\f7fc82b0d73df252800d2cd73658f16392013bb7d51060f0b04b8292402d5b47\\WebAPI\\WebAPI\\Services\\AppointmentService.cs",
               "ToolTip": "C:\\Users\\CUSCSOFT\\AppData\\Local\\SourceServer\\f7fc82b0d73df252800d2cd73658f16392013bb7d51060f0b04b8292402d5b47\\WebAPI\\WebAPI\\Services\\AppointmentService.cs [Read Only]",
@@ -208,20 +286,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 2,
               "Title": "ExceptionMiddleware.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Middleware\\ExceptionMiddleware.cs",
               "RelativeDocumentMoniker": "WebAPI\\Middleware\\ExceptionMiddleware.cs",
               "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Middleware\\ExceptionMiddleware.cs",
               "RelativeToolTip": "WebAPI\\Middleware\\ExceptionMiddleware.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAvwBgAAAAIAAAA",
+              "ViewState": "AQIAABkAAAAAAAAAAAAlwDAAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-22T03:57:56.469Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "appsettings.json",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\appsettings.json",
               "RelativeDocumentMoniker": "WebAPI\\appsettings.json",
@@ -229,12 +307,11 @@
               "RelativeToolTip": "WebAPI\\appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-04-22T03:53:51.187Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T03:53:51.187Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 20,
               "Title": "AutoMapperProfile.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\AutoMapperProfile\\AutoMapperProfile.cs",
               "RelativeDocumentMoniker": "WebAPI\\DTOs\\AutoMapperProfile\\AutoMapperProfile.cs",
@@ -242,12 +319,11 @@
               "RelativeToolTip": "WebAPI\\DTOs\\AutoMapperProfile\\AutoMapperProfile.cs",
               "ViewState": "AQIAAAoAAAAAAAAAAAAgwBoAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-22T03:18:49.086Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T03:18:49.086Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 17,
               "Title": "DoctorAppointmentSystemContext.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Infrastructure\\Context\\DoctorAppointmentSystemContext.cs",
               "RelativeDocumentMoniker": "WebAPI\\Infrastructure\\Context\\DoctorAppointmentSystemContext.cs",
@@ -255,12 +331,11 @@
               "RelativeToolTip": "WebAPI\\Infrastructure\\Context\\DoctorAppointmentSystemContext.cs",
               "ViewState": "AQIAAFYCAAAAAAAAAAAAwGsCAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:30:00.378Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:30:00.378Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 23,
               "Title": "UnitDto.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\UnitDto.cs",
               "RelativeDocumentMoniker": "WebAPI\\DTOs\\UnitDto.cs",
@@ -272,7 +347,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 24,
               "Title": "FrequencyDto.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\FrequencyDto.cs",
               "RelativeDocumentMoniker": "WebAPI\\DTOs\\FrequencyDto.cs",
@@ -284,7 +359,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 19,
               "Title": "Prescription.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Domain\\Entities\\Prescription.cs",
               "RelativeDocumentMoniker": "WebAPI\\Domain\\Entities\\Prescription.cs",
@@ -292,12 +367,11 @@
               "RelativeToolTip": "WebAPI\\Domain\\Entities\\Prescription.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T07:14:35.098Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T07:14:35.098Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 21,
               "Title": "PrescriptionDto.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\DTOs\\PrescriptionDto.cs",
               "RelativeDocumentMoniker": "WebAPI\\DTOs\\PrescriptionDto.cs",
@@ -305,12 +379,11 @@
               "RelativeToolTip": "WebAPI\\DTOs\\PrescriptionDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T06:29:52.928Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T06:29:52.928Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 22,
               "Title": "AppointmentController.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Controllers\\AppointmentController.cs",
               "RelativeDocumentMoniker": "WebAPI\\Controllers\\AppointmentController.cs",
@@ -318,25 +391,24 @@
               "RelativeToolTip": "WebAPI\\Controllers\\AppointmentController.cs",
               "ViewState": "AQIAAI4AAAAAAAAAAAAowKAAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T04:22:55.591Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T04:22:55.591Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "AppointmentService.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\AppointmentService.cs",
               "RelativeDocumentMoniker": "WebAPI\\Services\\AppointmentService.cs",
               "ToolTip": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Services\\AppointmentService.cs",
               "RelativeToolTip": "WebAPI\\Services\\AppointmentService.cs",
-              "ViewState": "AQIAAGcAAAAAAAAAAAAawHcAAAAIAAAA",
+              "ViewState": "AQIAAFkDAAAAAAAAAAAlwNQCAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-12T04:14:53.674Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
               "Title": "IAppointmentService.cs",
               "DocumentMoniker": "F:\\OnlineDoctorAppointmentSystem\\WebAPI\\WebAPI\\Interfaces\\IService\\IAppointmentService.cs",
               "RelativeDocumentMoniker": "WebAPI\\Interfaces\\IService\\IAppointmentService.cs",
@@ -344,8 +416,7 @@
               "RelativeToolTip": "WebAPI\\Interfaces\\IService\\IAppointmentService.cs",
               "ViewState": "AQIAABAAAAAAAAAAAIAxwB4AAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T04:12:11.152Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-12T04:12:11.152Z"
             }
           ]
         }

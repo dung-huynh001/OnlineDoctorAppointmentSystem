@@ -3,8 +3,11 @@ import { iDoctorDetails } from '../../../core/models/doctor.model';
 import { DoctorService } from '../../../core/services/doctor.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-import { catchError, finalize, map, throwError } from 'rxjs';
+import { Subject, catchError, finalize, map, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { AppointmentService } from '../../../core/services/appointment.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { User } from '../../../core/models/auth.models';
 
 const HOSTNAME = environment.serverApi;
 
@@ -30,25 +33,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   breadCrumbItems!: Array<{}>;
   userType = localStorage.getItem('userType');
 
-  doctorData: iDoctorDetails = {
-    id: 0,
-    userId: '',
-    address: '',
-    dateOfBirth: '',
-    departmentId: '',
-    departmentName: '',
-    email: '',
-    fullName: '',
-    avatarUrl: '',
-    gender: '',
-    nationalId: '',
-    phoneNumber: '',
-    speciality: '',
-    workingEndDate: '',
-    workingStartDate: '',
-    createdDate: '',
-    updatedDate: '',
-  };
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+
+  doctorData!: iDoctorDetails;
 
   completionLevel!: number;
   selectedId!: any;
@@ -62,130 +50,131 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   }>;
   totalApptOnDate: number = 0;
 
+  currentUser!: User;
+
   constructor(
     private _doctorService: DoctorService,
     private router: Router,
-    private _spinnerService: NgxSpinnerService
-  ) {
-    this.completionLevel = 30;
+    private _spinnerService: NgxSpinnerService,
+    private _appointmentService: AppointmentService,
+    private _authService: AuthService
+  ) {}
+  ngAfterViewInit(): void {
+    this.dtTrigger.next(this.dtOptions);
   }
-  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Home' },
-      { label: 'Doctor Management' },
-      { label: 'Doctor Details', active: true },
+      { label: 'Profile', active: true },
     ];
 
     const currentUrl = this.router.url;
     this.selectedId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
 
+    this.currentUser = this._authService.currentUser();
+
     this.fetchData();
     this.getScheduleByDate();
+    this.loadDataTable();
+  }
 
-    this.UpcomingActivities = [
-      {
-        date: '25',
-        day: 'Tue',
-        time: '12:00am - 03:30pm',
-        content: 'Meeting for campaign with sales team',
-        users: [
-          {
-            name: 'Stine Nielsen',
-            profile: 'assets/images/users/avatar-1.jpg',
-          },
-          {
-            name: 'Jansh Brown',
-            profile: 'assets/images/users/avatar-2.jpg',
-          },
-          {
-            name: 'Dan Gibson',
-            profile: 'assets/images/users/avatar-3.jpg',
-          },
-          {
-            name: '5',
-            variant: 'bg-info',
-          },
-        ],
+  loadDataTable() {
+    this.dtOptions = {
+      serverSide: true,
+      pagingType: 'full_numbers',
+      processing: true,
+      responsive: true,
+      destroy: true,
+      order: [[1, 'asc']],
+      columnDefs: [
+        { targets: [0, -1], searchable: false },
+        { targets: [-1], orderable: false },
+        {
+          className: 'dtr-control',
+          orderable: false,
+          width: '15px',
+          searchable: false,
+          targets: 0,
+        },
+      ],
+      language: {
+        emptyTable: 'No records found',
       },
-      {
-        date: '20',
-        day: 'Wed',
-        time: '02:00pm - 03:45pm',
-        content: 'Adding a new event with attachments',
-        users: [
-          {
-            name: 'Frida Bang',
-            profile: 'assets/images/users/avatar-4.jpg',
+      columns: [
+        {
+          orderable: false,
+          data: null,
+          defaultContent: '',
+        },
+        {
+          data: 'id',
+          title: 'ID',
+          className: 'text-center',
+        },
+        {
+          data: 'patientName',
+          title: 'Patient',
+          render: (data: any, type: any, row: any, meta: any) => {
+            return `<span class="text-center">${data}</span>`;
           },
-          {
-            name: 'Malou Silva',
-            profile: 'assets/images/users/avatar-5.jpg',
+        },
+        {
+          data: 'appointmentDate',
+          title: 'Appointment date',
+          className: 'text-end',
+        },
+        {
+          data: 'dateOfConsultation',
+          title: 'Consultation date',
+          className: 'text-end',
+        },
+        {
+          data: 'closedBy',
+          title: 'Closed by',
+        },
+        {
+          data: 'closedDate',
+          title: 'Closed date',
+          className: 'text-end',
+        },
+        {
+          title: 'Action',
+          data: 'id',
+          render: (data: any, type: any, row: any, meta: any) => {
+            const viewButton = `<button class="btn btn-soft-info btn-sm edit-btn" title="View" onClick="location.assign('/patient/appointment/view/${data}')">View</button>`;
+
+            return `<div class="d-flex gap-3">${viewButton}</div>`;
           },
-          {
-            name: 'Simon Schmidt',
-            profile: 'assets/images/users/avatar-6.jpg',
-          },
-          {
-            name: 'Tosh Jessen',
-            profile: 'assets/images/users/avatar-7.jpg',
-          },
-          {
-            name: '3',
-            variant: 'bg-success',
-          },
-        ],
+        },
+      ],
+      ajax: (dataTablesParameters: any, callback: Function) => {
+        this._appointmentService
+          .getAppointments(
+            this.currentUser.id,
+            this.currentUser.userType,
+            'Completed',
+            dataTablesParameters
+          )
+          .pipe(
+            catchError((err) => {
+              callback({
+                recordsTotal: 0,
+                recordsFiltered: 0,
+                data: [],
+              });
+              return throwError(() => err);
+            })
+          )
+          .subscribe((res: any) => {
+            callback({
+              recordsTotal: res.recordsTotal,
+              recordsFiltered: res.recordsFiltered,
+              data: res.data,
+            });
+          });
       },
-      {
-        date: '17',
-        day: 'Wed',
-        time: '04:30pm - 07:15pm',
-        content: 'Create new project Bundling Product',
-        users: [
-          {
-            name: 'Nina Schmidt',
-            profile: 'assets/images/users/avatar-8.jpg',
-          },
-          {
-            name: 'Stine Nielsen',
-            profile: 'assets/images/users/avatar-1.jpg',
-          },
-          {
-            name: 'Jansh Brown',
-            profile: 'assets/images/users/avatar-2.jpg',
-          },
-          {
-            name: '4',
-            variant: 'bg-primary',
-          },
-        ],
-      },
-      {
-        date: '12',
-        day: 'Tue',
-        time: '10:30am - 01:15pm',
-        content: 'Weekly closed sales won checking with sales team',
-        users: [
-          {
-            name: 'Stine Nielsen',
-            profile: 'assets/images/users/avatar-1.jpg',
-          },
-          {
-            name: 'Jansh Brown',
-            profile: 'assets/images/users/avatar-5.jpg',
-          },
-          {
-            name: 'Dan Gibson',
-            profile: 'assets/images/users/avatar-2.jpg',
-          },
-          {
-            name: '9',
-            variant: 'bg-warning',
-          },
-        ],
-      },
-    ];
+    };
   }
 
   fetchData() {

@@ -717,6 +717,13 @@ namespace WebAPI.Services
                     Message = $"Not found appointment with id {id}"
                 };
             appointment.AppointmentStatus = appointmentStatus;
+            if(appointmentStatus.ToLower() == "completed")
+            {
+                var closedBy = _currentUserService.GetCurrentUserId();
+                var closedDate = DateTime.Now;
+                appointment.ClosedBy = closedBy;
+                appointment.ClosedDate = closedDate;
+            }
             await _unitOfWork.Repository<Appointment>().UpdateAsync(appointment);
             _unitOfWork.Commit();
 

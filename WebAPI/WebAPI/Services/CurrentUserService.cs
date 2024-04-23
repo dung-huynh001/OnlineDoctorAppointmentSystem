@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using WebAPI.Domain.Entities;
 using WebAPI.Exceptions;
 using WebAPI.Infrastructure.Context;
@@ -12,10 +13,17 @@ namespace WebAPI.Services
     public class CurrentUserService : ICurrentUserService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHttpContextAccessor _accessor;
 
-        public CurrentUserService(IUnitOfWork unitOfWork)
+        public CurrentUserService(IUnitOfWork unitOfWork, IHttpContextAccessor accessor)
         {
             this._unitOfWork = unitOfWork;
+            this._accessor = accessor;
+        }
+
+        public string GetCurrentUserId()
+        {
+            return _accessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
         }
 
         public async Task<Doctor> GetDoctorInfo(string userId)

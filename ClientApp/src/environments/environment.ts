@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   serverApi: 'https://localhost:7139',
+  // serverApi: 'https://7be5-115-75-96-12.ngrok-free.app',
   hospitalConfigPath: 'assets/config/hospital.json'
 };
 

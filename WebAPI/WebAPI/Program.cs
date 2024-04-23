@@ -141,6 +141,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<NgrokMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseRouting();
