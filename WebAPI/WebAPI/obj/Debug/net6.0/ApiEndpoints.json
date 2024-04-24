@@ -488,6 +488,27 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AuthController",
+    "Method": "ForgetPassword",
+    "RelativePath": "api/Auth/forget-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -799,7 +820,48 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.DoctorController",
-    "Method": "UpdatePersonalInfo",
+    "Method": "UpdateContract",
+    "RelativePath": "api/Doctor/update-contract-info/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Speciality",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DepartmentId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkingEndDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkingStartDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DoctorController",
+    "Method": "UpdateDoctor",
     "RelativePath": "api/Doctor/update-personal-info/{id}",
     "HttpMethod": "PATCH",
     "IsController": true,
@@ -864,47 +926,6 @@
         "Name": "AvatarUrl",
         "Type": "System.String",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "WebAPI.Controllers.DoctorController",
-    "Method": "UpdateWorkInfo",
-    "RelativePath": "api/Doctor/update-work-info/{id}",
-    "HttpMethod": "PATCH",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Speciality",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "DepartmentId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "WorkingEndDate",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "WorkingStartDate",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -1106,6 +1127,22 @@
       {
         "Name": "param",
         "Type": "WebAPI.Models.EJ2Params",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetAppointmentPatients",
+    "RelativePath": "api/Schedule/get-appointment-patients/{doctorId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "doctorId",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],

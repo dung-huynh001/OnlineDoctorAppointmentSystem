@@ -1,0 +1,80 @@
+4/24/2024 11:35:00 AM ==> 	The LINQ expression 'DbSet<Appointment>()
+    .Where(d => !(d.IsDeleted) && !(d.Patient.IsDeleted) && d.Doctor.UserId == __doctorId_0)
+    .Select(d => new PatientResourceDto{ 
+        FullName = d.Patient.FullName, 
+        Id = d.PatientId, 
+        AvatarUrl = d.Patient.User.AvatarUrl ?? "Uploads/Images/default-user.jpg", 
+        DateOfBirth = d.Patient.DateOfBirth, 
+        Gender = d.Patient.Gender == 0 ? "Male" : d.Patient.Gender == 1 ? "Female" : "Others" 
+    }
+    )
+    .DistinctBy(d => d.Id)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		GET	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:35:32 AM ==> 	The LINQ expression 'DbSet<Appointment>()
+    .Where(d => !(d.IsDeleted) && !(d.Patient.IsDeleted) && d.Doctor.UserId == __doctorId_0)
+    .Select(d => new PatientResourceDto{ 
+        FullName = d.Patient.FullName, 
+        Id = d.PatientId, 
+        AvatarUrl = d.Patient.User.AvatarUrl ?? "Uploads/Images/default-user.jpg", 
+        DateOfBirth = d.Patient.DateOfBirth, 
+        Gender = d.Patient.Gender == 0 ? "Male" : d.Patient.Gender == 1 ? "Female" : "Others" 
+    }
+    )
+    .DistinctBy(d => d.Id)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		GET	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:35:36 AM ==> 	The LINQ expression 'DbSet<Appointment>()
+    .Where(d => !(d.IsDeleted) && !(d.Patient.IsDeleted) && d.Doctor.UserId == __doctorId_0)
+    .Select(d => new PatientResourceDto{ 
+        FullName = d.Patient.FullName, 
+        Id = d.PatientId, 
+        AvatarUrl = d.Patient.User.AvatarUrl ?? "Uploads/Images/default-user.jpg", 
+        DateOfBirth = d.Patient.DateOfBirth, 
+        Gender = d.Patient.Gender == 0 ? "Male" : d.Patient.Gender == 1 ? "Female" : "Others" 
+    }
+    )
+    .DistinctBy(d => d.Id)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		GET	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:35:48 AM ==> 	The LINQ expression 'DbSet<Appointment>()
+    .Where(d => !(d.IsDeleted) && !(d.Patient.IsDeleted) && d.Doctor.UserId == __doctorId_0)
+    .Select(d => new PatientResourceDto{ 
+        FullName = d.Patient.FullName, 
+        Id = d.PatientId, 
+        AvatarUrl = d.Patient.User.AvatarUrl ?? "Uploads/Images/default-user.jpg", 
+        DateOfBirth = d.Patient.DateOfBirth, 
+        Gender = d.Patient.Gender == 0 ? "Male" : d.Patient.Gender == 1 ? "Female" : "Others" 
+    }
+    )
+    .DistinctBy(d => d.Id)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		GET	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:39:45 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:39:59 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:40:14 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:40:29 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:41:20 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:41:52 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:597	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:43:19 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:48:00 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:48:07 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:48:13 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:49:21 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:51:17 AM ==> AppointmentService.cs	Please choose patient to make appointment Line:643	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:53:10 AM ==> AppointmentService.cs	There are no scheduled dates for 02 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:53:18 AM ==> AppointmentService.cs	There are no scheduled dates for 02 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:53:52 AM ==> AppointmentService.cs	There are no scheduled dates for 02 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 11:57:46 AM ==> AppointmentService.cs	There are no scheduled dates for 02 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+

@@ -50,5 +50,11 @@ namespace WebAPI.Controllers
             }
             return Ok(await _authService.RegisterAsync(model));
         }
+
+        [HttpPost("forget-password")]
+        public async Task<ActionResult> ForgetPassword([FromForm]ForgetPasswordModel model)
+        {
+            return Ok(await _authService.ForgetPassword(model));
+        }
     }
 }

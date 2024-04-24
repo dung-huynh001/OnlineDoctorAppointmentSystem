@@ -101,11 +101,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpPatch("update-personal-info/{id}")]
-        public async Task<IActionResult> UpdatePersonalInfo([FromRoute] int id, [FromForm] DoctorPersonalInfo data)
+        public async Task<IActionResult> UpdateDoctor([FromRoute] int id, [FromForm] DoctorInfoDto data)
         {
-            
 
-            if (!await _doctorService.UpdatePersonalInfo(data))
+
+            if (!await _doctorService.UpdateDoctor(data))
             {
                 throw new Exception("Update doctor failed");
             }
@@ -126,18 +126,22 @@ namespace WebAPI.Controllers
                 await _uploadService.UploadImageToFolderAsync(data.Avatar, filePath);
             }
 
-            return Ok(new ApiResponse
+            return Ok(new
             {
                 IsSuccess = true,
-                Message = "Updated doctor sucessfully",
-                Id = data.Id.ToString()
+                Message = "Update personal information successfully",
+                Data = new
+                {
+                    FullName = data.FullName,
+                    AvatarUrl = data.AvatarUrl,
+                }
             });
         }
 
-        [HttpPatch("update-work-info/{id}")]
-        public async Task<IActionResult> UpdateWorkInfo([FromForm]WorkInfoDto data)
+        [HttpPatch("update-contract-info/{id}")]
+        public async Task<IActionResult> UpdateContract([FromForm]ContractDto data)
         {
-            return Ok(await _doctorService.UpdateWorkInfo(data));
+            return Ok(await _doctorService.UpdateContract(data));
         }
     }
 }

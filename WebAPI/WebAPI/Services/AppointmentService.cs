@@ -172,7 +172,7 @@ namespace WebAPI.Services
             });
 
             var recordsTotal = records.Count();
-            var searchValue = parameters.Search.Value.IsNullOrEmpty() ? "" : parameters.Search.Value?.ToLower().Trim();
+            var searchValue = parameters.Search.Value.IsNullOrEmpty() ? "" : parameters.Search.Value!.ToLower().Trim();
 
             records = records.Where(d =>
                     d.Id.ToString().Trim().Contains(searchValue)
@@ -184,7 +184,7 @@ namespace WebAPI.Services
                     || d.CreatedDate.ToString().Trim().ToLower().Contains(searchValue)
                     || d.AppointmentDate!.Value.ToString().Trim().ToLower().Contains(searchValue)
                     || d.ClosedBy!.Trim().ToLower().Contains(searchValue)
-                    || d.ClosedDate.Value.ToString().Trim().ToLower().Contains(searchValue));
+                    || d.ClosedDate!.Value.ToString().Trim().ToLower().Contains(searchValue));
 
 
             if (parameters.Order.Count() != 0)
@@ -226,7 +226,8 @@ namespace WebAPI.Services
             {
                 if (!item.CreatedBy.IsNullOrEmpty())
                 {
-                    item.CreatedBy = GetFullName(userId, userType); ;
+                    item.CreatedBy = GetFullName(item.CreatedBy); 
+                    item.ClosedBy = GetFullName(item.ClosedBy);
                 }
             }
 
@@ -235,6 +236,26 @@ namespace WebAPI.Services
             response.Data = data;
             return Task.FromResult(response);
 
+        }
+
+        private string GetFullName(string? id)
+        {
+            if (id == null)
+                return "--unknown--";
+
+            var patient = _unitOfWork.Repository<Patient>().GetAll.Where(d => d.UserId == id).FirstOrDefault();
+            if (patient != null)
+            {
+                return patient.FullName ?? "patient";
+            }
+
+            var doctor = _unitOfWork.Repository<Doctor>().GetAll.Where(d => d.UserId == id).FirstOrDefault();
+            if (doctor != null)
+            {
+                return doctor.FullName;
+            }
+
+            return "admin";
         }
 
         private string GetFullName(string id, string userType)

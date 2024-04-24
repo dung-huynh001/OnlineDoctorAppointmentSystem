@@ -1,4 +1,4 @@
-export const patientData = 
+export const PATIENTS = 
 [
     {
         "PatientId": 5,

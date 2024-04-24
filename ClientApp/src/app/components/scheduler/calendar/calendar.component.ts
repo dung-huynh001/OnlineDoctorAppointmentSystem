@@ -154,10 +154,6 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
     this._scheduleService
       .getDoctors()
       .pipe(
-        catchError((err) => {
-          console.log(err);
-          return throwError(() => err);
-        }),
         finalize(() => {
           setTimeout(() => {
             this._spinnerService.hide();

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using NETCore.MailKit.Core;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -24,7 +26,7 @@ namespace WebAPI.Services
         private readonly IConfiguration _configuration;
         private readonly IPatientService _patientService;
         private readonly ICurrentUserService _userService;
-        private readonly IMapper _mapper;
+        private readonly IEmailService _mailService;
 
         public AuthService(
             UserManager<AppUser> userManager,
@@ -32,9 +34,8 @@ namespace WebAPI.Services
             RoleManager<AppRole> roleManager,
             IConfiguration configuration,
             IPatientService patientService,
-            IDoctorService doctorService,
             ICurrentUserService userService,
-            IMapper mapper)
+            IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -42,7 +43,7 @@ namespace WebAPI.Services
             _configuration = configuration;
             _patientService = patientService;
             this._userService = userService;
-            this._mapper = mapper;
+            this._mailService = emailService;
         }
 
         public async Task<AuthResponse> LoginAsync(LoginModel request)
@@ -191,6 +192,73 @@ namespace WebAPI.Services
                 return true;
             }
             return false;
+        }
+
+        public async Task<ApiResponse> ChangePassword(ChangePasswordModel model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if (user != null)
+            {
+                var loginSuccess = await _signInManager.PasswordSignInAsync(model.Username, model.CurrentPassword, false, false);
+                if (loginSuccess.Succeeded)
+                {
+                    await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                    return new ApiResponse
+                    {
+                        IsSuccess = true,
+                        Message = "Changed password successfully"
+                    };
+                }
+
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = "Change password failed"
+                };
+            }
+            else
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = "Username is incorrect"
+                };
+            }
+        }
+
+        public async Task<ApiResponse> ForgetPassword(ForgetPasswordModel model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if(user != null)
+            {
+                if(user.Email.Trim() == model.Email)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                    await _userManager.ChangePasswordAsync(user, "", "");
+                    return new ApiResponse
+                    {
+                        IsSuccess = true,
+                        Message = "New password has been sent in registration email"
+                    };
+                }
+
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = "Registered email is incorrect"
+                };
+            }
+            else
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = "Username is incorrect"
+                };
+            }
+
+            
         }
     }
 }

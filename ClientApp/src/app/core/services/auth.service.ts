@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IUser, User } from '../models/auth.models';
 import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-
+import { apiResponse } from '../models/apiResponse.model';
+const HOSTNAME = environment.serverApi;
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
@@ -30,7 +31,7 @@ export class AuthService {
     userType: string
   ) {
     return this.http.post(
-      `${environment.serverApi}/api/Auth/register`,
+      `${HOSTNAME}/api/Auth/register`,
       {
         userType,
         email,
@@ -44,7 +45,7 @@ export class AuthService {
   login(username: string, password: string): Observable<{ data: IUser }> {
     return this.http
       .post(
-        `${environment.serverApi}/api/Auth/login`,
+        `${HOSTNAME}/api/Auth/login`,
         {
           username,
           password,
@@ -106,5 +107,19 @@ export class AuthService {
     localStorage.removeItem('token');
     this.user$.next(null);
     this.token$.next(null);
+  }
+
+  resetPassword(data: any): Observable<apiResponse> {
+    const formData = new FormData();
+    Object.keys(data).forEach(key => {
+      formData.append(key, data[key]);
+    });
+
+    return this.http.post<apiResponse>(`${HOSTNAME}/api/Auth/forget-password`, formData).pipe(
+      catchError((err) => {
+        console.log(err);
+        return throwError(() => err);
+      })
+    );
   }
 }

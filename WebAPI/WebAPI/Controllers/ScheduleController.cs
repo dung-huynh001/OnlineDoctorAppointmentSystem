@@ -72,5 +72,10 @@ namespace WebAPI.Controllers
             return Ok(await _scheduleService.GetDoctors());
         }
 
+        [HttpGet("get-appointment-patients/{doctorId}")]
+        public async Task<IActionResult> GetAppointmentPatients([FromRoute]string doctorId)
+        {
+            return Ok(await _scheduleService.GetAppointmentPatients(doctorId));
+        }
     }
 }

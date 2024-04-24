@@ -249,7 +249,7 @@ namespace WebAPI.Services
             return doctor;
         }
 
-        public async Task<bool> UpdatePersonalInfo(DoctorPersonalInfo data)
+        public async Task<bool> UpdateDoctor(DoctorInfoDto data)
         {
             _unitOfWork.BeginTransaction();
             try
@@ -278,7 +278,7 @@ namespace WebAPI.Services
             }
         }
 
-        public async Task<ApiResponse> UpdateWorkInfo(WorkInfoDto data)
+        public async Task<ApiResponse> UpdateContract(ContractDto data)
         {
             _unitOfWork.BeginTransaction();
             try

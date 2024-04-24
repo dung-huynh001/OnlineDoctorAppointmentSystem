@@ -12,7 +12,7 @@ namespace WebAPI.Interfaces.IService
         Task<bool> Create(CreateDoctorDto doctor);
         Task<DoctorDetailsDto> GetDoctorDetails(int id);
         Task<DoctorDetailsDto> GetDoctorDetailsByUserId(string id);
-        Task<bool> UpdatePersonalInfo(DoctorPersonalInfo data);
-        Task<ApiResponse> UpdateWorkInfo(WorkInfoDto data);
+        Task<bool> UpdateDoctor(DoctorInfoDto data);
+        Task<ApiResponse> UpdateContract(ContractDto data);
     }
 }

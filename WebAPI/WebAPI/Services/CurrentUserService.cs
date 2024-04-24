@@ -41,7 +41,7 @@ namespace WebAPI.Services
             switch(userType.ToLower().Trim())
             {
                 case "patient":
-                    return (await _unitOfWork.Repository<Patient>().GetAll.Where(d => d.UserId == id).FirstOrDefaultAsync())!.FullName;
+                    return (await _unitOfWork.Repository<Patient>().GetAll.Where(d => d.UserId == id).FirstOrDefaultAsync())!.FullName!;
                 case "doctor":
                     return (await _unitOfWork.Repository<Doctor>().GetAll.Where(d => d.UserId == id).FirstOrDefaultAsync())!.FullName;
                 default:

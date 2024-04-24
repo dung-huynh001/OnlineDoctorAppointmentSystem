@@ -336,5 +336,22 @@ namespace WebAPI.Services
                 .ToListAsync();
             return result;
         }
+
+        public async Task<List<PatientResourceDto>> GetAppointmentPatients(string doctorId)
+        {
+            var result = await _unitOfWork.Repository<Patient>().GetAll
+                .Where(d => !d.IsDeleted
+                    && d.Appointments.Where(a => !a.IsDeleted && a.Doctor.UserId == doctorId).Count() > 0)
+                .Select(d => new PatientResourceDto
+                {
+                    FullName = d.FullName,
+                    Id = d.Id,
+                    AvatarUrl = d.User.AvatarUrl ?? "Uploads/Images/default-user.jpg",
+                    DateOfBirth = d.DateOfBirth,
+                    Gender = d.Gender == 0 ? "Male" : d.Gender == 1 ? "Female" : "Others"
+                })
+                .ToListAsync();
+            return result;
+        }
     }
 }

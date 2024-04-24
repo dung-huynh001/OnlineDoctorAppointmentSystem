@@ -1,0 +1,28 @@
+4/24/2024 1:24:44 PM ==> AppointmentService.cs	There are no scheduled dates for 18 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 1:25:23 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/24/2024 1:25:25 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/24/2024 1:25:37 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/24/2024 1:25:38 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/24/2024 1:25:39 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/24/2024 1:25:55 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/24/2024 1:44:11 PM ==> 	The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters. Line:0		POST	
+
+4/24/2024 1:44:16 PM ==> 	The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters. Line:0		POST	
+
+4/24/2024 1:44:19 PM ==> 	The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters. Line:0		POST	
+
+4/24/2024 1:44:23 PM ==> 	The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters. Line:0		POST	
+
+4/24/2024 1:45:11 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/24/2024 1:45:12 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/24/2024 1:54:53 PM ==> 	One or more errors occurred. (Object reference not set to an instance of an object.) Line:0		POST	542d16f6-a287-418a-9bbd-54480f547566
+

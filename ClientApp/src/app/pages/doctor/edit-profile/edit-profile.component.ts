@@ -4,7 +4,11 @@ import { DoctorService } from '../../../core/services/doctor.service';
 import { catchError, throwError } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '../../../core/services/toast.service';
-import { DatePipe } from '@angular/common';
+import { User } from '../../../core/models/auth.models';
+import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment';
+
+const HOSTNAME = environment.serverApi;
 
 @Component({
   selector: 'app-edit-profile',
@@ -41,20 +45,24 @@ export class EditProfileComponent implements OnInit {
   };
 
   personalForm!: FormGroup;
-  workInfoForm!: FormGroup;
+  contractForm!: FormGroup;
   changePassForm!: FormGroup;
 
   personalFormSubmitted: boolean = false;
-  workInfoFormSubmitted: boolean = false;
+  contractFormSubmitted: boolean = false;
   changePassFormSubmitted: boolean = false;
 
+  currentUser!: User;
+
   maxFileSize: number = 272025;
+  fileChanged: boolean = false;
 
   constructor(
     private router: Router,
     private _doctorService: DoctorService,
     private formBuilder: FormBuilder,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private _authService: AuthService
   ) {
     this.completionLevel = 30;
   }
@@ -63,8 +71,8 @@ export class EditProfileComponent implements OnInit {
     return this.personalForm.controls;
   }
 
-  get workInfoFormControl() {
-    return this.workInfoForm.controls;
+  get contractFormControl() {
+    return this.contractForm.controls;
   }
 
   get changePassFormControl() {
@@ -78,8 +86,8 @@ export class EditProfileComponent implements OnInit {
     return false;
   }
 
-  workInfoFormChanged(): boolean {
-    if (!this.workInfoForm.pristine) {
+  contractFormChanged(): boolean {
+    if (!this.contractForm.pristine) {
       return true;
     }
     return false;
@@ -98,6 +106,8 @@ export class EditProfileComponent implements OnInit {
       { label: 'Doctor Management' },
       { label: 'Edit Doctor', active: true },
     ];
+
+    this.currentUser = this._authService.currentUser();
 
     this._doctorService
       .getDepartments()
@@ -126,48 +136,8 @@ export class EditProfileComponent implements OnInit {
         this.isLoading = false;
         this.doctorDetails = res;
         this.selectedDepartment = res.departmentId;
-
-        // Format datetime yyyy-mm-dd to bind it to input
-        const dateOfBirth = this.doctorDetails.dateOfBirth
-          .split('/')
-          .reverse()
-          .join('-');
-        const workingEndDate = this.doctorDetails.workingEndDate
-          .split('/')
-          .reverse()
-          .join('-');
-        const workingStartDate = this.doctorDetails.workingStartDate
-          .split('/')
-          .reverse()
-          .join('-');
-
-        this.personalForm = this.formBuilder.group({
-          Id: [this.doctorDetails.id, Validators.required],
-          UserId: [this.doctorDetails.userId, Validators.required],
-          FullName: [this.doctorDetails.fullName, Validators.required],
-          Email: [
-            this.doctorDetails.email,
-            [
-              Validators.required,
-              Validators.email,
-              Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$'),
-            ],
-          ],
-          NationalId: [this.doctorDetails.nationalId, Validators.required],
-          DateOfBirth: [dateOfBirth, Validators.required],
-          Gender: [this.doctorDetails.gender, Validators.required],
-          PhoneNumber: [this.doctorDetails.phoneNumber, Validators.required],
-          Address: [this.doctorDetails.address, Validators.required],
-          Avatar: [null, [Validators.max(this.maxFileSize)]],
-        });
-
-        this.workInfoForm = this.formBuilder.group({
-          Id: [this.doctorDetails.id, Validators.required],
-          Speciality: [this.doctorDetails.speciality, Validators.required],
-          DepartmentId: [this.doctorDetails.departmentId, Validators.required],
-          WorkingStartDate: [workingEndDate, Validators.required],
-          WorkingEndDate: [workingEndDate, Validators.required],
-        });
+        this.initPersonalForm();
+        this.initContractForm();
       });
 
     this.changePassForm = this.formBuilder.group({
@@ -181,14 +151,33 @@ export class EditProfileComponent implements OnInit {
     this.changePassFormSubmitted = true;
   }
 
-  onWorkInfoFormSubmit() {
-    this.workInfoFormSubmitted = true;
-    if (this.workInfoForm.valid) {
+  initContractForm() {
+    this.contractFormSubmitted = false;
+    const workingEndDate = this.doctorDetails.workingEndDate
+      .split('/')
+      .reverse()
+      .join('-');
+    const workingStartDate = this.doctorDetails.workingStartDate
+      .split('/')
+      .reverse()
+      .join('-');
+    this.contractForm = this.formBuilder.group({
+      Id: [this.doctorDetails.id, Validators.required],
+      Speciality: [this.doctorDetails.speciality, Validators.required],
+      DepartmentId: [this.doctorDetails.departmentId, Validators.required],
+      WorkingStartDate: [workingStartDate, Validators.required],
+      WorkingEndDate: [workingEndDate, Validators.required],
+    });
+  }
+
+  onContractFormSubmit() {
+    this.contractFormSubmitted = true;
+    if (this.contractForm.valid) {
       this._doctorService
         .update(
-          'Doctor/update-work-info',
-          this.doctorId,
-          this.workInfoForm.value
+          'Doctor/update-contract-info',
+          this.doctorDetails.id,
+          this.contractForm.value
         )
         .pipe(
           catchError((err) => {
@@ -204,13 +193,41 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
+  initPersonalForm() {
+    this.fileChanged = false;
+    this.personalFormSubmitted = false;
+    const dateOfBirth = this.doctorDetails.dateOfBirth
+      .split('/')
+      .reverse()
+      .join('-');
+    this.personalForm = this.formBuilder.group({
+      Id: [this.doctorDetails.id, Validators.required],
+      UserId: [this.doctorDetails.userId, Validators.required],
+      FullName: [this.doctorDetails.fullName, Validators.required],
+      Email: [
+        this.doctorDetails.email,
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$'),
+        ],
+      ],
+      NationalId: [this.doctorDetails.nationalId, Validators.required],
+      DateOfBirth: [dateOfBirth, Validators.required],
+      Gender: [this.doctorDetails.gender, Validators.required],
+      PhoneNumber: [this.doctorDetails.phoneNumber, Validators.required],
+      Address: [this.doctorDetails.address, Validators.required],
+      Avatar: [null, [Validators.max(this.maxFileSize)]],
+    });
+  }
+
   onPersonalFormSubmit() {
     this.personalFormSubmitted = true;
     if (this.personalForm.valid) {
       this._doctorService
         .update(
           'Doctor/update-personal-info',
-          this.doctorId,
+          this.doctorDetails.id,
           this.personalForm.value
         )
         .pipe(
@@ -222,6 +239,15 @@ export class EditProfileComponent implements OnInit {
         .subscribe((res) => {
           if (res.isSuccess) {
             this._toastService.success(res.message);
+            this.currentUser.fullName = res.data.fullName;
+            const avatarUrl = res.data.avatarUrl;
+            if (avatarUrl != null) {
+              this.currentUser.avatarUrl = avatarUrl;
+            }
+
+            this._authService.setCurrentUser(this.currentUser);
+            this.fileChanged = false;
+            this.personalForm.markAsPristine();
           }
         });
     }
@@ -230,6 +256,6 @@ export class EditProfileComponent implements OnInit {
   onFileChange(event: any) {
     const file = event.target.files[0];
     this.personalForm.get('Avatar')?.setValue(file);
-    console.log(file);
+    this.fileChanged = true;
   }
 }
