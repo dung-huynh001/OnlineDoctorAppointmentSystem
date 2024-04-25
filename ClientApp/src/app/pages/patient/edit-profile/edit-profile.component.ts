@@ -12,7 +12,6 @@ import { ProfileService } from '../../../core/services/profile.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../../../core/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { isObject } from 'chart.js/dist/helpers/helpers.core';
 import { User } from '../../../core/models/auth.models';
 
 const MINIMUM_BIRTHDAY_YEAR = 1910;
@@ -65,7 +64,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Home' },
-      { label: 'Profile', active: true },
+      { label: 'Edit Profile', active: true },
     ];
     this.currentUser = this._authService.currentUser();
     this.userId = this.currentUser.id;
@@ -230,7 +229,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   fetchData() {
     this._spinnerService.show();
     this.subscription$ = this._profileService
-      .getPatientInfo(this.userId)
+      .getPatientDetailByUserId(this.userId)
       .pipe(
         map((data) => {
           return {

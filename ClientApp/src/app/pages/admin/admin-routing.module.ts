@@ -5,6 +5,7 @@ import { ManageScheduleComponent } from './manage-schedule/manage-schedule.compo
 import { ManageDoctorComponent } from './manage-doctor/manage-doctor.component';
 import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ManagePatientComponent } from './manage-patient/manage-patient.component';
 
 
 const routes: Routes = [
@@ -18,11 +19,19 @@ const routes: Routes = [
   },
   {
     path: 'manage-doctor',
-    component: ManageDoctorComponent
+    component: ManageDoctorComponent,
+  },
+  {
+    path: 'manage-patient',
+    component: ManagePatientComponent,
   },
   {
     path: 'manage-doctor',
     loadChildren: () => import('./manage-doctor/manage-doctor.module').then((m) => m.ManageDoctorModule)
+  },
+  {
+    path: 'manage-patient',
+    loadChildren: () => import('./manage-patient/manage-patient.module').then((m) => m.ManagePatientModule)
   },
   {
     path: 'appointment',

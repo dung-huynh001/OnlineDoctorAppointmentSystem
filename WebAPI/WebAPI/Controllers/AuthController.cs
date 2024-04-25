@@ -56,5 +56,11 @@ namespace WebAPI.Controllers
         {
             return Ok(await _authService.ForgetPassword(model));
         }
+
+        [HttpPost("change-password")]
+        public async Task<ActionResult> ChangePassword([FromForm] ChangePasswordModel model)
+        {
+            return Ok(await _authService.ChangePassword(model));
+        }
     }
 }

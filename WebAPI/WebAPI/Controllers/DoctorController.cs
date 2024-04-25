@@ -119,11 +119,11 @@ namespace WebAPI.Controllers
                 string relativePath = Path.Combine(folderName, uniqueName);
                 relativePath = relativePath.Replace("\\", "/");
                 data.AvatarUrl = relativePath;
-                if (!await _authService.UpdateEmailAndAvatarUrlAsync(data.UserId, data.Email, data.AvatarUrl))
+                if (!await _authService.UpdateEmailAndAvatarUrlAsync(data.UserId, data.Email!, data.AvatarUrl))
                 {
                     throw new Exception("Updated email and avatar url failed");
                 }
-                await _uploadService.UploadImageToFolderAsync(data.Avatar, filePath);
+                await _uploadService.UploadImageToFolderAsync(data.Avatar!, filePath);
             }
 
             return Ok(new

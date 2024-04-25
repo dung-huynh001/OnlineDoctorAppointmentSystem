@@ -488,6 +488,37 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AuthController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Auth/change-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CurrentPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NewPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ConfirmPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Username",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AuthController",
     "Method": "ForgetPassword",
     "RelativePath": "api/Auth/forget-password",
     "HttpMethod": "POST",
@@ -963,8 +994,40 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.PatientController",
-    "Method": "GetPatientDetails",
-    "RelativePath": "api/Patient/get-patient-details",
+    "Method": "GetAll",
+    "RelativePath": "api/Patient/get-all",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "parameters",
+        "Type": "WebAPI.Models.DataTablesParameters",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.PatientController",
+    "Method": "GetPatientDetailByUserId",
+    "RelativePath": "api/Patient/get-patient-detail-by-patient-id/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.PatientController",
+    "Method": "GetPatientDetailByUserId",
+    "RelativePath": "api/Patient/get-patient-detail-by-user-id",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

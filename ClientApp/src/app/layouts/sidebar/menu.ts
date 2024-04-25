@@ -123,12 +123,6 @@ export const MENU_ADMIN: MenuItem[] = [
         link: '/admin/manage-doctor',
         parentId: 3
       },
-      {
-        id: 6,
-        label: 'MENUITEMS.USERMANAGEMENT.LIST.ADMIN',
-        link: '',
-        parentId: 3
-      },
     ]
   },
   {
@@ -268,12 +262,6 @@ export const MENU_DOCTOR: MenuItem[] = [
     icon: 'las la-calendar-plus',
     link: '/doctor/appointment-on-site'
   },
-  // {
-  //   id: 11,
-  //   label: 'MENUITEMS.REPORT.TEXT',
-  //   icon: 'las la-chart-bar',
-  //   link: '/report'
-  // },
   {
     id: 12,
     label: 'MENUITEMS.MEDICALPROCESS.TEXT',

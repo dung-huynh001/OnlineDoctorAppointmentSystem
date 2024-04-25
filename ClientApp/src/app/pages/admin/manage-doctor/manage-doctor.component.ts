@@ -78,6 +78,7 @@ export class ManageDoctorComponent implements OnInit {
         {
           title: 'ID',
           data: 'id',
+          className: 'text-center'
         },
         {
           title: 'Doctor',
@@ -86,10 +87,12 @@ export class ManageDoctorComponent implements OnInit {
         {
           title: 'Speciality',
           data: 'speciality',
+          className: 'text-wrap'
         },
         {
           title: 'Department',
           data: 'department',
+          className: 'text-wrap'
         },
         {
           title: 'Gender',
@@ -98,14 +101,17 @@ export class ManageDoctorComponent implements OnInit {
         {
           title: 'Date of birth',
           data: 'dateOfBirth',
+          className: 'text-end',
           render: (data: any) => this.datePipe.transform(data, 'dd/MM/yyyy'),
         },
         {
           title: 'National ID',
+          className: 'text-end',
           data: 'nationalId',
         },
         {
           title: 'Mobile',
+          className: 'text-end',
           data: 'phoneNumber',
         },
         {
@@ -113,21 +119,25 @@ export class ManageDoctorComponent implements OnInit {
           data: 'email',
         },
         {
-          title: 'Working start date',
+          title: 'Working start',
+          className: 'text-end',
           data: 'workingStartDate',
           render: (data: any) => this.datePipe.transform(data, 'dd/MM/yyyy'),
         },
         {
-          title: 'Working end date',
+          title: 'Working end',
+          className: 'text-end',
           data: 'workingEndDate',
           render: (data: any) => this.datePipe.transform(data, 'dd/MM/yyyy'),
         },
         {
           title: 'Created by',
           data: 'createdBy',
+          render: (data: any) => 'admin',
         },
         {
           title: 'Created date',
+          className: 'text-end',
           data: 'createdDate',
           render: (data: any) =>
             this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
@@ -136,13 +146,13 @@ export class ManageDoctorComponent implements OnInit {
           title: 'Action',
           data: 'id',
           render: (data: any, type: any, row: any, meta: any) => {
-            const viewButton = `<button class="btn btn-soft-info btn-sm edit-btn" data-department-name="${row.fullName}" data-department-id="${data}" title="Edit" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">View</button>`;
-            const editButton = `<button class="btn btn-soft-primary btn-sm edit-btn" data-department-name="${row.fullName}" data-department-id="${data}" title="Edit" onClick="location.assign('admin/manage-doctor/edit-doctor/${data}')">Edit</button>`;
+            const viewButton = `<a role="button" class="btn btn-soft-info btn-sm edit-btn" data-doctor-id="${data}" title="Edit" href="admin/manage-doctor/view-doctor/${data}">View</a>`;
+            const editButton = `<a role="button" class="btn btn-soft-primary btn-sm edit-btn" data-doctor-id="${data}" title="Edit" href="admin/manage-doctor/edit-doctor/${data}">Edit</a>`;
             const deleteButton = row.isDeleted
-              ? `<button class="btn btn-soft-danger btn-sm delete-btn border-0" data-department-name="${row.fullName}" data-department-id="${data}" title="Resource has been deleted" disabled onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Deleted</button>`
-              : `<button class="btn btn-soft-danger btn-sm delete-btn" data-department-name="${row.fullName}" data-department-id="${data}" title="Delete" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Delete</button>`;
+              ? `<a class="btn btn-soft-danger btn-sm delete-btn border-0" data-doctor-id="${data}" title="Doctor has been deleted" disabled>Deleted</a>`
+              : `<a class="btn btn-soft-danger btn-sm delete-btn" data-doctor-id="${data}" title="Delete">Delete</a>`;
             const restoreButton = row.isDeleted
-              ? `<button class="btn btn-soft-success btn-sm restore-btn border-0" data-department-name="${row.fullName}" data-department-id="${data}" title="Restore this resource" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Restore</button>`
+              ? `<a class="btn btn-soft-success btn-sm restore-btn border-0" data-doctor-id="${data}" title="Restore this doctor" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Restore</a>`
               : ``;
             return `${viewButton} ${editButton} ${restoreButton} ${deleteButton}`;
           },
@@ -154,7 +164,7 @@ export class ManageDoctorComponent implements OnInit {
         },
         {
           title: 'Updated date',
-          className: 'priority-5',
+          className: 'priority-5 text-end',
           data: 'updatedDate',
           render: (data: any) =>
             this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),

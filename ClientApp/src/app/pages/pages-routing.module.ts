@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../core/guards/auth.guard';
 import { MedicalProcessComponent } from './medical-process/medical-process.component';
 import { AboutUsComponent } from './about-us/about-us.component';
-import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
 
 const currentUser: any = JSON.parse(
   localStorage.getItem('currentUser')!
@@ -43,11 +42,6 @@ const routes: Routes = [
   {
     path: 'about',
     component: AboutUsComponent,
-  },
-  {
-    path: 'assign-schedule',
-    component: AssignScheduleComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'admin',

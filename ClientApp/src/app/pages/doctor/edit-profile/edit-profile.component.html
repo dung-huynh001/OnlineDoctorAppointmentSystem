@@ -1,4 +1,4 @@
-<app-breadcrumbs title="Edit Doctor" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Edit Profile" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <div class="row" *ngIf="!isLoading">
     <div class="col-xxl-12">
         <div class="card">
@@ -218,8 +218,8 @@
                                             <label for="oldpasswordInput" class="form-label">Old Password <span
                                                     class="text-danger">*</span></label>
                                             <input type="password" class="form-control" id="oldpasswordInput"
-                                                formControlName="OldPassword" placeholder="Enter current password"
-                                                [ngClass]="{ 'is-invalid': changePassFormSubmitted && changePassFormControl['OldPassword'].errors }">
+                                                formControlName="CurrentPassword" placeholder="Enter current password"
+                                                [ngClass]="{ 'is-invalid': changePassFormSubmitted && changePassFormControl['CurrentPassword'].errors }">
                                             <div class="invalid-feedback">
                                                 Current password is required
                                             </div>
@@ -244,20 +244,23 @@
                                             <input type="password" class="form-control" id="confirmpasswordInput"
                                                 formControlName="ConfirmPassword" placeholder="Confirm password"
                                                 [ngClass]="{ 'is-invalid': changePassFormSubmitted && changePassFormControl['ConfirmPassword'].errors }">
-                                            <div class="invalid-feedback">
+                                            <div class="invalid-feedback" *ngIf="this.changePassFormControl['ConfirmPassword'].errors?.['required']">
                                                 Confirm password is required
+                                            </div>
+                                            <div class="invalid-feedback" *ngIf="this.changePassFormControl['ConfirmPassword'].errors?.['compare']">
+                                                Confirm password must be match the password
                                             </div>
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <a href="javascript:void(0);"
+                                            <a routerLink="/auth/pass-reset"
                                                 class="link-primary text-decoration-underline">Forgot Password ?</a>
                                         </div>
                                     </div><!--end col-->
                                     <div class="d-flex justify-content-end gap-3">
                                         <button class="btn btn-soft-danger" type="button">Cancel</button>
-                                        <button class="btn btn-soft-success" type="submit">Save changes</button>
+                                        <button class="btn btn-soft-success" type="submit" [disabled]="!changePassFormChanged()">Save changes</button>
                                     </div>
                                 </div><!--end row-->
                             </form>
@@ -281,3 +284,4 @@
 </div>
 
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

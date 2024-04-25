@@ -12,7 +12,7 @@ import { ToastService } from '../../core/services/toast.service';
 import { ProfileService } from '../../core/services/profile.service';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/models/auth.models';
-import { iPatientInfo } from '../../core/models/patientInfo.model';
+import { iPatientInfo } from '../../core/models/patient.model';
 import { AppointmentService } from '../../core/services/appointment.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -100,7 +100,7 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
       
     const currentUser: User = this._authService.currentUser();
     this._patientService
-      .getPatientInfo(currentUser.id)
+      .getPatientDetailByUserId(currentUser.id)
       .pipe(
         catchError((err) => {
           console.log(err);

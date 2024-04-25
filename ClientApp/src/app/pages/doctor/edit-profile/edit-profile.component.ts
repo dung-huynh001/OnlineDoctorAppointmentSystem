@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DoctorService } from '../../../core/services/doctor.service';
-import { catchError, throwError } from 'rxjs';
+import { catchError, finalize, throwError } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '../../../core/services/toast.service';
 import { User } from '../../../core/models/auth.models';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const HOSTNAME = environment.serverApi;
 
@@ -62,49 +63,16 @@ export class EditProfileComponent implements OnInit {
     private _doctorService: DoctorService,
     private formBuilder: FormBuilder,
     private _toastService: ToastService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _spinnerService: NgxSpinnerService
   ) {
     this.completionLevel = 30;
-  }
-
-  get personalFormControl() {
-    return this.personalForm.controls;
-  }
-
-  get contractFormControl() {
-    return this.contractForm.controls;
-  }
-
-  get changePassFormControl() {
-    return this.changePassForm.controls;
-  }
-
-  personalFormChanged(): boolean {
-    if (!this.personalForm.pristine) {
-      return true;
-    }
-    return false;
-  }
-
-  contractFormChanged(): boolean {
-    if (!this.contractForm.pristine) {
-      return true;
-    }
-    return false;
-  }
-
-  changePassFormChanged(): boolean {
-    if (!this.changePassForm.pristine) {
-      return true;
-    }
-    return false;
   }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Home' },
-      { label: 'Doctor Management' },
-      { label: 'Edit Doctor', active: true },
+      { label: 'Edit Profile', active: true },
     ];
 
     this.currentUser = this._authService.currentUser();
@@ -141,14 +109,82 @@ export class EditProfileComponent implements OnInit {
       });
 
     this.changePassForm = this.formBuilder.group({
-      OldPassword: ['', Validators.required],
+      CurrentPassword: ['', Validators.required],
       NewPassword: ['', Validators.required],
       ConfirmPassword: ['', Validators.required],
+      Username: [this.currentUser.userName, Validators.required]
     });
   }
 
+  get personalFormControl() {
+    return this.personalForm.controls;
+  }
+
+  get contractFormControl() {
+    return this.contractForm.controls;
+  }
+
+  get changePassFormControl() {
+    return this.changePassForm.controls;
+  }
+
+  personalFormChanged(): boolean {
+    if (!this.personalForm.pristine) {
+      return true;
+    }
+    return false;
+  }
+
+  contractFormChanged(): boolean {
+    if (!this.contractForm.pristine) {
+      return true;
+    }
+    return false;
+  }
+
+  changePassFormChanged(): boolean {
+    if (!this.changePassForm.pristine) {
+      return true;
+    }
+    return false;
+  }
+
+  
+
   onChangePassFormSubmit() {
     this.changePassFormSubmitted = true;
+    if (
+      this.changePassFormControl['ConfirmPassword'].value &&
+      this.changePassFormControl['ConfirmPassword'].value !==
+        this.changePassFormControl['NewPassword'].value
+    ) {
+      this.changePassFormControl['ConfirmPassword'].setErrors({
+        compare: true,
+      });
+      return;
+    }
+
+    if (this.changePassForm.valid) {
+      this._spinnerService.show();
+      this._authService
+        .changePassword(this.changePassForm.value)
+        .pipe(finalize(() => this._spinnerService.hide()))
+        .subscribe((res) => {
+          if (res.isSuccess) {
+            this._toastService.success(res.message);
+          } else {
+            this._toastService.error(res.message);
+          }
+          this.resetChangePasswordForm();
+        });
+    }
+  }
+
+  resetChangePasswordForm() {
+    this.changePassForm.reset();
+    this.changePassForm.markAsPristine();
+    this.changePassForm.markAsUntouched();
+    this.changePassFormSubmitted = false;
   }
 
   initContractForm() {
@@ -173,6 +209,8 @@ export class EditProfileComponent implements OnInit {
   onContractFormSubmit() {
     this.contractFormSubmitted = true;
     if (this.contractForm.valid) {
+      this._spinnerService.show();
+
       this._doctorService
         .update(
           'Doctor/update-contract-info',
@@ -180,6 +218,9 @@ export class EditProfileComponent implements OnInit {
           this.contractForm.value
         )
         .pipe(
+          finalize(() => {
+            this._spinnerService.hide();
+          }),
           catchError((err) => {
             console.log('update doctor error: ' + err);
             return throwError(() => err);
@@ -224,6 +265,7 @@ export class EditProfileComponent implements OnInit {
   onPersonalFormSubmit() {
     this.personalFormSubmitted = true;
     if (this.personalForm.valid) {
+      this._spinnerService.show();
       this._doctorService
         .update(
           'Doctor/update-personal-info',
@@ -231,6 +273,9 @@ export class EditProfileComponent implements OnInit {
           this.personalForm.value
         )
         .pipe(
+          finalize(() => {
+            this._spinnerService.hide();
+          }),
           catchError((err) => {
             console.log('update doctor error: ' + err);
             return throwError(() => err);

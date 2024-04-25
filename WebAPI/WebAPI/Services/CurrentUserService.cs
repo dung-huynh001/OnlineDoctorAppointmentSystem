@@ -41,12 +41,28 @@ namespace WebAPI.Services
             switch(userType.ToLower().Trim())
             {
                 case "patient":
-                    return (await _unitOfWork.Repository<Patient>().GetAll.Where(d => d.UserId == id).FirstOrDefaultAsync())!.FullName!;
+                    return (await _unitOfWork.Repository<Patient>().GetAll.Where(d => d.UserId == id).SingleOrDefaultAsync())?.FullName!;
                 case "doctor":
-                    return (await _unitOfWork.Repository<Doctor>().GetAll.Where(d => d.UserId == id).FirstOrDefaultAsync())!.FullName;
+                    return (await _unitOfWork.Repository<Doctor>().GetAll.Where(d => d.UserId == id).SingleOrDefaultAsync())?.FullName!;
                 default:
                     return "admin";
             }
+        }
+
+        public string GetFullName(string userId)
+        {
+            var patient = _unitOfWork.Repository<Patient>().GetAll.SingleOrDefault(p => p.UserId == userId);
+            if (patient != null)
+            {
+                return patient.FullName ?? "--unknown--";
+            }
+            var doctor = _unitOfWork.Repository<Doctor>().GetAll.SingleOrDefault(p => p.UserId == userId);
+            if (doctor != null)
+            {
+                return doctor.FullName;
+            }
+
+            return "admin";
         }
 
         public async Task<Patient> GetPatientInfo(string userId)

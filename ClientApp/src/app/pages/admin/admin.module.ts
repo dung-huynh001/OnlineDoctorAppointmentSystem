@@ -18,6 +18,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { ComponentsModule } from '../../components/components.module';
+import { ManagePatientComponent } from './manage-patient/manage-patient.component';
 
 
 
@@ -28,6 +29,7 @@ import { ComponentsModule } from '../../components/components.module';
     ManageDoctorComponent,
     AssignScheduleComponent,
     DashboardComponent,
+    ManagePatientComponent,
   ],
   imports: [
     CommonModule,

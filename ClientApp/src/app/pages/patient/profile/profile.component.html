@@ -1,211 +1,89 @@
 <app-breadcrumbs title="Profile" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
-<div class="row">
-    <div class="col-12">
-        <button class="btn"></button>
-    </div>
-</div>
-<div class="row" *ngIf="patientData">
-    <div class="col-12 col-lg-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex gap-4 align-items-center mb-3">
-                            <img src="{{avatarUrl ? avatarUrl : 'https://localhost:7139/Uploads/Images/default-user.jpg'}}" alt="" class="avatar-xl rounded-circle img-thumbnail">
-                            <p class="fs-3 fw-bolder">{{this.patientData.fullName}}</p>
-                            <div class="align-self-start ms-auto">
-                                <button type="button" class="btn btn-sm btn-outline-secondary border-0"
-                                    [routerLink]="'/patient/edit-profile/' +  userData.id" placement="top"
-                                    ngbTooltip="Edit Profile">
-                                    <i class="fs-3 las la-edit"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-column gap-3">
-                            <h5>Contact details:</h5>
-                            <div class="d-flex gap-3 align-items-center">
-                                <i class="fs-4 text-primary ri-smartphone-line"></i>
-                                <span class="fs-6 text-muted">
-                                    {{patientData.phoneNumber}}
-                                </span>
-                            </div>
-                            <div class="d-flex gap-3 align-items-center">
-                                <i class="fs-4 text-primary ri-mail-line"></i>
-                                <span class="fs-6 text-muted">
-                                    {{patientData.email}}
-                                </span>
-                            </div>
-                            <div class="d-flex gap-3 align-items-center">
-                                <i class="fs-4 text-primary ri-home-4-line"></i>
-                                <span class="fs-6 text-muted text-wrap">
-                                    {{patientData.address}}
-                                </span>
-                            </div>
-                        </div>
+
+<main class="row gap-3 pb-3" *ngIf="patientData">
+    <section class="col-12">
+        <div class="border rounded bg-white border-opacity-25 border-2" style="border-color: #c4cdd8;">
+            <div class="d-flex p-4 align-items-center gap-3">
+                <img src="{{avatarUrl ? avatarUrl : 'https://localhost:7139/Uploads/Images/default-user.jpg'}}"
+                    alt="avatar" class="avatar-xl rounded-circle img-thumbnail">
+                <div class="row gap-2">
+                    <div class="col-12">
+                        <h4>{{patientData.fullName}}</h4>
                     </div>
+                    <div class="col-12">{{patientData.address}}</div>
+                </div>
+                <div class="align-self-start ms-auto">
+                    <button class="btn btn-sm btn-outline-primary d-flex gap-2 align-items-center"
+                        [routerLink]="'/patient/edit-profile/' +  userData.id" placement="top"
+                        ngbTooltip="Edit Profile">
+                        <i class="fs-3 las la-edit"></i>
+                        <span class="d-none d-md-flex">Edit</span>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Allergies</h4>
-                    </div>
-                    <div class="card-body">
-                        <div *ngIf="allergies; then haveAllergies else noAllergies"></div>
-                        <ng-template #noAllergies>
-                            <div class="text-center">
-                                <span>No available allergies</span>
-                            </div>
-                        </ng-template>
-                        <ng-template #haveAllergies>
-                            <div class="d-flex flex-column gap-3">
-                                <p class="d-flex gap-3 fs-6 text-muted">
-                                    <i class="text-danger ri-radio-button-fill"></i><span>Fish</span>
-                                </p>
-                                <p class="d-flex gap-3 fs-6 text-muted">
-                                    <i class="text-danger ri-radio-button-fill"></i><span>Meat</span>
-                                </p>
-                                <p class="d-flex gap-3 fs-6 text-muted">
-                                    <i class="text-danger ri-radio-button-fill"></i><span>Paracetamon</span>
-                                </p>
-                                <p class="d-flex gap-3 fs-6 text-muted">
-                                    <i class="text-danger ri-radio-button-fill"></i><span>Vitamin C</span>
-                                </p>
-                            </div>
-                        </ng-template>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-lg-8">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Overview</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6 col-lg-4 mb-3">
-                                <div class="d-flex flex-column gap-2">
-                                    <span class="text-muted">Date of birth</span>
-                                    <span class="fs-6">{{patientData.dateOfBirth}}</span>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-4 mb-3">
-                                <div class="d-flex flex-column gap-2">
-                                    <span class="text-muted">Gender</span>
-                                    <span class="fs-6">{{patientData.gender}}</span>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-4 mb-3">
-                                <div class="d-flex flex-column gap-2">
-                                    <span class="text-muted">National ID</span>
-                                    <span class="fs-6">{{patientData.nationalId}}</span>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-4 mb-3">
-                                <div class="d-flex flex-column gap-2">
-                                    <span class="text-muted">Join time</span>
-                                    <span class="fs-6">{{patientData.createdDate}}</span>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-4 mb-3">
-                                <div class="d-flex flex-column gap-2">
-                                    <span class="text-muted">Last update</span>
-                                    <span class="fs-6">{{patientData.updatedDate}}</span>
-                                </div>
-                            </div>
+    </section>
+    <section class="col-12">
+        <div class="border rounded bg-white border-opacity-25 border-2" style="border-color: #c4cdd8;">
+            <div class="row p-4 gap-3">
+                <h5>Personal information</h5>
+                <hr>
+                <div class="col-12">
+                    <div class="row g-3">
+                        <div class="col-sm-5">
+                            <label class="form-label">Full Name</label>
+                            <p class="fs-6 text-muted fw-semibold">{{patientData.fullName}}</p>
+                        </div>
+                        <div class="col-sm-7">
+                            <label class="form-label">Date of birth</label>
+                            <p class="fs-6 text-muted fw-semibold">{{patientData.dateOfBirth}}</p>
+                        </div>
+                        <div class="col-sm-5">
+                            <label class="form-label">Gender</label>
+                            <p class="fs-6 text-muted fw-semibold">{{patientData.gender}}</p>
+                        </div>
+                        <div class="col-sm-7">
+                            <label class="form-label">National Id</label>
+                            <p class="fs-6 text-muted fw-semibold">{{patientData.nationalId}}</p>
+                        </div>
+                        <div class="col-sm-5">
+                            <label class="form-label">Join time</label>
+                            <p class="fs-6 text-muted fw-semibold">{{patientData.createdDate}}</p>
+                        </div>
+                        <div class="col-sm-7">
+                            <label class="form-label">Last updated</label>
+                            <p class="fs-6 text-muted fw-semibold">{{patientData.updatedDate}}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Recently diagnosis</h4>
-                    </div>
-                    <div class="card-body">
-                        <!-- Bordered Tables -->
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Id</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Assignee</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                </thead>
-                                <div *ngIf="recentlyDiagnosis; then haveData else noData"></div>
-                                <ng-template #noData>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="6" class="text-center">No available diagnosis</td>
-                                        </tr>
-                                    </tbody>
-                                </ng-template>
-                                <ng-template #haveData>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Implement new UX</td>
-                                            <td><span class="badge bg-primary-subtle text-primary">Backlog</span></td>
-                                            <td>Lanora Sandoval</td>
-                                            <td>$4,521</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-soft-primary">View</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Design syntax</td>
-                                            <td><span class="badge bg-secondary-subtle text-secondary">In
-                                                    Progress</span>
-                                            </td>
-                                            <td>Calvin Garrett</td>
-                                            <td>$7,546</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-soft-primary">View</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Configurable resources</td>
-                                            <td><span class="badge bg-success-subtle text-success">Done</span></td>
-                                            <td>Florence Guzman</td>
-                                            <td>$1,350</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-soft-primary">View</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>Implement extensions</td>
-                                            <td><span class="badge bg-secondary-subtle text-secondary">In
-                                                    Progress</span>
-                                            </td>
-                                            <td>Maritza Blanda</td>
-                                            <td>$4,521</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-soft-primary">View</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </ng-template>
-                            </table>
+    </section>
+    <section class="col-12">
+        <div class="border rounded bg-white border-opacity-25 border-2" style="border-color: #c4cdd8;">
+            <div class="row p-4 gap-3">
+                <h5>Contact</h5>
+                <hr>
+                <div class="col-12">
+                    <div class="row g-3">
+                        <div class="col-sm-5">
+                            <label class="form-label">Phone number</label>
+                            <p class="fs-6 text-muted fw-semibold">{{patientData.phoneNumber}}</p>
+                        </div>
+                        <div class="col-sm-7">
+                            <label class="form-label">Email</label>
+                            <p class="fs-6 text-muted fw-semibold">{{patientData.email}}</p>
+                        </div>
+                        <div class="col-sm-5">
+                            <label class="form-label">
+                                Address
+                            </label>
+                            <p class="fs-6 text-muted fw-semibold">{{patientData.address}}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 <ngx-spinner type="ball-scale-multiple"></ngx-spinner>

@@ -1,0 +1,76 @@
+<app-breadcrumbs title="View Patient" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+<main class="container" *ngIf="patientData">
+    <article class="row gap-3 pb-3">
+        <section class="col-12">
+            <div class="border rounded bg-white border-opacity-25 border-2" style="border-color: #c4cdd8;">
+                <div class="d-flex p-4 gap-3">
+                    <img src="{{avatarUrl ? avatarUrl : 'https://localhost:7139/Uploads/Images/default-user.jpg'}}"
+                        alt="avatar" class="avatar-xl rounded-circle img-thumbnail">
+                    <div class="d-flex flex-column justify-content-center gap-3">
+                        <h4>{{patientData.fullName}}</h4>
+                        <div class="d-flex flex-wrap gap-4">
+                            <div class="d-flex align-items-center fs-6 fw-semibold gap-2 text-muted">
+                                <i class="fs-5 ri ri-mail-line"></i>  
+                                <span>{{patientData.email}}</span>
+                            </div>
+                            <div class="d-flex align-items-center fs-6 fw-semibold gap-2 text-muted">
+                                <i class="fs-5 ri ri-smartphone-line"></i>
+                                <span>{{patientData.phoneNumber}}</span>
+                            </div>
+                            <div class="d-flex align-items-center fs-6 fw-semibold gap-2 text-muted">
+                                <i class="fs-5 ri ri-map-pin-line"></i>
+                                <span>{{patientData.address}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="align-self-start ms-auto">
+                        <a role="button" class="btn btn-sm btn-outline-primary d-flex gap-2 align-items-center"
+                            [routerLink]="'/admin/manage-patient/edit-patient/' +  patientId" placement="top"
+                            ngbTooltip="Edit Profile">
+                            <i class="fs-3 las la-edit"></i>
+                            <span class="d-none d-md-flex">Edit</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="col-12">
+            <div class="border rounded bg-white border-opacity-25 border-2" style="border-color: #c4cdd8;">
+                <div class="row p-4 gap-3">
+                    <h5>Personal information</h5>
+                    <hr>
+                    <div class="col-12">
+                        <div class="row g-3">
+                            <div class="col-sm-5">
+                                <label class="form-label">Full Name</label>
+                                <p class="fs-6 text-muted fw-semibold">{{patientData.fullName}}</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <label class="form-label">Date of birth</label>
+                                <p class="fs-6 text-muted fw-semibold">{{patientData.dateOfBirth}}</p>
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="form-label">Gender</label>
+                                <p class="fs-6 text-muted fw-semibold">{{patientData.gender}}</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <label class="form-label">National Id</label>
+                                <p class="fs-6 text-muted fw-semibold">{{patientData.nationalId}}</p>
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="form-label">Join time</label>
+                                <p class="fs-6 text-muted fw-semibold">{{patientData.createdDate}}</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <label class="form-label">Last updated</label>
+                                <p class="fs-6 text-muted fw-semibold">{{patientData.updatedDate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </article>
+</main>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

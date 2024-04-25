@@ -6,6 +6,8 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-password-reset',
@@ -25,7 +27,8 @@ export class PasswordResetComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private _authService: AuthService,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private _spinnerService: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -51,16 +54,25 @@ export class PasswordResetComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.passResetForm.valid) {
+      this._spinnerService.show();
       this._authService
         .resetPassword(this.passResetForm.value)
+        .pipe(finalize(() => this._spinnerService.hide()))
         .subscribe((res) => {
           if (res.isSuccess) {
             this._toastService.success(res.message);
-            this.passResetForm.reset();
+            this.resetForm();
           } else {
             this._toastService.error(res.message);
           }
         });
     }
+  }
+
+  resetForm() {
+    this.submitted = false;
+    this.passResetForm.reset();
+    this.passResetForm.markAsPristine();
+    this.passResetForm.markAsUntouched();
   }
 }

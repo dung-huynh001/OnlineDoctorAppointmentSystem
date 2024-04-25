@@ -3,8 +3,11 @@ import { DoctorService } from './../../../../core/services/doctor.service';
 import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { catchError, finalize, interval, map, throwError } from 'rxjs';
+import { Subject, catchError, finalize, interval, map, throwError } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
+import { AppointmentService } from '../../../../core/services/appointment.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { User } from '../../../../core/models/auth.models';
 
 const HOSTNAME = environment.serverApi;
 @Component({
@@ -13,43 +16,14 @@ const HOSTNAME = environment.serverApi;
   styleUrl: './view-doctor.component.scss',
 })
 export class ViewDoctorComponent implements OnInit, AfterViewInit {
-  UpcomingActivities:
-    | Array<{
-        date?: string;
-        day?: string;
-        time?: string;
-        content?: string;
-        users: Array<{
-          name?: string;
-          profile?: string;
-          variant?: string;
-        }>;
-      }>
-    | undefined;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+
   breadCrumbItems!: Array<{}>;
   userType = localStorage.getItem('userType');
 
-  doctorData: iDoctorDetails = {
-    id: 0,
-    userId: '',
-    address: '',
-    dateOfBirth: '',
-    departmentId: '',
-    departmentName: '',
-    email: '',
-    fullName: '',
-    avatarUrl: '',
-    gender: '',
-    nationalId: '',
-    phoneNumber: '',
-    speciality: '',
-    workingEndDate: '',
-    workingStartDate: '',
-    createdDate: '',
-    updatedDate: '',
-  };
+  doctorData!: iDoctorDetails;
 
-  completionLevel!: number;
   selectedId!: any;
   selectedDate: Date = new Date();
   schedulesInfo!: Array<{
@@ -61,16 +35,22 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
   }>;
   totalApptOnDate: number = 0;
 
+  currentUser!: User;
+
   constructor(
     private _doctorService: DoctorService,
     private router: Router,
-    private _spinnerService: NgxSpinnerService
+    private _spinnerService: NgxSpinnerService,
+    private _appointmentService: AppointmentService,
+    private _authService: AuthService
   ) {
-    this.completionLevel = 30;
   }
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.dtTrigger.next(this.dtOptions);
+  }
 
   ngOnInit(): void {
+    this.currentUser = this._authService.currentUser();
     this.breadCrumbItems = [
       { label: 'Home' },
       { label: 'Doctor Management' },
@@ -82,109 +62,7 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
 
     this.fetchData();
     this.getScheduleByDate();
-
-    this.UpcomingActivities = [
-      {
-        date: '25',
-        day: 'Tue',
-        time: '12:00am - 03:30pm',
-        content: 'Meeting for campaign with sales team',
-        users: [
-          {
-            name: 'Stine Nielsen',
-            profile: 'assets/images/users/avatar-1.jpg',
-          },
-          {
-            name: 'Jansh Brown',
-            profile: 'assets/images/users/avatar-2.jpg',
-          },
-          {
-            name: 'Dan Gibson',
-            profile: 'assets/images/users/avatar-3.jpg',
-          },
-          {
-            name: '5',
-            variant: 'bg-info',
-          },
-        ],
-      },
-      {
-        date: '20',
-        day: 'Wed',
-        time: '02:00pm - 03:45pm',
-        content: 'Adding a new event with attachments',
-        users: [
-          {
-            name: 'Frida Bang',
-            profile: 'assets/images/users/avatar-4.jpg',
-          },
-          {
-            name: 'Malou Silva',
-            profile: 'assets/images/users/avatar-5.jpg',
-          },
-          {
-            name: 'Simon Schmidt',
-            profile: 'assets/images/users/avatar-6.jpg',
-          },
-          {
-            name: 'Tosh Jessen',
-            profile: 'assets/images/users/avatar-7.jpg',
-          },
-          {
-            name: '3',
-            variant: 'bg-success',
-          },
-        ],
-      },
-      {
-        date: '17',
-        day: 'Wed',
-        time: '04:30pm - 07:15pm',
-        content: 'Create new project Bundling Product',
-        users: [
-          {
-            name: 'Nina Schmidt',
-            profile: 'assets/images/users/avatar-8.jpg',
-          },
-          {
-            name: 'Stine Nielsen',
-            profile: 'assets/images/users/avatar-1.jpg',
-          },
-          {
-            name: 'Jansh Brown',
-            profile: 'assets/images/users/avatar-2.jpg',
-          },
-          {
-            name: '4',
-            variant: 'bg-primary',
-          },
-        ],
-      },
-      {
-        date: '12',
-        day: 'Tue',
-        time: '10:30am - 01:15pm',
-        content: 'Weekly closed sales won checking with sales team',
-        users: [
-          {
-            name: 'Stine Nielsen',
-            profile: 'assets/images/users/avatar-1.jpg',
-          },
-          {
-            name: 'Jansh Brown',
-            profile: 'assets/images/users/avatar-5.jpg',
-          },
-          {
-            name: 'Dan Gibson',
-            profile: 'assets/images/users/avatar-2.jpg',
-          },
-          {
-            name: '9',
-            variant: 'bg-warning',
-          },
-        ],
-      },
-    ];
+    this.loadDataTable();
   }
 
   fetchData() {
@@ -225,6 +103,104 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
       .subscribe((res) => {
         this.doctorData = res;
       });
+  }
+
+  loadDataTable() {
+    this.dtOptions = {
+      serverSide: true,
+      pagingType: 'full_numbers',
+      processing: true,
+      responsive: true,
+      destroy: true,
+      order: [[1, 'asc']],
+      columnDefs: [
+        { targets: [0, -1], searchable: false },
+        { targets: [-1], orderable: false },
+        {
+          className: 'dtr-control',
+          orderable: false,
+          width: '15px',
+          searchable: false,
+          targets: 0,
+        },
+      ],
+      language: {
+        emptyTable: 'No records found',
+      },
+      columns: [
+        {
+          orderable: false,
+          data: null,
+          defaultContent: '',
+        },
+        {
+          data: 'id',
+          title: 'ID',
+          className: 'text-center',
+        },
+        {
+          data: 'patientName',
+          title: 'Patient',
+          render: (data: any, type: any, row: any, meta: any) => {
+            return `<span class="text-center">${data}</span>`;
+          },
+        },
+        {
+          data: 'appointmentDate',
+          title: 'Appointment date',
+          className: 'text-end',
+        },
+        {
+          data: 'dateOfConsultation',
+          title: 'Consultation date',
+          className: 'text-end',
+        },
+        {
+          data: 'closedBy',
+          title: 'Closed by',
+        },
+        {
+          data: 'closedDate',
+          title: 'Closed date',
+          className: 'text-end',
+        },
+        {
+          title: 'Action',
+          data: 'id',
+          render: (data: any, type: any, row: any, meta: any) => {
+            const viewButton = `<button class="btn btn-soft-info btn-sm edit-btn" title="View" onClick="location.assign('/patient/appointment/view/${data}')">View</button>`;
+
+            return `<div class="d-flex gap-3">${viewButton}</div>`;
+          },
+        },
+      ],
+      ajax: (dataTablesParameters: any, callback: Function) => {
+        this._appointmentService
+          .getAppointments(
+            this.currentUser.id,
+            this.currentUser.userType,
+            'Completed',
+            dataTablesParameters
+          )
+          .pipe(
+            catchError((err) => {
+              callback({
+                recordsTotal: 0,
+                recordsFiltered: 0,
+                data: [],
+              });
+              return throwError(() => err);
+            })
+          )
+          .subscribe((res: any) => {
+            callback({
+              recordsTotal: res.recordsTotal,
+              recordsFiltered: res.recordsFiltered,
+              data: res.data,
+            });
+          });
+      },
+    };
   }
 
   onChangeDate(event: any) {

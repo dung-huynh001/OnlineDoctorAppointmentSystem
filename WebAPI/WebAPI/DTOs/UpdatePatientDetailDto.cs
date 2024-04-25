@@ -1,6 +1,6 @@
 ﻿namespace WebAPI.DTOs
 {
-    public class UpdatePatientDetailsDto
+    public class UpdatePatientDetailDto
     {
         public int Id { get; set; }
         public string UserId { get; set; }
@@ -12,6 +12,6 @@
         public string NationalId { get; set; }
         public string DateOfBirth { get; set; }
         public IFormFile? Avatar { get; set; }
-        public string? AvatarUrl { get; set; } = "Uploads/Images/default-user.jpg";
+        public string? AvatarUrl { get; set; }
     }
 }
