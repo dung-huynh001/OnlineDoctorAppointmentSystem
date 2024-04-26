@@ -47,9 +47,9 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     m: number;
     s: number;
   } = {
-      m: COUNT_DOWN_MINUTES,
-      s: COUNT_DOWN_SECONDS,
-    };
+    m: COUNT_DOWN_MINUTES,
+    s: COUNT_DOWN_SECONDS,
+  };
   disableResend = false;
 
   constructor(
@@ -59,7 +59,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     private _spinnerService: NgxSpinnerService,
     private _authService: AuthService,
     private _modalService: NgbModal
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.breadCrumbItems = [
@@ -193,7 +193,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
               this.currentUser.status = STATUS_ENOUGH_INFO;
               this.openWarningModal(this.content);
             }
-            this.currentUser.fullName =  res.fullName
+            this.currentUser.fullName = res.fullName;
             this.currentUser.avatarUrl = res.avatarUrl;
             this.setCurrentUser(this.currentUser);
           } else {

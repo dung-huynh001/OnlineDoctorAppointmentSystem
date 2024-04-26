@@ -16,11 +16,13 @@ namespace WebAPI.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ILogger<AuthController> _logger;
+        private readonly IPatientService _patientService;
 
-        public AuthController(IAuthService authService, ILogger<AuthController> logger)
+        public AuthController(IAuthService authService, ILogger<AuthController> logger, IPatientService patientService)
         {
             _authService = authService;
             _logger = logger;
+            _patientService = patientService;
         }
 
         [HttpPost("login")]
@@ -40,7 +42,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<RegisterResponse>> Register(RegisterModel model)
+        public async Task<ActionResult> Register(RegisterModel model)
         {
             var validator = new RegisterModelValidator();
             var validatorResult = await validator.ValidateAsync(model);
@@ -48,7 +50,24 @@ namespace WebAPI.Controllers
             {
                 throw new ValidationException(validatorResult);
             }
-            return Ok(await _authService.RegisterAsync(model));
+
+            var result = await _authService.RegisterAsync(model);
+
+            if(model.UserType?.ToLower().Trim() == "patient")
+            {
+                var isSuccess = await _patientService.Create(new CreatePatientDto
+                {
+                    FullName = model.Username,
+                    UserId = result.UserId,
+                });
+
+                if(!isSuccess)
+                {
+                    await _authService.DeleteUserAsync(result.UserId);
+                }
+            }
+
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPost("forget-password")]

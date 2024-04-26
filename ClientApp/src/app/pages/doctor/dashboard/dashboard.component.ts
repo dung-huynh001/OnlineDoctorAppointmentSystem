@@ -5,7 +5,6 @@ import { User } from '../../../core/models/auth.models';
 import { Subject, catchError, finalize, map, throwError } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DatePipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 
 const HOSTNAME = environment.serverApi;
@@ -52,7 +51,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private _appointmentService: AppointmentService,
     private _authService: AuthService,
     private _spinnerService: NgxSpinnerService,
-    private datePipe: DatePipe,
     private render: Renderer2
   ) {}
 
@@ -202,15 +200,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           className: 'text-center',
         },
         {
-          data: 'doctorName',
-          title: 'Doctor',
+          data: 'patientName',
+          title: 'Patient',
           render: (data: any, type: any, row: any, meta: any) => {
             return `<span class="text-center">${data}</span>`;
           },
         },
         {
-          data: 'speciality',
-          title: 'Speciality',
+          data: 'patientGender',
+          title: 'Gender',
         },
         {
           data: 'appointmentDate',

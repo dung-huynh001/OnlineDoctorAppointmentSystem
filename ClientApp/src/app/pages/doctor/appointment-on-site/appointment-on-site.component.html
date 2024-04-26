@@ -98,9 +98,9 @@
                         [showQuickInfo]="false" [allowDragAndDrop]="false"
                         (eventDoubleClick)="onEventDoubleClick($event)" (cellClick)="onCellClick($event)">
                         <e-resources>
-                            <e-resource field='PatientId' title='Patients' name='Patient'
-                                [dataSource]='patientResources' [allowMultiple]='false' textField='FullName'
-                                idField='Id' groupIDField="PatientId">
+                            <e-resource field='PatientId' name='Patient'
+                                [dataSource]='patientResources' [allowMultiple]='true' textField='FullName'
+                                idField='Id'>
                             </e-resource>
                         </e-resources>
                         <ng-template #dateHeaderTemplate let-data>
@@ -155,7 +155,6 @@
                                                 [(value)]="selectedPatient" [allowObjectBinding]="true"
                                                 [readonly]="editMode">
                                             </ejs-dropdownlist>
-                                            <!-- <div class="is-invalid"></div> -->
                                             <div class="invalid-feedback">This field is required</div>
                                         </td>
                                     </tr>
@@ -216,7 +215,6 @@
     <div class="modal-body">
         <form [formGroup]="addPatientFormGroup" (ngSubmit)="addNewPatient()">
             <div class="container px-0">
-                <!-- <h5>Account</h5> -->
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3">
                         <label class="form-label" for="username">Username <span class="text-danger">*</span></label>
@@ -238,15 +236,14 @@
                     </div>
                 </div>
                 <hr>
-                <!-- <h5>Patient Information</h5> -->
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3">
-                        <label class="form-label" for="fullName">Full Name <span class="text-danger">*</span></label>
+                        <label class="form-label" for="fullName">Full name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="fullName" formControlName="fullName"
                             autocomplete="off" placeholder="Enter patient's name"
                             [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['fullName'].errors }">
                         <div class="invalid-feedback">
-                            Full Name is required
+                            Full name is required
                         </div>
                     </div>
                     <div class="col-lg-12 mb-3">
@@ -271,12 +268,12 @@
                         </div>
                         <div class="invalid-feedback"
                             *ngIf="this.addPatientFormGroup.controls['email'].errors?.['email'] || this.addPatientFormGroup.controls['email'].errors?.['pattern']">
-                            Incorrect email address format
+                            Email format is incorrect
                         </div>
                     </div>
                     <div class="col-lg-4 mb-3">
-                        <label class="form-label" for="dateOfBirth">Date Of
-                            Birth <span class="text-danger">*</span></label>
+                        <label class="form-label" for="dateOfBirth">Date of
+                            birth <span class="text-danger">*</span></label>
                         <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth"
                             [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['dateOfBirth'].errors }">
                         <div class="invalid-feedback">
@@ -287,7 +284,7 @@
                         <label class="form-label" for="gender">Gender <span class="text-danger">*</span></label>
                         <select class="form-select" formControlName="gender" id="Gender"
                             [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['gender'].errors }">
-                            <option selected value="" hidden>Select patient's gender</option>
+                            <option selected value="" hidden>Select gender</option>
                             <option value="0">Male</option>
                             <option value="1">Female</option>
                             <option value="2">Other</option>
@@ -298,7 +295,7 @@
                     </div>
 
                     <div class="col-lg-4 mb-3">
-                        <label class="form-label" for="phoneNumber">Mobile <span class="text-danger">*</span></label>
+                        <label class="form-label" for="phoneNumber">Phone number <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="phoneNumber" autocomplete="off"
                             formControlName="phoneNumber" placeholder="Enter patient's phone number" maxlength="10"
                             [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['phoneNumber'].errors }">

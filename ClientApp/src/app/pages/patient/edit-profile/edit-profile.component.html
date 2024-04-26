@@ -16,13 +16,13 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="mb-3">
-                                    <label for="FullName" class="form-label">Full Name <span
+                                    <label for="FullName" class="form-label">Full name <span
                                             class="text-danger">*</span></label>
                                     <input type="text" autocomplete="off" class="form-control" id="FullName"
                                         formControlName="FullName" placeholder="Enter your name"
                                         [ngClass]="{ 'is-invalid': submitted && formControl['FullName'].errors }">
                                     <div class="invalid-feedback">
-                                        Please enter your name
+                                        Full name is required
                                     </div>
                                 </div>
                             </div>
@@ -34,41 +34,44 @@
                                         maxlength="10" placeholder="Enter your national id" formControlName="NationalId"
                                         [ngClass]="{ 'is-invalid': submitted && formControl['NationalId'].errors }">
                                     <div class="invalid-feedback">
-                                        Please enter your national
+                                        National Id is required
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label for="Email" class="form-label">Email <span class="text-danger">*</span></label>
+                                    <label for="Email" class="form-label">Email <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" autocomplete="off" class="form-control" id="Email"
-                                        pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="Enter your email"
-                                        formControlName="Email"
+                                        pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                                        placeholder="Enter your email" formControlName="Email"
                                         [ngClass]="{ 'is-invalid': submitted && formControl['Email'].errors }">
-                                    <div class="invalid-feedback" *ngIf="this.formControl['Email'].errors?.['required']">
-                                        Please enter your email
+                                    <div class="invalid-feedback"
+                                        *ngIf="this.formControl['Email'].errors?.['required']">
+                                        Email is required
                                     </div>
                                     <div class="invalid-feedback"
                                         *ngIf="this.formControl['Email'].errors?.['email'] || this.formControl['Email'].errors?.['pattern']">
-                                        Please enter the correct email format
+                                        Email format is incorrect
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="mb-3">
-                                    <label for="DateOfBirth" class="form-label">Date Of Birth <span
+                                    <label for="DateOfBirth" class="form-label">Date of birth <span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="DateOfBirth"
                                         placeholder="Select date of birth" formControlName="DateOfBirth"
                                         [ngClass]="{ 'is-invalid': submitted && formControl['DateOfBirth'].errors }">
                                     <div class="invalid-feedback">
-                                        Please enter your date of birth
+                                        Date of birth is required
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="mb-3">
-                                    <label for="Gender" class="form-label">Gender <span class="text-danger">*</span></label>
+                                    <label for="Gender" class="form-label">Gender <span
+                                            class="text-danger">*</span></label>
                                     <select name="" id="Gender" class="form-select" formControlName="Gender"
                                         [ngClass]="{ 'is-invalid': submitted && formControl['Gender'].errors }">
                                         <option value="0">Male</option>
@@ -76,19 +79,20 @@
                                         <option value="2">Other</option>
                                     </select>
                                     <div class="invalid-feedback">
-                                        Please select your gender
+                                        Gender is required
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="mb-3">
-                                    <label for="PhoneNumber" class="form-label">Mobile <span
+                                    <label for="PhoneNumber" class="form-label">Phone number <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="PhoneNumber" autocomplete="off"
-                                        placeholder="Enter your phone number" formControlName="PhoneNumber" maxlength="10"
+                                        placeholder="Enter your phone number" formControlName="PhoneNumber"
+                                        maxlength="10"
                                         [ngClass]="{ 'is-invalid': submitted && formControl['PhoneNumber'].errors }">
                                     <div class="invalid-feedback">
-                                        Please enter your mobile
+                                        Phone number is required
                                     </div>
                                 </div>
                             </div>
@@ -100,18 +104,14 @@
                                         formControlName="Address" placeholder="Enter your address" rows="3"
                                         [ngClass]="{ 'is-invalid': submitted && formControl['Address'].errors }"></textarea>
                                     <div class="invalid-feedback">
-                                        Please enter your address
+                                        Address is required
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="mb-3 pb-2">
-                                    <label for="avatar" class="form-label">Upload Avatar</label>
-                                    <input type="file" id="avatar" class="form-control" (change)="onFileChange($event)"
-                                        [ngClass]="{ 'is-invalid': submitted && formControl['Avatar'].errors }">
-                                    <div class="invalid-feedback">
-                                        Please select your avatar
-                                    </div>
+                                    <label for="avatar" class="form-label">Upload avatar</label>
+                                    <input type="file" id="avatar" class="form-control" (change)="onFileChange($event)">
                                 </div>
                             </div>
                         </div>

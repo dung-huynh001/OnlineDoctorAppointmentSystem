@@ -172,7 +172,7 @@ export class EditDoctorComponent implements OnInit {
     this.changePassFormSubmitted = true;
   }
 
-  onWorkInfoFormSubmit() {
+  onContractFormSubmit() {
     this.contractFormSubmitted = true;
     if (this.contractForm.valid) {
       this._doctorService

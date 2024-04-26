@@ -4,6 +4,7 @@ import { IUser, User } from '../models/auth.models';
 import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { apiResponse } from '../models/apiResponse.model';
+import { Router } from '@angular/router';
 const HOSTNAME = environment.serverApi;
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -22,7 +23,7 @@ export class AuthService {
     null
   );
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   register(
     email: string,
@@ -107,33 +108,38 @@ export class AuthService {
     localStorage.removeItem('token');
     this.user$.next(null);
     this.token$.next(null);
+    this.router.navigate(['/auth/login']);
   }
 
   resetPassword(data: any): Observable<apiResponse> {
     const formData = new FormData();
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
 
-    return this.http.post<apiResponse>(`${HOSTNAME}/api/Auth/forget-password`, formData).pipe(
-      catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
-      })
-    );
+    return this.http
+      .post<apiResponse>(`${HOSTNAME}/api/Auth/forget-password`, formData)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   changePassword(data: any): Observable<apiResponse> {
     const formData = new FormData();
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
 
-    return this.http.post<apiResponse>(`${HOSTNAME}/api/Auth/change-password`, formData).pipe(
-      catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
-      })
-    );
+    return this.http
+      .post<apiResponse>(`${HOSTNAME}/api/Auth/change-password`, formData)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 }

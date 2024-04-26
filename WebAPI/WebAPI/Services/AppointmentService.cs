@@ -495,6 +495,8 @@ namespace WebAPI.Services
                     Id = a.Id,
                     AppointmentDate = a.AppointmentDate.Value.ToString("hh:ss dd/MM/yyyy"),
                     DateOfConsultation = a.DateOfConsultation.ToString("hh:ss dd/MM/yyyy"),
+                    PatientName = a.Patient.FullName,
+                    PatientGender = a.Patient.Gender == 0 ? "Male" : a.Patient.Gender == 0 ? "Female" : "Other",
                     DoctorName = a.Doctor.FullName,
                     Speciality = a.Doctor.Speciality,
                     CreatedDate = a.CreatedDate.ToString("dd/MM/yyyy"),

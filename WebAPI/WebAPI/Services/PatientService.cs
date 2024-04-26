@@ -183,7 +183,7 @@ namespace WebAPI.Services
                 patient.Gender = model.Gender == "0" ? 0 : model.Gender == "1" ? 1 : 2;
 
                 patient.User.AvatarUrl = model.AvatarUrl ?? patient.User.AvatarUrl;
-                patient.User.Status = StatusAccount.EnoughInformation;
+                patient.User.Status = patient.User.Status != StatusAccount.Activated ? StatusAccount.EnoughInformation : StatusAccount.Activated;
 
                 model.AvatarUrl = patient.User.AvatarUrl;
 

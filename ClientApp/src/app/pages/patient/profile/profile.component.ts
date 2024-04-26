@@ -14,7 +14,7 @@ import { User } from '../../../core/models/auth.models';
 })
 export class ProfileComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
-  hostName = environment.serverApi;
+  HOSTNAME = environment.serverApi;
 
   userData!: User;
 
@@ -74,7 +74,7 @@ export class ProfileComponent implements OnInit {
       .subscribe((res) => {
         this.patientData = res;
         this._profileService.setPatient(res);
-        this.avatarUrl = this.patientData.avatarUrl == null ? "https://localhost:7139/Uploads/Images/default-user.jpg" : this.hostName + `/` + this.patientData.avatarUrl;
+        this.avatarUrl = this.patientData.avatarUrl == null ? "https://localhost:7139/Uploads/Images/default-user.jpg" : this.HOSTNAME + `/` + this.patientData.avatarUrl;
       });
   }
 }

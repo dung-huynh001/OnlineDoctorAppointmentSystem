@@ -35,7 +35,6 @@ export class TopbarComponent implements OnInit, AfterViewInit {
 
   HOSTNAME: string = HOSTNAME;
 
-
   constructor(
     @Inject(DOCUMENT) private document: any,
     public languageService: LanguageService,
@@ -46,12 +45,11 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     private router: Router
   ) {}
   ngAfterViewInit(): void {
-    if (
-      this.authService.status$.value != STATUS_NOT_ACTIVATE &&
-      this.authService.status$.value != STATUS_ENOUGH_INFO
-    ) {
-      this.isActivated = true;
-    }
+    this.authService.status$.subscribe((val) => {
+      if (val && val != STATUS_NOT_ACTIVATE && val != STATUS_ENOUGH_INFO) {
+        this.isActivated = true;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -60,7 +58,8 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     });
     this.element = document.documentElement;
 
-    this.userData!.avatarUrl = this.userData?.avatarUrl ?? `/Uploads/Images/default-user.jpg`;
+    this.userData!.avatarUrl =
+      this.userData?.avatarUrl ?? `/Uploads/Images/default-user.jpg`;
 
     if (
       this.authService.status$.value != STATUS_NOT_ACTIVATE &&
@@ -93,7 +92,6 @@ export class TopbarComponent implements OnInit, AfterViewInit {
    */
   logout() {
     this.authService.logout();
-    this.router.navigate(['/auth/login']);
   }
 
   windowScroll() {

@@ -7,21 +7,12 @@
                 <div class="d-flex p-4 gap-3">
                     <img src="{{avatarUrl ? avatarUrl : 'https://localhost:7139/Uploads/Images/default-user.jpg'}}"
                         alt="avatar" class="avatar-xl rounded-circle img-thumbnail">
-                    <div class="d-flex flex-column justify-content-center gap-3">
+                    <div class="d-flex flex-column justify-content-end gap-3">
                         <h4>{{patientData.fullName}}</h4>
                         <div class="d-flex flex-wrap gap-4">
-                            <div class="d-flex align-items-center fs-6 fw-semibold gap-2 text-muted">
-                                <i class="fs-5 ri ri-mail-line"></i>  
-                                <span>{{patientData.email}}</span>
-                            </div>
-                            <div class="d-flex align-items-center fs-6 fw-semibold gap-2 text-muted">
-                                <i class="fs-5 ri ri-smartphone-line"></i>
-                                <span>{{patientData.phoneNumber}}</span>
-                            </div>
-                            <div class="d-flex align-items-center fs-6 fw-semibold gap-2 text-muted">
-                                <i class="fs-5 ri ri-map-pin-line"></i>
-                                <span>{{patientData.address}}</span>
-                            </div>
+                            <span class="fs-6 fw-semibold text-muted"><i class="fs-5 align-middle ri ri-mail-line"></i> {{patientData.email}}</span>
+                            <span class="fs-6 fw-semibold text-muted"><i class="fs-5 align-middle ri-smartphone-line"></i> {{patientData.phoneNumber}}</span>
+                            <span class="fs-6 fw-semibold text-muted"><i class="fs-5 align-middle ri ri-map-pin-line"></i> {{patientData.address}}</span>
                         </div>
                     </div>
                     <div class="align-self-start ms-auto">

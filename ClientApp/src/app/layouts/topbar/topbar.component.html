@@ -12,38 +12,17 @@
         </button>
       </div>
       <div class="d-flex align-items-center">
-        <div class="dropdown d-md-none topbar-head-dropdown header-item" ngbDropdown>
-          <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-            id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-            ngbDropdownToggle>
-            <i class="bx bx-search fs-22"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-            aria-labelledby="page-header-search-dropdown" ngbDropdownMenu>
-            <form class="p-3">
-              <div class="form-group m-0">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username" />
-                  <button class="btn btn-primary" type="submit">
-                    <i class="mdi mdi-magnify"></i>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div #beforeLogin class="dropdown ms-sm-3 header-item topbar-user position-relative" ngbDropdown>
+        <div *ngIf="userData" class="dropdown ms-sm-3 header-item topbar-user position-relative" ngbDropdown>
           <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
             <span class="d-flex align-items-center">
-              <img class="rounded-circle header-profile-user" [src]="HOSTNAME + '/' + userData?.avatarUrl"
+              <img class="rounded-circle header-profile-user" [src]="HOSTNAME + '/' + userData.avatarUrl"
                 alt="Header Avatar" />
               <span class="text-start ms-xl-2">
-                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ userData?.fullName }}</span>
-                <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ userData?.userType}}</span>
+                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ userData.fullName }}</span>
+                <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ userData.userType}}</span>
               </span>
-              <a *ngIf="!isActivated" routerLink="patient/edit-profile/{{userData?.id}}"
+              <a *ngIf="!isActivated" routerLink="patient/edit-profile/{{userData.id}}"
                 class="position-absolute text-danger fs-4 bottom-0" style="left: 10px;"
                 ngbTooltip="Account is not activated">
                 <i class="ri ri-information-fill"></i>
@@ -51,8 +30,8 @@
             </span>
           </button>
           <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-            <h6 class="dropdown-header">Welcome {{userData?.fullName}}</h6>
-            <a class="dropdown-item" [routerLink]="'/' + userData?.userType + '/profile/' + userData?.id"><i
+            <h6 class="dropdown-header">Welcome {{userData.fullName}}</h6>
+            <a class="dropdown-item" [routerLink]="'/' + userData.userType + '/profile/' + userData.id"><i
                 class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
               <span class="align-middle">Profile</span></a>
             <div class="dropdown-divider"></div>
@@ -61,9 +40,6 @@
               <span class="align-middle" data-key="t-logout">Logout</span></a>
           </div>
         </div>
-        <!-- <ng-template #afterLogin>
-          
-        </ng-template> -->
       </div>
     </div>
   </div>

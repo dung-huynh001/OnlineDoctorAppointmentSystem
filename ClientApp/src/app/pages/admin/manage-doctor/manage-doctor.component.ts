@@ -144,6 +144,7 @@ export class ManageDoctorComponent implements OnInit {
         },
         {
           title: 'Action',
+          orderable: false,
           data: 'id',
           render: (data: any, type: any, row: any, meta: any) => {
             const viewButton = `<a role="button" class="btn btn-soft-info btn-sm edit-btn" data-doctor-id="${data}" title="Edit" href="admin/manage-doctor/view-doctor/${data}">View</a>`;

@@ -222,6 +222,7 @@ export class AppointmentDatatableComponent
         },
         {
           title: 'Action',
+          orderable: false,
           data: 'id',
           render: (data: any, type: any, row: any, meta: any) => {
             return this.setActionColumn(data, row);

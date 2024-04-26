@@ -78,7 +78,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
 
   patientResources!: Array<{}>;
   public group: GroupModel = {
-    enableCompactView: false,
+    enableCompactView: true,
     resources: ['Patient'],
   };
 
@@ -141,24 +141,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     this.calendarTitle = new Date().toDateString();
     this.type = 'day';
 
-    this.addPatientFormGroup = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$'),
-        ],
-      ],
-      fullName: ['', Validators.required],
-      nationalId: ['', Validators.required],
-      gender: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
-      address: ['', Validators.required],
-    });
+    
 
     this.fetchPatients();
   }
@@ -191,6 +174,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   getPatientImg(value: ResourceDetails) {
+    console.log(value);
     return HOSTNAME + '/' + value.resourceData['AvatarUrl'];
   }
 
@@ -227,6 +211,24 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   showAddPatientModal() {
+    this.addPatientFormGroup = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$'),
+        ],
+      ],
+      fullName: ['', Validators.required],
+      nationalId: ['', Validators.required],
+      gender: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      address: ['', Validators.required],
+    });
     this._modalService.open(this.addNewPatientModal, {
       centered: true,
       size: 'lg',
@@ -237,6 +239,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     this.resetForm();
     this._modalService.dismissAll();
   }
+
 
   addNewPatient() {
     this._spinnerService.show();
@@ -258,6 +261,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
         .subscribe((res) => {
           if (res.isSuccess) {
             this._toastService.success(res.message);
+            this.resetForm();
           } else {
             this._toastService.error(res.message);
           }
@@ -266,10 +270,11 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   resetForm() {
+    this.addPatientForm_submitted = false;
     this.addPatientFormGroup.reset();
-    this.addPatientFormGroup.markAsUntouched();
-    this.addPatientFormGroup.markAsPristine();
     this.addPatientFormGroup.controls['gender'].setValue('');
+    this.addPatientFormGroup.markAsPristine();
+    this.addPatientFormGroup.markAsUntouched();
   }
 
   setColor(eventType: string): string {
