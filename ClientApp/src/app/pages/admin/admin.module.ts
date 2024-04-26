@@ -19,6 +19,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { ComponentsModule } from '../../components/components.module';
 import { ManagePatientComponent } from './manage-patient/manage-patient.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 
@@ -47,6 +48,8 @@ import { ManagePatientComponent } from './manage-patient/manage-patient.componen
     NgxSpinnerModule,
     ComponentsModule,
     DataTablesModule,
+    NgApexchartsModule,
+
   ],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

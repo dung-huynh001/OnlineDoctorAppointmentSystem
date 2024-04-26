@@ -64,6 +64,8 @@ const HOSTNAME = environment.serverApi;
 export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   breadCrumbItems!: Array<{}>;
 
+  HOSTNAME: string = HOSTNAME;
+
   type!: string;
   calendarValue!: string;
   calendarTitle: string = new Date().toDateString();
@@ -76,10 +78,10 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   addPatientFormGroup!: FormGroup;
   addPatientForm_submitted: boolean = false;
 
-  patientResources!: Array<{}>;
+  patientResources!: Record<string, any>;
   public group: GroupModel = {
     enableCompactView: true,
-    resources: ['Patient'],
+    resources: ['Patients'],
   };
 
   fields = {
@@ -173,11 +175,6 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
       });
   }
 
-  getPatientImg(value: ResourceDetails) {
-    console.log(value);
-    return HOSTNAME + '/' + value.resourceData['AvatarUrl'];
-  }
-
   getPatientInfo(value: ResourceDetails) {
     const dateOfBirth = new Date(value.resourceData['DateOfBirth']);
     const age = new Date().getFullYear() - dateOfBirth.getFullYear();
@@ -185,10 +182,6 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     return age >= 1 && age <= 120
       ? `(${gender}, ${age} yrs)`
       : `(${gender}, unknown)`;
-  }
-
-  getPatientName(value: ResourceDetails) {
-    return value.resourceData[`${value.resource.textField}`] as string;
   }
 
   currentViewChange(event: any) {
