@@ -1,0 +1,38 @@
+4/26/2024 3:00:09 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:02:36 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:02:58 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:05:59 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:06:08 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:07:11 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:07:26 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:10:08 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:13:34 PM ==> AppointmentService.cs	There are no scheduled dates for 11 Apr 2024 Line:687	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:13:40 PM ==> AppointmentService.cs	There are no scheduled dates for 16 Apr 2024 Line:687	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:13:51 PM ==> AppointmentService.cs	There are no scheduled dates for 11 Apr 2024 Line:687	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:15:00 PM ==> AppointmentService.cs	There are no scheduled dates for 05 Apr 2024 Line:687	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:15:10 PM ==> AppointmentService.cs	There are no scheduled dates for 01 Apr 2024 Line:687	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:17:36 PM ==> AppointmentService.cs	There are no scheduled dates for 10 Apr 2024 Line:687	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:22:43 PM ==> AppointmentService.cs	There are no scheduled dates for 09 Apr 2024 Line:687	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:29:25 PM ==> AppointmentService.cs	There are no scheduled dates for 12 Apr 2024 Line:687	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:29:38 PM ==> AppointmentService.cs	There are no scheduled dates for 09 Apr 2024 Line:687	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:30:45 PM ==> AppointmentService.cs	There are no scheduled dates for 10 Apr 2024 Line:687	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 3:41:51 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+

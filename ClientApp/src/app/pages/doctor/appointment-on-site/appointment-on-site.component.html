@@ -53,17 +53,180 @@
                                     class="las la-angle-right"></i></button>
                         </div>
                     </div>
+                </div>
 
+                <div class="row pb-4">
+                    <div class="d-flex gap-5">
+                        <div class="ms-auto d-flex gap-3 align-items-center">
+                            <div class="bg-warning text-white explain-event">
+                                <span class="fw-semibold overflow-hidden event-subject">Patient</span>
+                                <span class="overflow-hidden p-0 event-time">8:00 AM - 8:30 AM</span>
+                            </div>
+                            <div class="fs-6 fw-semibold text-muted text-uppercase"> Pending Appointment</div>
+                        </div>
+                        <div class="d-flex gap-3 align-items-center">
+                            <div class="bg-primary text-white explain-event">
+                                <div class="fw-semibold overflow-hidden event-subject">Patient</div>
+                                <div class="overflow-hidden p-0 event-time">8:00 AM - 8:30 AM</div>
+                            </div>
+                            <div class="fs-6 fw-semibold text-muted text-uppercase">Confirmed Appointment</div>
+                        </div>
+                        <div class="d-flex gap-3 align-items-center">
+                            <div class="bg-success text-white explain-event">
+                                <span class="fw-semibold overflow-hidden event-subject">Patient</span>
+                                <span class="overflow-hidden p-0 event-time">8:00 AM - 8:30 AM</span>
+                            </div>
+                            <div class="fs-6 fw-semibold text-muted text-uppercase"> Completed Appointment</div>
+                        </div>
+                        <div class="d-flex gap-3 align-items-center">
+                            <div class="bg-danger text-white explain-event">
+                                <div class="fw-semibold overflow-hidden event-subject">Patient</div>
+                                <div class="overflow-hidden p-0 event-time">8:00 AM - 8:30 AM</div>
+                            </div>
+                            <div class="fs-6 fw-semibold text-muted text-uppercase">Cancelled Appointment</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="schedule-container">
+                    <!-- <ejs-schedule #scheduleObj cssClass='schedule-block-events' width='100%' height="70vh"
+                        [enableAllDayScroll]="true" [currentView]="selectedView" [selectedDate]="selectedDate"
+                        [eventSettings]="eventSettings" (actionBegin)="onActionBegin($event)" [group]="group"
+                        (actionFailure)="onActionFailure($event)" (currentViewChange)="currentViewChange($event)"
+                        (eventRendered)="onEventRendered($event)" (renderCell)="onRenderCell($event)"
+                        (actionComplete)="onActionComplete($event)" (popupOpen)="popupOpen($event)"
+                        [showQuickInfo]="false" [allowDragAndDrop]="false"
+                        (eventDoubleClick)="onEventDoubleClick($event)" (cellClick)="onCellClick($event)">
+                        <e-resources>
+                            <e-resource field='PatientId' name='Patients'
+                                [dataSource]='patientResources' [allowMultiple]='true' textField='FullName' groupIDField='PatientId'
+                                idField='Id'>
+                            </e-resource>
+                        </e-resources>
+                        <ng-template #dateHeaderTemplate let-data>
+                            <div>   
+                                <p class="m-0 text-center fw-semibold">{{formatDateHeader(data.date).date}}</p>
+                                <p class="m-0 text-center">{{formatDateHeader(data.date).dayOfWeek}}</p>
+                            </div>
+                        </ng-template>
+                        <ng-template #resourceHeaderTemplate let-data>
+                            <div class="template-wrap" *ngIf="data.resourceData['Id']">
+                                <div class="employee-category">
+                                    <div>
+                                        <img class="resource-image" *ngIf="getPatientImg(data)"
+                                            src="{{getPatientImg(data)}}" />
+                                    </div>
+                                    <div class="resource-name">{{getPatientName(data)}}</div>
+                                    <div class="designation">{{getPatientInfo(data)}}</div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <e-header-rows>
+                            <e-header-row [option]="'Date'"></e-header-row>
+                            <e-header-row option="Hour" *ngIf="displayHour"></e-header-row>
+                        </e-header-rows>
+                        <ng-template #editorHeaderTemplate let-data>
+                            <div *ngIf="data.Subject; else createNewEvent">
+                                <div class="border-bottom pb-3 d-flex align-items-center gap-3">
+                                    <span class="fs-5 fw-semibold">Appointment Details </span>
+                                    <span
+                                        class="badge bg-{{setColor(data.AppointmentStatus)}}-subtle text-{{setColor(data.AppointmentStatus)}} text-capitalize fw-bold"
+                                        style="font-size: small;">{{data.AppointmentStatus}}</span>
+                                </div>
+                            </div>
+                            <ng-template #createNewEvent>
+                                <div class="border-bottom">
+                                    <p class="fs-5 fw-semibold">Make Appointment</p>
+                                </div>
+                            </ng-template>
+                        </ng-template>
+                        <ng-template #editorTemplate let-data>
+                            <table class="custom-event-editor" width="100%" cellpadding="5">
+                                <tbody>
+                                    <tr>
+                                        <td class="e-textlabel text-nowrap">Patient <span class="text-danger">*</span>
+                                        </td>
+                                        <td colspan="4">
+                                            <ejs-dropdownlist id='Patient' class="form-control"
+                                                [ngClass]="{ 'is-invalid': isInvalid }" data-name="Patient"
+                                                placeholder='Choose Patient' [dataSource]='patients' [fields]="fields"
+                                                [allowFiltering]="true" (filtering)="onFilteringPatient($event)"
+                                                filterBarPlaceholder="Search Name or National Id/Passport"
+                                                [(value)]="selectedPatient" [allowObjectBinding]="true"
+                                                [readonly]="editMode">
+                                            </ejs-dropdownlist>
+                                            <div class="invalid-feedback">This field is required</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="e-textlabel text-nowrap">Appointment Date <span
+                                                class="text-danger">*</span></td>
+                                        <td colspan="4">
+                                            <ejs-datetimepicker id="EndTime" class="form-control" data-name="AppointmentDate"
+                                                format="M/dd/yy h:mm a" [value]="data.StartTime">
+                                            </ejs-datetimepicker>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="e-textlabel text-nowrap">Existing Illness</td>
+                                        <td colspan="4">
+                                            <textarea id="ExistingIllness" class="form-control"
+                                                name="ExistingIllness" rows="2" cols="50"
+                                                value="{{data.ExistingIllness}}"
+                                                style="width: 100%; resize: vertical"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="e-textlabel text-nowrap">Allergies</td>
+                                        <td colspan="4">
+                                            <textarea id="Allergies" class="form-control" name="Allergies" rows="2"
+                                                cols="50" value="{{data.Allergies}}"
+                                                style="width: 100%; resize: vertical"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="e-textlabel text-nowrap">Notes</td>
+                                        <td colspan="4">
+                                            <textarea id="Notes" class="form-control" name="Notes" rows="2" cols="50"
+                                                value="{{data.Notes}}" style="width: 100%; resize: vertical"></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </ng-template>
+                        <e-views>
+                            <e-view option="TimelineDay" displayName="Day" startHour="07:00" endHour="23:00"></e-view>
+                            <e-view option="TimelineWeek" displayName="Week"></e-view>
+                            <e-view option="TimelineWeek" displayName="Half Month" interval="2"></e-view>
+                            <e-view option="TimelineMonth" displayName="Month"></e-view>
+                        </e-views>
+                    </ejs-schedule> -->
+
                     <ejs-schedule #scheduleObj cssClass='schedule-block-events' width='100%' height="70vh"
                         [enableAllDayScroll]="true" [currentView]="selectedView" [selectedDate]="selectedDate"
-                        [eventSettings]="eventSettings" (actionBegin)="actionBegin($event)"
-                        (actionFailure)="actionFailure($event)" (currentViewChange)="currentViewChange($event)"
-                        (eventRendered)="eventRendered($event)" (renderCell)="renderCell($event)"
-                        (popupOpen)="popupOpen($event)" [showQuickInfo]="false" [allowDragAndDrop]="false"
-                        (eventDoubleClick)="eventDoubleClick($event)" (cellClick)="cellClick($event)">
+                        [eventSettings]="eventSettings" (actionBegin)="onActionBegin($event)" [group]="group"
+                        (actionComplete)="onActionComplete($event)" (actionFailure)="onActionFailure($event)"
+                        (currentViewChange)="currentViewChange($event)" (eventRendered)="onEventRendered($event)"
+                        (renderCell)="onRenderCell($event)" (popupOpen)="popupOpen($event)" [showQuickInfo]="false"
+                        [allowDragAndDrop]="false" (eventDoubleClick)="onEventDoubleClick($event)"
+                        (cellClick)="onCellClick($event)">
+                        <e-resources>
+                            <e-resource field='PatientId' name='Patients' [dataSource]='patientResources'
+                                [allowMultiple]='true' textField='FullName' groupIDField='PatientId' idField='Id'>
+                            </e-resource>
+                        </e-resources>
+                        <ng-template #resourceHeaderTemplate let-data>
+                            <div class="template-wrap">
+                                <div class="employee-category">
+                                    <div>
+                                        <img class="resource-image"
+                                            [src]='HOSTNAME + "/" + data.resourceData["AvatarUrl"]' />
+                                    </div>
+                                    <div class="resource-name">{{data.resourceData['FullName']}}</div>
+                                    <div class="short-description">{{getPatientInfo(data)}}</div>
+                                </div>
+                            </div>
+                        </ng-template>
                         <ng-template #dateHeaderTemplate let-data>
                             <div>
                                 <p class="m-0 text-center fw-semibold">{{formatDateHeader(data.date).date}}</p>
@@ -93,10 +256,10 @@
                             <table class="custom-event-editor" width="100%" cellpadding="5">
                                 <tbody>
                                     <tr>
-                                        <td class="e-textlabel text-nowrap">Patient <span class="text-danger">*</span>
+                                        <td class="e-textlabel text-nowrap float-end">Patient <span class="text-danger">*</span>
                                         </td>
                                         <td colspan="4">
-                                            <ejs-dropdownlist id='Patient' class="e-field"
+                                            <ejs-dropdownlist id='Patient' class="e-field form-control"
                                                 [ngClass]="{ 'is-invalid': isInvalid }" data-name="Patient"
                                                 placeholder='Choose Patient' [dataSource]='patients' [fields]="fields"
                                                 [allowFiltering]="true" (filtering)="onFilteringPatient($event)"
@@ -104,41 +267,42 @@
                                                 [(value)]="selectedPatient" [allowObjectBinding]="true"
                                                 [readonly]="editMode">
                                             </ejs-dropdownlist>
-                                            <!-- <div class="is-invalid"></div> -->
                                             <div class="invalid-feedback">This field is required</div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="e-textlabel text-nowrap">Appointment Date <span
+                                        <td class="e-textlabel text-nowrap float-end">Appointment Date <span
                                                 class="text-danger">*</span></td>
                                         <td colspan="4">
-                                            <ejs-datetimepicker id="EndTime" class="e-field" data-name="AppointmentDate"
-                                                format="M/dd/yy h:mm a" [value]="data.StartTime">
+                                            <ejs-datetimepicker id="EndTime" class="e-field form-control"
+                                                data-name="AppointmentDate" format="M/dd/yy h:mm a"
+                                                [value]="data.StartTime">
                                             </ejs-datetimepicker>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="e-textlabel text-nowrap">Existing Illness</td>
+                                        <td class="e-textlabel text-nowrap float-end">Existing Illness</td>
                                         <td colspan="4">
-                                            <textarea id="ExistingIllness" class="e-field e-input"
-                                                name="ExistingIllness" rows="3" cols="50"
+                                            <textarea id="ExistingIllness" class="e-field e-input form-control"
+                                                name="ExistingIllness" rows="2" cols="50"
                                                 value="{{data.ExistingIllness}}"
                                                 style="width: 100%; resize: vertical"></textarea>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="e-textlabel text-nowrap">Allergies</td>
+                                        <td class="e-textlabel text-nowrap float-end">Allergies</td>
                                         <td colspan="4">
-                                            <textarea id="Allergies" class="e-field e-input" name="Allergies" rows="3"
-                                                cols="50" value="{{data.Allergies}}"
+                                            <textarea id="Allergies" class="e-field e-input form-control"
+                                                name="Allergies" rows="2" cols="50" value="{{data.Allergies}}"
                                                 style="width: 100%; resize: vertical"></textarea>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="e-textlabel text-nowrap">Notes</td>
+                                        <td class="e-textlabel text-nowrap float-end">Notes</td>
                                         <td colspan="4">
-                                            <textarea id="Notes" class="e-field e-input" name="Notes" rows="3" cols="50"
-                                                value="{{data.Notes}}" style="width: 100%; resize: vertical"></textarea>
+                                            <textarea id="Notes" class="e-field e-input form-control" name="Notes"
+                                                rows="2" cols="50" value="{{data.Notes}}"
+                                                style="width: 100%; resize: vertical"></textarea>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -165,7 +329,6 @@
     <div class="modal-body">
         <form [formGroup]="addPatientFormGroup" (ngSubmit)="addNewPatient()">
             <div class="container px-0">
-                <!-- <h5>Account</h5> -->
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3">
                         <label class="form-label" for="username">Username <span class="text-danger">*</span></label>
@@ -187,15 +350,14 @@
                     </div>
                 </div>
                 <hr>
-                <!-- <h5>Patient Information</h5> -->
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3">
-                        <label class="form-label" for="fullName">Full Name <span class="text-danger">*</span></label>
+                        <label class="form-label" for="fullName">Full name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="fullName" formControlName="fullName"
                             autocomplete="off" placeholder="Enter patient's name"
                             [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['fullName'].errors }">
                         <div class="invalid-feedback">
-                            Full Name is required
+                            Full name is required
                         </div>
                     </div>
                     <div class="col-lg-12 mb-3">
@@ -220,12 +382,12 @@
                         </div>
                         <div class="invalid-feedback"
                             *ngIf="this.addPatientFormGroup.controls['email'].errors?.['email'] || this.addPatientFormGroup.controls['email'].errors?.['pattern']">
-                            Incorrect email address format
+                            Email format is incorrect
                         </div>
                     </div>
                     <div class="col-lg-4 mb-3">
-                        <label class="form-label" for="dateOfBirth">Date Of
-                            Birth <span class="text-danger">*</span></label>
+                        <label class="form-label" for="dateOfBirth">Date of
+                            birth <span class="text-danger">*</span></label>
                         <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth"
                             [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['dateOfBirth'].errors }">
                         <div class="invalid-feedback">
@@ -236,7 +398,7 @@
                         <label class="form-label" for="gender">Gender <span class="text-danger">*</span></label>
                         <select class="form-select" formControlName="gender" id="Gender"
                             [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['gender'].errors }">
-                            <option selected value="" hidden>Select patient's gender</option>
+                            <option selected value="" hidden>Select gender</option>
                             <option value="0">Male</option>
                             <option value="1">Female</option>
                             <option value="2">Other</option>
@@ -247,7 +409,8 @@
                     </div>
 
                     <div class="col-lg-4 mb-3">
-                        <label class="form-label" for="phoneNumber">Mobile <span class="text-danger">*</span></label>
+                        <label class="form-label" for="phoneNumber">Phone number <span
+                                class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="phoneNumber" autocomplete="off"
                             formControlName="phoneNumber" placeholder="Enter patient's phone number" maxlength="10"
                             [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['phoneNumber'].errors }">
@@ -258,7 +421,7 @@
                     <div class="col-lg-12 mb-3">
                         <label class="form-label" for="address">Address <span class="text-danger">*</span></label>
                         <textarea class="form-control" placeholder="Enter patient's address" formControlName="address"
-                            id="address" rows="3"
+                            id="address" rows="2"
                             [ngClass]="{'is-invalid': addPatientForm_submitted && this.addPatientFormGroup.controls['address'].errors }"></textarea>
                         <div class="invalid-feedback">
                             Address is required

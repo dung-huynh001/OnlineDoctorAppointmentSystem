@@ -24,6 +24,7 @@ namespace WebAPI.DTOs.AutoMapperProfile
             CreateMap<DepartmentTableDto, Department>().ReverseMap();
             CreateMap<AddNewPatientDto, RegisterModel>().ReverseMap();
             CreateMap<AddNewPatientDto, Patient>().ReverseMap();
+            CreateMap<PrescriptionDto, Prescription>().ReverseMap();
 
             CreateMap<MakeAppointmentDto, Appointment>().ReverseMap();
 

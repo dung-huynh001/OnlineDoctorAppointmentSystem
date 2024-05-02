@@ -28,6 +28,12 @@ namespace WebAPI.Controllers
             return Ok(await _scheduleService.GetScheduleByDate(doctorId, date));
         }
 
+        [HttpGet("get-schedule-by-date-and-user-id/{doctorId}")]
+        public async Task<IActionResult> GetScheduleByDateAndUserId([FromRoute] string doctorId, DateTime date)
+        {
+            return Ok(await _scheduleService.GetScheduleByDateAndUserId(doctorId, date));
+        }
+
         [Authorize(Roles = "admin")]
         [HttpPost("add-schedule")]
         public async Task<ActionResult<ApiResponse>> AddSchedule(CreateScheduleDto model)
@@ -66,5 +72,10 @@ namespace WebAPI.Controllers
             return Ok(await _scheduleService.GetDoctors());
         }
 
+        [HttpGet("get-appointment-patients/{doctorId}")]
+        public async Task<IActionResult> GetAppointmentPatients([FromRoute]string doctorId)
+        {
+            return Ok(await _scheduleService.GetAppointmentPatients(doctorId));
+        }
     }
 }

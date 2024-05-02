@@ -6,7 +6,7 @@
                 <ul ngbNav #verticalNav="ngbNav" [activeId]="1"
                     class="nav flex-row flex-lg-column nav-pills justify-content-between">
                     <li [ngbNavItem]="1">
-                        <a ngbNavLink>
+                        <a ngbNavLink (click)="markAsUnChanged()">
                             <p class="d-flex align-items-center m-0 py-2 gap-2" placement="right"
                                 ngbTooltip="Appointment Form">
                                 <span>
@@ -29,22 +29,20 @@
                                         <div class="d-sm-flex d-none border-bottom">
                                             <div class="form-logo">
                                                 <span class="logo-lg">
-                                                    <span class="logo-dark-text">MA</span>
+                                                    <span class="logo-dark-text">{{hospitalInfo.SHORTNAME}}</span>
                                                 </span>
                                             </div>
                                             <div>
                                                 <div>
-                                                    <h5>Can Tho City Central General Hospital</h5>
+                                                    <h5>{{hospitalInfo.NAME}}</h5>
                                                 </div>
                                                 <div>
-                                                    <strong>Address:</strong> Ly Tu Trong Street, An Khanh Ward,
-                                                    Ninh District
-                                                    Kieu, Can Tho City
+                                                    <strong>Address:</strong>{{hospitalInfo.ADDRESS}}
                                                 </div>
-                                                <div><strong>Hotline: </strong>0821-095-399</div>
+                                                <div><strong>Hotline: </strong>{{hospitalInfo.HOTLINE}}</div>
                                                 <div>
-                                                    <strong>Email: </strong>info&#64;hospital.com -
-                                                    <strong> Website: </strong>www.facebook.com
+                                                    <strong>Email: </strong>{{hospitalInfo.EMAIL}} -
+                                                    <strong> Website: </strong>{{hospitalInfo.WEBSITE}}
                                                 </div>
                                             </div>
                                             <div class="ms-auto fs-5">
@@ -322,7 +320,7 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="2">
-                        <a ngbNavLink>
+                        <a ngbNavLink (click)="markAsUnChanged()">
                             <p class="d-flex align-items-center m-0 py-2 gap-2" placement="right"
                                 ngbTooltip="Change Appointment Date">
                                 <span>
@@ -342,19 +340,21 @@
                                         <div class="col">
                                             <label for="form-label" for="appointmentDate">Appointment Date</label>
                                             <input type="text" id="appointmentDate" class="form-control" mwlFlatpickr
-                                                [altInput]="true" [convertModelValue]="true"
+                                                [altInput]="true" [convertModelValue]="true" (change)="markAsChanged()"
                                                 [(ngModel)]="appointmentDate">
                                         </div>
                                         <div class="col">
                                             <label for="form-label" for="appointmentDate">Time</label>
                                             <input type="text" id="appointmentDate" class="form-control" mwlFlatpickr
                                                 [noCalendar]="true" [enableTime]="true" [dateFormat]="'H:i'"
-                                                [(ngModel)]="appointmentTime">
+                                                (change)="markAsChanged()" [(ngModel)]="appointmentTime">
                                         </div>
                                         <div class="d-flex gap-3">
                                             <button class="btn btn-light ms-auto"
-                                                (click)="resetAppointmentDate()">Reset</button>
-                                            <button class="btn btn-success">Save changes</button>
+                                                (click)="resetAppointmentDate(); markAsUnChanged()">Reset</button>
+                                            <button class="btn btn-success" (click)="changeAppointmentDate()"
+                                                [ngClass]="{'disabled': appointmentDetails.appointmentStatus != 'Pending' && currentUser.userType == 'patient'}"
+                                                [disabled]="!isChanged">Save changes</button>
                                         </div>
                                     </div>
 
@@ -363,7 +363,7 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="3">
-                        <a ngbNavLink (click)="fetchDiagnosis()">
+                        <a ngbNavLink (click)="fetchDiagnosis(); markAsUnChanged()">
                             <p class="d-flex align-items-center m-0 py-2 gap-2" placement="right"
                                 ngbTooltip="Diagnosis">
                                 <span>
@@ -388,7 +388,7 @@
                                                         style="min-width: 130px;">Diagnosis</label>
                                                     <textarea [spellcheck]="false" class="form-control"
                                                         placeholder="Enter diagnosis if any" id="diagnosis"
-                                                        style="height: 100px"
+                                                        style="height: 100px" (input)="markAsChanged()"
                                                         [(ngModel)]="this.diagnosisDetails.diagnosis"></textarea>
                                                 </div>
                                             </div>
@@ -403,7 +403,7 @@
                                                         style="min-width: 130px;">Case Note</label>
                                                     <textarea [spellcheck]="false" class="form-control"
                                                         placeholder="Enter case note if any" id="caseNote"
-                                                        style="height: 100px"
+                                                        style="height: 100px" (input)="markAsChanged()"
                                                         [(ngModel)]="this.diagnosisDetails.caseNote"></textarea>
                                                 </div>
                                             </div>
@@ -419,14 +419,16 @@
                                                     <textarea [spellcheck]="false" class="form-control"
                                                         placeholder="Enter advice to patient if any"
                                                         id="adviceToPatient" style="height: 100px"
+                                                        (input)="markAsChanged()"
                                                         [(ngModel)]="this.diagnosisDetails.adviceToPatient"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex gap-3">
-                                        <button class="btn btn-light ms-auto" (click)="resetDiagnosis()">Reset</button>
-                                        <button class="btn btn-success"
+                                    <div class="d-flex gap-3" [ngClass]="{'d-none': currentUser.userType == 'patient'}">
+                                        <button class="btn btn-light ms-auto"
+                                            (click)="resetDiagnosis(); markAsUnChanged()">Reset</button>
+                                        <button class="btn btn-success" [disabled]="!isChanged"
                                             (click)="updateDiagnosis(appointmentDetails.id, diagnosisDetails)">Save
                                             changes</button>
                                     </div>
@@ -435,7 +437,7 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="4">
-                        <a ngbNavLink (click)="fetchPrescription()">
+                        <a ngbNavLink (click)="fetchPrescription(); markAsUnChanged();">
                             <p class="d-flex align-items-center m-0 py-2 gap-2" placement="right"
                                 ngbTooltip="Prescription">
                                 <span>
@@ -453,7 +455,9 @@
                                 <div class="card-body border border-dashed border-end-0 border-start-0 border-bottom-0">
                                     <div class="row gap-3">
                                         <div class="d-flex">
-                                            <button class="btn btn-soft-primary ms-auto" (click)="addRow()">Add
+                                            <button class="btn btn-soft-primary ms-auto"
+                                                [ngClass]="{'d-none': currentUser.userType == 'patient'}"
+                                                (click)="addRow(); markAsChanged()">Add
                                                 row</button>
                                         </div>
                                         <div class="table-responsive">
@@ -462,8 +466,8 @@
                                                     <tr>
                                                         <th>No.</th>
                                                         <th>Drug</th>
-                                                        <th>Freq <span class="fw-light">(per one day)</span></th>
-                                                        <th>Medical Day</th>
+                                                        <th>Frequency</th>
+                                                        <th>Medications Day</th>
                                                         <th>Quantity</th>
                                                         <th>Unit</th>
                                                         <th>Note</th>
@@ -472,71 +476,81 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr *ngFor="let pres of prescriptions; let i = index">
-                                                        <td>{{i+1}}</td>
+                                                        <td class="text-center align-middle">
+                                                            {{i+1}}
+                                                        </td>
                                                         <td>
                                                             <input type="text" class="form-control"
+                                                                (input)="markAsChanged()"
                                                                 [ngClass]="{'is-invalid': pres_submitted && !pres.drug}"
-                                                                [(ngModel)]="pres.drug">
+                                                                [(ngModel)]="pres.drug" placeholder="Drug">
                                                             <span class="invalid-feedback">This field is
                                                                 required</span>
                                                         </td>
                                                         <td>
-                                                            <select type="text" class="form-select"
+                                                            <select class="form-select" (change)="markAsChanged()"
                                                                 [ngClass]="{'is-invalid': pres_submitted && !pres.frequency}"
                                                                 [(ngModel)]="pres.frequency">
-                                                                <option *ngFor="let item of frequencyDropdownItems" [value]="item.value">{{item.text}}</option>
+                                                                <option *ngFor="let item of frequencyItems"
+                                                                    [value]="item.value">{{item.text}}</option>
                                                             </select>
                                                             <span class="invalid-feedback">This field is
                                                                 required</span>
-
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control"
+                                                            <input type="number" class="form-control"
+                                                                (input)="markAsChanged()"
                                                                 [ngClass]="{'is-invalid': pres_submitted && !pres.medicationDays}"
-                                                                [(ngModel)]="pres.medicationDays">
+                                                                [(ngModel)]="pres.medicationDays"
+                                                                placeholder="Medication Days">
                                                             <span class="invalid-feedback">This field is
                                                                 required</span>
 
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control"
+                                                            <input type="number" class="form-control"
+                                                                (input)="markAsChanged()"
                                                                 [ngClass]="{'is-invalid': pres_submitted && !pres.quantity}"
-                                                                [(ngModel)]="pres.quantity">
+                                                                [(ngModel)]="pres.quantity" placeholder="Quantity">
                                                             <span class="invalid-feedback">This field is
                                                                 required</span>
 
                                                         </td>
                                                         <td>
-                                                            <select type="text" class="form-select"
+                                                            <select class="form-select" (change)="markAsChanged()"
                                                                 [ngClass]="{'is-invalid': pres_submitted && !pres.unit}"
                                                                 [(ngModel)]="pres.unit">
-                                                                <option *ngFor="let item of unitDropdownItems" [value]="item.value" >{{item.text}}</option>
+                                                                <option *ngFor="let item of unitItems"
+                                                                    [value]="item.value">{{item.text}}</option>
                                                             </select>
                                                             <span class="invalid-feedback">This field is
                                                                 required</span>
-
                                                         </td>
                                                         <td>
                                                             <input type="text" class="form-control"
-                                                                [(ngModel)]="pres.note">
+                                                                (input)="markAsChanged()" [(ngModel)]="pres.note"
+                                                                placeholder="Note">
                                                         </td>
                                                         <td>
                                                             <button class="btn btn-sm btn-soft-danger"
-                                                                (click)="deleteRow(i)">Delete</button>
+                                                                [ngClass]="{'disabled': currentUser.userType == 'patient'}"
+                                                                (click)="deleteRow(i); markAsChanged()">Delete</button>
                                                         </td>
                                                     </tr>
                                                     <tr *ngIf="prescriptions.length == 0">
-                                                        <td colspan="8" class="text-center">No found any prescription
+                                                        <td colspan="8" class="text-center">No found any
+                                                            prescription
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
 
                                         </div>
-                                        <div class="d-flex gap-3">
+                                        <div class="d-flex gap-3"
+                                            [ngClass]="{'d-none': currentUser.userType == 'patient'}">
                                             <button class="btn btn-light ms-auto"
-                                                (click)="resetPrescriptions()">Reset</button>
-                                            <button class="btn btn-success" type="submit"
+                                                (click)="resetPrescriptions(); markAsUnChanged()">Reset</button>
+                                            <button class="btn btn-success" type="submit" [disabled]="!isChanged"
                                                 (click)="savePrescriptions(appointmentDetails.id, prescriptions)">Save
                                                 changes</button>
                                         </div>
@@ -562,11 +576,13 @@
                     <li class="list-group-item border-0 p-0">
                         <button class="btn btn-sm btn-outline-primary"
                             (click)="updateAppointmentStatus(appointmentDetails.id, 'Confirmed')"
+                            [ngClass]="{'d-none': currentUser.userType == 'patient'}"
                             [disabled]="appointmentDetails.appointmentStatus == 'Cancelled' || appointmentDetails.appointmentStatus == 'Confirmed'">Confirmed</button>
                     </li>
                     <li class="list-group-item border-0 p-0">
                         <button class="btn btn-sm btn-outline-success"
                             (click)="updateAppointmentStatus(appointmentDetails.id, 'Completed')"
+                            [ngClass]="{'d-none': currentUser.userType == 'patient'}"
                             [disabled]="appointmentDetails.appointmentStatus == 'Cancelled' || appointmentDetails.appointmentStatus !== 'Confirmed'">Completed</button>
                     </li>
                     <li class="list-group-item border-0 p-0">

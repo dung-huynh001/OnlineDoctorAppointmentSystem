@@ -218,7 +218,38 @@ namespace WebAPI.Services
             return doctor;
         }
 
-        public async Task<bool> UpdatePersonalInfo(DoctorPersonalInfo data)
+        public async Task<DoctorDetailsDto> GetDoctorDetailsByUserId(string id)
+        {
+            var doctor = await _unitOfWork.Repository<Doctor>().GetAll
+                .Where(d => d.UserId == id)
+                .Include(d => d.User)
+                .Select(d => new DoctorDetailsDto
+                {
+                    Id = d.Id,
+                    UserId = d.UserId,
+                    Address = d.Address,
+                    DateOfBirth = d.DateOfBirth.ToString("dd/MM/yyyy"),
+                    DepartmentId = d.DepartmentId,
+                    DepartmentName = d.Department.DepartmentName!.Trim(),
+                    Email = d.User.Email.Trim(),
+                    FullName = d.FullName,
+                    AvatarUrl = d.User.AvatarUrl,
+                    Gender = d.Gender,
+                    NationalId = d.NationalId.Trim(),
+                    PhoneNumber = d.PhoneNumber.Trim(),
+                    Speciality = d.Speciality.Trim(),
+                    WorkingEndDate = d.WorkingEndDate.Date.ToString("dd/MM/yyyy"),
+                    WorkingStartDate = d.WorkingStartDate.ToString("dd/MM/yyyy"),
+                    CreatedDate = d.CreatedDate.ToString("hh:mm:ss tt dd/MM/yyyy"),
+                    UpdatedDate = d.UpdatedDate.ToString("hh:mm:ss tt dd/MM/yyyy"),
+                })
+                .FirstOrDefaultAsync();
+            if (doctor == null)
+                throw new NotFoundException("doctor", id);
+            return doctor;
+        }
+
+        public async Task<bool> UpdateDoctor(DoctorInfoDto data)
         {
             _unitOfWork.BeginTransaction();
             try
@@ -247,13 +278,13 @@ namespace WebAPI.Services
             }
         }
 
-        public async Task<ApiResponse> UpdateWorkInfo(WorkInfoDto data)
+        public async Task<ApiResponse> UpdateContract(ContractDto data)
         {
             _unitOfWork.BeginTransaction();
             try
             {
                 var doctor = await _unitOfWork.Repository<Doctor>().GetByIdAsync(data.Id);
-                doctor.Speciality = data.Speciality;
+                doctor.Speciality = data.Speciality!;
                 doctor.DepartmentId = data.DepartmentId;
                 doctor.WorkingStartDate = data.WorkingStartDate;
                 doctor.WorkingEndDate = data.WorkingEndDate;

@@ -1,0 +1,31 @@
+export interface iPatientInfo {
+    id: number,
+    userId: string,
+    fullName: string,
+    phoneNumber: string,
+    email: string,
+    address: string,
+    dateOfBirth: string,
+    gender: string,
+    nationalId: string,
+    createdDate: string,
+    updatedDate: string,
+    avatarUrl: string,
+}
+
+export interface iPatient {
+    id: number,
+    userId: string,
+    fullName: string,
+    phoneNumber: string,
+    email: string,
+    address: string,
+    dateOfBirth: Date,
+    gender: string,
+    nationalId: string,
+    createdDate: Date,
+    createdBy: string,
+    updatedDate: Date,
+    updatedBy: string,
+    avatarUrl: string,
+}

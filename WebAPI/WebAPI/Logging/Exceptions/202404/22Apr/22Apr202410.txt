@@ -1,0 +1,22 @@
+4/22/2024 10:18:17 AM ==> 	Missing type map configuration or unsupported mapping.
+
+Mapping types:
+PrescriptionDto -> Prescription
+WebAPI.DTOs.PrescriptionDto -> WebAPI.Domain.Entities.Prescription Line:0		POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/22/2024 10:44:18 AM ==> 	An error occurred while saving the entity changes. See the inner exception for details. Line:0	<ExecuteAsync>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/22/2024 10:45:03 AM ==> 	An error occurred while saving the entity changes. See the inner exception for details. Line:0	<ExecuteAsync>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/22/2024 10:49:32 AM ==> 	An error occurred while saving the entity changes. See the inner exception for details. Line:0	<ExecuteAsync>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/22/2024 10:51:46 AM ==> 	An error occurred while saving the entity changes. See the inner exception for details. Line:0	<ExecuteAsync>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/22/2024 10:53:30 AM ==> 	An error occurred while saving the entity changes. See the inner exception for details. Line:0	<ExecuteAsync>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/22/2024 10:56:33 AM ==> 	An error occurred while saving the entity changes. See the inner exception for details. Line:0	<ExecuteAsync>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/22/2024 10:56:46 AM ==> 	An error occurred while saving the entity changes. See the inner exception for details. Line:0	<ExecuteAsync>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/22/2024 10:58:02 AM ==> 	An error occurred while saving the entity changes. See the inner exception for details. Line:0	<ExecuteAsync>	POST	542d16f6-a287-418a-9bbd-54480f547566
+

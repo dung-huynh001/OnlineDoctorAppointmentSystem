@@ -3,7 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IUser, User } from '../models/auth.models';
 import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-
+import { apiResponse } from '../models/apiResponse.model';
+import { Router } from '@angular/router';
+const HOSTNAME = environment.serverApi;
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
@@ -17,14 +19,20 @@ export class AuthService {
   );
   user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
-  status$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  status$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(
+    null
+  );
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
-  register(email: string, username: string, password: string, userType: string) {
+  register(
+    email: string,
+    username: string,
+    password: string,
+    userType: string
+  ) {
     return this.http.post(
-      `${environment.serverApi}/api/Auth/register`,
+      `${HOSTNAME}/api/Auth/register`,
       {
         userType,
         email,
@@ -36,19 +44,24 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<{ data: IUser }> {
-    return this.http.post(`${environment.serverApi}/api/Auth/login`,
-      {
-        username,
-        password,
-      },
-      httpOptions)
+    return this.http
+      .post(
+        `${HOSTNAME}/api/Auth/login`,
+        {
+          username,
+          password,
+        },
+        httpOptions
+      )
       .pipe(
         map((res: any) => {
           return {
             data: User.createFromData(res),
           };
         }),
-        catchError(err => { return throwError(() => err) })
+        catchError((err) => {
+          return throwError(() => err);
+        })
       );
   }
 
@@ -57,7 +70,7 @@ export class AuthService {
     this.token$.next(token);
 
     localStorage.setItem('currentUser', JSON.stringify(user));
-    document.cookie = (`token=${token}`);
+    document.cookie = `token=${token}`;
   }
 
   setCurrentUser(user: User) {
@@ -65,7 +78,7 @@ export class AuthService {
     this.status$.next(user.status);
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
-  
+
   initStatus() {
     const currentUser = this.currentUser();
     this.status$.next(currentUser.status);
@@ -95,5 +108,38 @@ export class AuthService {
     localStorage.removeItem('token');
     this.user$.next(null);
     this.token$.next(null);
+    this.router.navigate(['/auth/login']);
+  }
+
+  resetPassword(data: any): Observable<apiResponse> {
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+
+    return this.http
+      .post<apiResponse>(`${HOSTNAME}/api/Auth/forget-password`, formData)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  changePassword(data: any): Observable<apiResponse> {
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+
+    return this.http
+      .post<apiResponse>(`${HOSTNAME}/api/Auth/change-password`, formData)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 }

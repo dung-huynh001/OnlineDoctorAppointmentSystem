@@ -1,8 +1,7 @@
 <!-- ========== App Menu ========== -->
 <div class="app-menu navbar-menu">
     <!-- LOGO -->
-    <div class="navbar-brand-box">
-      <!-- Dark Logo-->
+    <!-- <div class="navbar-brand-box">
       <a routerLink="/" class="logo logo-dark">
         <span class="logo-sm">
           <img src="assets/images/logo-sm.png" alt="" height="22">
@@ -11,7 +10,6 @@
           <img src="assets/images/logo-dark.png" alt="" height="17">
         </span>
       </a>
-      <!-- Light Logo-->
       <a routerLink="/" class="logo logo-light">
         <span class="logo-sm">
           <img src="assets/images/logo-sm.png" alt="" height="22">
@@ -23,7 +21,7 @@
       <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
         <i class="ri-record-circle-line"></i>
       </button>
-    </div>
+    </div> -->
   
     <div id="scrollbar">
       <div class="container-fluid">
@@ -36,9 +34,9 @@
                 <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
                   <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                     <div class="simplebar-content" style="padding: 0px;">
-                      <a href="#" class="logo">
+                      <!-- <a href="#" class="logo">
                         <img src="assets/images/logo-sm.png" alt="" height="22">
-                      </a>
+                      </a> -->
                       <ng-container *ngFor="let item of menuItems">
                         <li *ngIf="!item.isTitle && !item.isLayout">
                           <a *ngIf="hasItems(item)" href="javascript:void(0);" [attr.subitems]="item.collapseid" class="nav-icon" (click)="toggleItem($event)">

@@ -26,14 +26,26 @@ namespace WebAPI.Controllers
             this._authService = authService;
         }
 
-        [HttpGet("get-patient-details")]
-        public async Task<IActionResult> GetPatientDetails(string id)
+        [HttpPost("get-all")]
+        public async Task<IActionResult> GetAll(DataTablesParameters parameters)
         {
-            return Ok(await _patientService.GetPatientDetails(id));
+            return Ok(await _patientService.GetAll(parameters));
+        }
+
+        [HttpGet("get-patient-detail-by-user-id")]
+        public async Task<IActionResult> GetPatientDetailByUserId(string id)
+        {
+            return Ok(await _patientService.GetPatientDetailByUserId(id));
+        }
+
+        [HttpGet("get-patient-detail-by-patient-id/{id}")]
+        public async Task<IActionResult> GetPatientDetailByUserId([FromRoute]int id)
+        {
+            return Ok(await _patientService.GetPatientDetailByPatientId(id));
         }
 
         [HttpPatch("update-patient-info/{id}")]
-        public async Task<IActionResult> UpdatePatient([FromForm]UpdatePatientDetailsDto model)
+        public async Task<IActionResult> UpdatePatient([FromForm]UpdatePatientDetailDto model)
         {
             var img = model.Avatar;
             if (img != null && img.Length != 0)

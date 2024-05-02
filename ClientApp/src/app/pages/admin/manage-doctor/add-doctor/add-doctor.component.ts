@@ -1,13 +1,13 @@
 // import { CdkStepper } from '@angular/cdk/stepper';
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RestApiService } from '../../../../core/services/rest-api.service';
 import { catchError, finalize, throwError } from 'rxjs';
 import { ToastService } from '../../../../core/services/toast.service';
 import { DoctorService } from '../../../../core/services/doctor.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CdkStepper, StepperSelectionEvent } from '@angular/cdk/stepper';
 import { NgStepperComponent } from 'angular-ng-stepper';
+import { DepartmentService } from '../../../../core/services/department.service';
 
 @Component({
   selector: 'app-add-doctor',
@@ -32,12 +32,15 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
 
 
   // Config department select
-  departmentData = [{}];
+  departmentData!: Array<{
+    id: number;
+    departmentName: string;
+  }>;
   selectedDepartment: number = 1;
 
   constructor(
     private formBuilder: FormBuilder,
-    private _restApiService: RestApiService,
+    private _departmentService: DepartmentService,
     private _toastService: ToastService,
     private _doctorService: DoctorService,
     private _spinnerService: NgxSpinnerService
@@ -77,8 +80,8 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this._restApiService
-      .get('/Department/get-department-to-select', '')
+    this._departmentService
+      .getDepartmentOptions()
       .pipe(
         catchError((err) => {
           this._toastService.error('Cannot connect to server');

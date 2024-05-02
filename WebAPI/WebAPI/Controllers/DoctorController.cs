@@ -94,12 +94,18 @@ namespace WebAPI.Controllers
             return Ok(await _doctorService.GetDoctorDetails(id));
         }
 
-        [HttpPatch("update-personal-info/{id}")]
-        public async Task<IActionResult> UpdatePersonalInfo([FromRoute] int id, [FromForm] DoctorPersonalInfo data)
+        [HttpGet("get-doctor-details-by-user-id/{id}")]
+        public async Task<IActionResult> GetDoctorDetailByUserId([FromRoute] string id)
         {
-            
+            return Ok(await _doctorService.GetDoctorDetailsByUserId(id));
+        }
 
-            if (!await _doctorService.UpdatePersonalInfo(data))
+        [HttpPatch("update-personal-info/{id}")]
+        public async Task<IActionResult> UpdateDoctor([FromRoute] int id, [FromForm] DoctorInfoDto data)
+        {
+
+
+            if (!await _doctorService.UpdateDoctor(data))
             {
                 throw new Exception("Update doctor failed");
             }
@@ -113,25 +119,29 @@ namespace WebAPI.Controllers
                 string relativePath = Path.Combine(folderName, uniqueName);
                 relativePath = relativePath.Replace("\\", "/");
                 data.AvatarUrl = relativePath;
-                if (!await _authService.UpdateEmailAndAvatarUrlAsync(data.UserId, data.Email, data.AvatarUrl))
+                if (!await _authService.UpdateEmailAndAvatarUrlAsync(data.UserId, data.Email!, data.AvatarUrl))
                 {
                     throw new Exception("Updated email and avatar url failed");
                 }
-                await _uploadService.UploadImageToFolderAsync(data.Avatar, filePath);
+                await _uploadService.UploadImageToFolderAsync(data.Avatar!, filePath);
             }
 
-            return Ok(new ApiResponse
+            return Ok(new
             {
                 IsSuccess = true,
-                Message = "Updated doctor sucessfully",
-                Id = data.Id.ToString()
+                Message = "Update personal information successfully",
+                Data = new
+                {
+                    FullName = data.FullName,
+                    AvatarUrl = data.AvatarUrl,
+                }
             });
         }
 
-        [HttpPatch("update-work-info/{id}")]
-        public async Task<IActionResult> UpdateWorkInfo([FromForm]WorkInfoDto data)
+        [HttpPatch("update-contract-info/{id}")]
+        public async Task<IActionResult> UpdateContract([FromForm]ContractDto data)
         {
-            return Ok(await _doctorService.UpdateWorkInfo(data));
+            return Ok(await _doctorService.UpdateContract(data));
         }
     }
 }

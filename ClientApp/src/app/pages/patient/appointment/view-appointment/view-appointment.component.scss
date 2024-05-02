@@ -4,6 +4,10 @@
   box-shadow: none;
 }
 
+table>thead>tr>th {
+  text-align: center;
+}
+
 
 @media (min-width: 992px) {
     .appt-menu {

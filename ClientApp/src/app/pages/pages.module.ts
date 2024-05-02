@@ -16,7 +16,6 @@ import { SimplebarAngularModule } from 'simplebar-angular';
 import { CountUpModule } from 'ngx-countup';
 
 import { AccountModule } from '../account/account.module';
-import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
 import { NgxMaskPipe } from 'ngx-mask';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -28,7 +27,6 @@ import { DataTablesModule } from 'angular-datatables';
     MedicalProcessComponent,
     AboutUsComponent,
     CustomerCareComponent,
-    AssignScheduleComponent,
   ],
   imports: [
     CommonModule,

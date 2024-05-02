@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
-import { iPatientInfo } from '../../../core/models/patientInfo.model';
+import { iPatientInfo } from '../../../core/models/patient.model';
 import { ProfileService } from '../../../core/services/profile.service';
 import { catchError, finalize, map, throwError } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -14,7 +14,7 @@ import { User } from '../../../core/models/auth.models';
 })
 export class ProfileComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
-  hostName = environment.serverApi;
+  HOSTNAME = environment.serverApi;
 
   userData!: User;
 
@@ -43,7 +43,7 @@ export class ProfileComponent implements OnInit {
   fetchData() {
     this._spinnerService.show();
     this._profileService
-      .getPatientInfo(this.userData.id)
+      .getPatientDetailByUserId(this.userData.id)
       .pipe(
         map((data) => {
           return {
@@ -74,7 +74,7 @@ export class ProfileComponent implements OnInit {
       .subscribe((res) => {
         this.patientData = res;
         this._profileService.setPatient(res);
-        this.avatarUrl = this.patientData.avatarUrl == null ? "https://localhost:7139/Uploads/Images/default-user.jpg" : this.hostName + `/` + this.patientData.avatarUrl;
+        this.avatarUrl = this.patientData.avatarUrl == null ? "https://localhost:7139/Uploads/Images/default-user.jpg" : this.HOSTNAME + `/` + this.patientData.avatarUrl;
       });
   }
 }

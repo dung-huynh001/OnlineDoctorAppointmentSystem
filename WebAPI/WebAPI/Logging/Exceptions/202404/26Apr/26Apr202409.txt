@@ -1,0 +1,4 @@
+4/26/2024 9:13:57 AM ==> AuthService.cs	Username already taken Line:105	<RegisterAsync>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 9:14:23 AM ==> AuthService.cs	Email 'p10@gmail.com' is already taken. Line:123	<RegisterAsync>	POST	542d16f6-a287-418a-9bbd-54480f547566
+

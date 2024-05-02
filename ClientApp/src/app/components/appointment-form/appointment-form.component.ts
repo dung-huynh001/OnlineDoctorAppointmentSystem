@@ -12,7 +12,7 @@ import { ToastService } from '../../core/services/toast.service';
 import { ProfileService } from '../../core/services/profile.service';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/models/auth.models';
-import { iPatientInfo } from '../../core/models/patientInfo.model';
+import { iPatientInfo } from '../../core/models/patient.model';
 import { AppointmentService } from '../../core/services/appointment.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -22,6 +22,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './appointment-form.component.scss',
 })
 export class AppointmentFormComponent implements OnInit, OnChanges {
+  hospitalInfo: any;
+
   @Input() defaultData!: {
     doctorId: number;
     scheduleId: number;
@@ -81,8 +83,8 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
 
     const doctorNameElement =
       this.elementRef.nativeElement.querySelector('#appointmentDate');
-    
-    if(!changes['defaultData'].firstChange)
+
+    if (!changes['defaultData'].firstChange)
       doctorNameElement?.scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -91,9 +93,14 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this._appointmentService
+      .getHospitalInfo()
+      .subscribe((res) => (this.hospitalInfo = res));
+
+      
     const currentUser: User = this._authService.currentUser();
     this._patientService
-      .getPatientInfo(currentUser.id)
+      .getPatientDetailByUserId(currentUser.id)
       .pipe(
         catchError((err) => {
           console.log(err);
@@ -142,9 +149,7 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
     if (this.appointmentForm.valid) {
       this._spinnerService.show();
       this._appointmentService
-        .makeAppointment(
-          this.appointmentForm.value
-        )
+        .makeAppointment(this.appointmentForm.value)
         .pipe(
           finalize(() => {
             setTimeout(() => {

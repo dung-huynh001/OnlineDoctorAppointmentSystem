@@ -68,7 +68,7 @@ namespace WebAPI.Implementations
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             TEntity? exist = await _context.Set<TEntity>().FindAsync(entity.Id);
-            if (exist == null || exist.IsDeleted)
+            if (exist == null)
             {
                 throw new NotFoundException(typeof(TEntity).ToString(), entity.Id);
             }

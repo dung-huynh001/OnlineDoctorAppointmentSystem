@@ -20,19 +20,14 @@
           <div class="template-wrap">
             <div class="employee-category">
               <div>
-                <img class="resource-image" *ngIf="getDoctorImageName(data)"
-                  src="https://localhost:7139/{{getDoctorImageName(data)}}" />
+                <img class="resource-image" *ngIf="getDoctorImage(data)"
+                  src="{{getDoctorImage(data)}}" />
               </div>
               <div class="resource-name">{{getDoctorName(data)}}</div>
               <div class="designation">{{getDoctorDesignation(data)}}</div>
             </div>
           </div>
         </ng-template>
-        <!-- <ng-template #eventSettingsTemplate let-data>
-          <div class='template-wrap'>
-            <div class="subject">{{data.Subject}}</div>
-          </div>
-        </ng-template> -->
         <e-header-rows>
           <e-header-row option="Date"></e-header-row>
           <e-header-row option="Hour" *ngIf="displayHour"></e-header-row>

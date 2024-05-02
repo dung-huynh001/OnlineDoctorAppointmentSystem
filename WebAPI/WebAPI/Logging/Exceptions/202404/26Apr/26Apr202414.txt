@@ -1,0 +1,32 @@
+4/26/2024 2:00:03 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:02:00 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:02:15 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:07:51 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:08:24 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:08:43 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:10:11 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:13:10 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:17:53 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:19:50 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:20:14 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:23:27 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:23:38 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:620	<UpdateAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:53:47 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:53:52 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/26/2024 2:59:57 PM ==> AppointmentService.cs	Please choose patient to make appointment Line:666	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+

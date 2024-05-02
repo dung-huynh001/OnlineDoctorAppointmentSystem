@@ -18,6 +18,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { ComponentsModule } from '../../components/components.module';
+import { ManagePatientComponent } from './manage-patient/manage-patient.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 
@@ -28,6 +30,7 @@ import { ComponentsModule } from '../../components/components.module';
     ManageDoctorComponent,
     AssignScheduleComponent,
     DashboardComponent,
+    ManagePatientComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +48,8 @@ import { ComponentsModule } from '../../components/components.module';
     NgxSpinnerModule,
     ComponentsModule,
     DataTablesModule,
+    NgApexchartsModule,
+
   ],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

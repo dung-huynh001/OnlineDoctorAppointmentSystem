@@ -7,6 +7,7 @@ namespace WebAPI.Interfaces.IService
     public interface IScheduleService
     {
         Task<List<ScheduleShiftDto>> GetScheduleByDate(int doctorId, DateTime date);
+        Task<List<ScheduleShiftDto>> GetScheduleByDateAndUserId(string doctorId, DateTime date);
         Task<ApiResponse> AddSchedule(CreateScheduleDto model);
         Task<ApiResponse> UpdateSchedule(UpdateScheduleDto model);
         Task<List<ScheduleEventDto>> GetScheduleEventsByDoctor(int doctorId);
@@ -15,5 +16,6 @@ namespace WebAPI.Interfaces.IService
         Task<List<ScheduleShiftDto>> GetScheduleShiftsByDate(int doctorId, DateTime date);
 
         Task<List<DoctorResourceDto>> GetDoctors();
+        Task<List<PatientResourceDto>> GetAppointmentPatients(string doctorId);
     }
 }

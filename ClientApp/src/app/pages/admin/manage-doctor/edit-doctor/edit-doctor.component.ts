@@ -15,7 +15,6 @@ export class EditDoctorComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   userType = localStorage.getItem('userType');
   isLoading: boolean = true;
-  completionLevel!: number;
   doctorId!: any;
   departmentData!: Array<{
     id: number;
@@ -41,11 +40,11 @@ export class EditDoctorComponent implements OnInit {
   };
 
   personalForm!: FormGroup;
-  workInfoForm!: FormGroup;
+  contractForm!: FormGroup;
   changePassForm!: FormGroup;
 
   personalFormSubmitted: boolean = false;
-  workInfoFormSubmitted: boolean = false;
+  contractFormSubmitted: boolean = false;
   changePassFormSubmitted: boolean = false;
 
   maxFileSize: number = 272025;
@@ -56,15 +55,14 @@ export class EditDoctorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _toastService: ToastService
   ) {
-    this.completionLevel = 30;
   }
 
   get personalFormControl() {
     return this.personalForm.controls;
   }
 
-  get workInfoFormControl() {
-    return this.workInfoForm.controls;
+  get contractFormControl() {
+    return this.contractForm.controls;
   }
 
   get changePassFormControl() {
@@ -78,8 +76,8 @@ export class EditDoctorComponent implements OnInit {
     return false;
   }
 
-  workInfoFormChanged(): boolean {
-    if (!this.workInfoForm.pristine) {
+  contractFormChanged(): boolean {
+    if (!this.contractForm.pristine) {
       return true;
     }
     return false;
@@ -148,7 +146,7 @@ export class EditDoctorComponent implements OnInit {
           Avatar: [null, [Validators.max(this.maxFileSize)]],
         });
 
-        this.workInfoForm = this.formBuilder.group({
+        this.contractForm = this.formBuilder.group({
           Id: [this.doctorDetails.id, Validators.required],
           Speciality: [this.doctorDetails.speciality, Validators.required],
           DepartmentId: [this.doctorDetails.departmentId, Validators.required],
@@ -174,14 +172,14 @@ export class EditDoctorComponent implements OnInit {
     this.changePassFormSubmitted = true;
   }
 
-  onWorkInfoFormSubmit() {
-    this.workInfoFormSubmitted = true;
-    if (this.workInfoForm.valid) {
+  onContractFormSubmit() {
+    this.contractFormSubmitted = true;
+    if (this.contractForm.valid) {
       this._doctorService
         .update(
-          'Doctor/update-work-info',
+          'Doctor/update-contract-info',
           this.doctorId,
-          this.workInfoForm.value
+          this.contractForm.value
         )
         .pipe(
           catchError((err) => {
