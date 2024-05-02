@@ -121,24 +121,24 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
           data: 'departmentName',
         },
         {
-          title: 'Create by',
+          title: 'Created by',
           data: 'createdBy',
           render: (data: any) => {
             return data ? data : 'admin';
           },
         },
         {
-          title: 'Create date',
+          title: 'Created date',
           data: 'createdDate',
           render: (data: any) =>
             this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
         },
         {
-          title: 'Update by',
+          title: 'Updated by',
           data: 'updatedBy',
         },
         {
-          title: 'Update date',
+          title: 'Updated date',
           data: 'updatedDate',
           render: (data: any) =>
             this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss'),

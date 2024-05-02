@@ -52,16 +52,15 @@ namespace WebAPI.Services
         {
             DatatableResponse<DepartmentTableDto> response = new DatatableResponse<DepartmentTableDto>();
 
-            var searchValue = parameters.Search.Value.IsNullOrEmpty() ? "" : parameters.Search.Value?.ToLower().Trim();
+            var searchValue = parameters.Search?.Value?.ToLower().Trim();
 
-            // Filter with search value and pagination
             var records = _unitOfWork.Repository<Department>().GetAll
                 .Select(d => new DepartmentTableDto
                 {
                     Id = d.Id,
                     CreatedBy = "admin",
                     CreatedDate = d.CreatedDate,
-                    DepartmentName = d.DepartmentName,
+                    DepartmentName = d.DepartmentName!,
                     IsDeleted = d.IsDeleted,
                     UpdatedBy = "admin",
                     UpdatedDate = d.UpdatedDate,
@@ -78,9 +77,8 @@ namespace WebAPI.Services
                     || d.UpdatedDate.ToString().Trim().ToLower().Contains(searchValue!)
                     || d.IsDeleted.ToString().Trim().ToLower().Contains(searchValue!));
 
-            // Filter with order column
-            if (parameters.Order.Count() != 0)
-                switch (parameters.Order[0].Column)
+            if (parameters.Order?.Count() != 0)
+                switch (parameters.Order?[0].Column)
                 {
                     case (2):
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.DepartmentName) : records.OrderByDescending(r => r.DepartmentName);
@@ -101,7 +99,7 @@ namespace WebAPI.Services
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.IsDeleted) : records.OrderByDescending(r => r.IsDeleted);
                         break;
                     default:
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
+                        records = parameters.Order?[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
                         break;
                 }
             records = records
@@ -197,7 +195,7 @@ namespace WebAPI.Services
                 .Select(d => new DepartmentToOptiontDto
                     {
                         Id = d.Id,
-                        DepartmentName = d.DepartmentName
+                        DepartmentName = d.DepartmentName!
                     })
                 .ToListAsync();
             return await result;

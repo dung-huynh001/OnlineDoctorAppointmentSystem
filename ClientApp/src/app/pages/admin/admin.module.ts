@@ -6,7 +6,7 @@ import { defineElement } from 'lord-icon-element';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 import { ManageScheduleComponent } from './manage-schedule/manage-schedule.component';
-import { NgbNavModule, NgbPagination, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbNavModule, NgbPagination, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CountUpModule } from 'ngx-countup';
 import { ManageDoctorComponent } from './manage-doctor/manage-doctor.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -49,7 +49,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     ComponentsModule,
     DataTablesModule,
     NgApexchartsModule,
-
+    NgbDropdownModule
   ],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

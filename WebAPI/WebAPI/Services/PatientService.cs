@@ -203,7 +203,7 @@ namespace WebAPI.Services
         {
             var response = new DatatableResponse<PatientTableDto>();
 
-            var searchValue = parameters.Search.Value == null ? "" : parameters.Search.Value?.ToLower().Trim();
+            var searchValue = parameters.Search?.Value?.ToLower().Trim() ?? "";
 
             var records = _unitOfWork.Repository<Patient>().GetAll
                 .Select(d => new PatientTableDto
@@ -216,8 +216,8 @@ namespace WebAPI.Services
                     PhoneNumber = d.PhoneNumber,
                     Email = d.User.Email,
                     Address = d.Address,
-                    CreatedBy = d.CreatedBy,
-                    UpdatedBy = d.UpdatedBy,
+                    CreatedBy = d.CreatedBy ?? "admin",
+                    UpdatedBy = d.UpdatedBy ?? "admin",
                     CreatedDate = d.CreatedDate,
                     UpdatedDate = d.UpdatedDate,
                     IsDeleted = d.IsDeleted,
@@ -227,13 +227,13 @@ namespace WebAPI.Services
 
             records = records.Where(d =>
                     d.Id.ToString().Trim().Contains(searchValue)
-                    || d.FullName.Trim().ToLower().Contains(searchValue)
-                    || d.Email.Trim().ToLower().Contains(searchValue)
+                    || d.FullName!.Trim().ToLower().Contains(searchValue)
+                    || d.Email!.Trim().ToLower().Contains(searchValue)
                     || d.Gender.Trim().ToLower().Contains(searchValue)
-                    || d.Address.Trim().ToLower().Contains(searchValue)
-                    || d.NationalId.Trim().ToLower().Contains(searchValue)
+                    || d.Address!.Trim().ToLower().Contains(searchValue)
+                    || d.NationalId!.Trim().ToLower().Contains(searchValue)
                     || d.DateOfBirth.ToString().Trim().ToLower().Contains(searchValue)
-                    || d.PhoneNumber.Trim().ToLower().Contains(searchValue)
+                    || d.PhoneNumber!.Trim().ToLower().Contains(searchValue)
                     || d.CreatedBy.Trim().ToLower().Contains(searchValue)
                     || d.CreatedDate.ToString().Trim().ToLower().Contains(searchValue)
                     || d.UpdatedBy.Trim().ToLower().Contains(searchValue)
@@ -242,8 +242,8 @@ namespace WebAPI.Services
 
 
             // Filter with order column
-            if (parameters.Order.Count() != 0)
-                switch (parameters.Order[0].Column)
+            if (parameters.Order?.Count() != 0)
+                switch (parameters.Order?[0].Column)
                 {
                     case (2):
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.FullName) : records.OrderByDescending(r => r.FullName);
@@ -279,7 +279,7 @@ namespace WebAPI.Services
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.IsDeleted) : records.OrderByDescending(r => r.IsDeleted);
                         break;
                     default:
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
+                        records = parameters.Order?[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
                         break;
                 }
 

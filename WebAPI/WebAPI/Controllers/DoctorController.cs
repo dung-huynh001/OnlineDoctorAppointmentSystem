@@ -22,17 +22,20 @@ namespace WebAPI.Controllers
         private readonly IUploadService _uploadService;
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
+        private readonly IStatisticService _widgetService;
 
         public DoctorController(
             IDoctorService doctorService, 
             IUploadService uploadService, 
             IAuthService authService, 
-            IMapper mapper)
+            IMapper mapper,
+            IStatisticService widgetService)
         {
             this._doctorService = doctorService;
             this._uploadService = uploadService;
             this._authService = authService;
             this._mapper = mapper;
+            this._widgetService = widgetService;
         }
 
         [HttpPost("get-all")]
@@ -142,6 +145,18 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> UpdateContract([FromForm]ContractDto data)
         {
             return Ok(await _doctorService.UpdateContract(data));
+        }
+
+        [HttpGet("get-statistic-resource-widgets")]
+        public async Task<IActionResult> GetStatisticResourceWidgets()
+        {
+            return Ok(await _widgetService.StatisticResourceWidgets());
+        }
+
+        [HttpGet("get-statistic-appointment-widgets")]
+        public async Task<IActionResult> GetStatisticAppointmentWidgets(string userId, string userType)
+        {
+            return Ok(await _widgetService.StatisticAppointmentWidgets(userId, userType));
         }
     }
 }

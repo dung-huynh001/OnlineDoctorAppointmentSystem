@@ -96,67 +96,6 @@ namespace WebAPI.Services
                 Token = new JwtSecurityTokenHandler().WriteToken(token)
             };
         }
-
-        /*public async Task<RegisterResponse> RegisterAsync(RegisterModel request)
-        {
-            var userExists = await _userManager.FindByNameAsync(request.Username.Trim());
-            if (userExists != null)
-            {
-                throw new Exception("Username already taken");
-            }
-
-            var userType = request.UserType!.Trim().ToLower();
-
-            var user = new AppUser
-            {
-                UserName = request.Username.Trim(),
-                Email = request.Email.Trim(),
-                UserType = userType,
-                AvatarUrl = request.AvatarUrl,
-                Status = userType == "patient" ? StatusAccount.NotActivate : StatusAccount.Activated
-            };
-
-            var result = await _userManager.CreateAsync(user, request.Password.Trim());
-
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.ToList()[0].Description);
-            }
-
-            string role = request.UserType!.ToString();
-
-            if (!await _roleManager.RoleExistsAsync(role))
-            {
-                await _roleManager.CreateAsync(new AppRole(role));
-            }
-
-            if (await _roleManager.RoleExistsAsync(role))
-            {
-                await _userManager.AddToRoleAsync(user, role);
-            }
-            // Create a new patient corresponding to the newly created user
-            switch (user.UserType)
-            {
-                case "patient":
-                    if(!await _patientService.Create(new CreatePatientDto { FullName = user.UserName, UserId = user.Id }))
-                    {
-                        await DeleteUserAsync(user.Id);
-                        throw new Exception("Patient account registration failed");
-                    }
-                    break;
-                case "doctor":
-                    break;
-                default:
-                    await DeleteUserAsync(user.Id);
-                    throw new Exception("Can only sign up for a patient or doctor account");
-            }
-
-            return new RegisterResponse
-            {
-                UserId = user.Id
-            };
-        }*/
-
         public async Task<RegisterResponse> RegisterAsync(RegisterModel request)
         {
             var userExists = await _userManager.FindByNameAsync(request.Username.Trim());

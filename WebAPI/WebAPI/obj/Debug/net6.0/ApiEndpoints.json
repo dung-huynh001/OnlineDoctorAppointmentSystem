@@ -1,5 +1,36 @@
 [
   {
+    "ContainingType": "WebAPI.Controllers.AdminController",
+    "Method": "GetStatisticAppointmentWidgets",
+    "RelativePath": "api/Admin/get-statistic-appointment-widgets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "userType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AdminController",
+    "Method": "GetStatisticResourceWidgets",
+    "RelativePath": "api/Admin/get-statistic-resource-widgets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "AddNewPatient",
     "RelativePath": "api/Appointment/add-new-patient",
@@ -837,6 +868,37 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DoctorController",
+    "Method": "GetStatisticAppointmentWidgets",
+    "RelativePath": "api/Doctor/get-statistic-appointment-widgets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "userType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DoctorController",
+    "Method": "GetStatisticResourceWidgets",
+    "RelativePath": "api/Doctor/get-statistic-resource-widgets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

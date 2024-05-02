@@ -6,6 +6,8 @@ import { Subject, catchError, finalize, map, throwError } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../../environments/environment';
+import { StatisticService } from '../../../core/services/statistic.service';
+import { iWidget } from '../../../core/models/statistic.model';
 
 const HOSTNAME = environment.serverApi;
 
@@ -28,6 +30,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   selectedAppointmentId!: number;
 
   widgetsData: Array<number> = [0, 0, 0, 0];
+  widgets!: Array<iWidget>;
 
   upcomingAppointments: Array<{
     id: number;
@@ -51,7 +54,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private _appointmentService: AppointmentService,
     private _authService: AuthService,
     private _spinnerService: NgxSpinnerService,
-    private render: Renderer2
+    private render: Renderer2,
+    private _widgetService: StatisticService
   ) {}
 
   ngOnInit() {
@@ -63,6 +67,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.currentUser = this._authService.currentUser();
 
     this.loadWidgets();
+    this._widgetService
+      .getStatisticAppointmentWidgets(
+        this.currentUser.id,
+        this.currentUser.userType
+      )
+      .subscribe((res) => {
+        this.widgets = res;
+      });
+
     this.getUpcomingAppointments();
     this.fetchData();
     this.getNewBooking();
@@ -70,12 +83,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.render.listen('document', 'click', (event) => {
-      if(event.target.hasAttribute('data-appointment-id') && event.target.classList.contains('cancel-btn')) {
-        this.selectedAppointmentId = event.target.getAttribute('data-appointment-id');
+      if (
+        event.target.hasAttribute('data-appointment-id') &&
+        event.target.classList.contains('cancel-btn')
+      ) {
+        this.selectedAppointmentId = event.target.getAttribute(
+          'data-appointment-id'
+        );
         this.markAsCancel(this.selectedAppointmentId);
         this.fetchData();
       }
-    })
+    });
   }
 
   fetchData() {
