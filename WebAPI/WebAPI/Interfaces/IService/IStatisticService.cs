@@ -6,6 +6,7 @@ namespace WebAPI.Interfaces.IService
     {
         Task<List<WidgetDto>> StatisticAppointmentWidgets(string userId, string userType);
         Task<List<WidgetDto>> StatisticResourceWidgets();
-        Task<List<WidgetDto>> StatisticGenderOfPatient();
+        Task<List<GenderStatisticDto>> StatisticGender();
+        Task<AppointmentStatisticResponse> StatisticAppointment(AppointmentStatisticRequest request);
     }
 }

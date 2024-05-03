@@ -31,6 +31,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "WebAPI.Controllers.AdminController",
+    "Method": "StatisticGender",
+    "RelativePath": "api/Admin/statistic-appointment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "WebAPI.DTOs.AppointmentStatisticRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AdminController",
+    "Method": "StatisticGender",
+    "RelativePath": "api/Admin/statistic-gender",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "AddNewPatient",
     "RelativePath": "api/Appointment/add-new-patient",

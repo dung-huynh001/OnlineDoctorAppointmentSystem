@@ -31,13 +31,12 @@
     <div class="col-xxl-3">
         <div class="card card-height-100">
             <div class="card-header border-0 align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Statistics Patient By Gender</h4>
+                <h4 class="card-title mb-0 flex-grow-1">Statistics patient by gender</h4>
             </div>
-            <div id="portfolio_donut_charts" class="card-body">
-                <apx-chart [series]="genderChart.series" [labels]="genderChart.labels"
-                    [chart]="genderChart.chart" [plotOptions]="genderChart.plotOptions"
-                    [dataLabels]="genderChart.dataLabels" [legend]="genderChart.legend"
-                    [yaxis]="genderChart.yaxis" [stroke]="genderChart.stroke"
+            <div id="portfolio_donut_charts" class="card-body" *ngIf="genderChart">
+                <apx-chart [series]="genderChart.series" [labels]="genderChart.labels" [chart]="genderChart.chart"
+                    [plotOptions]="genderChart.plotOptions" [dataLabels]="genderChart.dataLabels"
+                    [legend]="genderChart.legend" [yaxis]="genderChart.yaxis" [stroke]="genderChart.stroke"
                     [colors]="genderChart.colors" dir="ltr"></apx-chart>
 
                 <ul class="list-group list-group-flush border-dashed mb-0 mt-3 pt-2">
@@ -45,13 +44,14 @@
                         <div class="d-flex gap-3 align-items-center">
                             <div class="flex-shrink-0 avatar-sm">
                                 <span class="avatar-title bg-primary-subtle text-primary p-1 rounded-circle">
-                                    <i class="fs-5 las la-mars"></i>
+                                    <i class="fs-2 las {{genderStatisticData[i].icon}}"></i>
                                 </span>
                             </div>
                             <h6 class="flex-grow-1 mb-1">{{label}}</h6>
                             <div class="flex-shrink-0 text-end">
-                                <h6 class="mb-1">{{genderChart.series[i]}}</h6>
-                                <p class="text-success fs-12 mb-0">{{genderStatisticData[i].percentage + genderStatisticData[i].suffix}}</p>
+                                <h6 class="mb-1">{{genderChart.series[i]}} persons</h6>
+                                <p class="text-success fs-12 mb-0">{{genderStatisticData[i].percentage +
+                                    genderStatisticData[i].suffix}}</p>
                             </div>
                         </div>
                     </li>
@@ -92,14 +92,16 @@
 
         <div class="row">
             <div class="col-xl-12">
-                <div class="card">
+                <div class="card" *ngIf="appointmentChartOptions">
                     <div class="card-header border-0 align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Statistics Appointment Activities</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Statistics appointment activities</h4>
                         <div class="d-flex gap-1">
-                            <button type="button" class="btn btn-soft-secondary btn-sm">Today</button>
-                            <button type="button" class="btn btn-soft-primary btn-sm">
-                                ALL
-                            </button>
+                            <button type="button" class="btn btn-soft-primary btn-sm"
+                                (click)="renderTodayAppt()">Today</button>
+                            <button type="button" class="btn btn-soft-secondary btn-sm"
+                                (click)="renderThisWeekAppt()">This week</button>
+                            <button type="button" class="btn btn-soft-secondary btn-sm"
+                                (click)="renderThisMonthAppt()">This month</button>
                         </div>
                     </div>
                     <div class="card-body p-0">
@@ -108,15 +110,17 @@
                             <div class="row align-items-center">
                                 <div class="col-5">
                                     <div class="d-flex flex-wrap gap-4 align-items-center">
-                                        <p class="fw-medium text-muted mb-0">From:
+                                        <p class="fw-medium text-muted mb-0">Start:
                                             <input type="text" class="form-control" mwlFlatpickr [altInput]="true"
-                                                [convertModelValue]="true" [(ngModel)]="statisticFrom">
+                                                [convertModelValue]="true" [(ngModel)]="statisticStartDate">
                                         </p>
 
-                                        <p class="fw-medium text-muted mb-0">To:
+                                        <p class="fw-medium text-muted mb-0">End:
                                             <input type="text" class="form-control" mwlFlatpickr [altInput]="true"
-                                                [convertModelValue]="true" [(ngModel)]="statisticTo">
+                                                [convertModelValue]="true" [(ngModel)]="statisticEndDate">
                                         </p>
+                                        <button class="btn btn-soft-primary align-self-end"
+                                            (click)="renderAppointmentChartByDate('range date')">Statistic</button>
                                     </div>
                                 </div>
                                 <div class="col-7">
@@ -124,24 +128,24 @@
                                         <div class="d-flex justify-content-end text-end flex-wrap gap-4 ms-auto">
                                             <div class="pe-3">
                                                 <h6 class="mb-2 text-truncate text-muted">Total Appointment</h6>
-                                                <h5 class="mb-0">11</h5>
+                                                <h5 class="mb-0">{{appointmentStatisticHeader.total}}</h5>
 
                                             </div>
                                             <div class="pe-3">
                                                 <h6 class="mb-2 text-muted">Pending</h6>
-                                                <h5 class="text-warning mb-0">4</h5>
+                                                <h5 class="text-warning mb-0">{{appointmentStatisticHeader.pending}}</h5>
                                             </div>
                                             <div class="pe-3">
                                                 <h6 class="mb-2 text-muted">Confirmed</h6>
-                                                <h5 class="text-primary mb-0">3</h5>
+                                                <h5 class="text-primary mb-0">{{appointmentStatisticHeader.confirmed}}</h5>
                                             </div>
                                             <div class="pe-3">
                                                 <h6 class="mb-2 text-muted">Completed</h6>
-                                                <h5 class="text-success mb-0">2</h5>
+                                                <h5 class="text-success mb-0">{{appointmentStatisticHeader.completed}}</h5>
                                             </div>
                                             <div class="pe-3">
                                                 <h6 class="mb-2 text-muted">Cancelled</h6>
-                                                <h5 class="text-danger mb-0">2</h5>
+                                                <h5 class="text-danger mb-0">{{appointmentStatisticHeader.cancelled}}</h5>
                                             </div>
                                         </div>
                                     </div>
@@ -152,8 +156,10 @@
                     <div class="card-body p-0 pb-3">
                         <div class="mb-n3">
                             <apx-chart [series]="appointmentChartOptions.series" [chart]="appointmentChartOptions.chart"
-                                [xaxis]="appointmentChartOptions.xaxis" [dataLabels]="appointmentChartOptions.dataLabels"
-                                [grid]="appointmentChartOptions.grid" [stroke]="appointmentChartOptions.stroke"></apx-chart>
+                                [xaxis]="appointmentChartOptions.xaxis" [colors]="appointmentChartOptions.colors"
+                                [yaxis]="appointmentChartOptions.yaxis"
+                                [dataLabels]="appointmentChartOptions.dataLabels" [grid]="appointmentChartOptions.grid"
+                                [stroke]="appointmentChartOptions.stroke"></apx-chart>
                         </div>
                     </div>
                 </div>
@@ -162,3 +168,4 @@
     </div>
 </div>
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

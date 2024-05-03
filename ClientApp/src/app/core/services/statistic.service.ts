@@ -1,8 +1,13 @@
+import { AppointmentStatisticRequest } from './../models/statistic.model';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
-import { iGenderStatistic, iWidget } from '../models/statistic.model';
+import {
+  iAppointmentStatistic,
+  iGenderStatistic,
+  iWidget,
+} from '../models/statistic.model';
 
 const HOSTNAME = environment.serverApi;
 
@@ -41,10 +46,26 @@ export class StatisticService {
       );
   }
 
-  statisticGenderOfPatient(): Observable<Array<iGenderStatistic>> {
+  statisticAppointment(
+    data: AppointmentStatisticRequest
+  ): Observable<iAppointmentStatistic> {
+    return this.http
+      .post<iAppointmentStatistic>(
+        `${HOSTNAME}/api/Admin/statistic-appointment`,
+        data
+      )
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  statisticGender(): Observable<Array<iGenderStatistic>> {
     return this.http
       .get<Array<iGenderStatistic>>(
-        `${HOSTNAME}/api/Admin/get-statistic-gender-of-patient-widgets`
+        `${HOSTNAME}/api/Admin/statistic-gender`
       )
       .pipe(
         catchError((err) => {

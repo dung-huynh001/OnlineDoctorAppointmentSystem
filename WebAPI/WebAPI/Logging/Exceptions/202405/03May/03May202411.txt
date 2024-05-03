@@ -1,0 +1,6 @@
+5/3/2024 11:47:34 AM ==> StatisticService.cs	The method or operation is not implemented. Line:597	<StatisticAppointment>	POST	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+
+5/3/2024 11:47:35 AM ==> StatisticService.cs	The method or operation is not implemented. Line:597	<StatisticAppointment>	POST	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+
+5/3/2024 11:47:37 AM ==> StatisticService.cs	The method or operation is not implemented. Line:597	<StatisticAppointment>	POST	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+

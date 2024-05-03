@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System.Drawing;
 using WebAPI.Domain.Entities;
 using WebAPI.DTOs;
 using WebAPI.Interfaces;
@@ -455,9 +457,294 @@ namespace WebAPI.Services
             return result;
         }
 
-        public Task<List<WidgetDto>> StatisticGenderOfPatient()
+        public async Task<List<GenderStatisticDto>> StatisticGender()
         {
-            throw new NotImplementedException();
+            var patients = await _unitOfWork.Repository<Patient>()
+                .GetAll
+                .Where(p => !p.IsDeleted)
+                .Select(p => new
+                {
+                    Gender = p.Gender
+                })
+                .OrderBy(p => p.Gender)
+                .ToListAsync(); 
+
+            int total = patients.Count();
+
+            var genderCounts = patients.GroupBy(p => p.Gender)
+                .Select(group => new
+                {
+                    Gender = group.Key,
+                    Count = group.Count()
+                })
+                .ToList();
+
+            var result = genderCounts.Select(genderCount => new GenderStatisticDto
+            { 
+                Title = genderCount.Gender == 0 ? "Male" : (genderCount.Gender == 1 ? "Female" : "Others"),
+                Percentage = Math.Round((double)genderCount.Count / total * 100, 2),
+                Suffix = "%",
+                Value = genderCount.Count,
+                Color = genderCount.Gender == 0 ? "#5ea3cb" : (genderCount.Gender == 1 ? "#58caea" : "#6ada7d"),
+                Icon = genderCount.Gender == 0 ? "las la-mars" : (genderCount.Gender == 1 ? "las la-venus" : "las la-transgender"),
+            }).ToList();
+
+            return result;
+        }
+
+        private async Task<AppointmentStatisticResponse> StatisticTodayAppointment(AppointmentStatisticRequest request)
+        {
+            DateTime currentDate = DateTime.Today;
+
+            var appointments = await _unitOfWork.Repository<Appointment>().GetAll
+                    .Where(a => !a.IsDeleted && a.AppointmentDate!.Value.Date == currentDate.Date)
+                    .Select(a => new
+                    {
+                        Status = a.AppointmentStatus,
+                        Hour = a.AppointmentDate!.Value.Hour,
+                    })
+                    .OrderBy(a => a.Status)
+                    .ToListAsync();
+
+            var xAxis = new LineChartXAxis
+            {
+                Title = new AxisTitle { Text = "Hours" },
+                Categories = Enumerable.Range(7, 17).Select(hour => hour.ToString("00") + ":00").ToList()
+            };
+
+            var series = new List<LineChartSerie>
+            {
+                new LineChartSerie { Name = "Pending Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Confirmed Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Completed Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Cancelled Appointment", Data = new List<int>() }
+            };
+
+            foreach (var hour in Enumerable.Range(7, 17))
+            {
+                series[0].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "pending" && ac.Hour == hour));
+                series[1].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "confirmed" && ac.Hour == hour));
+                series[2].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "completed" && ac.Hour == hour));
+                series[3].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "cancelled" && ac.Hour == hour));
+            }
+
+            int maxAppt = series.Max(s => s.Data.Max());
+
+            var result = new AppointmentStatisticResponse
+            {
+                Colors = new List<string> { "#f7b84b", "#5ea3cb", "#6ada7d", "#fa896b" },
+                Xaxis = xAxis,
+                Series = series,
+                Yaxis = new LineChartYAxis
+                {
+                    Title = new AxisTitle { Text = "Appointment" },
+                    Max = maxAppt + 2,
+                    Min = 0,
+                    Floating = false,
+                },
+            };
+
+            return result;
+        }
+
+
+
+
+        public async Task<AppointmentStatisticResponse> StatisticThisWeekAppointment(AppointmentStatisticRequest request)
+        {
+            DateTime currentDate = DateTime.Today;
+            DateTime startDayOfWeek = currentDate.AddDays(-(int)currentDate.DayOfWeek);
+            DateTime endDayOfWeek = startDayOfWeek.AddDays(6);           
+
+            var appointments = await _unitOfWork.Repository<Appointment>().GetAll
+                    .Where(a => !a.IsDeleted 
+                    && a.AppointmentDate!.Value.Date >= startDayOfWeek.Date
+                    && a.AppointmentDate!.Value.Date <= endDayOfWeek.Date)
+                    .Select(a => new
+                    {
+                        Status = a.AppointmentStatus,
+                        Date = a.AppointmentDate!.Value.Date,
+                    })
+                    .OrderBy(a => a.Status)
+                    .ToListAsync();
+
+            var xAxis = new LineChartXAxis
+            {
+                Title = new AxisTitle { Text = "Day" },
+                Categories = new List<string>(),
+            };
+
+            var series = new List<LineChartSerie>
+            {
+                new LineChartSerie { Name = "Pending Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Confirmed Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Completed Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Cancelled Appointment", Data = new List<int>() }
+            };
+
+            for (DateTime day = startDayOfWeek; day <= endDayOfWeek; day = day.AddDays(1))
+            {
+                xAxis.Categories.Add(day.ToString("dd(ddd)"));
+                series[0].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "pending" && ac.Date == day.Date));
+                series[1].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "confirmed" && ac.Date == day.Date));
+                series[2].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "completed" && ac.Date == day.Date));
+                series[3].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "cancelled" && ac.Date == day.Date));
+            }
+
+            int maxAppt = series.Max(s => s.Data.Max());
+
+            var result = new AppointmentStatisticResponse
+            {
+                Colors = new List<string> { "#f7b84b", "#5ea3cb", "#6ada7d", "#fa896b" },
+                Xaxis = xAxis,
+                Series = series,
+                Yaxis = new LineChartYAxis
+                {
+                    Title = new AxisTitle { Text = "Appointment" },
+                    Max = maxAppt + 2,
+                    Min = 0,
+                    Floating = false,
+                },
+            };
+
+            return result;
+        }
+
+        public async Task<AppointmentStatisticResponse> StatisticThisMonthAppointment(AppointmentStatisticRequest request)
+        {
+            DateTime currentDate = DateTime.Now;
+
+            // Get the first and last days of the current month
+            DateTime startDayOfMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
+            DateTime endDayOfMonth = startDayOfMonth.AddMonths(1).AddDays(-1);
+
+            var appointments = await _unitOfWork.Repository<Appointment>().GetAll
+                    .Where(a => !a.IsDeleted
+                    && a.AppointmentDate!.Value.Date >= startDayOfMonth.Date
+                    && a.AppointmentDate!.Value.Date <= endDayOfMonth.Date)
+                    .Select(a => new
+                    {
+                        Status = a.AppointmentStatus,
+                        Date = a.AppointmentDate!.Value.Date,
+                    })
+                    .OrderBy(a => a.Status)
+                    .ToListAsync();
+
+            var xAxis = new LineChartXAxis
+            {
+                Title = new AxisTitle { Text = "Day" },
+                Categories = new List<string>(),
+            };
+
+            var series = new List<LineChartSerie>
+            {
+                new LineChartSerie { Name = "Pending Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Confirmed Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Completed Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Cancelled Appointment", Data = new List<int>() }
+            };
+
+            for (DateTime day = startDayOfMonth; day <= endDayOfMonth; day = day.AddDays(1))
+            {
+                xAxis.Categories.Add(day.ToString("dd"));
+                series[0].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "pending" && ac.Date == day.Date));
+                series[1].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "confirmed" && ac.Date == day.Date));
+                series[2].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "completed" && ac.Date == day.Date));
+                series[3].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "cancelled" && ac.Date == day.Date));
+            }
+
+            int maxAppt = series.Max(s => s.Data.Max());
+
+            var result = new AppointmentStatisticResponse
+            {
+                Colors = new List<string> { "#f7b84b", "#5ea3cb", "#6ada7d", "#fa896b" },
+                Xaxis = xAxis,
+                Series = series,
+                Yaxis = new LineChartYAxis
+                {
+                    Title = new AxisTitle { Text = "Appointment" },
+                    Max = maxAppt + 2,
+                    Min = 0,
+                    Floating = false,
+                },
+            };
+
+            return result;
+        }
+
+        public async Task<AppointmentStatisticResponse> StatisticAppointmentByDate(AppointmentStatisticRequest request)
+        {
+            request.From = request.From.ToLocalTime();
+            request.To = request.To.ToLocalTime();
+
+            var appointments = await _unitOfWork.Repository<Appointment>().GetAll
+                    .Where(a => !a.IsDeleted
+                    && a.AppointmentDate!.Value.Date >= request.From.Date
+                    && a.AppointmentDate!.Value.Date <= request.To.Date)
+                    .Select(a => new
+                    {
+                        Status = a.AppointmentStatus,
+                        Date = a.AppointmentDate!.Value.Date,
+                    })
+                    .OrderBy(a => a.Status)
+                    .ToListAsync();
+
+            var xAxis = new LineChartXAxis
+            {
+                Title = new AxisTitle { Text = "Day" },
+                Categories = new List<string>(),
+            };
+
+            var series = new List<LineChartSerie>
+            {
+                new LineChartSerie { Name = "Pending Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Confirmed Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Completed Appointment", Data = new List<int>() },
+                new LineChartSerie { Name = "Cancelled Appointment", Data = new List<int>() }
+            };
+
+            for (DateTime day = request.From; day <= request.To; day = day.AddDays(1))
+            {
+                xAxis.Categories.Add(day.ToString("dd"));
+                series[0].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "pending" && ac.Date == day.Date));
+                series[1].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "confirmed" && ac.Date == day.Date));
+                series[2].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "completed" && ac.Date == day.Date));
+                series[3].Data.Add(appointments.Count(ac => ac.Status.ToLower() == "cancelled" && ac.Date == day.Date));
+            }
+
+            int maxAppt = series.Max(s => s.Data.Max());
+
+            var result = new AppointmentStatisticResponse
+            {
+                Colors = new List<string> { "#f7b84b", "#5ea3cb", "#6ada7d", "#fa896b" },
+                Xaxis = xAxis,
+                Series = series,
+                Yaxis = new LineChartYAxis
+                {
+                    Title = new AxisTitle { Text = "Appointment" },
+                    Max = maxAppt + 2,
+                    Min = 0,
+                    Floating = false,
+                },
+            };
+
+            return result;
+        }
+
+        public async Task<AppointmentStatisticResponse> StatisticAppointment(AppointmentStatisticRequest request)
+        {
+            switch (request.RenderBy.ToLower().Trim())
+            {
+                case "today":
+                    return (await StatisticTodayAppointment(request));
+                case "this week":
+                    return (await StatisticThisWeekAppointment(request));
+                case "this month":
+                    return (await StatisticThisMonthAppointment(request));
+                default:
+                    return (await StatisticAppointmentByDate(request));
+            }
+
         }
     }
 }
