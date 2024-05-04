@@ -14,11 +14,13 @@ namespace WebAPI.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ICurrentUserService _currentUserService;
 
-        public DepartmentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public DepartmentService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUserService currentUserService)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
+            this._currentUserService = currentUserService;
         }
 
         public async Task<ApiResponse> Create(CreateDepartmentDto model)
@@ -102,13 +104,24 @@ namespace WebAPI.Services
                         records = parameters.Order?[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
                         break;
                 }
+
+            var recordsFiltered = records.Count();
+
             records = records
                 .Skip(parameters.Start)
                 .Take(parameters.Length);
 
+            var data = await records.ToListAsync();
+
+            data.ForEach(item =>
+            {
+                item.UpdatedBy = _currentUserService.GetFullName(item.UpdatedBy);
+                item.CreatedBy = _currentUserService.GetFullName(item.CreatedBy);
+            });
+
             response.RecordsTotal = recordsTotal;
-            response.RecordsFiltered = recordsTotal;
-            response.Data = await records.ToListAsync();
+            response.RecordsFiltered = recordsFiltered;
+            response.Data = data;
 
             return response;
         }

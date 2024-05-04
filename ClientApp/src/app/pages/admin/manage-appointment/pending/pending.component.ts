@@ -13,9 +13,8 @@ export class PendingComponent implements OnInit {
   
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Manage Appointment' },
-      { label: 'Pending', active: true },
+      { label: 'Manage Appointment', link: '/admin/appointment/all'},
+      { label: 'Pending Appointment', active: true },
     ];
   }
 }

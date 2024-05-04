@@ -83,9 +83,6 @@ File: Custom Css File
   .list-group-flush .list-group-item{
     border-width: 0 0 1px
   }
-
-  // LeafLet Chart
-  @import 'leaflet/dist/leaflet.css';
   
   // topbar
   
@@ -654,61 +651,61 @@ File: Custom Css File
   
   // task
   // kanban board
-  .tasks{
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
+  // .tasks{
+  //   display: flex;
+  //   flex-direction: column;
+  //   gap: 24px;
+  // }
   
-  .kanban-accordion{
-    .accordion-header{
-      .accordion-button::after{
-        display: none;
-      }
-    }
-    .accordion-body{
-      padding: 0;
-    }
-    .card{
-      box-shadow: $box-shadow;
-    }
-    > .card{
-      background-color: transparent;
-      box-shadow: none;
-      border: none;
-      > .collapse{
-        > .accordion-body{
-          padding: 0;
-        }
-        > .card-body{
-          padding: 0;
+  // .kanban-accordion{
+  //   .accordion-header{
+  //     .accordion-button::after{
+  //       display: none;
+  //     }
+  //   }
+  //   .accordion-body{
+  //     padding: 0;
+  //   }
+  //   .card{
+  //     box-shadow: $box-shadow;
+  //   }
+  //   > .card{
+  //     background-color: transparent;
+  //     box-shadow: none;
+  //     border: none;
+  //     > .collapse{
+  //       > .accordion-body{
+  //         padding: 0;
+  //       }
+  //       > .card-body{
+  //         padding: 0;
   
-          .card{
-            margin-bottom: 0.25rem;
-          }
-        }
+  //         .card{
+  //           margin-bottom: 0.25rem;
+  //         }
+  //       }
   
-        .card-header {
-          > .btn.btn-link{
-            padding: 16px;
-          }
-        }
-      }
-      .card-header {
-        background-color: transparent;
-      }
-    }
+  //       .card-header {
+  //         > .btn.btn-link{
+  //           padding: 16px;
+  //         }
+  //       }
+  //     }
+  //     .card-header {
+  //       background-color: transparent;
+  //     }
+  //   }
   
-    #lead-1-header{
-      .accordion-button {
-        padding: 0;
-        &::after {
-          display: none;
-        }
-      }
-    }
+  //   #lead-1-header{
+  //     .accordion-button {
+  //       padding: 0;
+  //       &::after {
+  //         display: none;
+  //       }
+  //     }
+  //   }
   
-  }
+  // }
 
   // dashboard
   .upcoming-scheduled{
@@ -734,9 +731,9 @@ File: Custom Css File
   
   // dropzone
   
-  dropzone>.dropzone.dz-wrapper .dz-message .dz-text{
-    font-size:16px;
-  }
+  // dropzone>.dropzone.dz-wrapper .dz-message .dz-text{
+  //   font-size:16px;
+  // }
   
   // Swiper
   
@@ -788,9 +785,9 @@ File: Custom Css File
     border-color: #E9EBEC !important;
   }
   
-  .leaflet-container {
-    z-index: 1 !important;
-  }
+  // .leaflet-container {
+  //   z-index: 1 !important;
+  // }
   
   @media (max-width: 600px)
   {
@@ -981,15 +978,15 @@ File: Custom Css File
   }
 }
 
-.order-status {
-  .accordion-item {
-    border: none;
-    .accordion-button {
-      padding: 0;
-      box-shadow: none;
-    }
-  }
-}
+// .order-status {
+//   .accordion-item {
+//     border: none;
+//     .accordion-button {
+//       padding: 0;
+//       box-shadow: none;
+//     }
+//   }
+// }
 
 .modal-content{
   border: none;
@@ -1033,37 +1030,37 @@ File: Custom Css File
   border-bottom-color: $input-border-color;
 }
 
-//dropzone
-.dropzone>.dropzone.dz-wrapper .dz-message{
-  background: var(--#{$prefix}custom-white) !important;
-  color: var(--#{$prefix}body-color) !important;
-}
+// //dropzone
+// .dropzone>.dropzone.dz-wrapper .dz-message{
+//   background: var(--#{$prefix}custom-white) !important;
+//   color: var(--#{$prefix}body-color) !important;
+// }
 
-// ck editor
-.ck.ck-toolbar {
-  background-color: var(--#{$prefix}light) !important;
-  border: 1px solid $input-border-color !important;
-}
-.ck-reset_all :not(.ck-reset_all-excluded *),
-.ck.ck-reset_all {
-  color: var(--#{$prefix}body-color) !important;
-}
-.ck.ck-editor__main > .ck-editor__editable {
-  background-color: var(--#{$prefix}custom-white) !important;
-  color: var(--#{$prefix}body-color) !important;
-}
-.ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
-  border-color: $input-border-color !important;
-}
-.ck.ck-button:not(.ck-disabled):hover,
-a.ck.ck-button:not(.ck-disabled):hover,
-.ck.ck-button.ck-on,
-a.ck.ck-button.ck-on {
-  background-color: var(--#{$prefix}light) !important;
-}
-.ck.ck-toolbar .ck.ck-toolbar__separator {
-  background: $input-border-color !important;
-}
+// // ck editor
+// .ck.ck-toolbar {
+//   background-color: var(--#{$prefix}light) !important;
+//   border: 1px solid $input-border-color !important;
+// }
+// .ck-reset_all :not(.ck-reset_all-excluded *),
+// .ck.ck-reset_all {
+//   color: var(--#{$prefix}body-color) !important;
+// }
+// .ck.ck-editor__main > .ck-editor__editable {
+//   background-color: var(--#{$prefix}custom-white) !important;
+//   color: var(--#{$prefix}body-color) !important;
+// }
+// .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+//   border-color: $input-border-color !important;
+// }
+// .ck.ck-button:not(.ck-disabled):hover,
+// a.ck.ck-button:not(.ck-disabled):hover,
+// .ck.ck-button.ck-on,
+// a.ck.ck-button.ck-on {
+//   background-color: var(--#{$prefix}light) !important;
+// }
+// .ck.ck-toolbar .ck.ck-toolbar__separator {
+//   background: $input-border-color !important;
+// }
 
 .swiper-container{
   overflow: hidden;

@@ -18,11 +18,13 @@ namespace WebAPI.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ICurrentUserService _currentUserService;
 
-        public DoctorService(IUnitOfWork unitOfWork, IMapper mapper)
+        public DoctorService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUserService currentUserService)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
+            this._currentUserService = currentUserService;
         }
 
         public async Task<List<DoctorOnDutyDto>> GetDoctorsOnDuty(DateTime dateTime)
@@ -174,13 +176,23 @@ namespace WebAPI.Services
                         break;
                 }
 
+            var recordsFiltered = records.Count();
+
             records = records
                 .Skip(parameters.Start)
                 .Take(parameters.Length);
 
+            var data = records.ToList();
+
+            data.ForEach(item =>
+            {
+                item.UpdatedBy = _currentUserService.GetFullName(item.UpdatedBy);
+                item.CreatedBy = _currentUserService.GetFullName(item.CreatedBy);
+            });
+
             response.RecordsTotal = recordsTotal;
-            response.RecordsFiltered = recordsTotal;
-            response.Data = records.ToList();
+            response.RecordsFiltered = recordsFiltered;
+            response.Data = data;
 
             return Task.FromResult(response);
         }

@@ -206,6 +206,7 @@ namespace WebAPI.Services
             var searchValue = parameters.Search?.Value?.ToLower().Trim() ?? "";
 
             var records = _unitOfWork.Repository<Patient>().GetAll
+                .Where(p => !p.IsDeleted)
                 .Select(d => new PatientTableDto
                 {
                     Id = d.Id,
@@ -224,6 +225,7 @@ namespace WebAPI.Services
                 });
 
             var recordsTotal = records.Count();
+
 
             records = records.Where(d =>
                     d.Id.ToString().Trim().Contains(searchValue)
@@ -283,6 +285,8 @@ namespace WebAPI.Services
                         break;
                 }
 
+            var recordsFiltered = records.Count();
+
             records = records
                 .Skip(parameters.Start)
                 .Take(parameters.Length);
@@ -296,7 +300,7 @@ namespace WebAPI.Services
             });
 
             response.RecordsTotal = recordsTotal;
-            response.RecordsFiltered = recordsTotal;
+            response.RecordsFiltered = recordsFiltered;
             response.Data = data;
 
             return Task.FromResult(response);

@@ -1,17 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { DATA_PRELOADER, LAYOUT, LAYOUT_MODE, LAYOUT_POSITION, LAYOUT_WIDTH, SIDEBAR_COLOR, SIDEBAR_IMAGE, SIDEBAR_SIZE, SIDEBAR_VIEW, SIDEBAR_VISIBILITY, TOPBAR } from '../layouts.model';
+import {
+  DATA_PRELOADER,
+  LAYOUT,
+  LAYOUT_MODE,
+  LAYOUT_POSITION,
+  LAYOUT_WIDTH,
+  SIDEBAR_COLOR,
+  SIDEBAR_IMAGE,
+  SIDEBAR_SIZE,
+  SIDEBAR_VIEW,
+  SIDEBAR_VISIBILITY,
+  TOPBAR,
+} from '../layouts.model';
 import { EventService } from '../../core/services/event.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-vertical',
   templateUrl: './vertical.component.html',
-  styleUrl: './vertical.component.scss'
+  styleUrl: './vertical.component.scss',
 })
 export class VerticalComponent implements OnInit {
   isCondensed = false;
 
-  constructor(private eventService: EventService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private eventService: EventService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     if (document.documentElement.getAttribute('data-layout') == 'semibox') {
@@ -26,25 +42,43 @@ export class VerticalComponent implements OnInit {
     document.documentElement.setAttribute('data-layout-style', SIDEBAR_VIEW);
     document.documentElement.setAttribute('data-bs-theme', LAYOUT_MODE);
     document.documentElement.setAttribute('data-layout-width', LAYOUT_WIDTH);
-    document.documentElement.setAttribute('data-layout-position', LAYOUT_POSITION);
+    document.documentElement.setAttribute(
+      'data-layout-position',
+      LAYOUT_POSITION
+    );
     document.documentElement.setAttribute('data-sidebar-image', SIDEBAR_IMAGE);
     document.documentElement.setAttribute('data-preloader', DATA_PRELOADER);
-    document.documentElement.setAttribute('data-sidebar-visibility', SIDEBAR_VISIBILITY);
+    document.documentElement.setAttribute(
+      'data-sidebar-visibility',
+      SIDEBAR_VISIBILITY
+    );
 
     this.router.events.subscribe((event: any) => {
       if (document.documentElement.getAttribute('data-preloader') == 'enable') {
         if (event instanceof NavigationEnd) {
           // Update the attribute state based on the current route or any other conditions
           if (event.url !== '/disabled-route') {
-            (document.getElementById("preloader") as HTMLElement).style.opacity = "1";
-            (document.getElementById("preloader") as HTMLElement).style.visibility = "";
+            (
+              document.getElementById('preloader') as HTMLElement
+            ).style.opacity = '1';
+            (
+              document.getElementById('preloader') as HTMLElement
+            ).style.visibility = '';
             setTimeout(() => {
-              (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
-              (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+              (
+                document.getElementById('preloader') as HTMLElement
+              ).style.opacity = '0';
+              (
+                document.getElementById('preloader') as HTMLElement
+              ).style.visibility = 'hidden';
             }, 1000);
           } else {
-            (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
-            (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+            (
+              document.getElementById('preloader') as HTMLElement
+            ).style.opacity = '0';
+            (
+              document.getElementById('preloader') as HTMLElement
+            ).style.visibility = 'hidden';
           }
         }
       }
@@ -55,31 +89,33 @@ export class VerticalComponent implements OnInit {
       window.addEventListener('resize', function () {
         if (document.documentElement.clientWidth <= 767) {
           document.documentElement.setAttribute('data-sidebar-size', '');
-          document.querySelector('.hamburger-icon')?.classList.add('open')
-        }
-        else if (document.documentElement.clientWidth <= 1024) {
+          document.querySelector('.hamburger-icon')?.classList.add('open');
+        } else if (document.documentElement.clientWidth <= 1024) {
           document.documentElement.setAttribute('data-sidebar-size', 'sm');
-          document.querySelector('.hamburger-icon')?.classList.add('open')
-        }
-        else if (document.documentElement.clientWidth >= 1024) {
+          document.querySelector('.hamburger-icon')?.classList.add('open');
+        } else if (document.documentElement.clientWidth >= 1024) {
           document.documentElement.setAttribute('data-sidebar-size', 'lg');
-          document.querySelector('.hamburger-icon')?.classList.remove('open')
+          document.querySelector('.hamburger-icon')?.classList.remove('open');
         }
-      })
+      });
     }
   }
 
   private handlePreloader(route: any) {
     if (route !== '/disabled-route') {
-      (document.getElementById("preloader") as HTMLElement).style.opacity = "1";
-      (document.getElementById("preloader") as HTMLElement).style.visibility = "";
+      (document.getElementById('preloader') as HTMLElement).style.opacity = '1';
+      (document.getElementById('preloader') as HTMLElement).style.visibility =
+        '';
       setTimeout(() => {
-        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
-        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+        (document.getElementById('preloader') as HTMLElement).style.opacity =
+          '0';
+        (document.getElementById('preloader') as HTMLElement).style.visibility =
+          'hidden';
       }, 1000);
     } else {
-      (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
-      (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+      (document.getElementById('preloader') as HTMLElement).style.opacity = '0';
+      (document.getElementById('preloader') as HTMLElement).style.visibility =
+        'hidden';
     }
   }
 
@@ -87,14 +123,22 @@ export class VerticalComponent implements OnInit {
    * On mobile toggle button clicked
    */
   onToggleMobileMenu() {
-    const currentSIdebarSize = document.documentElement.getAttribute("data-sidebar-size");
+    const currentSIdebarSize =
+      document.documentElement.getAttribute('data-sidebar-size');
     if (document.documentElement.clientWidth >= 767) {
       if (currentSIdebarSize == null) {
-        (document.documentElement.getAttribute('data-sidebar-size') == null || document.documentElement.getAttribute('data-sidebar-size') == "lg") ? document.documentElement.setAttribute('data-sidebar-size', 'sm') : document.documentElement.setAttribute('data-sidebar-size', 'lg')
-      } else if (currentSIdebarSize == "md") {
-        (document.documentElement.getAttribute('data-sidebar-size') == "md") ? document.documentElement.setAttribute('data-sidebar-size', 'sm') : document.documentElement.setAttribute('data-sidebar-size', 'md')
+        document.documentElement.getAttribute('data-sidebar-size') == null ||
+        document.documentElement.getAttribute('data-sidebar-size') == 'lg'
+          ? document.documentElement.setAttribute('data-sidebar-size', 'sm')
+          : document.documentElement.setAttribute('data-sidebar-size', 'lg');
+      } else if (currentSIdebarSize == 'md') {
+        document.documentElement.getAttribute('data-sidebar-size') == 'md'
+          ? document.documentElement.setAttribute('data-sidebar-size', 'sm')
+          : document.documentElement.setAttribute('data-sidebar-size', 'md');
       } else {
-        (document.documentElement.getAttribute('data-sidebar-size') == "sm") ? document.documentElement.setAttribute('data-sidebar-size', 'lg') : document.documentElement.setAttribute('data-sidebar-size', 'sm')
+        document.documentElement.getAttribute('data-sidebar-size') == 'sm'
+          ? document.documentElement.setAttribute('data-sidebar-size', 'lg')
+          : document.documentElement.setAttribute('data-sidebar-size', 'sm');
       }
     }
 
@@ -112,13 +156,13 @@ export class VerticalComponent implements OnInit {
     const rightBar = document.getElementById('theme-settings-offcanvas');
     if (rightBar != null) {
       rightBar.classList.toggle('show');
-      rightBar.setAttribute('style', "visibility: visible;");
+      rightBar.setAttribute('style', 'visibility: visible;');
     }
   }
 
   onResize(event: any) {
-    if (document.body.getAttribute('layout') == "twocolumn") {
-      console.log(document.body.getAttribute('layout'))
+    if (document.body.getAttribute('layout') == 'twocolumn') {
+      console.log(document.body.getAttribute('layout'));
       if (event.target.innerWidth <= 767) {
         this.eventService.broadcast('changeLayout', 'vertical');
       } else {
@@ -127,8 +171,5 @@ export class VerticalComponent implements OnInit {
         document.body.classList.remove('vertical-sidebar-enable');
       }
     }
-
   }
 }
-
-

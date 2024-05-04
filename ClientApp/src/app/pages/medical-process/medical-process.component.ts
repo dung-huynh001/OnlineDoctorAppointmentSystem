@@ -17,7 +17,6 @@ export class MedicalProcessComponent implements OnInit {
     * BreadCrumb
     */
      this.breadCrumbItems = [
-      { label: 'Menu' },
       { label: 'Medical Process', active: true }
     ];
   }

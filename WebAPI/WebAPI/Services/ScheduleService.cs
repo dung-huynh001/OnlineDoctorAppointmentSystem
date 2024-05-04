@@ -312,11 +312,14 @@ namespace WebAPI.Services
                 records = records.Where(r => r.DepartmentId.Equals(departmentId));
             }
 
+            var recordsFiltered = records.Count();
+
             records = records.Skip(filter.Start).Take(filter.Length);
+
             return new DatatableResponse<DoctorCardDto>
             {
                 Data = await records.ToListAsync(),
-                RecordsFiltered = recordsTotal,
+                RecordsFiltered = recordsFiltered,
                 RecordsTotal = recordsTotal,
             };
         }

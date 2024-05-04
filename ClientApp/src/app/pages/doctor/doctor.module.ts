@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { DoctorRoutingModule } from './doctor-routing.module';
 import { AppointmentOnSiteComponent } from './appointment-on-site/appointment-on-site.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -14,13 +14,8 @@ import {
   NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
 import {
-  DayService,
-  MonthAgendaService,
-  MonthService,
   RecurrenceEditorAllModule,
   ScheduleModule,
-  WeekService,
-  WorkWeekService,
 } from '@syncfusion/ej2-angular-schedule';
 import { FlatpickrModule } from 'angularx-flatpickr';
 
@@ -45,7 +40,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule,
     CountUpModule,
     ComponentsModule,
     SchedulerModule,
@@ -62,13 +56,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgSelectModule,
   ],
   providers: [
-    DecimalPipe,
     DatePipe,
-    DayService,
-    WeekService,
-    WorkWeekService,
-    MonthService,
-    MonthAgendaService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

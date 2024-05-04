@@ -14,7 +14,7 @@ export class CancelledComponent implements OnInit {
   
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
+      
       { label: 'Manage Appointment' },
       { label: 'Cancelled', active: true },
     ];

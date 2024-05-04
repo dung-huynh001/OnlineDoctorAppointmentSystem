@@ -8,6 +8,7 @@ import { environment } from '../../../../../environments/environment';
 import { AppointmentService } from '../../../../core/services/appointment.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { User } from '../../../../core/models/auth.models';
+import { DatePipe } from '@angular/common';
 
 const HOSTNAME = environment.serverApi;
 @Component({
@@ -42,9 +43,9 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
     private router: Router,
     private _spinnerService: NgxSpinnerService,
     private _appointmentService: AppointmentService,
-    private _authService: AuthService
-  ) {
-  }
+    private _authService: AuthService,
+    private datePipe: DatePipe
+  ) {}
   ngAfterViewInit(): void {
     this.dtTrigger.next(this.dtOptions);
   }
@@ -52,9 +53,8 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.currentUser = this._authService.currentUser();
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Doctor Management' },
-      { label: 'Doctor Details', active: true },
+      { label: 'Doctor Management', link: '/admin/manage-doctor' },
+      { label: 'View Doctor', active: true },
     ];
 
     const currentUrl = this.router.url;
@@ -115,7 +115,7 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
       order: [[1, 'asc']],
       columnDefs: [
         { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false },
+        { targets: [-1], orderable: false, responsivePriority: 1 },
         {
           className: 'dtr-control',
           orderable: false,
@@ -148,12 +148,16 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
         {
           data: 'appointmentDate',
           title: 'Appointment date',
-          className: 'text-end',
+          className: 'dt-text-end dt-text-wrap',
+          render: (data: any) =>
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
         },
         {
           data: 'dateOfConsultation',
           title: 'Consultation date',
-          className: 'text-end',
+          className: 'dt-text-end dt-text-wrap',
+          render: (data: any) =>
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
         },
         {
           data: 'closedBy',
@@ -162,7 +166,9 @@ export class ViewDoctorComponent implements OnInit, AfterViewInit {
         {
           data: 'closedDate',
           title: 'Closed date',
-          className: 'text-end',
+          className: 'dt-text-end dt-text-wrap',
+          render: (data: any) =>
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
         },
         {
           title: 'Action',

@@ -34,7 +34,7 @@ export class ViewPatientComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
+      { label: 'Patient Management', link: '/admin/manage-patient' },
       { label: 'View Patient', active: true },
     ];
 

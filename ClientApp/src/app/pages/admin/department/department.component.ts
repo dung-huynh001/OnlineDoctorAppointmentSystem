@@ -56,7 +56,6 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.breadCrumbItems = [
-      { label: 'Home' },
       { label: 'Department Management', active: true },
     ];
 
@@ -73,7 +72,7 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
       order: [[1, 'asc']],
       columnDefs: [
         { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false },
+        { targets: [-1], orderable: false, responsivePriority: 1  },
         {
           className: 'dtr-control',
           orderable: false,
@@ -114,6 +113,7 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         {
           title: 'ID',
+          className: 'text-center',
           data: 'id',
         },
         {
@@ -130,8 +130,9 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           title: 'Created date',
           data: 'createdDate',
+          className: 'dt-text-end dt-text-wrap',
           render: (data: any) =>
-            this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
         },
         {
           title: 'Updated by',
@@ -140,12 +141,14 @@ export class DepartmentComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           title: 'Updated date',
           data: 'updatedDate',
+          className: 'dt-text-end dt-text-wrap',
           render: (data: any) =>
-            this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss'),
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
         },
         {
           title: 'Deleted',
           data: 'isDeleted',
+          className: 'text-center',
           render: (data: any) => {
             const bagdes = data
               ? `<span class="badge bg-danger">${data}</span>`

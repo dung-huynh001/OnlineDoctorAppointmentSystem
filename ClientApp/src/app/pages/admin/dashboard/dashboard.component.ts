@@ -84,7 +84,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
+      
       { label: 'Dashboard', active: true },
     ];
 

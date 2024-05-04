@@ -7,7 +7,6 @@ import { AreaChartsComponent } from './area-charts/area-charts.component';
 import { DonutChartsComponent } from './donut-charts/donut-charts.component';
 import { BaseChartDirective } from 'ng2-charts';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { AppointmentStatisticComponent } from './appointment-statistic/appointment-statistic.component';
 import { CountUpModule } from 'ngx-countup';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
@@ -21,7 +20,6 @@ import { defineElement } from 'lord-icon-element';
     AppointmentFormComponent,
     AreaChartsComponent,
     DonutChartsComponent,
-    AppointmentStatisticComponent,
     AppointmentDatatableComponent,
   ],
   imports: [
@@ -40,7 +38,6 @@ import { defineElement } from 'lord-icon-element';
     AppointmentFormComponent,
     DonutChartsComponent,
     AreaChartsComponent,
-    AppointmentStatisticComponent,
     AppointmentDatatableComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

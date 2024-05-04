@@ -31,7 +31,7 @@ export class DepartmentService {
           id: number;
           departmentName: string;
         }>
-      >('/Department/get-department-to-select')
+      >(`${HOSTNAME}/api/Department/get-department-to-select`)
       .pipe(
         catchError((err) => {
           console.log(err);

@@ -14,6 +14,7 @@ import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '../../../../core/services/toast.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { link } from 'fs';
 
 @Component({
   selector: 'app-all',
@@ -29,8 +30,8 @@ export class AllComponent  implements OnInit {
   
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Manage Appointment' },
+      
+      { label: 'Manage Appointment', link: '/admin/appointment/all' },
       { label: 'All', active: true },
     ];
   }
