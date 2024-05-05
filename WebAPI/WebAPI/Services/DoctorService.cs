@@ -280,5 +280,29 @@ namespace WebAPI.Services
                 };
             }
         }
+
+        public async Task<ApiResponse> Delete(int id)
+        {
+            _unitOfWork.BeginTransaction();
+            try
+            {
+                int deletedId = await _unitOfWork.Repository<Doctor>().DeleteByIdAsync(id);
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Id = deletedId.ToString(),
+                    Message = ""
+                };
+            }
+            catch
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Id = id.ToString(),
+                    Message = $"Not found doctor with ID {id}"
+                };
+            }
+        }
     }
 }

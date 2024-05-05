@@ -13,5 +13,6 @@ namespace WebAPI.Interfaces.IService
         Task<DoctorDetailsDto> GetDoctorDetails(int id);
         Task<bool> UpdatePersonalInfo(DoctorPersonalInfo data);
         Task<ApiResponse> UpdateWorkInfo(WorkInfoDto data);
+        Task<ApiResponse> Delete(int id);
     }
 }
