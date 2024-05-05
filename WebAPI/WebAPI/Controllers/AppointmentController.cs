@@ -131,8 +131,8 @@ namespace WebAPI.Controllers
             return Ok(await _appointmentService.UpdateAppointmentStatus(id, appointmentStatus));
         }
 
-        [HttpPatch("change-appointment-date")]
-        public async Task<IActionResult> ChangeAppointmentDate([FromRoute]int id, DateTime appointmentDate)
+        [HttpPatch("change-appointment-date/{id}")]
+        public async Task<IActionResult> ChangeAppointmentDate([FromRoute]int id, [FromBody]DateTime appointmentDate)
         {
             return Ok(await _appointmentService.ChangeAppointmentDate(id, appointmentDate));
         }

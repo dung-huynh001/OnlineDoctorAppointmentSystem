@@ -19,18 +19,41 @@ export class DepartmentService {
     );
   }
 
+  getDepartmentOptions(): Observable<
+    Array<{
+      id: number;
+      departmentName: string;
+    }>
+  > {
+    return this.http
+      .get<
+        Array<{
+          id: number;
+          departmentName: string;
+        }>
+      >(`${HOSTNAME}/api/Department/get-department-to-select`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
+  }
+
   create(data: any): Observable<apiResponse> {
-    return this.http.post<apiResponse>(`${HOSTNAME}/api/Department/create`, data).pipe(
-      catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
-      })
-    );
+    return this.http
+      .post<apiResponse>(`${HOSTNAME}/api/Department/create`, data)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   update(id: number, data: any): Observable<apiResponse> {
     return this.http
-      .patch<apiResponse>(`${HOSTNAME}/api//Department/update/${id}`, data)
+      .patch<apiResponse>(`${HOSTNAME}/api/Department/update/${id}`, data)
       .pipe(
         catchError((err) => {
           console.log(err);
@@ -40,20 +63,24 @@ export class DepartmentService {
   }
 
   delete(id: number): Observable<apiResponse> {
-    return this.http.delete<apiResponse>(`${HOSTNAME}/api/Department/delete?id=${id}`).pipe(
-      catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
-      })
-    );
+    return this.http
+      .delete<apiResponse>(`${HOSTNAME}/api/Department/delete?id=${id}`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 
   restore(id: number): Observable<apiResponse> {
-    return this.http.get<apiResponse>(`${HOSTNAME}/api/'Department/restore?id=${id}`).pipe(
-      catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
-      })
-    );
+    return this.http
+      .get<apiResponse>(`${HOSTNAME}/api/'Department/restore?id=${id}`)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          return throwError(() => err);
+        })
+      );
   }
 }

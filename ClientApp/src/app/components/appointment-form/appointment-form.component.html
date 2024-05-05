@@ -1,23 +1,22 @@
 <div class="container border border-primary p-3">
-  <div class="d-flex gap-3">
+  <div class="d-flex gap-3"  *ngIf="hospitalInfo">
     <!-- <img class="pe-3 d-none d-lg-flex" src="../../../assets/images/logo-dark.png" alt="hospital-logo" height="50" /> -->
     <div class="form-logo">
       <span class="logo-lg">
-        <span class="logo-dark-text">MA</span>
+        <span class="logo-dark-text">{{hospitalInfo.SHORTNAME}}</span>
       </span>
     </div>
     <div>
       <div>
-        <h5>Can Tho City Central General Hospital</h5>
+        <h5>{{hospitalInfo.NAME}}</h5>
       </div>
       <div>
-        <strong>Address:</strong> Ly Tu Trong Street, An Khanh Ward, Ninh District
-        Kieu, Can Tho City
+        <strong>Address:</strong>{{hospitalInfo.ADDRESS}}
       </div>
-      <div><strong>Hotline: </strong>0821-095-399</div>
+      <div><strong>Hotline: </strong>{{hospitalInfo.HOTLINE}}</div>
       <div>
-        <strong>Email: </strong>info&#64;hospital.com -
-        <strong> Website: </strong>www.facebook.com
+        <strong>Email: </strong>{{hospitalInfo.EMAIL}} -
+        <strong> Website: </strong>{{hospitalInfo.WEBSITE}}
       </div>
     </div>
   </div>

@@ -7,7 +7,6 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { CustomerCareComponent } from './customer-care/customer-care.component';
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { NgbDropdownModule, NgbNavModule, NgbPaginationModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { defineElement } from 'lord-icon-element';
@@ -16,7 +15,6 @@ import { SimplebarAngularModule } from 'simplebar-angular';
 import { CountUpModule } from 'ngx-countup';
 
 import { AccountModule } from '../account/account.module';
-import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
 import { NgxMaskPipe } from 'ngx-mask';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -28,13 +26,11 @@ import { DataTablesModule } from 'angular-datatables';
     MedicalProcessComponent,
     AboutUsComponent,
     CustomerCareComponent,
-    AssignScheduleComponent,
   ],
   imports: [
     CommonModule,
     PagesRoutingModule,
     SharedModule,
-    SlickCarouselModule,
     NgbPaginationModule,
     FormsModule,
     ReactiveFormsModule,

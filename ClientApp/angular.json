@@ -38,12 +38,9 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/shepherd.js/dist/css/shepherd.css",
               "node_modules/flatpickr/dist/flatpickr.css",
               "src/styles.scss",
               "node_modules/@ctrl/ngx-emoji-mart/picker.css",
-              "node_modules/slick-carousel/slick/slick.scss",
-              "node_modules/slick-carousel/slick/slick-theme.scss",
               "src/assets/scss/config/modern/bootstrap.scss",
               "src/assets/scss/config/modern/app.scss",
               "src/assets/scss/icons.scss",
@@ -56,16 +53,9 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/slick-carousel/slick/slick.min.js",
               "node_modules/datatables.net/js/dataTables.min.js",
               "node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js",
-              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-              "node_modules/jszip/dist/jszip.js",
-              "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
-              "node_modules/datatables.net-buttons/js/buttons.colVis.js",
-              "node_modules/datatables.net-buttons/js/buttons.flash.js",
-              "node_modules/datatables.net-buttons/js/buttons.html5.js",
-              "node_modules/datatables.net-buttons/js/buttons.print.js"
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js"
             ],
             "allowedCommonJsDependencies": [
               "ev-emitter/ev-emitter",
@@ -92,11 +82,8 @@
               "lottie-web",
               "ngx-lightbox",
               "ngx-masonry",
-              "leaflet",
               "file-saver",
-              "@ckeditor/ckeditor5-build-classic",
               "ngx-csv/ngx-csv",
-              "sweetalert2",
               "lodash",
               "core-js/modules/es.array.filter.js",
               "core-js/modules/es.array.iterator.js",
@@ -119,7 +106,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "5mb",
-                  "maximumError": "5mb"
+                  "maximumError": "8mb"
                 },
                 {
                   "type": "anyComponentStyle",

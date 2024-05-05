@@ -25,10 +25,10 @@ namespace WebAPI.Controllers
                 await mailService.SendEmailAsync(request);
                 return Ok();
             }
-            catch (Exception ex)
+            catch
             {
 
-                throw ex;
+                throw new Exception();
             }
 
         }

@@ -1,0 +1,12 @@
+4/22/2024 4:16:12 PM ==> 	The request matched multiple endpoints. Matches: 
+
+WebAPI.Controllers.ScheduleController.GetScheduleByDate (WebAPI)
+WebAPI.Controllers.ScheduleController.GetScheduleByDate (WebAPI) Line:0		GET	
+
+4/22/2024 4:16:18 PM ==> 	The request matched multiple endpoints. Matches: 
+
+WebAPI.Controllers.ScheduleController.GetScheduleByDate (WebAPI)
+WebAPI.Controllers.ScheduleController.GetScheduleByDate (WebAPI) Line:0		GET	
+
+4/22/2024 4:36:12 PM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+

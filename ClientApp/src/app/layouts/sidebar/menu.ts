@@ -74,12 +74,6 @@ export const MENU_PATIENT: MenuItem[] = [
     link: '/medical-process'
   },
   {
-    id: 13,
-    label: 'MENUITEMS.ABOUTUS.TEXT',
-    icon: 'las la-user-friends',
-    link: '/about'
-  },
-  {
     id: 14,
     label: 'MENUITEMS.HELP.TEXT',
     icon: 'las la-info-circle',
@@ -121,12 +115,6 @@ export const MENU_ADMIN: MenuItem[] = [
         id: 5,
         label: 'MENUITEMS.USERMANAGEMENT.LIST.DOCTOR',
         link: '/admin/manage-doctor',
-        parentId: 3
-      },
-      {
-        id: 6,
-        label: 'MENUITEMS.USERMANAGEMENT.LIST.ADMIN',
-        link: '',
         parentId: 3
       },
     ]
@@ -191,12 +179,6 @@ export const MENU_ADMIN: MenuItem[] = [
     label: 'MENUITEMS.MEDICALPROCESS.TEXT',
     icon: 'las la-procedures',
     link: '/medical-process'
-  },
-  {
-    id: 17,
-    label: 'MENUITEMS.ABOUTUS.TEXT',
-    icon: 'las la-user-friends',
-    link: '/about'
   },
   {
     id: 18,
@@ -269,22 +251,10 @@ export const MENU_DOCTOR: MenuItem[] = [
     link: '/doctor/appointment-on-site'
   },
   {
-    id: 11,
-    label: 'MENUITEMS.REPORT.TEXT',
-    icon: 'las la-chart-bar',
-    link: '/report'
-  },
-  {
     id: 12,
     label: 'MENUITEMS.MEDICALPROCESS.TEXT',
     icon: 'las la-procedures',
     link: '/medical-process'
-  },
-  {
-    id: 13,
-    label: 'MENUITEMS.ABOUTUS.TEXT',
-    icon: 'las la-user-friends',
-    link: '/about'
   },
   {
     id: 14,

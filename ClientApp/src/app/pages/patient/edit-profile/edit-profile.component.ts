@@ -12,7 +12,6 @@ import { ProfileService } from '../../../core/services/profile.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../../../core/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { isObject } from 'chart.js/dist/helpers/helpers.core';
 import { User } from '../../../core/models/auth.models';
 
 const MINIMUM_BIRTHDAY_YEAR = 1910;
@@ -48,9 +47,9 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     m: number;
     s: number;
   } = {
-      m: COUNT_DOWN_MINUTES,
-      s: COUNT_DOWN_SECONDS,
-    };
+    m: COUNT_DOWN_MINUTES,
+    s: COUNT_DOWN_SECONDS,
+  };
   disableResend = false;
 
   constructor(
@@ -60,12 +59,12 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     private _spinnerService: NgxSpinnerService,
     private _authService: AuthService,
     private _modalService: NgbModal
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Profile', active: true },
+      
+      { label: 'Edit Profile', active: true },
     ];
     this.currentUser = this._authService.currentUser();
     this.userId = this.currentUser.id;
@@ -194,7 +193,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
               this.currentUser.status = STATUS_ENOUGH_INFO;
               this.openWarningModal(this.content);
             }
-            this.currentUser.fullName =  res.fullName
+            this.currentUser.fullName = res.fullName;
             this.currentUser.avatarUrl = res.avatarUrl;
             this.setCurrentUser(this.currentUser);
           } else {
@@ -230,7 +229,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   fetchData() {
     this._spinnerService.show();
     this.subscription$ = this._profileService
-      .getPatientInfo(this.userId)
+      .getPatientDetailByUserId(this.userId)
       .pipe(
         map((data) => {
           return {

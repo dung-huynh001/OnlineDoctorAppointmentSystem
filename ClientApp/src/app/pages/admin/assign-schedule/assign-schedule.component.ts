@@ -125,8 +125,7 @@ export class AssignScheduleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Schedule Management' },
+      { label: 'Schedule Management', link: '/admin/schedule' },
       { label: 'Assign Schedule', active: true },
     ];
 

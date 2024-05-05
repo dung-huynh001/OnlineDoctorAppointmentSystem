@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
   Router,
-  ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 // Auth Services
 import { AuthService } from '../services/auth.service';
-import { RoleAccess } from '../models/roleAccess';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard {
@@ -18,28 +16,23 @@ export class AuthGuard {
     private jwtHelperService: JwtHelperService
   ) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(state: RouterStateSnapshot) {
     const currentUser = this.authService.currentUser();
-    const roleAccess = RoleAccess;
 
-    // check token
-    if (!currentUser || !currentUser.token || this.jwtHelperService.isTokenExpired(currentUser.token)) {
-      this.router.navigate(['/auth/login'], {
-        queryParams: { returnUrl: state.url },
-      });
+    // check token in localStorage
+    if (currentUser && currentUser.token && !this.jwtHelperService.isTokenExpired(currentUser.token)) {
+      return true;
     }
 
-    const currAccess = roleAccess.filter(
-      (item) => item.role === currentUser.userType
-    )[0];
+    // check token in localStorage
+    if (this.authService.user$.value) {
+      return true;
+    }
 
-    // check role
-    // if (!currAccess.access.includes(route.url[0].path)) {
-    //   this.router.navigate(['/pages/access-denied'], {
-    //     queryParams: { returnUrl: state.url },
-    //   });
-    // }
+    this.router.navigate(['/auth/login'], {
+      queryParams: { returnUrl: state.url },
+    });
 
-    return true;
+    return false;
   }
 }

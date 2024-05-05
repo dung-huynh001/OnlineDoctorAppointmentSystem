@@ -14,7 +14,7 @@ export class AllComponent  implements OnInit {
   
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
+      
       { label: 'Manage Appointment' },
       { label: 'All', active: true },
     ];

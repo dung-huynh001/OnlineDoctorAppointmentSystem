@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { iPatientInfo } from '../models/patientInfo.model';
+import { Observable, Subject } from 'rxjs';
+import { iPatientInfo } from '../models/patient.model';
 
 const HOSTNAME = environment.serverApi;
 
@@ -23,8 +23,12 @@ export class ProfileService {
     this.patient$.next(data);
   }
 
-  getPatientInfo(id: any): Observable<any> {
-    return this.http.get(`${HOSTNAME}/api/Patient/get-patient-details?id=${id}`);
+  getPatientDetailByUserId(id: string): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Patient/get-patient-detail-by-user-id?id=${id}`);
+  }
+
+  getPatientDetailByPatientId(id: number): Observable<any> {
+    return this.http.get(`${HOSTNAME}/api/Patient/get-patient-detail-by-patient-id/${id}`);
   }
 
   updatePatientInfo(url: string, id: any, data: any): Observable<any> {
@@ -33,15 +37,15 @@ export class ProfileService {
       formData.append(key, data[key]);
     });
 
-    return this.http.patch(environment.serverApi + `/api/${url}/${id}`, formData);
+    return this.http.patch(`${HOSTNAME}/api/${url}/${id}`, formData);
   }
 
   sendActivateEmail(url: string, id: any, email: any): Observable<any> {
-    return this.http.get(environment.serverApi + `/api/${url}/${id}?email=${email}`);
+    return this.http.get(`${HOSTNAME}/api/${url}/${id}?email=${email}`);
   }
 
   validOTP(url: string, id: string, otp: {}): Observable<any> {
-    return this.http.post(environment.serverApi + `/api/${url}/${id}`, otp);
+    return this.http.post(`${HOSTNAME}/api/${url}/${id}`, otp);
   }
 
 }

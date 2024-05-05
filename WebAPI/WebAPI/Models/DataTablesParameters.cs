@@ -3,10 +3,10 @@
     public class DataTablesParameters
     {
         public int Length { get; set; }
-        public List<OrderBy> Order { get; set; }
+        public List<OrderBy>? Order { get; set; }
         public int Start { get; set; }
-        public Search Search { get; set; }
-        public List<Column> Columns { get; set; }
+        public Search? Search { get; set; }
+        public List<Column>? Columns { get; set; }
         public int Draw { get; set; }
 
     }
@@ -30,6 +30,5 @@
     {
         public string? Value { get; set; }
         public bool Regex { get; set; }
-        /*public List<int> Fixed { get; set; }*/
     }
 }

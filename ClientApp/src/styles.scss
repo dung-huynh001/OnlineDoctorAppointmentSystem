@@ -108,3 +108,26 @@ table.dataTable tfoot td {
   color: #fff;
   margin: 0 1.8rem;
 }
+
+
+/* Customize Datatable */
+.dt-text-end {
+  text-align: right;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details > li {
+  text-align: left !important;
+}
+
+.dt-text-wrap {
+  min-width: 120px !important;
+}
+
+td.dt-text-wrap {
+  text-wrap: wrap !important;
+}
+
+::-webkit-credentials-auto-fill-button,
+::-webkit-credentials-auto-fill-button:focus-visible {
+    visibility: hidden !important;
+}

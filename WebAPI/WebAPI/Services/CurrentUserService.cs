@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using WebAPI.Domain.Entities;
 using WebAPI.Exceptions;
 using WebAPI.Infrastructure.Context;
@@ -12,10 +13,17 @@ namespace WebAPI.Services
     public class CurrentUserService : ICurrentUserService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHttpContextAccessor _accessor;
 
-        public CurrentUserService(IUnitOfWork unitOfWork)
+        public CurrentUserService(IUnitOfWork unitOfWork, IHttpContextAccessor accessor)
         {
             this._unitOfWork = unitOfWork;
+            this._accessor = accessor;
+        }
+
+        public string GetCurrentUserId()
+        {
+            return _accessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
         }
 
         public async Task<Doctor> GetDoctorInfo(string userId)
@@ -33,12 +41,28 @@ namespace WebAPI.Services
             switch(userType.ToLower().Trim())
             {
                 case "patient":
-                    return (await _unitOfWork.Repository<Patient>().GetAll.Where(d => d.UserId == id).FirstOrDefaultAsync())!.FullName;
+                    return (await _unitOfWork.Repository<Patient>().GetAll.Where(d => d.UserId == id).SingleOrDefaultAsync())?.FullName!;
                 case "doctor":
-                    return (await _unitOfWork.Repository<Doctor>().GetAll.Where(d => d.UserId == id).FirstOrDefaultAsync())!.FullName;
+                    return (await _unitOfWork.Repository<Doctor>().GetAll.Where(d => d.UserId == id).SingleOrDefaultAsync())?.FullName!;
                 default:
                     return "admin";
             }
+        }
+
+        public string GetFullName(string userId)
+        {
+            var patient = _unitOfWork.Repository<Patient>().GetAll.SingleOrDefault(p => p.UserId == userId);
+            if (patient != null)
+            {
+                return patient.FullName ?? "--unknown--";
+            }
+            var doctor = _unitOfWork.Repository<Doctor>().GetAll.SingleOrDefault(p => p.UserId == userId);
+            if (doctor != null)
+            {
+                return doctor.FullName;
+            }
+
+            return "admin";
         }
 
         public async Task<Patient> GetPatientInfo(string userId)

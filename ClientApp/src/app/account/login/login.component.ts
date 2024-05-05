@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
      * Form Validatyion
      */
     this.loginForm = this.formBuilder.group({
-      username: ['admin', [Validators.required]],
+      username: ['d1', [Validators.required]],
       password: ['abcd1234', [Validators.required]],
     });
     // get return url from route parameters or default to '/'
@@ -88,7 +88,6 @@ export class LoginComponent implements OnInit {
         )
         .subscribe((res) => {
           if (res.data.token) {
-            // localStorage.setItem('toast', 'true');
             localStorage.setItem('currentUser', JSON.stringify(res.data));
             localStorage.setItem('token', res.data.token);
             this.authService.setLogin(res.data, res.data.token);

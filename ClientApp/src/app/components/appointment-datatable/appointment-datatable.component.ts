@@ -5,13 +5,20 @@ import {
   OnChanges,
   OnInit,
   Output,
+  Renderer2,
   SimpleChanges,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
-import { Subject, catchError, throwError } from 'rxjs';
+import { Subject, catchError, finalize, throwError } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/models/auth.models';
 import { AppointmentService } from '../../core/services/appointment.service';
 import { DatePipe } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from '../../core/services/toast.service';
+import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-appointment-datatable',
@@ -23,7 +30,11 @@ export class AppointmentDatatableComponent
 {
   @Input() title!: string;
   @Input() appointmentStatus!: string;
-  @Output() selectedId!: number;
+  selectedId!: number;
+
+  @ViewChild('cancelModal') cancelModal!: TemplateRef<any>;
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -34,7 +45,11 @@ export class AppointmentDatatableComponent
   constructor(
     private _authService: AuthService,
     private _appointmentService: AppointmentService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private renderer: Renderer2,
+    private _modalService: NgbModal,
+    private _toastService: ToastService,
+    private _spinnerService: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +91,17 @@ export class AppointmentDatatableComponent
 
   ngAfterViewInit(): void {
     this.dtTrigger.next(this.dtOptions);
+
+    this.renderer.listen('document', 'click', (event) => {
+      if (
+        event.target.hasAttribute('data-appointment-id') &&
+        event.target.classList.contains('cancel-btn')
+      ) {
+        const id = event.target.getAttribute('data-appointment-id');
+        this.selectedId = id;
+        this.openCancelModal();
+      }
+    });
   }
 
   fetchData() {
@@ -88,7 +114,7 @@ export class AppointmentDatatableComponent
       order: [[1, 'asc']],
       columnDefs: [
         { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false },
+        { targets: [-1], orderable: false, responsivePriority: 1  },
         {
           className: 'dtr-control',
           orderable: false,
@@ -137,24 +163,20 @@ export class AppointmentDatatableComponent
           title: 'ID',
           className: 'text-center',
         },
-        // {
-        //   data: 'doctorName',
-        //   title: 'Doctor',
-        // },
         ...this.customColumns,
         {
           data: 'appointmentDate',
           title: 'Appointment date',
-          className: 'text-end',
+          className: 'dt-text-end',
           render: (data: any) =>
-            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
+            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy'),
         },
         {
           data: 'dateOfConsultation',
           title: 'Consultation date',
-          className: 'text-end',
+          className: 'dt-text-end dt-text-wrap',
           render: (data: any) =>
-            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
+            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy'),
         },
         {
           data: 'status',
@@ -180,19 +202,19 @@ export class AppointmentDatatableComponent
         {
           data: 'closedDate',
           title: 'Closed date',
-          className: 'text-end',
+          className: 'dt-text-end  dt-text-wrap',
           render: (data: any) => {
             return data !== null
-              ? this.datePipe.transform(data, 'hh:mm dd/MM/yyyy ')
+              ? this.datePipe.transform(data, 'hh:mm dd/MM/yyyy')
               : '--unknown--';
           },
         },
         {
           data: 'createdDate',
           title: 'Created date',
-          className: 'text-end',
+          className: 'dt-text-end  dt-text-wrap',
           render: (data: any) =>
-            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
+            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy'),
         },
         {
           data: 'createdBy',
@@ -200,6 +222,7 @@ export class AppointmentDatatableComponent
         },
         {
           title: 'Action',
+          orderable: false,
           data: 'id',
           render: (data: any, type: any, row: any, meta: any) => {
             return this.setActionColumn(data, row);
@@ -243,5 +266,38 @@ export class AppointmentDatatableComponent
     }
 
     return badgeType;
+  }
+
+  markAsCancel() {
+    const id = this.selectedId;
+    this._spinnerService.show();
+    this._appointmentService
+      .updateAppointmentStatus(id, 'Cancelled')
+      .pipe(
+        finalize(() => {
+          setTimeout(() => {
+            this._spinnerService.hide();
+          }, 200);
+        })
+      )
+      .subscribe((res) => {
+        if (res.isSuccess) {
+          this._toastService.success(res.message);
+          this.reRenderTable();
+        }
+      });
+  }
+
+  reRenderTable() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.dtTrigger.next(this.dtOptions);
+    });
+  }
+
+  openCancelModal() {
+    this._modalService.open(this.cancelModal, {
+      centered: true,
+    });
   }
 }

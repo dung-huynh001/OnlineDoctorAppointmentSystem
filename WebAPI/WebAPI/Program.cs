@@ -25,13 +25,12 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddLogging();
 
 builder.Services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
+
 // Add services to the container.
 builder.Services.AddDependencyInjection();
 
 
 //Config for connect to database
-
-
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<DoctorAppointmentSystemContext>(opt =>
@@ -141,6 +140,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<NgrokMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseRouting();

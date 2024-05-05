@@ -1,242 +1,171 @@
 <app-breadcrumbs title="Dashboard" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12 col-lg-9">
-            <div class="row">
-                <div class="col-xxl-3 col-sm-6">
-                    <div class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-start gap-2">
-                                <div class="align-self-center">
-                                    <div class="avatar-md flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
-                                            <i class="las la-list-ul"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-column align-items-center">
-                                    <h5 class="fw-semibold text-muted mb-0">Total Appointment</h5>
-                                    <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="107"
-                                            class="counter-value"></span>K</h2>
-                                    <p class="mb-0 text-muted">till today</p>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card crm-widget">
+            <div class="card-body p-0">
+                <div class="row row-cols-md-3 row-cols-1">
+                    <div class="col col-lg border-end" *ngFor="let data of resourceWidgets">
+                        <div class="d-flex justify-content-between p-4">
+                            <div>
+                                <p class="text-muted fw-bolder text-uppercase">{{data.title}}</p>
+                                <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="data.value"
+                                        class="counter-value" [options]="option"></span></h2>
+                            </div>
+                            <div>
+                                <div class="avatar-md flex-shrink-0">
+                                    <span class="avatar-title bg-info-subtle text-info rounded-circle fs-2">
+                                        <i class="text-bg-info-subtle text-info feather-icon-align {{data.icon}}">
+                                        </i>
+                                    </span>
                                 </div>
                             </div>
-                        </div><!-- end card body -->
+                        </div>
                     </div>
-                </div>
-                <div class="col-xxl-3 col-sm-6">
-                    <div class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-start gap-2">
-                                <div class="align-self-center">
-                                    <div class="avatar-md flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
-                                            <i class="las la-calendar-day"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-column align-items-center">
-                                    <h5 class="fw-semibold text-muted mb-0">Today Appointment</h5>
-                                    <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="107"
-                                            class="counter-value"></span>K</h2>
-                                    <p class="mb-0 text-muted">{{today}}</p>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div>
-                </div>
-                <div class="col-xxl-3 col-sm-6">
-                    <div class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-start gap-2">
-                                <div class="align-self-center">
-                                    <div class="avatar-md flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
-                                            <i class="las la-calendar-plus"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-column align-items-center">
-                                    <h5 class="fw-semibold text-muted mb-0">Confirmed Appointment</h5>
-                                    <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="107"
-                                            class="counter-value"></span>K</h2>
-                                    <p class="mb-0 text-muted">are awaiting approval</p>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div>
-                </div>
-                <div class="col-xxl-3 col-sm-6">
-                    <div class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-start gap-2">
-                                <div class="align-self-center">
-                                    <div class="avatar-md flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
-                                            <i class="las la-hourglass-half"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-column align-items-center">
-                                    <h5 class="fw-semibold text-muted mb-0">Pending Appointment</h5>
-                                    <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="107"
-                                            class="counter-value"></span>K</h2>
-                                    <p class="mb-0 text-muted">are awaiting approval</p>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xxl-6 col-sm-12">
-                    <app-donut-charts chartTitle="Gender Statistics"></app-donut-charts>
-                </div>
-                <div class="col-xxl-6 col-sm-12">
-                    <app-area-charts chartTitle="Appointment Statistics"></app-area-charts>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-12">
-            <div class="card card-animate">
-                <div class="card-header d-flex justify-content-between">
-                    <h4>New Booking</h4>
-                    <button class="btn btn-ghost-dark text-muted px-1 py-0 d-flex align-items-center">See all <i
-                            class="ri ri-arrow-right-s-line"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex flex-column gap-3">
-                        <div>
-                            <div class="d-flex justify-content-start gap-2">
-                                <img src="assets/images/users/avatar-1.jpg" alt=""
-                                    class="avatar-md rounded rounded-circle">
-                                <div class="d-flex flex-column">
-                                    <b>Jacobs Jones</b>
-                                    <span class="text-muted fst-italic">Male, 25yrs</span>
-                                    <p class="">{{today}}</p>
-                                </div>
-                                <div class="d-none d-xxl-flex x ms-auto align-self-start d-flex gap-2 flex-wrap justify-content-end">
-                                    <button class="btn btn-sm btn-soft-primary">View</button>
-                                    <button class="btn btn-sm btn-soft-success">Accepted</button>
-                                    <button class="btn btn-sm btn-soft-danger">Reject</button>
-                                </div>
-                                <div class="dropdown ms-auto d-xxl-none d-xl-flex" ngbDropdown>
-                                    <a href="javascript:void(0);" class="arrow-none" role="button" id="dropdownMenuLink3" data-bs-toggle="dropdown" aria-expanded="false" ngbDropdownToggle>
-                                        <i class="ri-more-2-fill"></i>
-                                    </a>
+    </div>
+</div>
 
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink3" ngbDropdownMenu>
-                                        <li><a class="dropdown-item" href="javascript:void(0);">View</a></li>
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Accepted</a></li>
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Reject</a></li>
-                                    </ul>
-                                </div>
+<div class="row">
+    <div class="col-xxl-3">
+        <div class="card card-height-100">
+            <div class="card-header border-0 align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Statistics patient by gender</h4>
+            </div>
+            <div id="portfolio_donut_charts" class="card-body" *ngIf="genderChart">
+                <apx-chart [series]="genderChart.series" [labels]="genderChart.labels" [chart]="genderChart.chart"
+                    [plotOptions]="genderChart.plotOptions" [dataLabels]="genderChart.dataLabels"
+                    [legend]="genderChart.legend" [yaxis]="genderChart.yaxis" [stroke]="genderChart.stroke"
+                    [colors]="genderChart.colors" dir="ltr"></apx-chart>
+
+                <ul class="list-group list-group-flush border-dashed mb-0 mt-3 pt-2">
+                    <li class="list-group-item px-0" *ngFor="let label of genderChart.labels, let i = index">
+                        <div class="d-flex gap-3 align-items-center">
+                            <div class="flex-shrink-0 avatar-sm">
+                                <span class="avatar-title bg-primary-subtle text-primary p-1 rounded-circle">
+                                    <i class="fs-2 las {{genderStatisticData[i].icon}}"></i>
+                                </span>
+                            </div>
+                            <h6 class="flex-grow-1 mb-1">{{label}}</h6>
+                            <div class="flex-shrink-0 text-end">
+                                <h6 class="mb-1">{{genderChart.series[i]}} persons</h6>
+                                <p class="text-success fs-12 mb-0">{{genderStatisticData[i].percentage +
+                                    genderStatisticData[i].suffix}}</p>
                             </div>
                         </div>
-                        <div>
-                            <div class="d-flex justify-content-between gap-3">
-                                <img src="assets/images/users/avatar-1.jpg" alt=""
-                                    class="avatar-md rounded rounded-circle">
-                                <div class="d-flex flex-column">
-                                    <b>Jacobs Jones</b>
-                                    <span class="text-muted fst-italic">Male, 25yrs</span>
-                                    <p class="">{{today}}</p>
-                                </div>
-                                <div class="d-xxl-flex d-none d-lg-none ms-auto align-self-start d-flex gap-2 flex-wrap justify-content-end">
-                                    <button class="btn btn-sm btn-soft-primary">View</button>
-                                    <button class="btn btn-sm btn-soft-success">Accepted</button>
-                                    <button class="btn btn-sm btn-soft-danger">Reject</button>
-                                </div>
-                                <div class="dropdown ms-auto d-xxl-none d-xl-flex" ngbDropdown>
-                                    <a href="javascript:void(0);" class="arrow-none" role="button" id="dropdownMenuLink3" data-bs-toggle="dropdown" aria-expanded="false" ngbDropdownToggle>
-                                        <i class="ri-more-2-fill"></i>
-                                    </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink3" ngbDropdownMenu>
-                                        <li><a class="dropdown-item" href="javascript:void(0);">View</a></li>
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Accepted</a></li>
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Reject</a></li>
-                                    </ul>
+    <div class="col-xxl-9 order-xxl-0 order-first">
+        <div class="row" *ngIf="appointmentWidgets">
+            <div class="col-xxl-3 col-sm-6" *ngFor="let widget of appointmentWidgets">
+                <div class="card card-animate">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-start gap-2">
+                            <div class="align-self-center">
+                                <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title {{widget.badgeClass}} rounded-circle fs-3">
+                                        <i class="{{widget.badge}}"></i>
+                                    </span>
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            <div class="d-flex justify-content-between gap-3">
-                                <img src="assets/images/users/avatar-1.jpg" alt=""
-                                    class="avatar-md rounded rounded-circle">
-                                <div class="d-flex flex-column">
-                                    <b>Jacobs Jones</b>
-                                    <span class="text-muted fst-italic">Male, 25yrs</span>
-                                    <p class="">{{today}}</p>
-                                </div>
-                                <div class="d-xxl-flex d-none d-lg-none ms-auto align-self-start d-flex gap-2 flex-wrap justify-content-end">
-                                    <button class="btn btn-sm btn-soft-primary">View</button>
-                                    <button class="btn btn-sm btn-soft-success">Accepted</button>
-                                    <button class="btn btn-sm btn-soft-danger">Reject</button>
-                                </div>
-                                <div class="dropdown ms-auto d-xxl-none d-xl-flex" ngbDropdown>
-                                    <a href="javascript:void(0);" class="arrow-none" role="button" id="dropdownMenuLink3" data-bs-toggle="dropdown" aria-expanded="false" ngbDropdownToggle>
-                                        <i class="ri-more-2-fill"></i>
-                                    </a>
-
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink3" ngbDropdownMenu>
-                                        <li><a class="dropdown-item" href="javascript:void(0);">View</a></li>
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Accepted</a></li>
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Reject</a></li>
-                                    </ul>
-                                </div>
+                            <div class="d-flex flex-column align-items-center">
+                                <p class="fw-medium text-muted mb-0 text-uppercase">{{widget.title}}</p>
+                                <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="widget.value"
+                                        class="counter-value"></span></h2>
+                                <p class="mb-0 text-muted"><span
+                                        class="badge {{widget.isIncrease? 'bg-success-subtle text-success': 'bg-danger-subtle text-danger'}} mb-0">
+                                        <i
+                                            class="{{widget.isIncrease? 'ri ri-arrow-up-line': 'ri ri-arrow-down-line'}}"></i>
+                                        {{widget.increaseValue + widget.suffix}}
+                                    </span> vs. previous month</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card card-animate">
-                <div class="card-header d-flex justify-content-between">
-                    <h4>Recently Patient</h4>
-                    <button class="btn btn-ghost-dark text-muted px-1 py-0 d-flex align-items-center">See all <i
-                            class="ri ri-arrow-right-s-line"></i></button>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex flex-column gap-3">
-                        <div>
-                            <div class="d-flex gap-3">
-                                <img src="assets/images/users/avatar-1.jpg" alt=""
-                                    class="avatar-sm rounded rounded-circle">
-                                <div class="d-flex flex-column">
-                                    <b>Jacobs Jones</b>
-                                    <span class="text-muted fst-italic">Male - 25yrs, <span>{{today}}</span></span>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card" *ngIf="appointmentChartOptions">
+                    <div class="card-header border-0 align-items-center d-flex">
+                        <h4 class="card-title mb-0 flex-grow-1">Statistics appointment activities</h4>
+                        <div class="d-flex gap-1">
+                            <button type="button" class="btn btn-soft-primary btn-sm"
+                                (click)="renderTodayAppt()">Today</button>
+                            <button type="button" class="btn btn-soft-secondary btn-sm"
+                                (click)="renderThisWeekAppt()">This week</button>
+                            <button type="button" class="btn btn-soft-secondary btn-sm"
+                                (click)="renderThisMonthAppt()">This month</button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div
+                            class="bg-light-subtle border-top-dashed border border-start-0 border-end-0 border-bottom-dashed py-3 px-4">
+                            <div class="row align-items-center">
+                                <div class="col-5">
+                                    <div class="d-flex flex-wrap gap-4 align-items-center">
+                                        <p class="fw-medium text-muted mb-0">Start:
+                                            <input type="text" class="form-control" mwlFlatpickr [altInput]="true"
+                                                [convertModelValue]="true" [(ngModel)]="statisticStartDate">
+                                        </p>
+
+                                        <p class="fw-medium text-muted mb-0">End:
+                                            <input type="text" class="form-control" mwlFlatpickr [altInput]="true"
+                                                [convertModelValue]="true" [(ngModel)]="statisticEndDate">
+                                        </p>
+                                        <button class="btn btn-soft-primary align-self-end"
+                                            (click)="renderAppointmentChartByDate('range date')">Statistic</button>
+                                    </div>
                                 </div>
-                                <button class="btn btn-sm btn-soft-primary align-self-center ms-auto">View</button>
+                                <div class="col-7">
+                                    <div class="d-flex gap-3">
+                                        <div class="d-flex justify-content-end text-end flex-wrap gap-4 ms-auto">
+                                            <div class="pe-3">
+                                                <h6 class="mb-2 text-truncate text-muted">Total Appointment</h6>
+                                                <h5 class="mb-0">{{appointmentStatisticHeader.total}}</h5>
+
+                                            </div>
+                                            <div class="pe-3">
+                                                <h6 class="mb-2 text-muted">Pending</h6>
+                                                <h5 class="text-warning mb-0">{{appointmentStatisticHeader.pending}}</h5>
+                                            </div>
+                                            <div class="pe-3">
+                                                <h6 class="mb-2 text-muted">Confirmed</h6>
+                                                <h5 class="text-primary mb-0">{{appointmentStatisticHeader.confirmed}}</h5>
+                                            </div>
+                                            <div class="pe-3">
+                                                <h6 class="mb-2 text-muted">Completed</h6>
+                                                <h5 class="text-success mb-0">{{appointmentStatisticHeader.completed}}</h5>
+                                            </div>
+                                            <div class="pe-3">
+                                                <h6 class="mb-2 text-muted">Cancelled</h6>
+                                                <h5 class="text-danger mb-0">{{appointmentStatisticHeader.cancelled}}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <div class="d-flex gap-3">
-                                <img src="assets/images/users/avatar-1.jpg" alt=""
-                                    class="avatar-sm rounded rounded-circle">
-                                <div class="d-flex flex-column">
-                                    <b>Jacobs Jones</b>
-                                    <span class="text-muted fst-italic">Male - 25yrs, <span>{{today}}</span></span>
-                                </div>
-                                <button class="btn btn-sm btn-soft-primary align-self-center ms-auto">View</button>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="d-flex gap-3">
-                                <img src="assets/images/users/avatar-1.jpg" alt=""
-                                    class="avatar-sm rounded rounded-circle">
-                                <div class="d-flex flex-column">
-                                    <b>Jacobs Jones</b>
-                                    <span class="text-muted fst-italic">Male - 25yrs, <span>{{today}}</span></span>
-                                </div>
-                                <button class="btn btn-sm btn-soft-primary align-self-center ms-auto">View</button>
-                            </div>
+                    </div>
+                    <div class="card-body p-0 pb-3">
+                        <div class="mb-n3 overflow-auto">
+                            <apx-chart [series]="appointmentChartOptions.series" [chart]="appointmentChartOptions.chart"
+                                [xaxis]="appointmentChartOptions.xaxis" [colors]="appointmentChartOptions.colors"
+                                [yaxis]="appointmentChartOptions.yaxis"
+                                [dataLabels]="appointmentChartOptions.dataLabels" [grid]="appointmentChartOptions.grid"
+                                [stroke]="appointmentChartOptions.stroke"></apx-chart>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

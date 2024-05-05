@@ -4,19 +4,9 @@
 
 export const environment = {
   production: false,
-  defaultauth: 'fackbackend',
-  firebaseConfig: {
-    apiKey: '',
-    authDomain: '',
-    databaseURL: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
-    measurementId: ''
-  },
-  server_url: 'https://api-node.themesbrand.website',
-  serverApi: 'https://localhost:7139'
+  serverApi: 'https://localhost:7139',
+  // serverApi: 'https://dfd7-115-74-233-88.ngrok-free.app',
+  hospitalConfigPath: 'assets/config/hospital.json'
 };
 
 /*

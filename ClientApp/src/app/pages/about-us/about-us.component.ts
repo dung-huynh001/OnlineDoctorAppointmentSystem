@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { link } from 'fs';
 
 @Component({
   selector: 'app-about-us',
@@ -15,7 +16,6 @@ export class AboutUsComponent implements OnInit {
     * BreadCrumb
     */
      this.breadCrumbItems = [
-      { label: 'Menu' },
       { label: 'About us', active: true }
     ];
   }

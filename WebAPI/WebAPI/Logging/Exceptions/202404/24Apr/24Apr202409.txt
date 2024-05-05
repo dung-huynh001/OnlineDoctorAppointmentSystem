@@ -1,0 +1,46 @@
+4/24/2024 9:32:23 AM ==> AppointmentService.cs	There are no scheduled dates for 03 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:32:29 AM ==> AppointmentService.cs	There are no scheduled dates for 04 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:32:32 AM ==> AppointmentService.cs	There are no scheduled dates for 03 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:32:39 AM ==> AppointmentService.cs	There are no scheduled dates for 02 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:32:42 AM ==> AppointmentService.cs	There are no scheduled dates for 02 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:32:46 AM ==> AppointmentService.cs	There are no scheduled dates for 18 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:32:52 AM ==> AppointmentService.cs	There are no scheduled dates for 03 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:33:04 AM ==> AppointmentService.cs	There are no scheduled dates for 01 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:33:13 AM ==> AppointmentService.cs	There are no scheduled dates for 03 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:33:31 AM ==> AppointmentService.cs	There are no scheduled dates for 02 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:33:43 AM ==> AppointmentService.cs	There are no scheduled dates for 03 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:33:50 AM ==> AppointmentService.cs	There are no scheduled dates for 03 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:33:57 AM ==> AppointmentService.cs	There are no scheduled dates for 03 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:35:01 AM ==> AppointmentService.cs	There are no scheduled dates for 24 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:35:12 AM ==> AppointmentService.cs	There are no scheduled dates for 02 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:35:17 AM ==> AppointmentService.cs	There are no scheduled dates for 02 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:35:19 AM ==> AppointmentService.cs	There are no scheduled dates for 02 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:35:49 AM ==> AppointmentService.cs	There are no scheduled dates for 18 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:36:00 AM ==> AppointmentService.cs	There are no scheduled dates for 18 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:36:40 AM ==> AppointmentService.cs	There are no scheduled dates for 01 Apr 2024 Line:664	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+
+4/24/2024 9:49:48 AM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/24/2024 9:49:50 AM ==> AuthService.cs	Username or password is incorrect! Line:54	<LoginAsync>	POST	
+
+4/24/2024 9:49:53 AM ==> 	The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters. Line:0		POST	
+

@@ -1,10 +1,7 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   OnInit,
-  TemplateRef,
-  ViewChild,
 } from '@angular/core';
 import { AppointmentService } from '../../../../core/services/appointment.service';
 import { Router } from '@angular/router';
@@ -12,18 +9,25 @@ import { catchError, finalize, throwError } from 'rxjs';
 import { ToastService } from '../../../../core/services/toast.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
+import { iPrescription } from '../../../../core/models/prescription.model';
+import { iAppointment } from '../../../../core/models/appointment.model';
+import { AuthService } from '../../../../core/services/auth.service';
+import { User } from '../../../../core/models/auth.models';
 @Component({
   selector: 'app-view-appointment',
   templateUrl: './view-appointment.component.html',
   styleUrl: './view-appointment.component.scss',
 })
 export class ViewAppointmentComponent implements OnInit, AfterViewInit {
+  currentUser!: User;
+
   breadcrumbItems!: Array<{}>;
   appointmentForm!: FormGroup;
 
+  hospitalInfo: any;
+
   appointmentId: any;
-  appointmentDetails: any;
+  appointmentDetails!: iAppointment;
 
   appointmentDate!: Date;
   appointmentTime!: any;
@@ -43,52 +47,39 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
   numberOrder: number = 0;
   pres_submitted: boolean = false;
 
-  prescriptions!: Array<{
-    id?: number;
-    drug: string;
-    frequency: number;
-    medicationDays: string;
-    quantity: string;
-    unit: number;
-    appointmentId: number;
-    note: string;
-    isDeleted: boolean;
-  }>;
+  prescriptions!: Array<iPrescription>;
 
-  prescriptionsFromDB: Array<{
-    id?: number;
-    drug: string;
-    frequency: number;
-    medicationDays: string;
-    quantity: string;
-    unit: number;
-    appointmentId?: number;
-    note: string;
-    isDeleted: boolean;
-  }> = [];
+  prescriptionsFromDB: Array<iPrescription> = [];
 
-  frequencyDropdownItems!: {
+  frequencyItems!: {
     value: number;
     text: string;
   }[];
 
-  unitDropdownItems!: {
+  unitItems!: {
     value: number;
     text: string;
   }[];
+
+  isChanged: boolean = false;
 
   constructor(
     private _appointmentService: AppointmentService,
     private router: Router,
     private _toastService: ToastService,
     private _spinnerService: NgxSpinnerService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private _authService: AuthService,
   ) {}
   ngOnInit(): void {
     this.breadcrumbItems = [
-      { label: 'Home' },
-      { label: 'Make Appointment', active: true },
+      { label: 'View Appointment', active: true },
     ];
+
+    this._appointmentService
+      .getHospitalInfo()
+      .subscribe((res) => (this.hospitalInfo = res));
+
     this.appointmentForm = this.formBuilder.group({
       PatientName: [],
       Gender: [],
@@ -109,9 +100,14 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
 
     this.fetchAppointmentDetails();
     this.prescriptions = JSON.parse(JSON.stringify(this.prescriptionsFromDB));
+    this.currentUser = this._authService.currentUser();
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    if (this.appointmentDetails && this.appointmentDetails.id) {
+      this.fetchPrescription();
+    }
+  }
 
   get appointmentFormControl() {
     return this.appointmentForm.controls;
@@ -153,7 +149,7 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
       )
       .subscribe((res) => {
         this.appointmentDetails = res;
-        this.appointmentDate = res.appointmentDate;
+        this.appointmentDate = new Date(res.appointmentDate);
         this.appointmentTime = res.appointmentDate.slice(11, 16);
 
         this.appointmentForm = this.formBuilder.group({
@@ -191,7 +187,9 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
       )
       .subscribe((res) => {
         this.diagnosisDetailsFromDB = res;
-        this.diagnosisDetails = res;
+        this.diagnosisDetails = JSON.parse(
+          JSON.stringify(this.diagnosisDetailsFromDB)
+        );
       });
   }
 
@@ -206,8 +204,9 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
       )
       .subscribe((res) => {
         this.prescriptionsFromDB = res;
+        this.prescriptions = JSON.parse(JSON.stringify(res));
       });
-    
+
     this.getFreq();
     this.getUnit();
   }
@@ -258,6 +257,13 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
 
   deleteRow(index: number) {
     this.pres_submitted = false;
+    const prescriptionId = this.prescriptions[index].id;
+    this.prescriptionsFromDB.find((pres) => {
+      if (pres.id === prescriptionId) {
+        pres.isDeleted = true;
+        return;
+      }
+    });
     this.prescriptions.splice(index, 1);
   }
 
@@ -265,18 +271,18 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
     this.pres_submitted = false;
     this.prescriptions.push({
       drug: '',
-      frequency: 1,
+      frequency: '1',
       medicationDays: '',
       note: '',
       quantity: '',
-      unit: 1,
+      unit: '6',
       appointmentId: this.appointmentDetails.id,
       isDeleted: false,
       id: undefined,
     });
   }
 
-  savePrescriptions(id: number, prescriptions: any) {
+  savePrescriptions(id: number, prescriptions: Array<iPrescription>) {
     this.pres_submitted = true;
     const isInvalid = this.prescriptions.find((pres) => {
       return (
@@ -288,10 +294,17 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
       );
     });
 
-    if (!isInvalid && this.prescriptions.length != 0) {
+    if (!isInvalid) {
       this._spinnerService.show();
+      const data = [...prescriptions];
+      this.prescriptionsFromDB.forEach((pres) => {
+        if (pres.isDeleted) {
+          data.push(pres);
+        }
+      });
+
       this._appointmentService
-        .updatePrescriptions(id, prescriptions)
+        .updatePrescriptions(id, data)
         .pipe(
           finalize(() => {
             this._spinnerService.hide();
@@ -300,38 +313,67 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
         .subscribe((res) => {
           if (res.isSuccess) {
             this._toastService.success(res.message);
+            this.prescriptionsFromDB = JSON.parse(
+              JSON.stringify(this.prescriptions)
+            );
           } else {
             this._toastService.error(res.message);
           }
         });
-    } else {
-      console.log('invalid');
     }
   }
 
   getFreq() {
     this._appointmentService.getFreq().subscribe((res) => {
-      this.frequencyDropdownItems = res;
+      this.frequencyItems = res;
     });
   }
 
   getUnit() {
     this._appointmentService.getUnit().subscribe((res) => {
-      this.unitDropdownItems = res;
+      this.unitItems = res;
     });
   }
 
   resetPrescriptions() {
     this.pres_submitted = false;
+    this.prescriptionsFromDB.forEach((pres) => (pres.isDeleted = false));
     this.prescriptions = JSON.parse(JSON.stringify(this.prescriptionsFromDB));
   }
 
   resetAppointmentDate() {
-    this.appointmentDate = this.appointmentDetails.appointmentDate;
+    this.appointmentDate = new Date(this.appointmentDetails.appointmentDate);
     this.appointmentTime = this.appointmentDetails.appointmentDate.slice(
       11,
       16
     );
+  }
+
+  changeAppointmentDate() {
+    this._spinnerService.show();
+    const time = this.appointmentTime.split(':');
+    const date = this.appointmentDate.setHours(time[0], time[1]);
+
+    const appointmentDate = new Date(date);
+    this._appointmentService
+      .changeAppointmentDate(this.appointmentDetails.id, this.appointmentDate)
+      .pipe(finalize(() => this._spinnerService.hide()))
+      .subscribe((res) => {
+        if (res.isSuccess) {
+          this._toastService.success(res.message);
+          this.fetchAppointmentDetails();
+        } else {
+          this._toastService.error(res.message);
+        }
+      });
+  }
+
+  markAsChanged() {
+    if (!this.isChanged) this.isChanged = true;
+  }
+
+  markAsUnChanged() {
+    if (this.isChanged) this.isChanged = false;
   }
 
   toggleMenu() {

@@ -1,22 +1,12 @@
 import {
   AfterViewInit,
   Component,
-  DoCheck,
-  ElementRef,
-  Input,
   OnInit,
-  SimpleChanges,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
-  inject,
 } from '@angular/core';
-import {
-  NgbModal,
-  NgbOffcanvas,
-  NgbOffcanvasConfig,
-  OffcanvasDismissReasons,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   DayService,
   DragAndDropService,
@@ -28,42 +18,32 @@ import {
   TimelineYearService,
   WeekService,
 } from '@syncfusion/ej2-angular-schedule';
-import {
-  DataManager,
-  Predicate,
-  Query,
-  UrlAdaptor,
-} from '@syncfusion/ej2-data';
+import { DataManager, Query, UrlAdaptor } from '@syncfusion/ej2-data';
 import {
   ActionEventArgs,
   CellClickEventArgs,
-  CrudAction,
   EventClickArgs,
   EventRenderedArgs,
   EventSettingsModel,
   GroupModel,
-  PopupCloseEventArgs,
   PopupOpenEventArgs,
   RenderCellEventArgs,
   ResourceDetails,
   View,
 } from '@syncfusion/ej2-schedule';
 import { environment } from '../../../../environments/environment';
-import { ScheduleService } from '../../../core/services/schedule.service';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { catchError, finalize, throwError } from 'rxjs';
-import { isNullOrUndefined } from '@syncfusion/ej2-base';
-import { ChangeEventArgs } from '@syncfusion/ej2-calendars';
+import { catchError, finalize, throwError, map } from 'rxjs';
 import { AppointmentService } from '../../../core/services/appointment.service';
-import {
-  ActionCompleteEventArgs,
-  FilteringEventArgs,
-  ItemCreatedArgs,
-} from '@syncfusion/ej2-dropdowns';
+import { FilteringEventArgs } from '@syncfusion/ej2-dropdowns';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '../../../core/services/toast.service';
+import { ScheduleService } from '../../../core/services/schedule.service';
+import { iPatientResource } from '../../../core/models/scheduler.model';
+
+const HOSTNAME = environment.serverApi;
 
 @Component({
   selector: 'app-appointment-on-site',
@@ -84,6 +64,8 @@ import { ToastService } from '../../../core/services/toast.service';
 export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   breadCrumbItems!: Array<{}>;
 
+  HOSTNAME: string = HOSTNAME;
+
   type!: string;
   calendarValue!: string;
   calendarTitle: string = new Date().toDateString();
@@ -95,6 +77,12 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
 
   addPatientFormGroup!: FormGroup;
   addPatientForm_submitted: boolean = false;
+
+  patientResources!: Record<string, any>;
+  public group: GroupModel = {
+    enableCompactView: true,
+    resources: ['Patients'],
+  };
 
   fields = {
     text: 'fullName',
@@ -134,7 +122,6 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
 
   eventSettings: EventSettingsModel = {
     dataSource: this.data,
-    fields: {},
   };
 
   constructor(
@@ -144,39 +131,56 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     private _appointmentService: AppointmentService,
     private _modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private _scheduleService: ScheduleService
   ) {}
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
       { label: 'Appointment On Site', active: true },
     ];
     this.calendarTitle = new Date().toDateString();
     this.type = 'day';
 
-    this.addPatientFormGroup = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$'),
-        ],
-      ],
-      fullName: ['', Validators.required],
-      nationalId: ['', Validators.required],
-      gender: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
-      address: ['', Validators.required],
-    });
+    
+
+    this.fetchPatients();
   }
 
   ngAfterViewInit(): void {
-    this.removeWarningLisenceEJ2();
+    this.removeWarningLicenseEJ2();
+  }
+
+  fetchPatients() {
+    this._scheduleService
+      .getAppointmentPatients(this.currentUser.id)
+      .pipe(
+        map((res) => {
+          return res.map((item) => ({
+            Id: item.id,
+            FullName: item.fullName,
+            DateOfBirth: item.dateOfBirth,
+            Gender: item.gender,
+            AvatarUrl: item.avatarUrl,
+          }));
+        })
+      )
+      .subscribe((res) => {
+        if (res.length > 0) {
+          this.patientResources = res;
+        } else {
+          this.patientResources = [{}];
+        }
+      });
+  }
+
+  getPatientInfo(value: ResourceDetails) {
+    const dateOfBirth = new Date(value.resourceData['DateOfBirth']);
+    const age = new Date().getFullYear() - dateOfBirth.getFullYear();
+    const gender = value.resourceData['Gender'];
+    return age >= 1 && age <= 120
+      ? `(${gender}, ${age} yrs)`
+      : `(${gender}, unknown)`;
   }
 
   currentViewChange(event: any) {
@@ -199,6 +203,24 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   showAddPatientModal() {
+    this.addPatientFormGroup = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$'),
+        ],
+      ],
+      fullName: ['', Validators.required],
+      nationalId: ['', Validators.required],
+      gender: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      address: ['', Validators.required],
+    });
     this._modalService.open(this.addNewPatientModal, {
       centered: true,
       size: 'lg',
@@ -209,6 +231,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     this.resetForm();
     this._modalService.dismissAll();
   }
+
 
   addNewPatient() {
     this._spinnerService.show();
@@ -230,6 +253,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
         .subscribe((res) => {
           if (res.isSuccess) {
             this._toastService.success(res.message);
+            this.resetForm();
           } else {
             this._toastService.error(res.message);
           }
@@ -238,10 +262,11 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
   }
 
   resetForm() {
+    this.addPatientForm_submitted = false;
     this.addPatientFormGroup.reset();
-    this.addPatientFormGroup.markAsUntouched();
-    this.addPatientFormGroup.markAsPristine();
     this.addPatientFormGroup.controls['gender'].setValue('');
+    this.addPatientFormGroup.markAsPristine();
+    this.addPatientFormGroup.markAsUntouched();
   }
 
   setColor(eventType: string): string {
@@ -260,7 +285,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
         bgColor = 'danger';
         break;
       default:
-        bgColor = 'light'
+        bgColor = 'light';
         break;
     }
     return bgColor;
@@ -295,32 +320,43 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     event.updateData(this.patients, query);
   }
 
-  eventDoubleClick(event: EventClickArgs) {
+  onEventDoubleClick(event: EventClickArgs) {
     this.editMode = true;
   }
 
-  cellClick(event: CellClickEventArgs) {
+  onCellClick(event: CellClickEventArgs) {
     this.editMode = false;
   }
 
-  actionFailure(event: ActionEventArgs) {
-    this._toastService.error('There are no scheduled on the selected date time');
+  onActionFailure(event: ActionEventArgs) {
+    this._toastService.error(
+      'There are no scheduled on the selected date time'
+    );
   }
 
-  actionBegin(args: ActionEventArgs) {
+  onActionBegin(args: ActionEventArgs) {
     const requestType = args.requestType;
-    if(requestType == 'eventCreate' || requestType == 'eventChange') {
-      if(!this.selectedPatient) {
+    if (requestType == 'eventCreate' || requestType == 'eventChange') {
+      if (!this.selectedPatient) {
         this.isInvalid = true;
         args.cancel = true;
-        this._toastService.error('Please choose patient before make appointment')
+        this._toastService.error(
+          'Please choose patient before make appointment'
+        );
       } else {
         this.isInvalid = false;
       }
     }
   }
 
-  eventRendered(args: EventRenderedArgs) {
+  onActionComplete(event: ActionEventArgs) {
+    if (event.requestType == 'eventCreated') {
+      this.scheduleObj.refreshEvents();
+      this.fetchPatients();
+    }
+  }
+
+  onEventRendered(args: EventRenderedArgs) {
     let status = args.data['AppointmentStatus'].toLowerCase();
     let el = args.element;
     switch (status) {
@@ -342,7 +378,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     }
   }
 
-  renderCell(event: RenderCellEventArgs) {
+  onRenderCell(event: RenderCellEventArgs) {
     const eventDateStr = event.date?.toDateString();
     if (this.type != 'day') {
       event.element.classList.add(
@@ -362,7 +398,7 @@ export class AppointmentOnSiteComponent implements OnInit, AfterViewInit {
     };
   }
 
-  removeWarningLisenceEJ2() {
+  removeWarningLicenseEJ2() {
     const timeOutId = setTimeout(() => {
       const afterDivs = document.querySelectorAll(
         '.flatpickr-calendar.animate'

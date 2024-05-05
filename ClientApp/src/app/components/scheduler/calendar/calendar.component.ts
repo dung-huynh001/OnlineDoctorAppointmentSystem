@@ -1,8 +1,7 @@
-import { catchError, filter, finalize, throwError } from 'rxjs';
+import { catchError, finalize, throwError } from 'rxjs';
 import {
   Component,
   ViewEncapsulation,
-  Inject,
   ViewChild,
   AfterViewInit,
   Input,
@@ -34,6 +33,7 @@ import { ScheduleService } from '../../../core/services/schedule.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+const HOSTNAME = environment.serverApi;
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -62,6 +62,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('scheduleObj') public scheduleObj!: ScheduleComponent;
 
   currentUser = this._authService.currentUser();
+  HOSTNAME: string = HOSTNAME;
 
   public data: DataManager = new DataManager({
     url: environment.serverApi + '/api/Schedule/get-all-doctor-schedules',
@@ -153,10 +154,6 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
     this._scheduleService
       .getDoctors()
       .pipe(
-        catchError((err) => {
-          console.log(err);
-          return throwError(() => err);
-        }),
         finalize(() => {
           setTimeout(() => {
             this._spinnerService.hide();
@@ -239,7 +236,7 @@ export class CalendarComponent implements OnInit, AfterViewInit, OnChanges {
     return value.resourceData['Designation'];
   }
 
-  public getDoctorImageName(value: ResourceDetails) {
-    return value.resourceData['AvatarUrl'];
+  public getDoctorImage(value: ResourceDetails) {
+    return HOSTNAME + '/' + value.resourceData['AvatarUrl'];
   }
 }

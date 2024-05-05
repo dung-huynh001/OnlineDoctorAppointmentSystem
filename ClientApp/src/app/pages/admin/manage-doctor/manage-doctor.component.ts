@@ -11,6 +11,7 @@ import { DoctorService } from '../../../core/services/doctor.service';
 export class ManageDoctorComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   dtOptions: DataTables.Settings = {};
+  // dtOptions:any = {};?
   dtTrigger: Subject<any> = new Subject();
   submitted: boolean = false;
 
@@ -23,7 +24,6 @@ export class ManageDoctorComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
       { label: 'Doctor Management', active: true },
     ];
 
@@ -34,9 +34,10 @@ export class ManageDoctorComponent implements OnInit {
       responsive: true,
       destroy: true,
       order: [[1, 'asc']],
+      // searchDelay: 300,
       columnDefs: [
-        { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false },
+        { targets: [0, -1], searchable: false,  },
+        { targets: [-1], orderable: false, responsivePriority: 1},
         {
           className: 'dtr-control',
           orderable: false,
@@ -78,6 +79,7 @@ export class ManageDoctorComponent implements OnInit {
         {
           title: 'ID',
           data: 'id',
+          className: 'text-center'
         },
         {
           title: 'Doctor',
@@ -86,10 +88,12 @@ export class ManageDoctorComponent implements OnInit {
         {
           title: 'Speciality',
           data: 'speciality',
+          className: 'dt-text-wrap'
         },
         {
           title: 'Department',
           data: 'department',
+          className: 'dt-text-wrap'
         },
         {
           title: 'Gender',
@@ -98,14 +102,17 @@ export class ManageDoctorComponent implements OnInit {
         {
           title: 'Date of birth',
           data: 'dateOfBirth',
+          className: 'dt-text-end',
           render: (data: any) => this.datePipe.transform(data, 'dd/MM/yyyy'),
         },
         {
           title: 'National ID',
+          className: 'dt-text-end',
           data: 'nationalId',
         },
         {
           title: 'Mobile',
+          className: 'dt-text-end',
           data: 'phoneNumber',
         },
         {
@@ -113,61 +120,67 @@ export class ManageDoctorComponent implements OnInit {
           data: 'email',
         },
         {
-          title: 'Working start date',
+          title: 'Working start',
+          className: 'dt-text-end dt-text-wrap',
           data: 'workingStartDate',
           render: (data: any) => this.datePipe.transform(data, 'dd/MM/yyyy'),
         },
         {
-          title: 'Working end date',
+          title: 'Working end',
+          className: 'dt-text-end dt-text-wrap',
           data: 'workingEndDate',
           render: (data: any) => this.datePipe.transform(data, 'dd/MM/yyyy'),
         },
         {
           title: 'Created by',
           data: 'createdBy',
+          render: (data: any) => 'admin',
         },
         {
           title: 'Created date',
+          className: 'dt-text-end dt-text-wrap',
           data: 'createdDate',
           render: (data: any) =>
-            this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
-        },
-        {
-          title: 'Action',
-          data: 'id',
-          render: (data: any, type: any, row: any, meta: any) => {
-            const viewButton = `<button class="btn btn-soft-info btn-sm edit-btn" data-department-name="${row.fullName}" data-department-id="${data}" title="Edit" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">View</button>`;
-            const editButton = `<button class="btn btn-soft-primary btn-sm edit-btn" data-department-name="${row.fullName}" data-department-id="${data}" title="Edit" onClick="location.assign('admin/manage-doctor/edit-doctor/${data}')">Edit</button>`;
-            const deleteButton = row.isDeleted
-              ? `<button class="btn btn-soft-danger btn-sm delete-btn border-0" data-department-name="${row.fullName}" data-department-id="${data}" title="Resource has been deleted" disabled onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Deleted</button>`
-              : `<button class="btn btn-soft-danger btn-sm delete-btn" data-department-name="${row.fullName}" data-department-id="${data}" title="Delete" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Delete</button>`;
-            const restoreButton = row.isDeleted
-              ? `<button class="btn btn-soft-success btn-sm restore-btn border-0" data-department-name="${row.fullName}" data-department-id="${data}" title="Restore this resource" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Restore</button>`
-              : ``;
-            return `${viewButton} ${editButton} ${restoreButton} ${deleteButton}`;
-          },
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
         },
         {
           title: 'Updated by',
-          className: 'priority-5',
+          className: '',
           data: 'updatedBy',
         },
         {
           title: 'Updated date',
-          className: 'priority-5',
+          className: 'dt-text-end dt-text-wrap',
           data: 'updatedDate',
           render: (data: any) =>
-            this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
         },
         {
           title: 'Deleted',
-          className: 'priority-5',
+          className: 'text-center',
           data: 'isDeleted',
           render: (data: any) => {
             const bagdes = data
               ? `<span class="badge bg-danger">${data}</span>`
               : `<span class="badge bg-info">${data}</span>`;
             return bagdes;
+          },
+        },
+        {
+          title: 'Action',
+          orderable: false,
+          data: 'id',
+          className: 'dt-action',
+          render: (data: any, type: any, row: any, meta: any) => {
+            const viewButton = `<a role="button" class="btn btn-soft-info btn-sm edit-btn" data-doctor-id="${data}" title="Edit" href="admin/manage-doctor/view-doctor/${data}">View</a>`;
+            const editButton = `<a role="button" class="btn btn-soft-primary btn-sm edit-btn" data-doctor-id="${data}" title="Edit" href="admin/manage-doctor/edit-doctor/${data}">Edit</a>`;
+            const deleteButton = row.isDeleted
+              ? `<a class="btn btn-soft-danger btn-sm delete-btn border-0" data-doctor-id="${data}" title="Doctor has been deleted" disabled>Deleted</a>`
+              : `<a class="btn btn-soft-danger btn-sm delete-btn" data-doctor-id="${data}" title="Delete">Delete</a>`;
+            const restoreButton = row.isDeleted
+              ? `<a class="btn btn-soft-success btn-sm restore-btn border-0" data-doctor-id="${data}" title="Restore this doctor" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Restore</a>`
+              : ``;
+            return `${viewButton} ${editButton} ${restoreButton} ${deleteButton}`;
           },
         },
       ],

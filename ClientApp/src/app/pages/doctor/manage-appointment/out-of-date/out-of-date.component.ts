@@ -16,7 +16,7 @@ export class OutOfDateComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
+      
       { label: 'Appointment Management' },
       { label: 'Out Of Date', active: true }
     ]

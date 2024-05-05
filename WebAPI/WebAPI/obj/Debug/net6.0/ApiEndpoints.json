@@ -1,5 +1,62 @@
 [
   {
+    "ContainingType": "WebAPI.Controllers.AdminController",
+    "Method": "GetStatisticAppointmentWidgets",
+    "RelativePath": "api/Admin/get-statistic-appointment-widgets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "userType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AdminController",
+    "Method": "GetStatisticResourceWidgets",
+    "RelativePath": "api/Admin/get-statistic-resource-widgets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AdminController",
+    "Method": "StatisticGender",
+    "RelativePath": "api/Admin/statistic-appointment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "WebAPI.DTOs.AppointmentStatisticRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AdminController",
+    "Method": "StatisticGender",
+    "RelativePath": "api/Admin/statistic-gender",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "AddNewPatient",
     "RelativePath": "api/Appointment/add-new-patient",
@@ -95,7 +152,7 @@
   {
     "ContainingType": "WebAPI.Controllers.AppointmentController",
     "Method": "ChangeAppointmentDate",
-    "RelativePath": "api/Appointment/change-appointment-date",
+    "RelativePath": "api/Appointment/change-appointment-date/{id}",
     "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
@@ -103,12 +160,12 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       },
       {
         "Name": "appointmentDate",
         "Type": "System.DateTime",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -488,6 +545,58 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.AuthController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Auth/change-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CurrentPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NewPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ConfirmPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Username",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AuthController",
+    "Method": "ForgetPassword",
+    "RelativePath": "api/Auth/forget-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -535,17 +644,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "WebAPI.Responses.RegisterResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "WebAPI.Controllers.DepartmentController",
@@ -751,6 +850,22 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.DoctorController",
+    "Method": "GetDoctorDetailByUserId",
+    "RelativePath": "api/Doctor/get-doctor-details-by-user-id/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DoctorController",
     "Method": "GetDoctorDetail",
     "RelativePath": "api/Doctor/get-doctor-details/{id}",
     "HttpMethod": "GET",
@@ -783,7 +898,79 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.DoctorController",
-    "Method": "UpdatePersonalInfo",
+    "Method": "GetStatisticAppointmentWidgets",
+    "RelativePath": "api/Doctor/get-statistic-appointment-widgets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "userType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DoctorController",
+    "Method": "GetStatisticResourceWidgets",
+    "RelativePath": "api/Doctor/get-statistic-resource-widgets",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DoctorController",
+    "Method": "UpdateContract",
+    "RelativePath": "api/Doctor/update-contract-info/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Speciality",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DepartmentId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkingEndDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkingStartDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.DoctorController",
+    "Method": "UpdateDoctor",
     "RelativePath": "api/Doctor/update-personal-info/{id}",
     "HttpMethod": "PATCH",
     "IsController": true,
@@ -853,47 +1040,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "WebAPI.Controllers.DoctorController",
-    "Method": "UpdateWorkInfo",
-    "RelativePath": "api/Doctor/update-work-info/{id}",
-    "HttpMethod": "PATCH",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Speciality",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "DepartmentId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "WorkingEndDate",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "WorkingStartDate",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "WebAPI.Controllers.EmailController",
     "Method": "Send",
     "RelativePath": "api/Email/Send",
@@ -926,8 +1072,40 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.PatientController",
-    "Method": "GetPatientDetails",
-    "RelativePath": "api/Patient/get-patient-details",
+    "Method": "GetAll",
+    "RelativePath": "api/Patient/get-all",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "parameters",
+        "Type": "WebAPI.Models.DataTablesParameters",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.PatientController",
+    "Method": "GetPatientDetailByUserId",
+    "RelativePath": "api/Patient/get-patient-detail-by-patient-id/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.PatientController",
+    "Method": "GetPatientDetailByUserId",
+    "RelativePath": "api/Patient/get-patient-detail-by-user-id",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1097,6 +1275,22 @@
   },
   {
     "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetAppointmentPatients",
+    "RelativePath": "api/Schedule/get-appointment-patients/{doctorId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "doctorId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
     "Method": "GetDoctors",
     "RelativePath": "api/Schedule/get-doctor-list",
     "HttpMethod": "POST",
@@ -1119,6 +1313,27 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebAPI.Controllers.ScheduleController",
+    "Method": "GetScheduleByDateAndUserId",
+    "RelativePath": "api/Schedule/get-schedule-by-date-and-user-id/{doctorId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "doctorId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "date",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {

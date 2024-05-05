@@ -21,7 +21,7 @@
         public string? UpdatedDate { get; set;}
     }
 
-    public class DoctorPersonalInfo
+    public class DoctorInfoDto
     {
         public int Id { get; set; }
         public string UserId { get; set; }
@@ -36,7 +36,7 @@
         public string? AvatarUrl { get; set; }
     }
 
-    public class WorkInfoDto
+    public class ContractDto
     {
         public int Id { get; set; }
         public string? Speciality { get; set; }

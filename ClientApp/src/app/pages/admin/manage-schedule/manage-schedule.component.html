@@ -1,8 +1,8 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Schedule of doctors" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Manage Schedule" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
-<div class="row">
+<!-- <div class="row">
     <div class="col-xxl-6 col-sm-6">
         <div class="card card-animate">
             <div class="card-body">
@@ -23,10 +23,10 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- end card body -->
-        </div> <!-- end card-->
+            </div>
+        </div> 
     </div>
-    <!--end col-->
+    
     <div class="col-xxl-6 col-sm-6">
         <div class="card card-animate">
             <div class="card-body">
@@ -47,10 +47,10 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- end card body -->
+            </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="row">
     <div class="col-lg-12">
@@ -65,7 +65,6 @@
                             <i class="ri-search-line search-icon"></i>
                         </div>
                     </div>
-                    <!--end col-->
                     <div class="col-xxl-3 col-sm-3">
                         <div class="input-light">
                             <ng-select [items]="departmentData" bindValue="id" bindLabel="departmentName"
@@ -73,8 +72,6 @@
                             </ng-select>
                         </div>
                     </div>
-                    <!--end col-->
-
                     <div class="col-xxl-3 col-sm-4 d-flex gap-2">
                         <button type="button" class="btn btn-primary w-100" (click)="filterData(this.filter);">
                             <i class="ri-equalizer-fill me-1 align-bottom"></i> Filters
@@ -83,15 +80,14 @@
                             <i class="ri-repeat-2-fill me-1 align-bottom"></i> Reset
                         </button>
                     </div>
-                    <!--end col-->
+
                 </div>
-                <!--end row-->
             </div>
         </div>
     </div>
 </div>
 
-<div class="row" >
+<div class="row">
     <div class="col-12" *ngIf="this.doctorList.data.length === 0">
         <div class="card">
             <div class="card-body text-center">
@@ -124,7 +120,8 @@
                 <div class="mt-2 hstack gap-2">
                     <a routerLink="/admin/manage-doctor/view-doctor/{{doctor.id}}"
                         class="btn btn-sm btn-soft-primary w-50">View Details</a>
-                    <a routerLink="/admin/assign-schedule/{{doctor.id}}" class="btn btn-sm btn-soft-success w-50">Assign Schedule</a>
+                    <a routerLink="/admin/assign-schedule/{{doctor.id}}" class="btn btn-sm btn-soft-success w-50">Assign
+                        Schedule</a>
                 </div>
             </div>
         </div>

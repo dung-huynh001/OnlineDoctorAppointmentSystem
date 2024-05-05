@@ -128,7 +128,7 @@ namespace WebAPI.Services
                 appointments = _unitOfWork.Repository<Appointment>().GetAll
                         .Where(a => !a.IsDeleted
                         && a.AppointmentStatus.ToLower().Contains("confirmed")
-                        && a.AppointmentDate!.Value.CompareTo(DateTime.Now) > 0);
+                        && a.AppointmentDate!.Value.CompareTo(DateTime.Now) < 0);
 
             }
             else if (status == "confirmed")
@@ -136,7 +136,7 @@ namespace WebAPI.Services
                 appointments = _unitOfWork.Repository<Appointment>().GetAll
                         .Where(a => !a.IsDeleted
                         && a.AppointmentStatus.ToLower().Contains("confirmed")
-                        && a.AppointmentDate!.Value.CompareTo(DateTime.Now) <= 0);
+                        && a.AppointmentDate!.Value.CompareTo(DateTime.Now) >= 0);
             }
             else
             {
@@ -172,7 +172,7 @@ namespace WebAPI.Services
             });
 
             var recordsTotal = records.Count();
-            var searchValue = parameters.Search.Value.IsNullOrEmpty() ? "" : parameters.Search.Value?.ToLower().Trim();
+            var searchValue = parameters.Search?.Value?.ToLower().Trim() ?? "";
 
             records = records.Where(d =>
                     d.Id.ToString().Trim().Contains(searchValue)
@@ -184,11 +184,11 @@ namespace WebAPI.Services
                     || d.CreatedDate.ToString().Trim().ToLower().Contains(searchValue)
                     || d.AppointmentDate!.Value.ToString().Trim().ToLower().Contains(searchValue)
                     || d.ClosedBy!.Trim().ToLower().Contains(searchValue)
-                    || d.ClosedDate.Value.ToString().Trim().ToLower().Contains(searchValue));
+                    || d.ClosedDate!.Value.ToString().Trim().ToLower().Contains(searchValue));
 
 
-            if (parameters.Order.Count() != 0)
-                switch (parameters.Order[0].Column)
+            if (parameters.Order?.Count() != 0)
+                switch (parameters.Order?[0].Column)
                 {
                     case (2):
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.DoctorName) : records.OrderByDescending(r => r.DoctorName);
@@ -212,10 +212,11 @@ namespace WebAPI.Services
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.CreatedBy) : records.OrderByDescending(r => r.CreatedDate);
                         break;
                     default:
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
+                        records = parameters.Order?[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
                         break;
                 }
 
+            var recordsFiltered = records.Count();
 
             records = records
                 .Skip(parameters.Start)
@@ -226,15 +227,36 @@ namespace WebAPI.Services
             {
                 if (!item.CreatedBy.IsNullOrEmpty())
                 {
-                    item.CreatedBy = GetFullName(userId, userType); ;
+                    item.CreatedBy = GetFullName(item.CreatedBy); 
+                    item.ClosedBy = GetFullName(item.ClosedBy);
                 }
             }
 
             response.RecordsTotal = recordsTotal;
-            response.RecordsFiltered = recordsTotal;
+            response.RecordsFiltered = recordsFiltered;
             response.Data = data;
             return Task.FromResult(response);
 
+        }
+
+        private string GetFullName(string? id)
+        {
+            if (id == null)
+                return "--unknown--";
+
+            var patient = _unitOfWork.Repository<Patient>().GetAll.Where(d => d.UserId == id).FirstOrDefault();
+            if (patient != null)
+            {
+                return patient.FullName ?? "patient";
+            }
+
+            var doctor = _unitOfWork.Repository<Doctor>().GetAll.Where(d => d.UserId == id).FirstOrDefault();
+            if (doctor != null)
+            {
+                return doctor.FullName;
+            }
+
+            return "admin";
         }
 
         private string GetFullName(string id, string userType)
@@ -371,17 +393,17 @@ namespace WebAPI.Services
             {
                 case "patient":
                     var totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
-                        .Where(a => !a.IsDeleted && a.Patient.UserId == id && a.AppointmentDate.Value.Date.Equals(DateTime.Now.Date))
+                        .Where(a => !a.IsDeleted && a.Patient.UserId == id && a.AppointmentDate!.Value.Date.Equals(DateTime.Now.Date))
                         .CountAsync();
                     return totalAppt;
                 case "doctor":
                     totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
-                        .Where(a => !a.IsDeleted && a.Doctor.UserId == id && a.AppointmentDate.Value.Date.Equals(DateTime.Now.Date))
+                        .Where(a => !a.IsDeleted && a.Doctor.UserId == id && a.AppointmentDate!.Value.Date.Equals(DateTime.Now.Date))
                         .CountAsync();
                     return totalAppt;
                 default:
                     totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
-                        .Where(a => !a.IsDeleted && a.AppointmentDate.Value.Date.Equals(DateTime.Now.Date))
+                        .Where(a => !a.IsDeleted && a.AppointmentDate!.Value.Date.Equals(DateTime.Now.Date))
                         .CountAsync();
                     return totalAppt;
             }
@@ -439,7 +461,7 @@ namespace WebAPI.Services
                 .Select(a => new RecentlyAppointmentDto
                 {
                     Id = a.Id,
-                    AppointmentDate = a.AppointmentDate.Value.ToString("ddd dd/MM/yyyy"),
+                    AppointmentDate = a.AppointmentDate!.Value.ToString("ddd dd/MM/yyyy"),
                     AvatarUrl = a.Doctor.User.AvatarUrl ?? "Uploads/Images/default-user.jpg",
                     DoctorName = a.Doctor.FullName,
                     Speciality = a.Doctor.Speciality
@@ -472,8 +494,10 @@ namespace WebAPI.Services
                 .Select(a => new UpcomingAppointmentDto
                 {
                     Id = a.Id,
-                    AppointmentDate = a.AppointmentDate.Value.ToString("hh:ss dd/MM/yyyy"),
+                    AppointmentDate = a.AppointmentDate!.Value.ToString("hh:ss dd/MM/yyyy"),
                     DateOfConsultation = a.DateOfConsultation.ToString("hh:ss dd/MM/yyyy"),
+                    PatientName = a.Patient.FullName!,
+                    PatientGender = a.Patient.Gender == 0 ? "Male" : a.Patient.Gender == 0 ? "Female" : "Other",
                     DoctorName = a.Doctor.FullName,
                     Speciality = a.Doctor.Speciality,
                     CreatedDate = a.CreatedDate.ToString("dd/MM/yyyy"),
@@ -492,7 +516,7 @@ namespace WebAPI.Services
                 .Select(p => new PatientToFillDropdownDto
                 {
                     Id = p.Id,
-                    FullName = p.FullName
+                    FullName = p.FullName!
                 })
                 .ToListAsync();
 
@@ -553,11 +577,11 @@ namespace WebAPI.Services
 
         public async Task<ApiResponse> AppointmentOnSite(EJ2UpdateParams<AppointmentEventDto> param, string currrentUserId)
         {
-            if (param.added.Count > 0)
+            if (param.added?.Count > 0)
             {
                 return await AddNewAppointmentEvent(param, currrentUserId);
             }
-            else if (param.changed.Count > 0)
+            else if (param.changed?.Count > 0)
             {
                 return await UpdateAppointmentEvent(param, currrentUserId);
             }
@@ -571,7 +595,7 @@ namespace WebAPI.Services
         {
             _unitOfWork.BeginTransaction();
 
-            var appointmentId = _unitOfWork.Repository<Appointment>().DeleteByIdAsync(id).Result;
+            var appointmentId = await _unitOfWork.Repository<Appointment>().DeleteByIdAsync(id);
             _unitOfWork.Commit();
             if (appointmentId != 0)
             {
@@ -607,12 +631,6 @@ namespace WebAPI.Services
 
             if (existSchedule == null)
             {
-                /*return new ApiResponse
-                {
-                    IsSuccess = false,
-                    Message = $"There are no scheduled dates for {appointmentDate.ToString("dd MMM yyyy")}"
-                };*/
-
                 throw new Exception($"There are no scheduled dates for {appointmentDate.ToString("dd MMM yyyy")}");
             }
 
@@ -655,12 +673,6 @@ namespace WebAPI.Services
 
             if (existSchedule == null)
             {
-                /* return new ApiResponse
-                 {
-                     IsSuccess = false,
-                     Message = $"There are no scheduled dates for {appointmentDate.ToString("dd MMM yyyy")}"
-                 };*/
-
                 throw new Exception($"There are no scheduled dates for {appointmentDate.ToString("dd MMM yyyy")}");
             }
 
@@ -693,11 +705,11 @@ namespace WebAPI.Services
                 .Select(a => new NewBookingDto
                 {
                     Id = a.Id,
-                    AppointmentDate = a.AppointmentDate.Value,
+                    AppointmentDate = a.AppointmentDate!.Value,
                     DateOfBirth = a.Patient.DateOfBirth,
                     Gender = a.Patient.Gender == 0 ? "Male" : a.Patient.Gender == 1 ? "Female" : "Other",
-                    PatientName = a.Patient.FullName,
-                    AvatarUrl = a.Patient.User.AvatarUrl
+                    PatientName = a.Patient.FullName!,
+                    AvatarUrl = a.Patient.User.AvatarUrl ?? "Uploads/Images/default-user.jpg"
                 })
                 .OrderByDescending(a => a.AppointmentDate)
                 .Take(15)
@@ -717,6 +729,13 @@ namespace WebAPI.Services
                     Message = $"Not found appointment with id {id}"
                 };
             appointment.AppointmentStatus = appointmentStatus;
+            if(appointmentStatus.ToLower() == "completed")
+            {
+                var closedBy = _currentUserService.GetCurrentUserId();
+                var closedDate = DateTime.Now;
+                appointment.ClosedBy = closedBy;
+                appointment.ClosedDate = closedDate;
+            }
             await _unitOfWork.Repository<Appointment>().UpdateAsync(appointment);
             _unitOfWork.Commit();
 
@@ -738,14 +757,14 @@ namespace WebAPI.Services
                     IsSuccess = false,
                     Message = $"Not found appointment with id {id}"
                 };
-            appointment.AppointmentDate = appointmentDate;
+            appointment.AppointmentDate = appointmentDate.ToLocalTime();
             await _unitOfWork.Repository<Appointment>().UpdateAsync(appointment);
             _unitOfWork.Commit();
 
             return new ApiResponse
             {
                 IsSuccess = true,
-                Message = $"Updated the appointment date to {appointmentDate.ToString("ddd dd/MM/yyyy hh:mm")}"
+                Message = $"Updated the appointment date to {appointmentDate.ToLocalTime().ToString("ddd dd/MM/yyyy hh:mm")}"
             };
         }
 
@@ -804,15 +823,22 @@ namespace WebAPI.Services
             _unitOfWork.BeginTransaction();
             foreach(var presDto in prescriptions)
             {
-                var prescription = _mapper.Map<Prescription>(presDto);
-
                 if (presDto.Id != 0 && presDto.Id != null)
                 {
+                    var prescription = await _unitOfWork.Repository<Prescription>().GetByIdAsync(presDto.Id.Value);
+                    prescription.Quantity = presDto.Quantity;
+                    prescription.Drug = presDto.Drug;
+                    prescription.Frequency = presDto.Frequency;
+                    prescription.IsDeleted = presDto.IsDeleted;
+                    prescription.Unit = presDto.Unit;
+                    prescription.MedicationDays = presDto.MedicationDays;
+
                     await _unitOfWork.Repository<Prescription>().UpdateAsync(prescription);
                 }
                 else
                 {
-                    await _unitOfWork.Repository<Prescription>().AddAsync(prescription);
+                    var newPrescription = _mapper.Map<Prescription>(presDto);
+                    await _unitOfWork.Repository<Prescription>().AddAsync(newPrescription);
                 }
             }
             _unitOfWork.Commit();

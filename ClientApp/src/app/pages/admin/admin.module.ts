@@ -6,7 +6,7 @@ import { defineElement } from 'lord-icon-element';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 import { ManageScheduleComponent } from './manage-schedule/manage-schedule.component';
-import { NgbNavModule, NgbPagination, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbNavModule, NgbPagination, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CountUpModule } from 'ngx-countup';
 import { ManageDoctorComponent } from './manage-doctor/manage-doctor.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -18,6 +18,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { ComponentsModule } from '../../components/components.module';
+import { ManagePatientComponent } from './manage-patient/manage-patient.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 
@@ -28,6 +30,7 @@ import { ComponentsModule } from '../../components/components.module';
     ManageDoctorComponent,
     AssignScheduleComponent,
     DashboardComponent,
+    ManagePatientComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +48,8 @@ import { ComponentsModule } from '../../components/components.module';
     NgxSpinnerModule,
     ComponentsModule,
     DataTablesModule,
+    NgApexchartsModule,
+    NgbDropdownModule
   ],
   exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

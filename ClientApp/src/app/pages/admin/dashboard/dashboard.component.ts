@@ -1,249 +1,322 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ToastService } from '../../../core/services/toast.service';
+import { Component, OnInit } from '@angular/core';
+import { StatisticService } from '../../../core/services/statistic.service';
 import { User } from '../../../core/models/auth.models';
-import { Subject, catchError, map, throwError } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { AppointmentService } from '../../../core/services/appointment.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { DatePipe } from '@angular/common';
+import {
+  AppointmentStatisticRequest,
+  iGenderStatistic,
+  iWidget,
+} from '../../../core/models/statistic.model';
 
-const HOSTNAME = environment.serverApi;
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexDataLabels,
+  ApexStroke,
+  ApexMarkers,
+  ApexYAxis,
+  ApexGrid,
+  ApexTitleSubtitle,
+  ApexLegend,
+} from 'ng-apexcharts';
+import { Colors } from 'chart.js';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { finalize } from 'rxjs';
+import { ToastService } from '../../../core/services/toast.service';
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  colors: string[];
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  legend: ApexLegend;
+  title?: ApexTitleSubtitle;
+};
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
-  today = new Date().toDateString();
+
   currentUser!: User;
 
-  dtOptions: DataTables.Settings = {};
+  appointmentWidgets!: Array<iWidget>;
+  resourceWidgets!: Array<iWidget>;
 
-  dtTrigger: Subject<any> = new Subject();
+  genderChart: any;
 
-  hostName = HOSTNAME;
+  option = {
+    startVal: 0,
+    useEasing: true,
+    duration: 2,
+  };
 
-  widgetsData: Array<number> = [0, 0, 0, 0];
-  recentlyAppointments!: Array<{
-    id: number;
-    appointmentDate: string;
-    avatarUrl: string;
-    speciality: string;
-    doctorName: string;
-  }>;
+  statisticStartDate: Date = new Date();
+  statisticEndDate: Date = new Date();
 
-  upcomingAppointments: Array<{
-    id: number;
-    appointmentDate: string;
-    doctorName: string;
-    speciality: string;
-    dateOfConsultation: string;
-  }> = [];
+  appointmentChartOptions!: ChartOptions;
+
+  genderStatisticData: Array<iGenderStatistic> = [];
+
+  appointmentStatisticHeader!: {
+    total: number;
+    pending: number;
+    confirmed: number;
+    completed: number;
+    cancelled: number;
+  }
 
   constructor(
-    private _toastService: ToastService,
-    private _appointmentService: AppointmentService,
+    private _statisticService: StatisticService,
     private _authService: AuthService,
     private _spinnerService: NgxSpinnerService,
-    private datePipe: DatePipe
+    private _toastService: ToastService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
+      
       { label: 'Dashboard', active: true },
     ];
 
-    // if (localStorage.getItem('toast')) {
-    //   this._toastService.success('Logged in Successfully.');
-    //   localStorage.removeItem('toast');
-    // }
-
     this.currentUser = this._authService.currentUser();
 
-    this.getRecentlyAppointments();
-    this.loadWidgets();
-    this.getUpcomningAppointments();
-    this.fetchData();
-  }
-
-  ngAfterViewInit(): void {}
-
-  fetchData() {
-    this._spinnerService.show();
-    Promise.all([
-      this._appointmentService.WidgetsData.subscribe(
-        (res) => (this.widgetsData = res)
-      ),
-      this._appointmentService.RecentlyAppointments.subscribe(
-        (res) => (this.recentlyAppointments = res)
-      ),
-
-      this._appointmentService.UpcomingAppointment.subscribe(
-        (res) => (this.upcomingAppointments = res)
-      ),
-    ]).finally(() => {
-      setTimeout(() => {
-        this.loadDataTable();
-        this.dtTrigger.next(this.dtOptions);
-        this._spinnerService.hide();
-      }, 300);
-    });
-  }
-
-  getRecentlyAppointments() {
-    this._appointmentService
-      .getRecentlyAppointment(this.currentUser.id)
-      .pipe(
-        map(
-          (
-            res: Array<{
-              id: number;
-              appointmentDate: string;
-              avatarUrl: string;
-              speciality: string;
-              doctorName: string;
-            }>
-          ) => {
-            return res;
-          }
-        )
-      )
-      .subscribe((res) => this._appointmentService.setRecentlyApptData(res));
-  }
-
-  loadWidgets() {
-    this._appointmentService
-      .loadWidgets(
-        'Appointment/load-widgets',
+    this._statisticService
+      .getStatisticAppointmentWidgets(
         this.currentUser.id,
         this.currentUser.userType
       )
-      .subscribe((res: Array<number>) => {
-        this._appointmentService.setWidgetsData(res);
+      .subscribe((res) => (this.appointmentWidgets = res));
+
+    this._statisticService
+      .getStatisticResourceWidgets()
+      .subscribe((res) => (this.resourceWidgets = res));
+
+    this.renderGenderChart();
+    this.renderTodayAppt();
+  }
+
+  renderTodayAppt() {
+    this.statisticStartDate = new Date();
+    this.statisticEndDate = new Date();
+    this.renderAppointmentChart('today');
+  }
+
+  renderThisWeekAppt() {
+    const today = new Date();
+
+    const dayOfWeek = today.getDay();
+    this.statisticStartDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() - dayOfWeek
+    );
+
+    this.statisticEndDate = new Date(
+      this.statisticStartDate.getFullYear(),
+      this.statisticStartDate.getMonth(),
+      this.statisticStartDate.getDate() + 6
+    );
+
+    this.renderAppointmentChart('this week');
+  }
+
+  renderThisMonthAppt() {
+    const currentDate = new Date();
+    this.statisticStartDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1
+    );
+    this.statisticEndDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      0
+    );
+
+    this.renderAppointmentChart('this month');
+  }
+
+  renderAppointmentChartByDate(renderBy?: string) {
+    if(this.statisticStartDate < this.statisticEndDate) {
+      this.renderAppointmentChart(renderBy);
+    }
+    else {
+      this._toastService.error("The start date must be less than the end date")
+    }
+  }
+
+  renderAppointmentChart(renderBy?: string) {
+    this._spinnerService.show();
+
+    const data: AppointmentStatisticRequest = {
+      from: this.statisticStartDate,
+      to: this.statisticEndDate,
+      renderBy: renderBy ?? 'today',
+    };
+    this._statisticService
+      .statisticAppointment(data)
+      .pipe(
+        finalize(() => {
+          this._spinnerService.hide();
+        })
+      )
+      .subscribe((res) => {
+        this.appointmentStatisticHeader = {
+          total: 0,
+          cancelled: 0,
+          completed: 0,
+          confirmed: 0,
+          pending: 0,
+        };
+        res.series.forEach((s) => {
+          s.data.forEach((d) => (this.appointmentStatisticHeader.total += d));
+          if (s.name.toLowerCase().includes('pending')) {
+            s.data.forEach(
+              (d) => (this.appointmentStatisticHeader.pending += d)
+            );
+          } else if (s.name.toLowerCase().includes('confirmed')) {
+            s.data.forEach(
+              (d) => (this.appointmentStatisticHeader.confirmed += d)
+            );
+          } else if (s.name.toLowerCase().includes('completed')) {
+            s.data.forEach(
+              (d) => (this.appointmentStatisticHeader.completed += d)
+            );
+          } else {
+            s.data.forEach(
+              (d) => (this.appointmentStatisticHeader.cancelled += d)
+            );
+          }
+        });
+
+        this.appointmentChartOptions = {
+          series: res.series,
+          chart: {
+            height: 350,
+            type: 'line',
+            dropShadow: {
+              enabled: true,
+              color: '#000',
+              top: 18,
+              left: 7,
+              blur: 10,
+              opacity: 0.2,
+            },
+            toolbar: {
+              show: false,
+            },
+          },
+          colors: res.colors,
+          dataLabels: {
+            enabled: true,
+          },
+          stroke: {
+            curve: 'smooth',
+          },
+          grid: {
+            borderColor: '#e7e7e7',
+            row: {
+              colors: ['#f3f3f3', 'transparent'],
+              opacity: 0.5,
+            },
+          },
+          markers: {
+            size: 1,
+          },
+          xaxis: { ...res.xaxis },
+          yaxis: {
+            labels: {
+              formatter: (val) => val.toFixed(0),
+            },
+            ...res.yaxis,
+            stepSize: 1,
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'right',
+            floating: true,
+            offsetY: -25,
+            offsetX: -5,
+          },
+        };
       });
   }
 
-  getUpcomningAppointments() {
-    this._appointmentService
-      .getUpcomingAppointment(this.currentUser.id, this.currentUser.userType)
-      .subscribe(
-        (
-          res: Array<{
-            id: number;
-            appointmentDate: string;
-            doctorName: string;
-            speciality: string;
-            dateOfConsultation: string;
-          }>
-        ) => {
-          this._appointmentService.setUpcomingApptData(res);
-        }
-      );
-  }
-
-  loadDataTable() {
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      processing: true,
-      responsive: true,
-      destroy: true,
-      order: [[1, 'asc']],
-      columnDefs: [
-        { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false },
-        {
-          className: 'dtr-control',
-          orderable: false,
-          width: '15px',
-          searchable: false,
-          targets: 0,
-        },
-      ],
-      language: {
-        emptyTable: 'No records found',
-      },
-      data: this.upcomingAppointments,
-
-      columns: [
-        {
-          orderable: false,
-          data: null,
-          defaultContent: '',
-        },
-        {
-          data: 'id',
-          title: 'ID',
-          className: 'text-center',
-        },
-        {
-          data: 'doctorName',
-          title: 'Doctor',
-          render: (data: any, type: any, row: any, meta: any) => {
-            return `<span class="text-center">${data}</span>`;
+  renderGenderChart() {
+    this._spinnerService.show();
+    this._statisticService
+      .statisticGender()
+      .pipe(
+        finalize(() => {
+          this._spinnerService.hide();
+        })
+      )
+      .subscribe((res) => {
+        this.genderStatisticData = res;
+        const series = res.map((item) => item.value);
+        const label = res.map((item) => item.title);
+        const color = res.map((item) => item.color);
+        this.genderChart = {
+          series: series,
+          labels: label,
+          chart: {
+            type: 'donut',
+            height: 224,
           },
-        },
-        {
-          data: 'speciality',
-          title: 'Speciality',
-        },
-        {
-          data: 'appointmentDate',
-          title: 'Appointment date',
-          className: 'text-end',
-        },
-        {
-          data: 'dateOfConsultation',
-          title: 'Consultation date',
-          className: 'text-end',
-        },
-        {
-          data: 'status',
-          title: 'Status',
-          render: (data: any, type: any, row: any, meta: any) => {
-            let badgeType = '';
-            switch (data.trim().toLowerCase()) {
-              case 'pending':
-                badgeType = 'warning';
-                break;
-              case 'confirmed':
-                badgeType = 'primary';
-                break;
-              case 'completed':
-                badgeType = 'success';
-                break;
-              case 'cancelled':
-                badgeType = 'danger';
-                break;
-              default:
-                badgeType = 'light';
-                break;
-            }
-            return `<span class="badge bg-${badgeType}">${data}</span>`;
+          plotOptions: {
+            pie: {
+              size: 100,
+              offsetX: 0,
+              offsetY: 0,
+              donut: {
+                size: '70%',
+                labels: {
+                  show: true,
+                  name: {
+                    show: true,
+                    fontSize: '18px',
+                    offsetY: -5,
+                  },
+                  value: {
+                    show: true,
+                    fontSize: '20px',
+                    color: '#000000',
+                    fontWeight: 500,
+                    offsetY: 5,
+                  },
+                  total: {
+                    show: true,
+                    fontSize: '13px',
+                    label: 'Total patient',
+                    color: '#9599ad',
+                    fontWeight: 500,
+                  },
+                },
+              },
+            },
           },
-        },
-        {
-          data: 'createdDate',
-          title: 'Created date',
-          className: 'text-end',
-        },
-        {
-          title: 'Action',
-          data: 'id',
-          render: (data: any, type: any, row: any, meta: any) => {
-            const viewButton = `<button class="btn btn-soft-info btn-sm edit-btn" title="View" onClick="location.assign('/patient/appointment/view/${data}')">View</button>`;
-            const cancelButton =
-              row.status.toLowerCase() !== 'cancelled'
-                ? `<button class="btn btn-soft-danger btn-sm cancel-btn" data-appointment-id=${data} title="cancel">Cancel</button>`
-                : `<button class="btn btn-soft-light btn-sm cancel-btn text-dark" disabled data-appointment-id=${data} title="cancel">Cancelled</button>`;
-
-            return `<div class="d-flex gap-3">${viewButton} ${cancelButton}</div>`;
+          dataLabels: {
+            enabled: false,
           },
-        },
-      ],
-    };
+          legend: {
+            show: false,
+          },
+          stroke: {
+            lineCap: 'round',
+            width: 2,
+          },
+          Colors: color,
+        };
+      });
   }
 }

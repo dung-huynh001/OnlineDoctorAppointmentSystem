@@ -1,0 +1,2 @@
+4/25/2024 4:00:05 PM ==> PatientService.cs	patient cc197095-9c1c-4f72-8f8a-b2a924d104a6 was not found Line:78	<GetPatientDetailByUserId>	GET	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+

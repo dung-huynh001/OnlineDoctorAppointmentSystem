@@ -1,0 +1,108 @@
+4/25/2024 1:23:23 PM ==> 	The LINQ expression 'DbSet<Patient>()
+    .Join(
+        inner: DbSet<AppUser>(), 
+        outerKeySelector: p => EF.Property<string>(p, "UserId"), 
+        innerKeySelector: a => EF.Property<string>(a, "Id"), 
+        resultSelector: (o, i) => new TransparentIdentifier<Patient, AppUser>(
+            Outer = o, 
+            Inner = i
+        ))
+    .Where(p => p.Outer.Id.ToString().Trim().Contains(__searchValue_2) || p.Outer.FullName.Trim().ToLower().Contains(__searchValue_2) || p.Inner.Email.Trim().ToLower().Contains(__searchValue_2) || p.Outer.Gender == 0 ? "Male" : p.Outer.Gender == 1 ? "Female" : "Other".Trim().ToLower().Contains(__searchValue_2) || p.Outer.Address.Trim().ToLower().Contains(__searchValue_2) || p.Outer.NationalId.Trim().ToLower().Contains(__searchValue_2) || p.Outer.DateOfBirth.ToString().Trim().ToLower().Contains(__searchValue_2) || p.Outer.PhoneNumber.Trim().ToLower().Contains(__searchValue_2) || ___utilies_0.GetFullName(
+        userId: p.Outer.CreatedBy, 
+        unitOfWork: ___unitOfWork_1).Trim().ToLower().Contains(__searchValue_2) || p.Outer.CreatedDate.ToString().Trim().ToLower().Contains(__searchValue_2) || ___utilies_0.GetFullName(
+        userId: p.Outer.UpdatedBy, 
+        unitOfWork: ___unitOfWork_1).Trim().ToLower().Contains(__searchValue_2) || p.Outer.UpdatedDate.ToString().Trim().ToLower().Contains(__searchValue_2) || p.Outer.IsDeleted.ToString().Trim().ToLower().Contains(__searchValue_2))' could not be translated. Additional information: Translation of method 'WebAPI.Common.Utilies.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Common.Utilies.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		POST	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+
+4/25/2024 1:23:31 PM ==> 	The LINQ expression 'DbSet<Patient>()
+    .Join(
+        inner: DbSet<AppUser>(), 
+        outerKeySelector: p => EF.Property<string>(p, "UserId"), 
+        innerKeySelector: a => EF.Property<string>(a, "Id"), 
+        resultSelector: (o, i) => new TransparentIdentifier<Patient, AppUser>(
+            Outer = o, 
+            Inner = i
+        ))
+    .Where(p => p.Outer.Id.ToString().Trim().Contains(__searchValue_2) || p.Outer.FullName.Trim().ToLower().Contains(__searchValue_2) || p.Inner.Email.Trim().ToLower().Contains(__searchValue_2) || p.Outer.Gender == 0 ? "Male" : p.Outer.Gender == 1 ? "Female" : "Other".Trim().ToLower().Contains(__searchValue_2) || p.Outer.Address.Trim().ToLower().Contains(__searchValue_2) || p.Outer.NationalId.Trim().ToLower().Contains(__searchValue_2) || p.Outer.DateOfBirth.ToString().Trim().ToLower().Contains(__searchValue_2) || p.Outer.PhoneNumber.Trim().ToLower().Contains(__searchValue_2) || ___utilies_0.GetFullName(
+        userId: p.Outer.CreatedBy, 
+        unitOfWork: ___unitOfWork_1).Trim().ToLower().Contains(__searchValue_2) || p.Outer.CreatedDate.ToString().Trim().ToLower().Contains(__searchValue_2) || ___utilies_0.GetFullName(
+        userId: p.Outer.UpdatedBy, 
+        unitOfWork: ___unitOfWork_1).Trim().ToLower().Contains(__searchValue_2) || p.Outer.UpdatedDate.ToString().Trim().ToLower().Contains(__searchValue_2) || p.Outer.IsDeleted.ToString().Trim().ToLower().Contains(__searchValue_2))' could not be translated. Additional information: Translation of method 'WebAPI.Common.Utilies.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Common.Utilies.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		POST	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+
+4/25/2024 1:25:02 PM ==> 	The LINQ expression 'DbSet<Patient>()
+    .Join(
+        inner: DbSet<AppUser>(), 
+        outerKeySelector: p => EF.Property<string>(p, "UserId"), 
+        innerKeySelector: a => EF.Property<string>(a, "Id"), 
+        resultSelector: (o, i) => new TransparentIdentifier<Patient, AppUser>(
+            Outer = o, 
+            Inner = i
+        ))
+    .Where(p => p.Outer.Id.ToString().Trim().Contains(__searchValue_2) || p.Outer.FullName.Trim().ToLower().Contains(__searchValue_2) || p.Inner.Email.Trim().ToLower().Contains(__searchValue_2) || p.Outer.Gender == 0 ? "Male" : p.Outer.Gender == 1 ? "Female" : "Other".Trim().ToLower().Contains(__searchValue_2) || p.Outer.Address.Trim().ToLower().Contains(__searchValue_2) || p.Outer.NationalId.Trim().ToLower().Contains(__searchValue_2) || p.Outer.DateOfBirth.ToString().Trim().ToLower().Contains(__searchValue_2) || p.Outer.PhoneNumber.Trim().ToLower().Contains(__searchValue_2) || ___utilies_0.GetFullName(
+        userId: p.Outer.CreatedBy, 
+        unitOfWork: ___unitOfWork_1).Trim().ToLower().Contains(__searchValue_2) || p.Outer.CreatedDate.ToString().Trim().ToLower().Contains(__searchValue_2) || ___utilies_0.GetFullName(
+        userId: p.Outer.UpdatedBy, 
+        unitOfWork: ___unitOfWork_1).Trim().ToLower().Contains(__searchValue_2) || p.Outer.UpdatedDate.ToString().Trim().ToLower().Contains(__searchValue_2) || p.Outer.IsDeleted.ToString().Trim().ToLower().Contains(__searchValue_2))' could not be translated. Additional information: Translation of method 'WebAPI.Common.Utilies.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Common.Utilies.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		POST	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+
+4/25/2024 1:25:09 PM ==> 	The LINQ expression 'DbSet<Patient>()
+    .Join(
+        inner: DbSet<AppUser>(), 
+        outerKeySelector: p => EF.Property<string>(p, "UserId"), 
+        innerKeySelector: a => EF.Property<string>(a, "Id"), 
+        resultSelector: (o, i) => new TransparentIdentifier<Patient, AppUser>(
+            Outer = o, 
+            Inner = i
+        ))
+    .Where(p => p.Outer.Id.ToString().Trim().Contains(__searchValue_2) || p.Outer.FullName.Trim().ToLower().Contains(__searchValue_2) || p.Inner.Email.Trim().ToLower().Contains(__searchValue_2) || p.Outer.Gender == 0 ? "Male" : p.Outer.Gender == 1 ? "Female" : "Other".Trim().ToLower().Contains(__searchValue_2) || p.Outer.Address.Trim().ToLower().Contains(__searchValue_2) || p.Outer.NationalId.Trim().ToLower().Contains(__searchValue_2) || p.Outer.DateOfBirth.ToString().Trim().ToLower().Contains(__searchValue_2) || p.Outer.PhoneNumber.Trim().ToLower().Contains(__searchValue_2) || ___utilies_0.GetFullName(
+        userId: p.Outer.CreatedBy, 
+        unitOfWork: ___unitOfWork_1).Trim().ToLower().Contains(__searchValue_2) || p.Outer.CreatedDate.ToString().Trim().ToLower().Contains(__searchValue_2) || ___utilies_0.GetFullName(
+        userId: p.Outer.UpdatedBy, 
+        unitOfWork: ___unitOfWork_1).Trim().ToLower().Contains(__searchValue_2) || p.Outer.UpdatedDate.ToString().Trim().ToLower().Contains(__searchValue_2) || p.Outer.IsDeleted.ToString().Trim().ToLower().Contains(__searchValue_2))' could not be translated. Additional information: Translation of method 'WebAPI.Common.Utilies.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Common.Utilies.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		POST	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+
+4/25/2024 1:27:01 PM ==> 	The LINQ expression 'DbSet<Patient>()
+    .Join(
+        inner: DbSet<AppUser>(), 
+        outerKeySelector: p => EF.Property<string>(p, "UserId"), 
+        innerKeySelector: a => EF.Property<string>(a, "Id"), 
+        resultSelector: (o, i) => new TransparentIdentifier<Patient, AppUser>(
+            Outer = o, 
+            Inner = i
+        ))
+    .Where(p => p.Outer.Id.ToString().Trim().Contains(__searchValue_2) || p.Outer.FullName.Trim().ToLower().Contains(__searchValue_2) || p.Inner.Email.Trim().ToLower().Contains(__searchValue_2) || p.Outer.Gender == 0 ? "Male" : p.Outer.Gender == 1 ? "Female" : "Other".Trim().ToLower().Contains(__searchValue_2) || p.Outer.Address.Trim().ToLower().Contains(__searchValue_2) || p.Outer.NationalId.Trim().ToLower().Contains(__searchValue_2) || p.Outer.DateOfBirth.ToString().Trim().ToLower().Contains(__searchValue_2) || p.Outer.PhoneNumber.Trim().ToLower().Contains(__searchValue_2) || ___utilies_0.GetFullName(
+        userId: p.Outer.CreatedBy, 
+        unitOfWork: ___unitOfWork_1).Trim().ToLower().Contains(__searchValue_2) || p.Outer.CreatedDate.ToString().Trim().ToLower().Contains(__searchValue_2) || ___utilies_0.GetFullName(
+        userId: p.Outer.UpdatedBy, 
+        unitOfWork: ___unitOfWork_1).Trim().ToLower().Contains(__searchValue_2) || p.Outer.UpdatedDate.ToString().Trim().ToLower().Contains(__searchValue_2) || p.Outer.IsDeleted.ToString().Trim().ToLower().Contains(__searchValue_2))' could not be translated. Additional information: Translation of method 'WebAPI.Common.Utilies.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Common.Utilies.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		POST	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+
+4/25/2024 1:33:55 PM ==> 	The LINQ expression 'DbSet<Patient>()
+    .Join(
+        inner: DbSet<AppUser>(), 
+        outerKeySelector: p => EF.Property<string>(p, "UserId"), 
+        innerKeySelector: a => EF.Property<string>(a, "Id"), 
+        resultSelector: (o, i) => new TransparentIdentifier<Patient, AppUser>(
+            Outer = o, 
+            Inner = i
+        ))
+    .Where(p => p.Outer.Id.ToString().Trim().Contains(__searchValue_1) || p.Outer.FullName.Trim().ToLower().Contains(__searchValue_1) || p.Inner.Email.Trim().ToLower().Contains(__searchValue_1) || p.Outer.Gender == 0 ? "Male" : p.Outer.Gender == 1 ? "Female" : "Other".Trim().ToLower().Contains(__searchValue_1) || p.Outer.Address.Trim().ToLower().Contains(__searchValue_1) || p.Outer.NationalId.Trim().ToLower().Contains(__searchValue_1) || p.Outer.DateOfBirth.ToString().Trim().ToLower().Contains(__searchValue_1) || p.Outer.PhoneNumber.Trim().ToLower().Contains(__searchValue_1) || ___currentUserService_0.GetFullName(p.Outer.CreatedBy ?? "").Result.Trim().ToLower().Contains(__searchValue_1) || p.Outer.CreatedDate.ToString().Trim().ToLower().Contains(__searchValue_1) || ___currentUserService_0.GetFullName(p.Outer.UpdatedBy ?? "").Result.Trim().ToLower().Contains(__searchValue_1) || p.Outer.UpdatedDate.ToString().Trim().ToLower().Contains(__searchValue_1) || p.Outer.IsDeleted.ToString().Trim().ToLower().Contains(__searchValue_1))' could not be translated. Additional information: Translation of method 'WebAPI.Interfaces.IService.ICurrentUserService.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Interfaces.IService.ICurrentUserService.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Interfaces.IService.ICurrentUserService.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Interfaces.IService.ICurrentUserService.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		POST	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+
+4/25/2024 1:34:57 PM ==> 	The LINQ expression 'DbSet<Patient>()
+    .Join(
+        inner: DbSet<AppUser>(), 
+        outerKeySelector: p => EF.Property<string>(p, "UserId"), 
+        innerKeySelector: a => EF.Property<string>(a, "Id"), 
+        resultSelector: (o, i) => new TransparentIdentifier<Patient, AppUser>(
+            Outer = o, 
+            Inner = i
+        ))
+    .Where(p => p.Outer.Id.ToString().Trim().Contains(__searchValue_1) || p.Outer.FullName.Trim().ToLower().Contains(__searchValue_1) || p.Inner.Email.Trim().ToLower().Contains(__searchValue_1) || p.Outer.Gender == 0 ? "Male" : p.Outer.Gender == 1 ? "Female" : "Other".Trim().ToLower().Contains(__searchValue_1) || p.Outer.Address.Trim().ToLower().Contains(__searchValue_1) || p.Outer.NationalId.Trim().ToLower().Contains(__searchValue_1) || p.Outer.DateOfBirth.ToString().Trim().ToLower().Contains(__searchValue_1) || p.Outer.PhoneNumber.Trim().ToLower().Contains(__searchValue_1) || ___currentUserService_0.GetFullName(p.Outer.CreatedBy ?? "").Result.Trim().ToLower().Contains(__searchValue_1) || p.Outer.CreatedDate.ToString().Trim().ToLower().Contains(__searchValue_1) || ___currentUserService_0.GetFullName(p.Outer.UpdatedBy ?? "").Result.Trim().ToLower().Contains(__searchValue_1) || p.Outer.UpdatedDate.ToString().Trim().ToLower().Contains(__searchValue_1) || p.Outer.IsDeleted.ToString().Trim().ToLower().Contains(__searchValue_1))' could not be translated. Additional information: Translation of method 'WebAPI.Interfaces.IService.ICurrentUserService.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Interfaces.IService.ICurrentUserService.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Interfaces.IService.ICurrentUserService.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information.
+Translation of method 'WebAPI.Interfaces.IService.ICurrentUserService.GetFullName' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information. Line:0		POST	cc197095-9c1c-4f72-8f8a-b2a924d104a6
+

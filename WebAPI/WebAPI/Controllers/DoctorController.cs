@@ -22,17 +22,20 @@ namespace WebAPI.Controllers
         private readonly IUploadService _uploadService;
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
+        private readonly IStatisticService _widgetService;
 
         public DoctorController(
             IDoctorService doctorService, 
             IUploadService uploadService, 
             IAuthService authService, 
-            IMapper mapper)
+            IMapper mapper,
+            IStatisticService widgetService)
         {
             this._doctorService = doctorService;
             this._uploadService = uploadService;
             this._authService = authService;
             this._mapper = mapper;
+            this._widgetService = widgetService;
         }
 
         [HttpPost("get-all")]
@@ -88,18 +91,30 @@ namespace WebAPI.Controllers
             });
         }
 
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete([FromRoute]int id)
+        {
+            return Ok(await _doctorService.Delete(id));
+        }
+
         [HttpGet("get-doctor-details/{id}")]
         public async Task<IActionResult> GetDoctorDetail([FromRoute]int id)
         {
             return Ok(await _doctorService.GetDoctorDetails(id));
         }
 
-        [HttpPatch("update-personal-info/{id}")]
-        public async Task<IActionResult> UpdatePersonalInfo([FromRoute] int id, [FromForm] DoctorPersonalInfo data)
+        [HttpGet("get-doctor-details-by-user-id/{id}")]
+        public async Task<IActionResult> GetDoctorDetailByUserId([FromRoute] string id)
         {
-            
+            return Ok(await _doctorService.GetDoctorDetailsByUserId(id));
+        }
 
-            if (!await _doctorService.UpdatePersonalInfo(data))
+        [HttpPatch("update-personal-info/{id}")]
+        public async Task<IActionResult> UpdateDoctor([FromRoute] int id, [FromForm] DoctorInfoDto data)
+        {
+
+
+            if (!await _doctorService.UpdateDoctor(data))
             {
                 throw new Exception("Update doctor failed");
             }
@@ -113,25 +128,41 @@ namespace WebAPI.Controllers
                 string relativePath = Path.Combine(folderName, uniqueName);
                 relativePath = relativePath.Replace("\\", "/");
                 data.AvatarUrl = relativePath;
-                if (!await _authService.UpdateEmailAndAvatarUrlAsync(data.UserId, data.Email, data.AvatarUrl))
+                if (!await _authService.UpdateEmailAndAvatarUrlAsync(data.UserId, data.Email!, data.AvatarUrl))
                 {
                     throw new Exception("Updated email and avatar url failed");
                 }
-                await _uploadService.UploadImageToFolderAsync(data.Avatar, filePath);
+                await _uploadService.UploadImageToFolderAsync(data.Avatar!, filePath);
             }
 
-            return Ok(new ApiResponse
+            return Ok(new
             {
                 IsSuccess = true,
-                Message = "Updated doctor sucessfully",
-                Id = data.Id.ToString()
+                Message = "Update personal information successfully",
+                Data = new
+                {
+                    FullName = data.FullName,
+                    AvatarUrl = data.AvatarUrl,
+                }
             });
         }
 
-        [HttpPatch("update-work-info/{id}")]
-        public async Task<IActionResult> UpdateWorkInfo([FromForm]WorkInfoDto data)
+        [HttpPatch("update-contract-info/{id}")]
+        public async Task<IActionResult> UpdateContract([FromForm]ContractDto data)
         {
-            return Ok(await _doctorService.UpdateWorkInfo(data));
+            return Ok(await _doctorService.UpdateContract(data));
+        }
+
+        [HttpGet("get-statistic-resource-widgets")]
+        public async Task<IActionResult> GetStatisticResourceWidgets()
+        {
+            return Ok(await _widgetService.StatisticResourceWidgets());
+        }
+
+        [HttpGet("get-statistic-appointment-widgets")]
+        public async Task<IActionResult> GetStatisticAppointmentWidgets(string userId, string userType)
+        {
+            return Ok(await _widgetService.StatisticAppointmentWidgets(userId, userType));
         }
     }
 }

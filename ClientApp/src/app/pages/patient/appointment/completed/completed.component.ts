@@ -48,8 +48,7 @@ export class CompletedComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Manage Appointment' },
+      { label: 'Manage Appointment', link: '/patient/appointment/all' },
       { label: 'Completed', active: true },
     ];
 
@@ -68,7 +67,7 @@ export class CompletedComponent implements OnInit, AfterViewInit {
       order: [[1, 'asc']],
       columnDefs: [
         { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false },
+        { targets: [-1], orderable: false, responsivePriority: 1  },
         {
           className: 'dtr-control',
           orderable: false,
@@ -124,16 +123,16 @@ export class CompletedComponent implements OnInit, AfterViewInit {
         {
           data: 'appointmentDate',
           title: 'Appointment date',
-          className:'text-end',
+          className:'dt-text-end',
           render: (data: any) =>
-            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
+            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy'),
         },
         {
           data: 'dateOfConsultation',
           title: 'Consultation date',
-          className:'text-end',
+          className:'dt-text-end',
           render: (data: any) =>
-            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
+            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy'),
         },
         {
           data: 'status',
@@ -152,19 +151,19 @@ export class CompletedComponent implements OnInit, AfterViewInit {
         {
           data: 'closedDate',
           title: 'Closed date',
-          className:'text-end',
+          className:'dt-text-end',
           render: (data: any) => {
             return data !== null
-              ? this.datePipe.transform(data, 'hh:mm dd/MM/yyyy ')
+              ? this.datePipe.transform(data, 'hh:mm dd/MM/yyyy')
               : '--unknown--';
           },
         },
         {
           data: 'createdDate',
           title: 'Created date',
-          className:'text-end',
+          className:'dt-text-end',
           render: (data: any) =>
-            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy '),
+            this.datePipe.transform(data, 'hh:mm dd/MM/yyyy'),
         },
         {
           data: 'createdBy',

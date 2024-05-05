@@ -45,6 +45,24 @@ namespace WebAPI.Services
             return result;
         }
 
+        public async Task<List<ScheduleShiftDto>> GetScheduleByDateAndUserId(string userId, DateTime date)
+        {
+            var result = await _unitOfWork.Repository<Schedule>().GetAll
+                .Where(s => !s.IsDeleted &&
+                s.Doctor.UserId == userId &&
+                s.WorkingDay.Date.Equals(date.Date))
+                .Select(s => new ScheduleShiftDto
+                {
+                    ShiftName = s.ShiftTime.Hours.CompareTo(12) <= 0 ? "Morning" :
+                    (s.ShiftTime.Hours.CompareTo(17) <= 0 ? "Afternoon" : "Night"),
+                    Description = s.Description,
+                    End = s.BreakTime.ToString(@"hh\:mm"),
+                    Start = s.ShiftTime.ToString(@"hh\:mm"),
+                    Appt = s.Appointments.Count
+                })
+                .ToListAsync();
+            return result;
+        }
 
         public async Task<List<EventDto>> GetAllDoctorSchedules(EJ2Params param)
         {
@@ -271,8 +289,8 @@ namespace WebAPI.Services
             var records = _unitOfWork.Repository<Doctor>().GetAll
                 .Select(d => new DoctorCardDto
                 {
-                    AvatarUrl = d.User.AvatarUrl,
-                    DepartmentName = d.Department.DepartmentName,
+                    AvatarUrl = d.User.AvatarUrl ?? "Upload/Images/default-user.jpg",
+                    DepartmentName = d.Department.DepartmentName!,
                     DepartmentId = d.DepartmentId,
                     FullName = d.FullName,
                     Id = d.Id,
@@ -294,11 +312,14 @@ namespace WebAPI.Services
                 records = records.Where(r => r.DepartmentId.Equals(departmentId));
             }
 
+            var recordsFiltered = records.Count();
+
             records = records.Skip(filter.Start).Take(filter.Length);
+
             return new DatatableResponse<DoctorCardDto>
             {
                 Data = await records.ToListAsync(),
-                RecordsFiltered = recordsTotal,
+                RecordsFiltered = recordsFiltered,
                 RecordsTotal = recordsTotal,
             };
         }
@@ -313,7 +334,24 @@ namespace WebAPI.Services
                     FullName = d.FullName,
                     Id = d.Id,
                     Speciality = d.Speciality,
-                    AvatarUrl = d.User.AvatarUrl,
+                    AvatarUrl = d.User.AvatarUrl ?? "Upload/Images/default-user.jpg",
+                })
+                .ToListAsync();
+            return result;
+        }
+
+        public async Task<List<PatientResourceDto>> GetAppointmentPatients(string doctorId)
+        {
+            var result = await _unitOfWork.Repository<Patient>().GetAll
+                .Where(d => !d.IsDeleted
+                    && d.Appointments.Where(a => !a.IsDeleted && a.Doctor.UserId == doctorId).Count() > 0)
+                .Select(d => new PatientResourceDto
+                {
+                    FullName = d.FullName!,
+                    Id = d.Id,
+                    AvatarUrl = d.User.AvatarUrl ?? "Uploads/Images/default-user.jpg",
+                    DateOfBirth = d.DateOfBirth,
+                    Gender = d.Gender == 0 ? "Male" : d.Gender == 1 ? "Female" : "Others"
                 })
                 .ToListAsync();
             return result;
