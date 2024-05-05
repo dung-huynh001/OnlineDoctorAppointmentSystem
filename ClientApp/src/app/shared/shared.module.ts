@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { EditorComponent } from './editor/editor.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask, IConfig } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -17,11 +17,11 @@ import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   imports: [
     CommonModule,
-    CKEditorModule,
     FlatpickrModule.forRoot(),
     NgxMaskDirective, 
     NgxMaskPipe,
-    NgbToastModule
+    NgbToastModule,
+    RouterModule
   ],
   exports: [
     BreadcrumbsComponent,

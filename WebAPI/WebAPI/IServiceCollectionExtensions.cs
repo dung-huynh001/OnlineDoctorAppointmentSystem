@@ -32,7 +32,8 @@ namespace WebAPI
                     .AddTransient<IAppointmentService, AppointmentService>()
                     .AddTransient<ICurrentUserService, CurrentUserService>()
                     .AddTransient<IUploadService, UploadService>()
-                    .AddTransient<IGenerateOtpService, GenerateOtpService>();
+                    .AddTransient<IGenerateOtpService, GenerateOtpService>()
+                    .AddTransient<IStatisticService, StatisticService>();
 
         }
     }

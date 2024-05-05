@@ -18,11 +18,13 @@ namespace WebAPI.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ICurrentUserService _currentUserService;
 
-        public DoctorService(IUnitOfWork unitOfWork, IMapper mapper)
+        public DoctorService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUserService currentUserService)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
+            this._currentUserService = currentUserService;
         }
 
         public async Task<List<DoctorOnDutyDto>> GetDoctorsOnDuty(DateTime dateTime)
@@ -74,9 +76,8 @@ namespace WebAPI.Services
         {
             var response = new DatatableResponse<DoctorTableDto>();
 
-            var searchValue = parameters.Search.Value.IsNullOrEmpty() ? "" : parameters.Search.Value?.ToLower().Trim();
+            string searchValue = parameters.Search?.Value?.ToLower().Trim() ?? "";
 
-            // Filter with search value and pagination
             var records = _unitOfWork.Repository<Doctor>().GetAll
                 .Include(d => d.User)
                 .Include(d => d.Department)
@@ -85,7 +86,7 @@ namespace WebAPI.Services
                     Id = d.Id,
                     FullName = d.FullName,
                     Speciality = d.Speciality,
-                    Department = d.Department.DepartmentName,
+                    Department = d.Department.DepartmentName!,
                     NationalId = d.NationalId,
                     Gender = d.Gender == 0 ? "Male" : d.Gender == 1 ? "Female" : "Other",
                     DateOfBirth = d.DateOfBirth,
@@ -93,8 +94,8 @@ namespace WebAPI.Services
                     Email = d.User.Email,
                     WorkingStartDate = d.WorkingStartDate,
                     WorkingEndDate = d.WorkingEndDate,
-                    CreatedBy = d.CreatedBy,
-                    UpdatedBy = d.UpdatedBy,
+                    CreatedBy = d.CreatedBy ?? "admin",
+                    UpdatedBy = d.UpdatedBy ?? "admin",
                     CreatedDate = d.CreatedDate,
                     UpdatedDate = d.UpdatedDate,
                     IsDeleted = d.IsDeleted
@@ -122,9 +123,8 @@ namespace WebAPI.Services
                     || d.IsDeleted.ToString().Trim().ToLower().Contains(searchValue));
 
 
-            // Filter with order column
-            if (parameters.Order.Count() != 0)
-                switch (parameters.Order[0].Column)
+            if (parameters.Order?.Count() != 0)
+                switch (parameters.Order?[0].Column)
                 {
                     case (2):
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.FullName) : records.OrderByDescending(r => r.FullName);
@@ -172,17 +172,27 @@ namespace WebAPI.Services
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.UpdatedDate) : records.OrderByDescending(r => r.UpdatedDate);
                         break;
                     default:
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
+                        records = parameters.Order?[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
                         break;
                 }
+
+            var recordsFiltered = records.Count();
 
             records = records
                 .Skip(parameters.Start)
                 .Take(parameters.Length);
 
+            var data = records.ToList();
+
+            data.ForEach(item =>
+            {
+                item.UpdatedBy = _currentUserService.GetFullName(item.UpdatedBy);
+                item.CreatedBy = _currentUserService.GetFullName(item.CreatedBy);
+            });
+
             response.RecordsTotal = recordsTotal;
-            response.RecordsFiltered = recordsTotal;
-            response.Data = records.ToList();
+            response.RecordsFiltered = recordsFiltered;
+            response.Data = data;
 
             return Task.FromResult(response);
         }
@@ -199,7 +209,7 @@ namespace WebAPI.Services
                     Address = d.Address,
                     DateOfBirth = d.DateOfBirth.ToString("dd/MM/yyyy"),
                     DepartmentId = d.DepartmentId,
-                    DepartmentName = d.Department.DepartmentName.Trim(),
+                    DepartmentName = d.Department.DepartmentName!.Trim(),
                     Email = d.User.Email.Trim(),
                     FullName = d.FullName,
                     AvatarUrl = d.User.AvatarUrl,

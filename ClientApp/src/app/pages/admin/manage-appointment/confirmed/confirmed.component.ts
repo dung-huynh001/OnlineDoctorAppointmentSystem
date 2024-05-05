@@ -15,8 +15,7 @@ export class ConfirmedComponent implements OnInit {
   
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Manage Appointment' },
+      { label: 'Manage Appointment', link: '/admin/appointment/all'},
       { label: 'Confirmed', active: true },
     ];
   }

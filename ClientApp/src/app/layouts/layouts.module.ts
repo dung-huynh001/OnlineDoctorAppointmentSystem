@@ -2,13 +2,9 @@ import { LayoutsComponent } from './layouts.component';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HorizontalComponent } from './horizontal/horizontal.component';
-import { HorizontalTopbarComponent } from './horizontal-topbar/horizontal-topbar.component';
-import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
 import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopbarComponent } from './topbar/topbar.component';
-import { TwoColumnComponent } from './two-column/two-column.component';
-import { TwoColumnSidebarComponent } from './two-column-sidebar/two-column-sidebar.component';
 import { VerticalComponent } from './vertical/vertical.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,13 +20,9 @@ import { LanguageService } from '../core/services/language.service';
   declarations: [
     LayoutsComponent,
     HorizontalComponent,
-    HorizontalTopbarComponent,
-    RightsidebarComponent,
     FooterComponent,
     SidebarComponent,
     TopbarComponent,
-    TwoColumnComponent,
-    TwoColumnSidebarComponent,
     VerticalComponent
   ],
   imports: [

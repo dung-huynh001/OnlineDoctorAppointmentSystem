@@ -52,15 +52,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Dashboard', active: true },
-    ];
-
-    // if (localStorage.getItem('toast')) {
-    //   this._toastService.success('Logged in Successfully.');
-    //   localStorage.removeItem('toast');
-    // }
+    this.breadCrumbItems = [{ label: 'Dashboard', active: true }];
 
     this.currentUser = this._authService.currentUser();
 
@@ -154,7 +146,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       order: [[1, 'asc']],
       columnDefs: [
         { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false },
+        { targets: [-1], orderable: false, responsivePriority: 1 },
         {
           className: 'dtr-control',
           orderable: false,
@@ -193,12 +185,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         {
           data: 'appointmentDate',
           title: 'Appointment date',
-          className: 'text-end',
+          className: 'dt-text-end',
         },
         {
           data: 'dateOfConsultation',
           title: 'Consultation date',
-          className: 'text-end',
+          className: 'dt-text-end',
         },
         {
           data: 'status',
@@ -228,7 +220,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         {
           data: 'createdDate',
           title: 'Created date',
-          className: 'text-end',
+          className: 'dt-text-end',
         },
         {
           title: 'Action',

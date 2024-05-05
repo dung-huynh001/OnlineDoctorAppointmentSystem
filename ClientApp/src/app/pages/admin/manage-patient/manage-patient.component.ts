@@ -23,7 +23,6 @@ export class ManagePatientComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
       { label: 'Patient Management', active: true },
     ];
 
@@ -36,7 +35,7 @@ export class ManagePatientComponent implements OnInit {
       order: [[1, 'asc']],
       columnDefs: [
         { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false },
+        { targets: [-1], orderable: false, responsivePriority: 1  },
         {
           className: 'dtr-control',
           orderable: false,
@@ -91,18 +90,18 @@ export class ManagePatientComponent implements OnInit {
         {
           title: 'Date of birth',
           data: 'dateOfBirth',
-          className: 'text-end',
+          className: 'dt-text-end',
           render: (data: any) => this.datePipe.transform(data, 'dd/MM/yyyy'),
         },
         {
           title: 'National ID',
           data: 'nationalId',
-          className: 'text-end',
+          className: 'dt-text-end',
         },
         {
           title: 'Mobile',
           data: 'phoneNumber',
-          className: 'text-end',
+          className: 'dt-text-end',
         },
         {
           title: 'Email',
@@ -110,7 +109,8 @@ export class ManagePatientComponent implements OnInit {
         },
         {
           title: 'Address',
-          data: 'email',
+          data: 'address',
+          className: 'dt-text-wrap',
         },
         {
           title: 'Created by',
@@ -121,25 +121,25 @@ export class ManagePatientComponent implements OnInit {
           title: 'Created date',
           data: 'createdDate',
           render: (data: any) =>
-            this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
-          className: 'text-end',
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
+          className: 'dt-text-end dt-text-wrap',
         },
 
         {
           title: 'Updated by',
-          className: 'priority-5',
+          className: '',
           data: 'updatedBy',
         },
         {
           title: 'Updated date',
-          className: 'priority-5 text-end',
+          className: 'dt-text-end dt-text-wrap',
           data: 'updatedDate',
           render: (data: any) =>
-            this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
         },
         {
           title: 'Deleted',
-          className: 'priority-5',
+          className: 'text-center',
           data: 'isDeleted',
           render: (data: any) => {
             const bagdes = data
@@ -168,9 +168,5 @@ export class ManagePatientComponent implements OnInit {
   }
   ngAfterViewInit(): void {
     this.dtTrigger.next(this.dtOptions);
-  }
-
-  onClick() {
-    console.log('clicked');
   }
 }

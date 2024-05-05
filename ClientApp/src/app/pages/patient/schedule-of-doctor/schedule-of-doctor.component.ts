@@ -12,7 +12,6 @@ export class ScheduleOfDoctorComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
       { label: 'Schedules Of Doctors', active: true },
     ];
   }

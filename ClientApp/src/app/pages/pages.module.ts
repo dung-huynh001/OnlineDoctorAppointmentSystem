@@ -7,7 +7,6 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { CustomerCareComponent } from './customer-care/customer-care.component';
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { NgbDropdownModule, NgbNavModule, NgbPaginationModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { defineElement } from 'lord-icon-element';
@@ -32,7 +31,6 @@ import { DataTablesModule } from 'angular-datatables';
     CommonModule,
     PagesRoutingModule,
     SharedModule,
-    SlickCarouselModule,
     NgbPaginationModule,
     FormsModule,
     ReactiveFormsModule,

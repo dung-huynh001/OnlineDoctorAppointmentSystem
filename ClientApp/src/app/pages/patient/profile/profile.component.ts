@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
+      
       { label: 'Profile', active: true },
     ];
     this.userData = this._authService.currentUser();

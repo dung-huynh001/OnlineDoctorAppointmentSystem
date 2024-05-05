@@ -73,8 +73,7 @@ export class ViewAppointmentComponent implements OnInit, AfterViewInit {
   ) {}
   ngOnInit(): void {
     this.breadcrumbItems = [
-      { label: 'Home' },
-      { label: 'Make Appointment', active: true },
+      { label: 'View Appointment', active: true },
     ];
 
     this._appointmentService

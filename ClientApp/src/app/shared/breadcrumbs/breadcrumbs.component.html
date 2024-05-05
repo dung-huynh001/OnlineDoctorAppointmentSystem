@@ -6,7 +6,14 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                   <ng-container *ngFor="let item of breadcrumbItems">
-                    <li class="breadcrumb-item" [ngClass]="{'active': item.active == true}">{{ item.label }}
+                    <li class="breadcrumb-item" [ngClass]="{'active': item.active == true}">
+                        <div *ngIf="item.link then haveLink else onlyLabel"></div>
+                        <ng-template #haveLink>
+                            <a routerLink="{{item.link}}">{{ item.label }}</a>
+                        </ng-template>
+                        <ng-template #onlyLabel>
+                            <span>{{ item.label }}</span>
+                        </ng-template>
                     </li>
                 </ng-container>
                 </ol>

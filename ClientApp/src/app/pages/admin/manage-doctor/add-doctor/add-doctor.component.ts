@@ -1,13 +1,15 @@
-// import { CdkStepper } from '@angular/cdk/stepper';
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, finalize, throwError } from 'rxjs';
 import { ToastService } from '../../../../core/services/toast.service';
 import { DoctorService } from '../../../../core/services/doctor.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CdkStepper, StepperSelectionEvent } from '@angular/cdk/stepper';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { NgStepperComponent } from 'angular-ng-stepper';
 import { DepartmentService } from '../../../../core/services/department.service';
+import { environment } from '../../../../../environments/environment';
+import { ConfigService } from '../../../../core/services/config.service';
+import { link } from 'fs';
 
 @Component({
   selector: 'app-add-doctor',
@@ -26,10 +28,11 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
   avatarFile!: File;
   currUser: any;
 
+  hospitalInfo: any;
+
   selectedIndex: number = 0;
 
   @ViewChild('cdkStepper') public cdkStepperObj!: NgStepperComponent;
-
 
   // Config department select
   departmentData!: Array<{
@@ -43,13 +46,22 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
     private _departmentService: DepartmentService,
     private _toastService: ToastService,
     private _doctorService: DoctorService,
-    private _spinnerService: NgxSpinnerService
-  ) { }
+    private _spinnerService: NgxSpinnerService,
+    private _configService: ConfigService
+  ) {}
   ngOnInit(): void {
+    this.hospitalInfo = this._configService.getHospitalInfo().subscribe(res => this.hospitalInfo = res);
     this.currUser = JSON.parse(localStorage.getItem('currentUser')!);
     this.accountForm = this.formBuilder.group({
       UserType: ['doctor', Validators.required],
-      Email: ['', [Validators.required, Validators.email, Validators.pattern('[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$')]],
+      Email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$'),
+        ],
+      ],
       Username: ['', Validators.required],
       Password: ['', Validators.required],
       ConfirmPassword: ['', Validators.required],
@@ -73,8 +85,7 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
     });
 
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Doctor Management' },
+      { label: 'Doctor Management', link: '/admin/manage-doctor' },
       { label: 'Create New Doctor', active: true },
     ];
   }
@@ -132,18 +143,21 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
         this.workInfoForm.markAllAsTouched();
         if (this.workInfoForm.invalid) {
           const ngSelectContainer = document.querySelectorAll('ng-select');
-          console.log(ngSelectContainer)
-          
+          console.log(ngSelectContainer);
+
           // this.cdkStepperObj.previous();
         }
         break;
     }
-
   }
 
   accountFormSubmit() {
     this.accountForm_submitted = true;
-    if (this.accountFormControl['ConfirmPassword'].value && this.accountFormControl['Password'].value !== this.accountFormControl['ConfirmPassword'].value) {
+    if (
+      this.accountFormControl['ConfirmPassword'].value &&
+      this.accountFormControl['Password'].value !==
+        this.accountFormControl['ConfirmPassword'].value
+    ) {
       this.accountFormControl['ConfirmPassword'].setErrors({ compare: true });
     }
     if (this.accountForm.valid) {
@@ -208,7 +222,6 @@ export class AddDoctorComponent implements OnInit, AfterViewInit {
     this.selectedIndex = 0;
     this.workInfoFormControl['DepartmentId'].setValue(1);
     this.doctorInfoFormControl['Gender'].setValue(0);
-
   }
 
   onFileChange(event: any) {

@@ -71,7 +71,7 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
+      
       { label: 'Edit Profile', active: true },
     ];
 

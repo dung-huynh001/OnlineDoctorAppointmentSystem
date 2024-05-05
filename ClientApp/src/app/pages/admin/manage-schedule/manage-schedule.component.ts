@@ -60,8 +60,7 @@ export class ManageScheduleComponent implements OnInit {
      * BreadCrumb
      */
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Schedule of doctors', active: true },
+      { label: 'Manage Schedule', active: true },
     ];
 
     this._doctorService

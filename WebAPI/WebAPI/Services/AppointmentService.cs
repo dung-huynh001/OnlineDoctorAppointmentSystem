@@ -172,7 +172,7 @@ namespace WebAPI.Services
             });
 
             var recordsTotal = records.Count();
-            var searchValue = parameters.Search.Value.IsNullOrEmpty() ? "" : parameters.Search.Value!.ToLower().Trim();
+            var searchValue = parameters.Search?.Value?.ToLower().Trim() ?? "";
 
             records = records.Where(d =>
                     d.Id.ToString().Trim().Contains(searchValue)
@@ -187,8 +187,8 @@ namespace WebAPI.Services
                     || d.ClosedDate!.Value.ToString().Trim().ToLower().Contains(searchValue));
 
 
-            if (parameters.Order.Count() != 0)
-                switch (parameters.Order[0].Column)
+            if (parameters.Order?.Count() != 0)
+                switch (parameters.Order?[0].Column)
                 {
                     case (2):
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.DoctorName) : records.OrderByDescending(r => r.DoctorName);
@@ -212,7 +212,7 @@ namespace WebAPI.Services
                         records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.CreatedBy) : records.OrderByDescending(r => r.CreatedDate);
                         break;
                     default:
-                        records = parameters.Order[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
+                        records = parameters.Order?[0].Dir == "asc" ? records.OrderBy(r => r.Id) : records.OrderByDescending(r => r.Id);
                         break;
                 }
 
@@ -392,17 +392,17 @@ namespace WebAPI.Services
             {
                 case "patient":
                     var totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
-                        .Where(a => !a.IsDeleted && a.Patient.UserId == id && a.AppointmentDate.Value.Date.Equals(DateTime.Now.Date))
+                        .Where(a => !a.IsDeleted && a.Patient.UserId == id && a.AppointmentDate!.Value.Date.Equals(DateTime.Now.Date))
                         .CountAsync();
                     return totalAppt;
                 case "doctor":
                     totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
-                        .Where(a => !a.IsDeleted && a.Doctor.UserId == id && a.AppointmentDate.Value.Date.Equals(DateTime.Now.Date))
+                        .Where(a => !a.IsDeleted && a.Doctor.UserId == id && a.AppointmentDate!.Value.Date.Equals(DateTime.Now.Date))
                         .CountAsync();
                     return totalAppt;
                 default:
                     totalAppt = await _unitOfWork.Repository<Appointment>().GetAll
-                        .Where(a => !a.IsDeleted && a.AppointmentDate.Value.Date.Equals(DateTime.Now.Date))
+                        .Where(a => !a.IsDeleted && a.AppointmentDate!.Value.Date.Equals(DateTime.Now.Date))
                         .CountAsync();
                     return totalAppt;
             }
@@ -460,7 +460,7 @@ namespace WebAPI.Services
                 .Select(a => new RecentlyAppointmentDto
                 {
                     Id = a.Id,
-                    AppointmentDate = a.AppointmentDate.Value.ToString("ddd dd/MM/yyyy"),
+                    AppointmentDate = a.AppointmentDate!.Value.ToString("ddd dd/MM/yyyy"),
                     AvatarUrl = a.Doctor.User.AvatarUrl ?? "Uploads/Images/default-user.jpg",
                     DoctorName = a.Doctor.FullName,
                     Speciality = a.Doctor.Speciality
@@ -493,9 +493,9 @@ namespace WebAPI.Services
                 .Select(a => new UpcomingAppointmentDto
                 {
                     Id = a.Id,
-                    AppointmentDate = a.AppointmentDate.Value.ToString("hh:ss dd/MM/yyyy"),
+                    AppointmentDate = a.AppointmentDate!.Value.ToString("hh:ss dd/MM/yyyy"),
                     DateOfConsultation = a.DateOfConsultation.ToString("hh:ss dd/MM/yyyy"),
-                    PatientName = a.Patient.FullName,
+                    PatientName = a.Patient.FullName!,
                     PatientGender = a.Patient.Gender == 0 ? "Male" : a.Patient.Gender == 0 ? "Female" : "Other",
                     DoctorName = a.Doctor.FullName,
                     Speciality = a.Doctor.Speciality,
@@ -515,7 +515,7 @@ namespace WebAPI.Services
                 .Select(p => new PatientToFillDropdownDto
                 {
                     Id = p.Id,
-                    FullName = p.FullName
+                    FullName = p.FullName!
                 })
                 .ToListAsync();
 
@@ -576,11 +576,11 @@ namespace WebAPI.Services
 
         public async Task<ApiResponse> AppointmentOnSite(EJ2UpdateParams<AppointmentEventDto> param, string currrentUserId)
         {
-            if (param.added.Count > 0)
+            if (param.added?.Count > 0)
             {
                 return await AddNewAppointmentEvent(param, currrentUserId);
             }
-            else if (param.changed.Count > 0)
+            else if (param.changed?.Count > 0)
             {
                 return await UpdateAppointmentEvent(param, currrentUserId);
             }
@@ -594,7 +594,7 @@ namespace WebAPI.Services
         {
             _unitOfWork.BeginTransaction();
 
-            var appointmentId = _unitOfWork.Repository<Appointment>().DeleteByIdAsync(id).Result;
+            var appointmentId = await _unitOfWork.Repository<Appointment>().DeleteByIdAsync(id);
             _unitOfWork.Commit();
             if (appointmentId != 0)
             {
@@ -630,12 +630,6 @@ namespace WebAPI.Services
 
             if (existSchedule == null)
             {
-                /*return new ApiResponse
-                {
-                    IsSuccess = false,
-                    Message = $"There are no scheduled dates for {appointmentDate.ToString("dd MMM yyyy")}"
-                };*/
-
                 throw new Exception($"There are no scheduled dates for {appointmentDate.ToString("dd MMM yyyy")}");
             }
 
@@ -678,12 +672,6 @@ namespace WebAPI.Services
 
             if (existSchedule == null)
             {
-                /* return new ApiResponse
-                 {
-                     IsSuccess = false,
-                     Message = $"There are no scheduled dates for {appointmentDate.ToString("dd MMM yyyy")}"
-                 };*/
-
                 throw new Exception($"There are no scheduled dates for {appointmentDate.ToString("dd MMM yyyy")}");
             }
 
@@ -716,11 +704,11 @@ namespace WebAPI.Services
                 .Select(a => new NewBookingDto
                 {
                     Id = a.Id,
-                    AppointmentDate = a.AppointmentDate.Value,
+                    AppointmentDate = a.AppointmentDate!.Value,
                     DateOfBirth = a.Patient.DateOfBirth,
                     Gender = a.Patient.Gender == 0 ? "Male" : a.Patient.Gender == 1 ? "Female" : "Other",
-                    PatientName = a.Patient.FullName,
-                    AvatarUrl = a.Patient.User.AvatarUrl
+                    PatientName = a.Patient.FullName!,
+                    AvatarUrl = a.Patient.User.AvatarUrl ?? "Uploads/Images/default-user.jpg"
                 })
                 .OrderByDescending(a => a.AppointmentDate)
                 .Take(15)

@@ -96,7 +96,7 @@ export class MakeAppointmentComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.breadcrumbItems = [
-      { label: 'Home' },
+      
       { label: 'Make Appointment', active: true },
     ];
     this.workingDay = new Date().toLocaleDateString('en-ZA');

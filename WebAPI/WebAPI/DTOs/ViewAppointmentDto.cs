@@ -24,18 +24,18 @@ namespace WebAPI.DTOs
         public string? AdviceToPatient { get; set; }
         public string? LabTests { get; set; }
 
-        public string DoctorName { get; set; }
-        public string Speciality { get; set; }
-        public string DoctorPhoneNumber { get; set; }
-        public string DoctorGender { get; set; }
-        public string DoctorEmail { get; set; }
-        public string DoctorAvatarUrl { get; set; }
-
-        public string PatientName { get; set; }
+        public string DoctorName { get; set; } = string.Empty;
+        public string Speciality { get; set; } = string.Empty;
+        public string DoctorPhoneNumber { get; set; } = string.Empty;
+        public string DoctorGender { get; set; } = string.Empty;
+        public string DoctorEmail { get; set; } = string.Empty;
+        public string DoctorAvatarUrl { get; set; } = string.Empty;
+                
+        public string PatientName { get; set; } = string.Empty;
         public DateTime PatientBirthDay { get; set; }
-        public string PatientPhoneNumber { get; set; }
-        public string PatientGender { get; set; }
-        public string PatientEmail { get; set; }
-        public string PatientAddress { get; set; }
+        public string PatientPhoneNumber { get; set; } = string.Empty;
+        public string PatientGender { get; set; } = string.Empty;
+        public string PatientEmail { get; set; } = string.Empty;
+        public string PatientAddress { get; set; } = string.Empty;
     }
 }

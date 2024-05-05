@@ -11,6 +11,7 @@ import { DoctorService } from '../../../core/services/doctor.service';
 export class ManageDoctorComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   dtOptions: DataTables.Settings = {};
+  // dtOptions:any = {};?
   dtTrigger: Subject<any> = new Subject();
   submitted: boolean = false;
 
@@ -23,7 +24,6 @@ export class ManageDoctorComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
       { label: 'Doctor Management', active: true },
     ];
 
@@ -34,9 +34,10 @@ export class ManageDoctorComponent implements OnInit {
       responsive: true,
       destroy: true,
       order: [[1, 'asc']],
+      // searchDelay: 300,
       columnDefs: [
-        { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false },
+        { targets: [0, -1], searchable: false,  },
+        { targets: [-1], orderable: false, responsivePriority: 1},
         {
           className: 'dtr-control',
           orderable: false,
@@ -87,12 +88,12 @@ export class ManageDoctorComponent implements OnInit {
         {
           title: 'Speciality',
           data: 'speciality',
-          className: 'text-wrap'
+          className: 'dt-text-wrap'
         },
         {
           title: 'Department',
           data: 'department',
-          className: 'text-wrap'
+          className: 'dt-text-wrap'
         },
         {
           title: 'Gender',
@@ -101,17 +102,17 @@ export class ManageDoctorComponent implements OnInit {
         {
           title: 'Date of birth',
           data: 'dateOfBirth',
-          className: 'text-end',
+          className: 'dt-text-end',
           render: (data: any) => this.datePipe.transform(data, 'dd/MM/yyyy'),
         },
         {
           title: 'National ID',
-          className: 'text-end',
+          className: 'dt-text-end',
           data: 'nationalId',
         },
         {
           title: 'Mobile',
-          className: 'text-end',
+          className: 'dt-text-end',
           data: 'phoneNumber',
         },
         {
@@ -120,13 +121,13 @@ export class ManageDoctorComponent implements OnInit {
         },
         {
           title: 'Working start',
-          className: 'text-end',
+          className: 'dt-text-end dt-text-wrap',
           data: 'workingStartDate',
           render: (data: any) => this.datePipe.transform(data, 'dd/MM/yyyy'),
         },
         {
           title: 'Working end',
-          className: 'text-end',
+          className: 'dt-text-end dt-text-wrap',
           data: 'workingEndDate',
           render: (data: any) => this.datePipe.transform(data, 'dd/MM/yyyy'),
         },
@@ -137,15 +138,39 @@ export class ManageDoctorComponent implements OnInit {
         },
         {
           title: 'Created date',
-          className: 'text-end',
+          className: 'dt-text-end dt-text-wrap',
           data: 'createdDate',
           render: (data: any) =>
-            this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
+        },
+        {
+          title: 'Updated by',
+          className: '',
+          data: 'updatedBy',
+        },
+        {
+          title: 'Updated date',
+          className: 'dt-text-end dt-text-wrap',
+          data: 'updatedDate',
+          render: (data: any) =>
+            this.datePipe.transform(data, 'hh:mm:ss dd/MM/yyyy'),
+        },
+        {
+          title: 'Deleted',
+          className: 'text-center',
+          data: 'isDeleted',
+          render: (data: any) => {
+            const bagdes = data
+              ? `<span class="badge bg-danger">${data}</span>`
+              : `<span class="badge bg-info">${data}</span>`;
+            return bagdes;
+          },
         },
         {
           title: 'Action',
           orderable: false,
           data: 'id',
+          className: 'dt-action',
           render: (data: any, type: any, row: any, meta: any) => {
             const viewButton = `<a role="button" class="btn btn-soft-info btn-sm edit-btn" data-doctor-id="${data}" title="Edit" href="admin/manage-doctor/view-doctor/${data}">View</a>`;
             const editButton = `<a role="button" class="btn btn-soft-primary btn-sm edit-btn" data-doctor-id="${data}" title="Edit" href="admin/manage-doctor/edit-doctor/${data}">Edit</a>`;
@@ -156,29 +181,6 @@ export class ManageDoctorComponent implements OnInit {
               ? `<a class="btn btn-soft-success btn-sm restore-btn border-0" data-doctor-id="${data}" title="Restore this doctor" onClick="location.assign('admin/manage-doctor/view-doctor/${data}')">Restore</a>`
               : ``;
             return `${viewButton} ${editButton} ${restoreButton} ${deleteButton}`;
-          },
-        },
-        {
-          title: 'Updated by',
-          className: 'priority-5',
-          data: 'updatedBy',
-        },
-        {
-          title: 'Updated date',
-          className: 'priority-5 text-end',
-          data: 'updatedDate',
-          render: (data: any) =>
-            this.datePipe.transform(data, 'dd/MM/yyyy hh:mm:ss '),
-        },
-        {
-          title: 'Deleted',
-          className: 'priority-5',
-          data: 'isDeleted',
-          render: (data: any) => {
-            const bagdes = data
-              ? `<span class="badge bg-danger">${data}</span>`
-              : `<span class="badge bg-info">${data}</span>`;
-            return bagdes;
           },
         },
       ],

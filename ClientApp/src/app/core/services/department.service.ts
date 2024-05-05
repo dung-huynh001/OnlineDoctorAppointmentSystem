@@ -31,7 +31,7 @@ export class DepartmentService {
           id: number;
           departmentName: string;
         }>
-      >('/Department/get-department-to-select')
+      >(`${HOSTNAME}/api/Department/get-department-to-select`)
       .pipe(
         catchError((err) => {
           console.log(err);
@@ -53,7 +53,7 @@ export class DepartmentService {
 
   update(id: number, data: any): Observable<apiResponse> {
     return this.http
-      .patch<apiResponse>(`${HOSTNAME}/api//Department/update/${id}`, data)
+      .patch<apiResponse>(`${HOSTNAME}/api/Department/update/${id}`, data)
       .pipe(
         catchError((err) => {
           console.log(err);

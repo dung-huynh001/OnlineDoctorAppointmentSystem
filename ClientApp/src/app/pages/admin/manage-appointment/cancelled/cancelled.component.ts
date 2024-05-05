@@ -2,6 +2,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
+import { link } from 'fs';
 
 @Component({
   selector: 'app-cancelled',
@@ -17,8 +18,7 @@ export class CancelledComponent implements OnInit {
   
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Manage Appointment' },
+      { label: 'Manage Appointment', link: '/admin/appointment/all'},
       { label: 'Cancelled', active: true },
     ];
   }

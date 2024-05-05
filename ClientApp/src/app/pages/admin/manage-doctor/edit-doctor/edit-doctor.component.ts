@@ -92,8 +92,8 @@ export class EditDoctorComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Home' },
-      { label: 'Doctor Management' },
+      
+      { label: 'Doctor Management', link: '/admin/manage-doctor' },
       { label: 'Edit Doctor', active: true },
     ];
 

@@ -289,8 +289,8 @@ namespace WebAPI.Services
             var records = _unitOfWork.Repository<Doctor>().GetAll
                 .Select(d => new DoctorCardDto
                 {
-                    AvatarUrl = d.User.AvatarUrl,
-                    DepartmentName = d.Department.DepartmentName,
+                    AvatarUrl = d.User.AvatarUrl ?? "Upload/Images/default-user.jpg",
+                    DepartmentName = d.Department.DepartmentName!,
                     DepartmentId = d.DepartmentId,
                     FullName = d.FullName,
                     Id = d.Id,
@@ -312,11 +312,14 @@ namespace WebAPI.Services
                 records = records.Where(r => r.DepartmentId.Equals(departmentId));
             }
 
+            var recordsFiltered = records.Count();
+
             records = records.Skip(filter.Start).Take(filter.Length);
+
             return new DatatableResponse<DoctorCardDto>
             {
                 Data = await records.ToListAsync(),
-                RecordsFiltered = recordsTotal,
+                RecordsFiltered = recordsFiltered,
                 RecordsTotal = recordsTotal,
             };
         }
@@ -331,7 +334,7 @@ namespace WebAPI.Services
                     FullName = d.FullName,
                     Id = d.Id,
                     Speciality = d.Speciality,
-                    AvatarUrl = d.User.AvatarUrl,
+                    AvatarUrl = d.User.AvatarUrl ?? "Upload/Images/default-user.jpg",
                 })
                 .ToListAsync();
             return result;
@@ -344,7 +347,7 @@ namespace WebAPI.Services
                     && d.Appointments.Where(a => !a.IsDeleted && a.Doctor.UserId == doctorId).Count() > 0)
                 .Select(d => new PatientResourceDto
                 {
-                    FullName = d.FullName,
+                    FullName = d.FullName!,
                     Id = d.Id,
                     AvatarUrl = d.User.AvatarUrl ?? "Uploads/Images/default-user.jpg",
                     DateOfBirth = d.DateOfBirth,
