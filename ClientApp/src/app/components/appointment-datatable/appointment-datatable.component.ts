@@ -174,7 +174,7 @@ export class AppointmentDatatableComponent
         {
           data: 'dateOfConsultation',
           title: 'Consultation date',
-          className: 'dt-text-end',
+          className: 'dt-text-end dt-text-wrap',
           render: (data: any) =>
             this.datePipe.transform(data, 'hh:mm dd/MM/yyyy'),
         },
@@ -202,7 +202,7 @@ export class AppointmentDatatableComponent
         {
           data: 'closedDate',
           title: 'Closed date',
-          className: 'dt-text-end',
+          className: 'dt-text-end  dt-text-wrap',
           render: (data: any) => {
             return data !== null
               ? this.datePipe.transform(data, 'hh:mm dd/MM/yyyy')
@@ -212,7 +212,7 @@ export class AppointmentDatatableComponent
         {
           data: 'createdDate',
           title: 'Created date',
-          className: 'dt-text-end',
+          className: 'dt-text-end  dt-text-wrap',
           render: (data: any) =>
             this.datePipe.transform(data, 'hh:mm dd/MM/yyyy'),
         },

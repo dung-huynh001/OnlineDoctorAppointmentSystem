@@ -8,6 +8,7 @@ namespace WebAPI.Interfaces.IService
     {
         Task<DatatableResponse<PatientTableDto>> GetAll(DataTablesParameters parameters);
         Task<bool> Create(CreatePatientDto model);
+        Task<ApiResponse> Delete(int id);
         Task<PatientDetailsDto> GetPatientDetailByUserId(string id);
         Task<PatientDetailsDto> GetPatientDetailByPatientId(int id);
         Task<UpdatePatientDetailDto?> UpdatePatient(UpdatePatientDetailDto model);

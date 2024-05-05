@@ -226,7 +226,6 @@ namespace WebAPI.Services
 
             var recordsTotal = records.Count();
 
-
             records = records.Where(d =>
                     d.Id.ToString().Trim().Contains(searchValue)
                     || d.FullName!.Trim().ToLower().Contains(searchValue)
@@ -304,6 +303,30 @@ namespace WebAPI.Services
             response.Data = data;
 
             return Task.FromResult(response);
+        }
+
+        public async Task<ApiResponse> Delete(int id)
+        {
+            _unitOfWork.BeginTransaction();
+            try
+            {
+                int deletedId = await _unitOfWork.Repository<Patient>().DeleteByIdAsync(id);
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Id = deletedId.ToString(),
+                    Message = ""
+                };
+            }
+            catch
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Id = id.ToString(),
+                    Message = $"Not found patient with ID {id}"
+                };
+            }
         }
     }
 }

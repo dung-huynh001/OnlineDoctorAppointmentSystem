@@ -216,6 +216,7 @@ namespace WebAPI.Services
                         break;
                 }
 
+            var recordsFiltered = records.Count();
 
             records = records
                 .Skip(parameters.Start)
@@ -232,7 +233,7 @@ namespace WebAPI.Services
             }
 
             response.RecordsTotal = recordsTotal;
-            response.RecordsFiltered = recordsTotal;
+            response.RecordsFiltered = recordsFiltered;
             response.Data = data;
             return Task.FromResult(response);
 

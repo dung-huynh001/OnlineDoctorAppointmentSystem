@@ -59,7 +59,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     this.element = document.documentElement;
 
     this.userData!.avatarUrl =
-      this.userData?.avatarUrl ?? `/Uploads/Images/default-user.jpg`;
+      this.userData?.avatarUrl ?? `Uploads/Images/default-user.jpg`;
 
     if (
       this.authService.status$.value != STATUS_NOT_ACTIVATE &&

@@ -14,5 +14,6 @@ namespace WebAPI.Interfaces.IService
         Task<DoctorDetailsDto> GetDoctorDetailsByUserId(string id);
         Task<bool> UpdateDoctor(DoctorInfoDto data);
         Task<ApiResponse> UpdateContract(ContractDto data);
+        Task<ApiResponse> Delete(int id);
     }
 }

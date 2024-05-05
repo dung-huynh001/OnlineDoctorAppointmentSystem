@@ -74,12 +74,6 @@ export const MENU_PATIENT: MenuItem[] = [
     link: '/medical-process'
   },
   {
-    id: 13,
-    label: 'MENUITEMS.ABOUTUS.TEXT',
-    icon: 'las la-user-friends',
-    link: '/about'
-  },
-  {
     id: 14,
     label: 'MENUITEMS.HELP.TEXT',
     icon: 'las la-info-circle',
@@ -187,12 +181,6 @@ export const MENU_ADMIN: MenuItem[] = [
     link: '/medical-process'
   },
   {
-    id: 17,
-    label: 'MENUITEMS.ABOUTUS.TEXT',
-    icon: 'las la-user-friends',
-    link: '/about'
-  },
-  {
     id: 18,
     label: 'MENUITEMS.LOGOFF.TEXT',
     icon: 'las la-file-export',
@@ -267,12 +255,6 @@ export const MENU_DOCTOR: MenuItem[] = [
     label: 'MENUITEMS.MEDICALPROCESS.TEXT',
     icon: 'las la-procedures',
     link: '/medical-process'
-  },
-  {
-    id: 13,
-    label: 'MENUITEMS.ABOUTUS.TEXT',
-    icon: 'las la-user-friends',
-    link: '/about'
   },
   {
     id: 14,

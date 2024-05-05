@@ -91,6 +91,12 @@ namespace WebAPI.Controllers
             });
         }
 
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete([FromRoute]int id)
+        {
+            return Ok(await _doctorService.Delete(id));
+        }
+
         [HttpGet("get-doctor-details/{id}")]
         public async Task<IActionResult> GetDoctorDetail([FromRoute]int id)
         {

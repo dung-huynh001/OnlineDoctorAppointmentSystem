@@ -89,119 +89,6 @@
                 </div>
 
                 <div class="schedule-container">
-                    <!-- <ejs-schedule #scheduleObj cssClass='schedule-block-events' width='100%' height="70vh"
-                        [enableAllDayScroll]="true" [currentView]="selectedView" [selectedDate]="selectedDate"
-                        [eventSettings]="eventSettings" (actionBegin)="onActionBegin($event)" [group]="group"
-                        (actionFailure)="onActionFailure($event)" (currentViewChange)="currentViewChange($event)"
-                        (eventRendered)="onEventRendered($event)" (renderCell)="onRenderCell($event)"
-                        (actionComplete)="onActionComplete($event)" (popupOpen)="popupOpen($event)"
-                        [showQuickInfo]="false" [allowDragAndDrop]="false"
-                        (eventDoubleClick)="onEventDoubleClick($event)" (cellClick)="onCellClick($event)">
-                        <e-resources>
-                            <e-resource field='PatientId' name='Patients'
-                                [dataSource]='patientResources' [allowMultiple]='true' textField='FullName' groupIDField='PatientId'
-                                idField='Id'>
-                            </e-resource>
-                        </e-resources>
-                        <ng-template #dateHeaderTemplate let-data>
-                            <div>   
-                                <p class="m-0 text-center fw-semibold">{{formatDateHeader(data.date).date}}</p>
-                                <p class="m-0 text-center">{{formatDateHeader(data.date).dayOfWeek}}</p>
-                            </div>
-                        </ng-template>
-                        <ng-template #resourceHeaderTemplate let-data>
-                            <div class="template-wrap" *ngIf="data.resourceData['Id']">
-                                <div class="employee-category">
-                                    <div>
-                                        <img class="resource-image" *ngIf="getPatientImg(data)"
-                                            src="{{getPatientImg(data)}}" />
-                                    </div>
-                                    <div class="resource-name">{{getPatientName(data)}}</div>
-                                    <div class="designation">{{getPatientInfo(data)}}</div>
-                                </div>
-                            </div>
-                        </ng-template>
-                        <e-header-rows>
-                            <e-header-row [option]="'Date'"></e-header-row>
-                            <e-header-row option="Hour" *ngIf="displayHour"></e-header-row>
-                        </e-header-rows>
-                        <ng-template #editorHeaderTemplate let-data>
-                            <div *ngIf="data.Subject; else createNewEvent">
-                                <div class="border-bottom pb-3 d-flex align-items-center gap-3">
-                                    <span class="fs-5 fw-semibold">Appointment Details </span>
-                                    <span
-                                        class="badge bg-{{setColor(data.AppointmentStatus)}}-subtle text-{{setColor(data.AppointmentStatus)}} text-capitalize fw-bold"
-                                        style="font-size: small;">{{data.AppointmentStatus}}</span>
-                                </div>
-                            </div>
-                            <ng-template #createNewEvent>
-                                <div class="border-bottom">
-                                    <p class="fs-5 fw-semibold">Make Appointment</p>
-                                </div>
-                            </ng-template>
-                        </ng-template>
-                        <ng-template #editorTemplate let-data>
-                            <table class="custom-event-editor" width="100%" cellpadding="5">
-                                <tbody>
-                                    <tr>
-                                        <td class="e-textlabel text-nowrap">Patient <span class="text-danger">*</span>
-                                        </td>
-                                        <td colspan="4">
-                                            <ejs-dropdownlist id='Patient' class="form-control"
-                                                [ngClass]="{ 'is-invalid': isInvalid }" data-name="Patient"
-                                                placeholder='Choose Patient' [dataSource]='patients' [fields]="fields"
-                                                [allowFiltering]="true" (filtering)="onFilteringPatient($event)"
-                                                filterBarPlaceholder="Search Name or National Id/Passport"
-                                                [(value)]="selectedPatient" [allowObjectBinding]="true"
-                                                [readonly]="editMode">
-                                            </ejs-dropdownlist>
-                                            <div class="invalid-feedback">This field is required</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="e-textlabel text-nowrap">Appointment Date <span
-                                                class="text-danger">*</span></td>
-                                        <td colspan="4">
-                                            <ejs-datetimepicker id="EndTime" class="form-control" data-name="AppointmentDate"
-                                                format="M/dd/yy h:mm a" [value]="data.StartTime">
-                                            </ejs-datetimepicker>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="e-textlabel text-nowrap">Existing Illness</td>
-                                        <td colspan="4">
-                                            <textarea id="ExistingIllness" class="form-control"
-                                                name="ExistingIllness" rows="2" cols="50"
-                                                value="{{data.ExistingIllness}}"
-                                                style="width: 100%; resize: vertical"></textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="e-textlabel text-nowrap">Allergies</td>
-                                        <td colspan="4">
-                                            <textarea id="Allergies" class="form-control" name="Allergies" rows="2"
-                                                cols="50" value="{{data.Allergies}}"
-                                                style="width: 100%; resize: vertical"></textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="e-textlabel text-nowrap">Notes</td>
-                                        <td colspan="4">
-                                            <textarea id="Notes" class="form-control" name="Notes" rows="2" cols="50"
-                                                value="{{data.Notes}}" style="width: 100%; resize: vertical"></textarea>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </ng-template>
-                        <e-views>
-                            <e-view option="TimelineDay" displayName="Day" startHour="07:00" endHour="23:00"></e-view>
-                            <e-view option="TimelineWeek" displayName="Week"></e-view>
-                            <e-view option="TimelineWeek" displayName="Half Month" interval="2"></e-view>
-                            <e-view option="TimelineMonth" displayName="Month"></e-view>
-                        </e-views>
-                    </ejs-schedule> -->
-
                     <ejs-schedule #scheduleObj cssClass='schedule-block-events' width='100%' height="70vh"
                         [enableAllDayScroll]="true" [currentView]="selectedView" [selectedDate]="selectedDate"
                         [eventSettings]="eventSettings" (actionBegin)="onActionBegin($event)" [group]="group"
@@ -217,13 +104,19 @@
                         </e-resources>
                         <ng-template #resourceHeaderTemplate let-data>
                             <div class="template-wrap">
-                                <div class="employee-category">
+                                <div class="employee-category"
+                                    *ngIf="data.resourceData['AvatarUrl'] && data.resourceData['FullName'] && data.resourceData['DateOfBirth']" else #noPatient>
                                     <div>
                                         <img class="resource-image"
                                             [src]='HOSTNAME + "/" + data.resourceData["AvatarUrl"]' />
                                     </div>
-                                    <div class="resource-name">{{data.resourceData['FullName']}}</div>
-                                    <div class="short-description">{{getPatientInfo(data)}}</div>
+                                    <div class="resource-name">
+                                        {{data.resourceData['FullName']}}</div>
+                                    <div class="short-description">
+                                        {{getPatientInfo(data)}}</div>
+                                </div>
+                                <div #noPatient>
+                                    There are no appointments yet
                                 </div>
                             </div>
                         </ng-template>
@@ -256,7 +149,8 @@
                             <table class="custom-event-editor" width="100%" cellpadding="5">
                                 <tbody>
                                     <tr>
-                                        <td class="e-textlabel text-nowrap float-end">Patient <span class="text-danger">*</span>
+                                        <td class="e-textlabel text-nowrap float-end">Patient <span
+                                                class="text-danger">*</span>
                                         </td>
                                         <td colspan="4">
                                             <ejs-dropdownlist id='Patient' class="e-field form-control"

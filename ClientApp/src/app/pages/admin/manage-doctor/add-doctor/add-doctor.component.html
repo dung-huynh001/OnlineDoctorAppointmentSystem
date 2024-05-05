@@ -59,7 +59,7 @@
                                             class="text-danger">*</span></label>
                                     <input type="password" class="form-control" id="password" formControlName="Password"
                                         aria-autocomplete="none" onblur="this.setAttribute('readonly', true);"
-                                        placeholder="Enter password" autocomplete="off" readonly
+                                        placeholder="Enter password" autocomplete="new-password" readonly
                                         onfocus="this.removeAttribute('readonly');"
                                         [ngClass]="{'is-invalid': accountForm_submitted && this.accountFormControl['Password'].errors }">
                                     <div class="invalid-feedback">
@@ -73,7 +73,7 @@
                                         Password <span class="text-danger">*</span></label>
                                     <input type="password" class="form-control" id="confirmPassword"
                                         placeholder="Enter confirm password" formControlName="ConfirmPassword"
-                                        aria-autocomplete="none" autocomplete="off" readonly
+                                        aria-autocomplete="none" autocomplete="new-password" readonly
                                         onblur="this.setAttribute('readonly', true);"
                                         onfocus="this.removeAttribute('readonly');"
                                         [ngClass]="{'is-invalid': accountForm_submitted && this.accountFormControl['ConfirmPassword'].errors }">

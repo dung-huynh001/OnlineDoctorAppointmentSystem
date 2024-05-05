@@ -20,8 +20,6 @@ File: Main Css File
 @import "variables-dark";
 @import "../../../../../node_modules/bootstrap/scss/_mixins";
 
-
-
 // Structure
 @import "../../structure/topbar";
 @import "../../structure/page-head";
@@ -51,7 +49,6 @@ File: Main Css File
 @import "../../components/table";
 @import "../../components/modal";
 @import "../../components/pagination";
-@import "../../components/progress";
 @import "../../components/popover";
 @import "../../components/type";
 @import "../../components/form-check";
@@ -60,18 +57,10 @@ File: Main Css File
 
 // Plugins
 @import "../../plugins/custom-scrollbar";
-@import "../../plugins/prismjs";
-@import "../../plugins/sweetalert2";
-@import "../../plugins/sortablejs";
-@import "../../plugins/multijs";
-@import "../../plugins/form-input-spin";
 @import "../../plugins/listjs";
 @import "../../plugins/apexcharts";
-@import "../../plugins/autocomplete";
 @import "../../plugins/fullcalendar";
-@import "../../plugins/emoji-picker";
 @import "../../plugins/datatables";
-@import "../../plugins/select2";
 
 // Plugins
 @import "../../plugins/flatpicker";
@@ -83,8 +72,6 @@ File: Main Css File
 @import "../../pages/dashboard";
 @import "../../pages/timeline";
 @import "../../pages/errors";
-@import "../../pages/profile";
-@import "../../pages/sitemap";
 @import "../../pages/coming-soon";
 
 
