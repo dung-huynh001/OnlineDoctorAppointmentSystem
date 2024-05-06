@@ -30,7 +30,6 @@ export class AllComponent  implements OnInit {
   
   ngOnInit(): void {
     this.breadCrumbItems = [
-      
       { label: 'Manage Appointment', link: '/admin/appointment/all' },
       { label: 'All', active: true },
     ];
