@@ -4,7 +4,6 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output,
   Renderer2,
   SimpleChanges,
   TemplateRef,
@@ -17,7 +16,7 @@ import { AppointmentService } from '../../core/services/appointment.service';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '../../core/services/toast.service';
-import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DataTableDirective } from 'angular-datatables';
 
 @Component({
