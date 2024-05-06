@@ -25,8 +25,7 @@ import { DataTableDirective } from 'angular-datatables';
   styleUrl: './appointment-datatable.component.scss',
 })
 export class AppointmentDatatableComponent
-  implements OnInit, OnChanges, AfterViewInit
-{
+  implements OnInit, OnChanges, AfterViewInit {
   @Input() title!: string;
   @Input() appointmentStatus!: string;
   selectedId!: number;
@@ -49,11 +48,9 @@ export class AppointmentDatatableComponent
     private _modalService: NgbModal,
     private _toastService: ToastService,
     private _spinnerService: NgxSpinnerService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {
-    // this.currentUser = this._authService.currentUser();
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.currentUser && !this.customColumns) {
@@ -62,19 +59,19 @@ export class AppointmentDatatableComponent
       this.customColumns =
         userType == 'patient'
           ? [
-              {
-                data: 'doctorName',
-                title: 'Doctor',
-              },
-            ]
+            {
+              data: 'doctorName',
+              title: 'Doctor',
+            },
+          ]
           : userType == 'doctor'
-          ? [
+            ? [
               {
                 data: 'patientName',
                 title: 'Patient',
               },
             ]
-          : [
+            : [
               {
                 data: 'doctorName',
                 title: 'Doctor',
@@ -113,7 +110,7 @@ export class AppointmentDatatableComponent
       order: [[1, 'asc']],
       columnDefs: [
         { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false, responsivePriority: 1  },
+        { targets: [-1], orderable: false, responsivePriority: 1 },
         {
           className: 'dtr-control',
           orderable: false,
