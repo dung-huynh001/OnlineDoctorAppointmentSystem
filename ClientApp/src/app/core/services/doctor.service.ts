@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { DataTableResponse } from '../models/dataTableResponse.model';
+import { apiResponse } from '../models/apiResponse.model';
 
 const HOSTNAME = environment.serverApi;
 
@@ -27,8 +28,24 @@ export class DoctorService {
       formData.append(key, data[key]);
     });
     formData.append('id', id.toString());
-    
+
     return this.http.patch(`${HOSTNAME}/api/${url}/${id}`, formData);
+  }
+
+  delete(id: number): Observable<apiResponse> {
+    return this.http.delete<apiResponse>(`${HOSTNAME}/api/Doctor/delete/${id}`)
+      .pipe(catchError(err => {
+        console.log(err);
+        return throwError(() => err);
+      }))
+  }
+
+  restore(id: number): Observable<apiResponse> {
+    return this.http.get<apiResponse>(`${HOSTNAME}/api/Doctor/restore/${id}`)
+      .pipe(catchError(err => {
+        console.log(err);
+        return throwError(() => err);
+      }))
   }
 
   getAll(dataTablesParameters: any) {
@@ -51,7 +68,7 @@ export class DoctorService {
     return this.http.get(`${HOSTNAME}/api/Doctor/get-doctor-details-by-user-id/${id}`);
   }
 
-  getDepartments(): Observable<any>{
+  getDepartments(): Observable<any> {
     return this.http.get(`${HOSTNAME}/api/Department/get-department-to-select`);
   }
 }

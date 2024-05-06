@@ -328,15 +328,51 @@ namespace WebAPI.Services
             try
             {
                 int deletedId = await _unitOfWork.Repository<Doctor>().DeleteByIdAsync(id);
+                _unitOfWork.Commit();
+
                 return new ApiResponse
                 {
                     IsSuccess = true,
                     Id = deletedId.ToString(),
-                    Message = ""
+                    Message = $"Deleted doctor with ID {id} successfully"
                 };
             }
             catch
             {
+                _unitOfWork.Rollback();
+
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Id = id.ToString(),
+                    Message = $"Not found doctor with ID {id}"
+                };
+            }
+        }
+
+        public async Task<ApiResponse> Restore(int id)
+        {
+            _unitOfWork.BeginTransaction();
+            try
+            {
+                var doctor = await _unitOfWork.Repository<Doctor>().GetByIdAsync(id);
+                doctor.IsDeleted = false;
+
+                await _unitOfWork.Repository<Doctor>().UpdateAsync(doctor);
+
+                _unitOfWork.Commit();
+
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Id = id.ToString(),
+                    Message = $"Restore doctor with ID {id} successfully"
+                };
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+
                 return new ApiResponse
                 {
                     IsSuccess = false,
