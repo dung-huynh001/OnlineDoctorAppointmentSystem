@@ -41,10 +41,10 @@ export type ChartOptions = {
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+  templateUrl: './admin-dashboard.component.html',
+  styleUrl: './admin-dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
 
   currentUser!: User;
@@ -83,27 +83,32 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.breadCrumbItems = [
-      
+    this.breadCrumbItems = [ 
       { label: 'Dashboard', active: true },
     ];
 
     this.currentUser = this._authService.currentUser();
 
     this._statisticService
-      .getStatisticAppointmentWidgets(
+      .statisticAppointmentWidgets(
         this.currentUser.id,
         this.currentUser.userType
       )
       .subscribe((res) => (this.appointmentWidgets = res));
 
     this._statisticService
-      .getStatisticResourceWidgets()
+      .statisticResourceWidgets()
       .subscribe((res) => (this.resourceWidgets = res));
 
     this.renderGenderChart();
     this.renderTodayAppt();
   }
+
+  fetchData() {
+
+  }
+
+
 
   renderTodayAppt() {
     this.statisticStartDate = new Date();
@@ -203,6 +208,7 @@ export class DashboardComponent implements OnInit {
           series: res.series,
           chart: {
             height: 350,
+            width: '100%',
             type: 'line',
             dropShadow: {
               enabled: true,

@@ -34,7 +34,6 @@ export class ManageDoctorComponent implements OnInit {
       responsive: true,
       destroy: true,
       order: [[1, 'asc']],
-      // searchDelay: 300,
       columnDefs: [
         { targets: [0, -1], searchable: false,  },
         { targets: [-1], orderable: false, responsivePriority: 1},
@@ -188,9 +187,5 @@ export class ManageDoctorComponent implements OnInit {
   }
   ngAfterViewInit(): void {
     this.dtTrigger.next(this.dtOptions);
-  }
-
-  onClick() {
-    console.log('clicked')
   }
 }

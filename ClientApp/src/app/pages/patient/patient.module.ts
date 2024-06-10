@@ -11,7 +11,6 @@ import { SimplebarAngularModule } from 'simplebar-angular';
 import { NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { CountUpModule } from 'ngx-countup';
 import { DataTablesModule } from 'angular-datatables';
 import { ScheduleOfDoctorComponent } from './schedule-of-doctor/schedule-of-doctor.component';
@@ -26,7 +25,6 @@ import { SchedulerModule } from '../../components/scheduler/scheduler.module'
     MakeAppointmentComponent,
     ProfileComponent,
     EditProfileComponent,
-    DashboardComponent,
     ScheduleOfDoctorComponent
   ],
   imports: [

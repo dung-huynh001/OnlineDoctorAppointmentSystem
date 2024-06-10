@@ -1,21 +1,22 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AppointmentService } from './../../../core/services/appointment.service';
+import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { ToastService } from '../../../core/services/toast.service';
-import { AppointmentService } from '../../../core/services/appointment.service';
-import { AuthService } from '../../../core/services/auth.service';
 import { User } from '../../../core/models/auth.models';
-import { Subject, catchError, map, throwError } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { Subject, catchError, finalize, map, throwError } from 'rxjs';
+import { AuthService } from '../../../core/services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DatePipe } from '@angular/common';
+import { environment } from '../../../../environments/environment';
+import { StatisticService } from '../../../core/services/statistic.service';
+import { iWidget } from '../../../core/models/statistic.model';
 
 const HOSTNAME = environment.serverApi;
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+  templateUrl: './doctor-dashboard.component.html',
+  styleUrl: './doctor-dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DoctorDashboardComponent implements OnInit, AfterViewInit {
   breadCrumbItems!: Array<{}>;
   today = new Date().toDateString();
   currentUser!: User;
@@ -26,14 +27,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   hostName = HOSTNAME;
 
+  selectedAppointmentId!: number;
+
   widgetsData: Array<number> = [0, 0, 0, 0];
-  recentlyAppointments!: Array<{
-    id: number;
-    appointmentDate: string;
-    avatarUrl: string;
-    speciality: string;
-    doctorName: string;
-  }>;
+  widgets!: Array<iWidget>;
 
   upcomingAppointments: Array<{
     id: number;
@@ -43,35 +40,67 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     dateOfConsultation: string;
   }> = [];
 
+  newBookings!: {
+    id: number;
+    appointmentDate: any;
+    dateOfBirth: any;
+    avatarUrl: string;
+    gender: string;
+    patientName: string;
+  }[];
+
   constructor(
     private _toastService: ToastService,
     private _appointmentService: AppointmentService,
     private _authService: AuthService,
     private _spinnerService: NgxSpinnerService,
-    private datePipe: DatePipe
+    private render: Renderer2,
+    private _widgetService: StatisticService
   ) {}
 
   ngOnInit() {
-    this.breadCrumbItems = [{ label: 'Dashboard', active: true }];
+    this.breadCrumbItems = [
+      
+      { label: 'Dashboard', active: true },
+    ];
 
     this.currentUser = this._authService.currentUser();
 
-    this.getRecentlyAppointments();
     this.loadWidgets();
-    this.getUpcomningAppointments();
+    this._widgetService
+      .statisticAppointmentWidgets(
+        this.currentUser.id,
+        this.currentUser.userType
+      )
+      .subscribe((res) => {
+        this.widgets = res;
+      });
+
+    this.getUpcomingAppointments();
     this.fetchData();
+    this.getNewBooking();
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.render.listen('document', 'click', (event) => {
+      if (
+        event.target.hasAttribute('data-appointment-id') &&
+        event.target.classList.contains('cancel-btn')
+      ) {
+        this.selectedAppointmentId = event.target.getAttribute(
+          'data-appointment-id'
+        );
+        this.markAsCancel(this.selectedAppointmentId);
+        this.fetchData();
+      }
+    });
+  }
 
   fetchData() {
     this._spinnerService.show();
     Promise.all([
       this._appointmentService.WidgetsData.subscribe(
         (res) => (this.widgetsData = res)
-      ),
-      this._appointmentService.RecentlyAppointments.subscribe(
-        (res) => (this.recentlyAppointments = res)
       ),
 
       this._appointmentService.UpcomingAppointment.subscribe(
@@ -86,25 +115,42 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getRecentlyAppointments() {
+  getNewBooking() {
     this._appointmentService
-      .getRecentlyAppointment(this.currentUser.id)
+      .getNewBooking(this.currentUser.id)
       .pipe(
+        catchError((err) => {
+          this.newBookings = [];
+          return throwError(() => err);
+        }),
         map(
           (
             res: Array<{
               id: number;
-              appointmentDate: string;
+              appointmentDate: any;
+              dateOfBirth: any;
               avatarUrl: string;
-              speciality: string;
-              doctorName: string;
+              gender: string;
+              patientName: string;
             }>
           ) => {
+            res = res.map((item) => {
+              const age =
+                new Date().getFullYear() -
+                new Date(item.dateOfBirth).getFullYear() +
+                1;
+              item.appointmentDate = new Date(
+                item.appointmentDate
+              ).toDateString();
+              item.dateOfBirth = age + 'yrs';
+              item.avatarUrl = HOSTNAME + `/` + item.avatarUrl;
+              return item;
+            });
             return res;
           }
         )
       )
-      .subscribe((res) => this._appointmentService.setRecentlyApptData(res));
+      .subscribe((res) => (this.newBookings = res));
   }
 
   loadWidgets() {
@@ -119,7 +165,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       });
   }
 
-  getUpcomningAppointments() {
+  getUpcomingAppointments() {
     this._appointmentService
       .getUpcomingAppointment(this.currentUser.id, this.currentUser.userType)
       .subscribe(
@@ -146,7 +192,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       order: [[1, 'asc']],
       columnDefs: [
         { targets: [0, -1], searchable: false },
-        { targets: [-1], orderable: false, responsivePriority: 1 },
+        { targets: [-1], orderable: false, responsivePriority: 1  },
         {
           className: 'dtr-control',
           orderable: false,
@@ -172,15 +218,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           className: 'text-center',
         },
         {
-          data: 'doctorName',
-          title: 'Doctor',
+          data: 'patientName',
+          title: 'Patient',
           render: (data: any, type: any, row: any, meta: any) => {
             return `<span class="text-center">${data}</span>`;
           },
         },
         {
-          data: 'speciality',
-          title: 'Speciality',
+          data: 'patientGender',
+          title: 'Gender',
         },
         {
           data: 'appointmentDate',
@@ -237,5 +283,46 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         },
       ],
     };
+  }
+
+  markAsCancel(id: number) {
+    this._spinnerService.show();
+    this._appointmentService
+      .updateAppointmentStatus(id, 'Cancelled')
+      .pipe(
+        finalize(() => {
+          this.getNewBooking();
+          setTimeout(() => {
+            this._spinnerService.hide();
+          }, 200);
+        })
+      )
+      .subscribe((res) => {
+        if (res.isSuccess) {
+          this._toastService.success(res.message);
+        }
+      });
+  }
+
+  markAsConfirmed(id: number) {
+    this._spinnerService.show();
+    this._appointmentService
+      .updateAppointmentStatus(id, 'Confirmed')
+      .pipe(
+        finalize(() => {
+          this.getNewBooking();
+          this.dtTrigger.next(this.dtOptions);
+          setTimeout(() => {
+            this._spinnerService.hide();
+          }, 200);
+        })
+      )
+      .subscribe((res) => {
+        if (res.isSuccess) {
+          this._toastService.success(res.message);
+          this.getUpcomingAppointments();
+          this.fetchData();
+        }
+      });
   }
 }
