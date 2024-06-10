@@ -7,6 +7,7 @@ import { AddPatientComponent } from './add-patient/add-patient.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -22,7 +23,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgbModalModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

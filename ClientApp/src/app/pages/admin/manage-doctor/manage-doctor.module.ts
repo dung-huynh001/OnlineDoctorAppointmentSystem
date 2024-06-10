@@ -10,7 +10,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DataTablesModule } from 'angular-datatables';
-import { NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbNavModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
@@ -37,6 +37,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NgbNavModule,
     FlatpickrModule,
     NgxSpinnerModule,
+    NgbModalModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -38,6 +38,12 @@ namespace WebAPI.Controllers
             return Ok(await _patientService.Delete(id));
         }
 
+        [HttpGet("restore/{id}")]
+        public async Task<IActionResult> Restore([FromRoute] int id)
+        {
+            return Ok(await _patientService.Restore(id));
+        }
+
         [HttpGet("get-patient-detail-by-user-id")]
         public async Task<IActionResult> GetPatientDetailByUserId(string id)
         {

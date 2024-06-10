@@ -97,6 +97,12 @@ namespace WebAPI.Controllers
             return Ok(await _doctorService.Delete(id));
         }
 
+        [HttpGet("restore/{id}")]
+        public async Task<IActionResult> Restore([FromRoute] int id)
+        {
+            return Ok(await _doctorService.Restore(id));
+        }
+
         [HttpGet("get-doctor-details/{id}")]
         public async Task<IActionResult> GetDoctorDetail([FromRoute]int id)
         {

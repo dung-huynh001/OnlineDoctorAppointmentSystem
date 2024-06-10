@@ -206,7 +206,6 @@ namespace WebAPI.Services
             var searchValue = parameters.Search?.Value?.ToLower().Trim() ?? "";
 
             var records = _unitOfWork.Repository<Patient>().GetAll
-                .Where(p => !p.IsDeleted)
                 .Select(d => new PatientTableDto
                 {
                     Id = d.Id,
@@ -311,15 +310,50 @@ namespace WebAPI.Services
             try
             {
                 int deletedId = await _unitOfWork.Repository<Patient>().DeleteByIdAsync(id);
+                _unitOfWork.Commit();
+
                 return new ApiResponse
                 {
                     IsSuccess = true,
                     Id = deletedId.ToString(),
-                    Message = ""
+                    Message = $"Deleted patient with ID {id} successfully"
                 };
             }
             catch
             {
+                _unitOfWork.Rollback();
+
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Id = id.ToString(),
+                    Message = $"Not found patient with ID {id}"
+                };
+            }
+        }
+        public async Task<ApiResponse> Restore(int id)
+        {
+            _unitOfWork.BeginTransaction();
+            try
+            {
+                var patient = await _unitOfWork.Repository<Patient>().GetByIdAsync(id);
+                patient.IsDeleted = false;
+
+                await _unitOfWork.Repository<Patient>().UpdateAsync(patient);
+
+                _unitOfWork.Commit();
+
+                return new ApiResponse
+                {
+                    IsSuccess = true,
+                    Id = id.ToString(),
+                    Message = $"Restore patient with ID {id} successfully"
+                };
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+
                 return new ApiResponse
                 {
                     IsSuccess = false,

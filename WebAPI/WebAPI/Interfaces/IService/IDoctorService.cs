@@ -15,5 +15,6 @@ namespace WebAPI.Interfaces.IService
         Task<bool> UpdateDoctor(DoctorInfoDto data);
         Task<ApiResponse> UpdateContract(ContractDto data);
         Task<ApiResponse> Delete(int id);
+        Task<ApiResponse> Restore(int id);
     }
 }
