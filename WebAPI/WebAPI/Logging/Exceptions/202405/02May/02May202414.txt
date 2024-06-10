@@ -1,2 +1,17 @@
 5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
+5/2/2024 2:21:48 PM ==> AppointmentService.cs	There are no scheduled dates for 01 May 2024 Line:675	<AddNewAppointmentEvent>	POST	542d16f6-a287-418a-9bbd-54480f547566
 

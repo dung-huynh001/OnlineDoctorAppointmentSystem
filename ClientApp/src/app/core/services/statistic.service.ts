@@ -17,7 +17,7 @@ const HOSTNAME = environment.serverApi;
 export class StatisticService {
   constructor(private http: HttpClient) {}
 
-  getStatisticAppointmentWidgets(
+  statisticAppointmentWidgets(
     userId: string,
     userType: string
   ): Observable<Array<iWidget>> {
@@ -33,7 +33,7 @@ export class StatisticService {
       );
   }
 
-  getStatisticResourceWidgets(): Observable<Array<iWidget>> {
+  statisticResourceWidgets(): Observable<Array<iWidget>> {
     return this.http
       .get<Array<iWidget>>(
         `${HOSTNAME}/api/Admin/get-statistic-resource-widgets`

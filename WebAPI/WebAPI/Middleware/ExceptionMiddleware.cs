@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Asn1.Ocsp;
-using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Security.Claims;
 using System.Text.Json;
@@ -29,17 +25,17 @@ namespace WebAPI.Middleware
             }
             catch(Exception ex)
             {
-                var stackTrace = new StackTrace(ex, true);
-                var frame = stackTrace.GetFrame(0);
-                var fileName = frame?.GetFileName();
-                var lineNumber = frame?.GetFileLineNumber();
-                var methodName = frame?.GetMethod()?.DeclaringType?.Name;
+                StackTrace stackTrace = new StackTrace(ex, true);
+                StackFrame? frame = stackTrace.GetFrame(0);
+                string? fileName = frame?.GetFileName();
+                int? lineNumber = frame?.GetFileLineNumber();
+                string? methodName = frame?.GetMethod()?.DeclaringType?.Name;
 
-                var sEventCatg = fileName?.Substring(fileName?.LastIndexOf("\\") ?? 0).Replace("\\", "");
-                var sEventMsg = ex.Message + " Line:" + lineNumber;
-                var sEventSrc = methodName?.Substring(0, methodName.LastIndexOf(">") + 1);
-                var sEventType = context.Request.Method;
-                var sInsBy = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                string? sEventCatg = fileName?.Substring(fileName?.LastIndexOf("\\") ?? 0).Replace("\\", "");
+                string sEventMsg = ex.Message + "      Line:" + lineNumber;
+                string? sEventSrc = methodName?.Substring(0, methodName.LastIndexOf(">") + 1);
+                string sEventType = context.Request.Method;
+                string sInsBy = context.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "GUEST";
 
                 await TraceLog(sEventCatg!, sEventMsg, sEventSrc!, sEventType, sInsBy);
 
@@ -51,7 +47,6 @@ namespace WebAPI.Middleware
         public async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             context.Response.ContentType = "application/json";
-            var response = context.Response;
             HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
             string errorMessage = ex.Message;
 

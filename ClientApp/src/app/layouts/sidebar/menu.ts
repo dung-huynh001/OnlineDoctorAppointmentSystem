@@ -10,7 +10,7 @@ export const MENU_PATIENT: MenuItem[] = [
     id: 2,
     label: 'MENUITEMS.DASHBOARD.TEXT',
     icon: 'las la-tachometer-alt',
-    link: '/patient/dashboard'
+    link: '/dashboard/patient'
   },
   {
     id: 3,
@@ -83,7 +83,6 @@ export const MENU_PATIENT: MenuItem[] = [
     id: 15,
     label: 'MENUITEMS.LOGOFF.TEXT',
     icon: 'las la-file-export',
-    link: ''
   }
 ];
 
@@ -98,7 +97,7 @@ export const MENU_ADMIN: MenuItem[] = [
     id: 2,
     label: 'MENUITEMS.DASHBOARD.TEXT',
     icon: 'las la-tachometer-alt',
-    link: '/admin/dashboard'
+    link: '/dashboard/admin'
   },
   {
     id: 3,
@@ -184,7 +183,6 @@ export const MENU_ADMIN: MenuItem[] = [
     id: 18,
     label: 'MENUITEMS.LOGOFF.TEXT',
     icon: 'las la-file-export',
-    link:''
   }
 
 ];
@@ -199,7 +197,7 @@ export const MENU_DOCTOR: MenuItem[] = [
     id: 2,
     label: 'MENUITEMS.DASHBOARD.TEXT',
     icon: 'las la-tachometer-alt',
-    link: '/doctor/dashboard'
+    link: '/dashboard/doctor'
   },
   {
     id: 3,
@@ -260,12 +258,10 @@ export const MENU_DOCTOR: MenuItem[] = [
     id: 14,
     label: 'MENUITEMS.HELP.TEXT',
     icon: 'las la-info-circle',
-    link: ''
   },
   {
     id: 15,
     label: 'MENUITEMS.LOGOFF.TEXT',
     icon: 'las la-file-export',
-    link:''
   }
 ];

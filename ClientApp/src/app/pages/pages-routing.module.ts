@@ -8,18 +8,18 @@ const currentUser: any = JSON.parse(
   localStorage.getItem('currentUser')!
 ) as object;
 
-var redirectToDashboard = 'patient/dashboard';
+var redirectToDashboard = 'dashboard/patient';
 
 if (currentUser) {
   switch (currentUser.userType) {
     case 'admin':
-      redirectToDashboard = 'admin/dashboard';
+      redirectToDashboard = 'dashboard/admin';
       break;
     case 'doctor':
-      redirectToDashboard = 'doctor/dashboard';
+      redirectToDashboard = 'dashboard/doctor';
       break;
     default:
-      redirectToDashboard = 'patient/dashboard';
+      redirectToDashboard = 'dashboard/patient';
       break;
   }
 }
@@ -42,6 +42,12 @@ const routes: Routes = [
   {
     path: 'about',
     component: AboutUsComponent,
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'admin',

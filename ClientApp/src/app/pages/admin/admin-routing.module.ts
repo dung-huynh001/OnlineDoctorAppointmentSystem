@@ -4,15 +4,10 @@ import { DepartmentComponent } from './department/department.component';
 import { ManageScheduleComponent } from './manage-schedule/manage-schedule.component';
 import { ManageDoctorComponent } from './manage-doctor/manage-doctor.component';
 import { AssignScheduleComponent } from './assign-schedule/assign-schedule.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { ManagePatientComponent } from './manage-patient/manage-patient.component';
 
 
 const routes: Routes = [
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-  },
   {
     path: 'manage-department',
     component: DepartmentComponent
@@ -48,7 +43,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [],
   imports: [
     RouterModule.forChild(routes)
   ],

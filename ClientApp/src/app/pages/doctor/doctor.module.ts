@@ -4,7 +4,6 @@ import { DoctorRoutingModule } from './doctor-routing.module';
 import { AppointmentOnSiteComponent } from './appointment-on-site/appointment-on-site.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { CountUpModule } from 'ngx-countup';
 import { ComponentsModule } from '../../components/components.module';
 import { SchedulerModule } from '../../components/scheduler/scheduler.module';
@@ -30,7 +29,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [
     AppointmentOnSiteComponent,
-    DashboardComponent,
     ProfileComponent,
     EditProfileComponent,
   ],
